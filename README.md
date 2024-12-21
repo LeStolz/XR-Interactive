@@ -12,7 +12,7 @@
 - POV's of classes of users:
 
   - The Player should be able to see the Spectators in the VR world.
-  - The relative positions and orientations between the Player and the Spectators should be the same in both the real world and the VR world allowing for more natural communication (i.e. When the Player looks at the Spectators in the VR world, he would also be looking at them in the real world and vice versa).
+  - The relative positions and orientations between the Player and the Spectators should be the same in both the real world and the VR world allowing for more natural communication (i.g. When the Player looks at the Spectators in the VR world, he would also be looking at them in the real world and vice versa).
   - The POV of what is shown on the LSD is the POV of the Spectators in the VR world for now.
 
 - Spectators interactions:
@@ -53,7 +53,9 @@ We must detect the LSD in order to... know where it is and to render it in the V
 
 - The Vive Pro headset will be placed right behind the Spectators. Their position can then be approximated by the headset's position.
 - Thus, the 2 headsets (Player's and Spectators') can send eachothers positions via socket.
-- We can then display their avatars and calculate their POV's.
+- We can then display their avatars and calculate their POV's:
+  - We could use a kinect camera to bring the Spectators into the VR world.
+  - We could do the same with the Player - We use a kinect camera to overlay the Player over the VR world when displayed on the LSD.
 
 ### Spectators' interactions
 
