@@ -66,7 +66,7 @@ public class TutorialCallbacks : ScriptableObject
 
     public void SelectNetworkManager()
     {
-        Selection.activeObject = FindFirstObjectByType<NetworkManagerVRMultiplayer>();
+        Selection.activeObject = FindFirstObjectByType<NetworkManagerXRMultiplayer>();
     }
 
     public void SelectOfflineMenuAppearancePanel()

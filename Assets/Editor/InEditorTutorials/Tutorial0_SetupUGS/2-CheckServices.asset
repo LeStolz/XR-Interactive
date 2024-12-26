@@ -21,8 +21,11 @@ MonoBehaviour:
         m_Untranslated: 
       Text:
         m_Untranslated: 
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:
@@ -33,6 +36,7 @@ MonoBehaviour:
         - m_SelectorType: 1
           m_ViewType:
             m_TypeName: 
+          m_FocusEditorWindow: 0
           m_EditorWindowType:
             m_TypeName: UnityEditor.ProjectSettingsWindow, UnityEditor.CoreModule,
               Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -70,11 +74,14 @@ MonoBehaviour:
 
           4)
           Choose between <b>Use an existing Unity project ID</b> to link a project
-          to an ID you previously created on the <a href="cloud.unity.com">Developer
-          Dashboard,</a> or <b>Create project ID</b> to link your project to a new
+          to an ID you previously created on the <a href="https://cloud.unity.com/">Developer
+          Dashboard</a>, or <b>Create project ID</b> to link your project to a new
           ID.'
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:
@@ -92,8 +99,11 @@ MonoBehaviour:
         m_Untranslated: Connect Project to Unity Cloud
       Text:
         m_Untranslated: Press <b>Next</b> to continue.
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:

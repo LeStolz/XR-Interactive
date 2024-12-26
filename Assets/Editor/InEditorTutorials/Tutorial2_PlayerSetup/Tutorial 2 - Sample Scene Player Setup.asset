@@ -17,9 +17,9 @@ MonoBehaviour:
   m_ProgressTrackingEnabled: 1
   m_LessonId: 679aa696-238c-457a-b613-e4935cebbd8f
   m_Version: 1
-  m_SceneManagementBehavior: 0
-  m_Scenes:
-  - {fileID: 102900000, guid: 13f6f87036926f94ab0417ca1b31725c, type: 3}
+  m_ReturnToPreviousScenes: 0
+  m_SceneManagementBehavior: 1
+  m_Scenes: []
   m_DefaultSceneCameraSettings:
     m_CameraMode: 1
     m_FocusMode: 0
@@ -35,12 +35,11 @@ MonoBehaviour:
       m_ComponentIndex: 0
       m_AssetObject: {fileID: 0}
       m_Prefab: {fileID: 0}
-    m_Enabled: 1
+    m_Enabled: 0
   m_WindowLayout: {fileID: 0}
   m_Pages:
     m_Items:
     - {fileID: 11400000, guid: 0ccd6781694e8b245a45886daa40b79b, type: 2}
-    - {fileID: 11400000, guid: 80e972664447e9045a2b5a78cb08436d, type: 2}
     - {fileID: 11400000, guid: 60b1628d10820c948903f28be0052ea8, type: 2}
     - {fileID: 11400000, guid: 0ef7a622994acce42adf53910447a452, type: 2}
     - {fileID: 11400000, guid: 9ee98d44e572dca4990dff8f8ab6ef24, type: 2}

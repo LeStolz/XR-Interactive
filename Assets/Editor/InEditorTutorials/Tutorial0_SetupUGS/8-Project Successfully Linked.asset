@@ -21,8 +21,11 @@ MonoBehaviour:
         m_Untranslated: 
       Text:
         m_Untranslated: 
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:
@@ -33,6 +36,7 @@ MonoBehaviour:
         - m_SelectorType: 1
           m_ViewType:
             m_TypeName: 
+          m_FocusEditorWindow: 0
           m_EditorWindowType:
             m_TypeName: UnityEditor.ProjectSettingsWindow, UnityEditor.CoreModule,
               Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
@@ -56,8 +60,11 @@ MonoBehaviour:
 
           Proceed with the next tutorial
           to learn how a simple connection setup works.'
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:
@@ -75,8 +82,11 @@ MonoBehaviour:
         m_Untranslated: Project Linked Successfully
       Text:
         m_Untranslated: Press <b>Done</b> to exit this tutorial.
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:
@@ -93,9 +103,12 @@ MonoBehaviour:
       Title:
         m_Untranslated: 
       Text:
-        m_Untranslated: 'Next: Basic Scene Tutorial'
+        m_Untranslated: 'Next: Scene Setup Tutorial'
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 11400000, guid: f6b551f3f52baf440a7c3f9780344d11, type: 2}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:

@@ -21,8 +21,11 @@ MonoBehaviour:
         m_Untranslated: 
       Text:
         m_Untranslated: 
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:
@@ -39,15 +42,18 @@ MonoBehaviour:
       Title:
         m_Untranslated: 
       Text:
-        m_Untranslated: "The <b>VR Multiplayer Template</b> utilizes multiple Unity
-          Cloud services for ease of use and scalability. \n\nIn order to use this
-          template you must first link your <b>Unity Project</b> to <b>Unity Cloud.</b>
-          This tutorial will walk you through the steps to <b>Link your Existing
-          Project to Unity Cloud.</b>\n\n<b>Note:</b> <i>This process can be automated
-          when creating a new project from the <b>Unity Hub</b> by selecting the
-          <b>Connect to Unity Cloud</b> checkbox.</i>"
+        m_Untranslated: "The <b>MR Multiplayer Tabletop Template</b> utilizes multiple
+          Unity Cloud services for ease of use and scalability. \n\nIn order to use
+          this template you must first link your <b>Unity Project</b> to <b>Unity
+          Cloud.</b> This tutorial will walk you through the steps to <b>Link your
+          Existing Project to Unity Cloud.</b>\n\n<b>Note:</b> <i>This process can
+          be automated when creating a new project from the <b>Unity Hub</b> by selecting
+          the <b>Connect to Unity Cloud</b> checkbox.</i>"
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:

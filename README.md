@@ -22,10 +22,11 @@
 We must detect the LSD in order to... know where it is and to map it in the mixed reality world.
 
 - 2 markers at the 2 opposite corners.
-- This can be implemented in 2 approaches, but prefer
-  [Approach 1: Unity Marker](https://hub.vive.com/storage/app/doc/en-us/UnityXR/UnityXRTrackableMarker.html?wpsrc=Youtube_Own&wpcn=Creating_Multiplayer_Mixed-Reality_Experiences_with_Marker_Anchor_and_Wave_SDK_|_VIVE_XR_Elite&wpcrid=Marker_anchor_V3.mp4&utm_source=Youtube_OA&utm_campaign=Creating_Multiplayer_Mixed-Reality_Experiences_with_Marker_Anchor_and_Wave_SDK_|_VIVE_XR_Elite&utm_medium=https://hub.vive.com/storage/app/doc/en-us/UnityXR/UnityXRTrackableMarker.html)
-  over [Approach 2: Marker-Based Scene Alignment](https://www.youtube.com/watch?v=LpVlh-4eSME)
-  or find other approaches if needed.
+- To implement this, check Nam's old XR Public Spectator repo or [try this](https://docs.unity3d.com/Packages/com.unity.xr.arfoundation@4.0/manual/tracked-image-manager.html).
+
+### Displaying the mixed reality view on the LSD
+
+- This is achieved using Zed or the Vive headset.
 
 ### Relative positions between the Player and the Spectators
 

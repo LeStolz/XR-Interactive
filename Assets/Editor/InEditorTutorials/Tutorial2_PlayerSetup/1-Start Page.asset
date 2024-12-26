@@ -21,8 +21,11 @@ MonoBehaviour:
         m_Untranslated: 
       Text:
         m_Untranslated: 
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:
@@ -40,11 +43,14 @@ MonoBehaviour:
         m_Untranslated: 
       Text:
         m_Untranslated: "Learn more about the <b>Player Setup</b> functionality through
-          a high level overview of the following features:\n   \xB7  Player Customization\n  
-          \xB7  XRI Network Player Avatar\n   \xB7  XRI Network Player Avatar IK
-          Systems\n   \xB7  Player Name Tag"
+          a high level overview of the following features:\n   \xB7  XRI Network
+          Player Avatar\n   \xB7  XRI Network Player Avatar IK Systems\n   \xB7 
+          Player Name Tag"
+      m_CodeSample: 
+      m_PostInstructionImage: {fileID: 0}
       m_Tutorial: {fileID: 0}
       m_Image: {fileID: 0}
+      m_VideoUrl: 
       m_Video: {fileID: 0}
       m_CriteriaCompletion: 0
       m_Criteria:

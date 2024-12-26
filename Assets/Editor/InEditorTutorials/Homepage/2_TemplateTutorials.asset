@@ -28,7 +28,7 @@ MonoBehaviour:
   Sections:
   - OrderInView: 0
     Heading:
-      m_Untranslated: Basic Scene
+      m_Untranslated: Network Setup
     Text:
       m_Untranslated: Learn about the bare essentials to getting started in a networked
         environment.
@@ -38,22 +38,13 @@ MonoBehaviour:
     Tutorial: {fileID: 11400000, guid: f6b551f3f52baf440a7c3f9780344d11, type: 2}
   - OrderInView: 1
     Heading:
-      m_Untranslated: Player Setup Overview
+      m_Untranslated: Network Player Setup
     Text:
       m_Untranslated: Learn about the basic Player Setup in the Sample Scene.
     Metadata: 
     Url: 
     Image: {fileID: 2800000, guid: 4c75a3746f8fc44dc91f63501d458ffb, type: 3}
     Tutorial: {fileID: 11400000, guid: 51cece16d2f9c1445b6dfb1cd75a96ab, type: 2}
-  - OrderInView: 2
-    Heading:
-      m_Untranslated: Lobby and Rooms Overview
-    Text:
-      m_Untranslated: Learn how to connect to other players with UGS Lobby.
-    Metadata: 
-    Url: 
-    Image: {fileID: 2800000, guid: 4c75a3746f8fc44dc91f63501d458ffb, type: 3}
-    Tutorial: {fileID: 11400000, guid: aa1e4443b37474219b67d4a5de1cae1a, type: 2}
   - OrderInView: 3
     Heading:
       m_Untranslated: Sample Scene Examples
@@ -66,7 +57,7 @@ MonoBehaviour:
     Tutorial: {fileID: 11400000, guid: fea33a372fdec684abe88ea044d9b24f, type: 2}
   - OrderInView: 4
     Heading:
-      m_Untranslated: 'Mini Games '
+      m_Untranslated: Game Modes
     Text:
       m_Untranslated: Learn about the included Mini Games and how you can use them
         as a starting point for your project.
