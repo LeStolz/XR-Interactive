@@ -2,7 +2,7 @@
 
 ## Todos
 
-- 2 Scripts, Scene
+- Toys downwards, Scene
 
 ## Setup
 
@@ -19,7 +19,7 @@
 - The POV of what is shown on the LSD is the POV of the Spectators for now.
 
 - Spectators interactions:
-  - When the spectators point their Vive handlers at the LSD, a preview trajectory and a preview "hit point" (both of these are in the mixed reality world) should be shown on the LSD. As these are previews, the Player won't see these.
+  - When the spectators point their Vive handlers (or tracker, can use ImprovedEuroFilter) at the LSD, a preview trajectory and a preview "hit point" (both of these are in the mixed reality world) should be shown on the LSD. As these are previews, the Player won't see these.
   - They can then hold the trigger to make the preview visible to the Player.
   - Or they can click the trigger to place a temporary marker at the "hit point".
 
