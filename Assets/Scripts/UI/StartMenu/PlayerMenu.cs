@@ -12,7 +12,7 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 namespace XRMultiplayer
 {
     [DefaultExecutionOrder(100)]
-    public class PlayerOptions : MonoBehaviour
+    public class PlayerMenu : MonoBehaviour
     {
         [SerializeField]
         XRInputButtonReader m_MenuButtonInput = new XRInputButtonReader("Menu Button");
@@ -51,8 +51,6 @@ namespace XRMultiplayer
         DynamicMoveProvider m_MoveProvider;
         SnapTurnProvider m_TurnProvider;
 
-        PermissionCallbacks permCallbacks;
-
         private void Awake()
         {
             m_MoveProvider = FindAnyObjectByType<DynamicMoveProvider>();
@@ -63,20 +61,6 @@ namespace XRMultiplayer
 
             // ConnectOnline(false);
             HideCurrentUI();
-
-            permCallbacks = new PermissionCallbacks();
-            permCallbacks.PermissionDenied += PermissionCallbacks_PermissionDenied;
-            permCallbacks.PermissionGranted += PermissionCallbacks_PermissionGranted;
-        }
-
-        internal void PermissionCallbacks_PermissionGranted(string permissionName)
-        {
-            Utils.Log($"{permissionName} PermissionCallbacks_PermissionGranted");
-        }
-
-        internal void PermissionCallbacks_PermissionDenied(string permissionName)
-        {
-            Utils.Log($"{permissionName} PermissionCallbacks_PermissionDenied");
         }
 
         void OnEnable()

@@ -1,9 +1,5 @@
 # XR Public Spectator Interactive
 
-## Todos
-
-- Toys downwards, Scene
-
 ## Setup
 
 - Download OpenCVForUnity.

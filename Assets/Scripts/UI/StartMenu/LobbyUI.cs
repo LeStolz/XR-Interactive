@@ -21,14 +21,12 @@ namespace XRMultiplayer
 
         [Header("Room Creation")]
         [SerializeField] TMP_InputField m_RoomNameText;
-        [SerializeField] Toggle m_PrivacyToggle;
 
         [SerializeField] GameObject[] m_ConnectionSubPanels;
 
         Coroutine m_UpdateLobbiesRoutine;
         Coroutine m_CooldownFillRoutine;
 
-        bool m_Private = false;
         int m_PlayerCount;
 
         private void Awake()
@@ -38,8 +36,6 @@ namespace XRMultiplayer
 
         private void Start()
         {
-            m_PrivacyToggle.onValueChanged.AddListener(TogglePrivacy);
-
             m_PlayerCount = XRINetworkGameManager.maxPlayers;
 
             XRINetworkGameManager.Instance.connectionFailedAction += FailedToConnect;
@@ -100,7 +96,7 @@ namespace XRMultiplayer
             {
                 m_RoomNameText.text = $"{XRINetworkGameManager.LocalPlayerName.Value}'s Table";
             }
-            XRINetworkGameManager.Instance.CreateNewLobby(m_RoomNameText.text, m_Private, m_PlayerCount);
+            XRINetworkGameManager.Instance.CreateNewLobby(m_RoomNameText.text, false, m_PlayerCount);
             m_ConnectionSuccessText.text = $"Joining {m_RoomNameText.text}";
         }
 
@@ -158,11 +154,6 @@ namespace XRMultiplayer
             XRINetworkGameManager.Connected.Subscribe(OnConnected);
             XRINetworkGameManager.Instance.QuickJoinLobby();
             m_ConnectionSuccessText.text = "Joining Random";
-        }
-
-        public void TogglePrivacy(bool toggle)
-        {
-            m_Private = toggle;
         }
 
         public void ToggleConnectionSubPanel(int panelId)

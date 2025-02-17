@@ -35,7 +35,8 @@ namespace XRMultiplayer
             {
                 Utils.LogError("NetworkObjectDestroyer requires a Pooler component to be attached to the same GameObject.");
                 return;
-            };
+            }
+            ;
             m_SubTrigger.OnTriggerAction += Triggered;
         }
 
