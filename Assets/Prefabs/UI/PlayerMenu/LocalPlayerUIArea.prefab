@@ -127,10 +127,8 @@ MonoBehaviour:
   m_HostRoomPanel: {fileID: 0}
   m_ClientRoomPanel: {fileID: 0}
   m_LeaveTableButtonObject: {fileID: 580289638425086849}
-  m_OfflineWarningPanels:
-  - {fileID: 0}
+  m_OfflineWarningPanels: []
   m_OnlinePanels:
-  - {fileID: 0}
   - {fileID: 7861206961429427178}
   m_Panels:
   - {fileID: 2311351988582417445}
@@ -1853,7 +1851,7 @@ PrefabInstance:
     - target: {fileID: 267524913266692848, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_text
-      value: TRACKERS
+      value: ZEDTRACKER
       objectReference: {fileID: 0}
     - target: {fileID: 713834411879593816, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
@@ -1988,7 +1986,7 @@ PrefabInstance:
     - target: {fileID: 3957198153003176567, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_text
-      value: ZERVER
+      value: SERVER
       objectReference: {fileID: 0}
     - target: {fileID: 4546649077525090075, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}

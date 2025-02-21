@@ -5,7 +5,6 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
-using UnityEngine.Android;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 
@@ -27,8 +26,6 @@ namespace XRMultiplayer
 
         [Header("Panels")]
         [SerializeField] GameObject m_MainPanelRoot;
-        [SerializeField] GameObject m_HostRoomPanel;
-        [SerializeField] GameObject m_ClientRoomPanel;
         [SerializeField] GameObject m_LeaveTableButtonObject;
         [SerializeField] GameObject[] m_OfflineWarningPanels;
         [SerializeField] GameObject[] m_OnlinePanels;
@@ -40,7 +37,6 @@ namespace XRMultiplayer
         [Header("Text Components")]
         [SerializeField] TMP_Text[] m_RoomCodeTexts;
         [SerializeField] TMP_Text[] m_RoomNameText;
-        [SerializeField] TMP_InputField m_RoomNameInputField;
 
         [Header("Player Options")]
         [SerializeField] Vector2 m_MinMaxMoveSpeed = new Vector2(2.0f, 10.0f);
@@ -130,8 +126,6 @@ namespace XRMultiplayer
 
             if (connected)
             {
-                m_HostRoomPanel.SetActive(NetworkManager.Singleton.IsServer);
-                m_ClientRoomPanel.SetActive(!NetworkManager.Singleton.IsServer);
                 UpdateRoomName(XRINetworkGameManager.ConnectedRoomName.Value);
                 TogglePanel(0);
             }
@@ -233,7 +227,6 @@ namespace XRMultiplayer
             {
                 t.text = XRINetworkGameManager.ConnectedRoomName.Value;
             }
-            m_RoomNameInputField.text = XRINetworkGameManager.ConnectedRoomName.Value;
         }
 
         // Player Options

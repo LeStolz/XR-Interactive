@@ -15,11 +15,12 @@
         "Unity.XR.Interaction.Toolkit.Samples.StarterAssets",
         "Unity.XR.CoreUtils",
         "Unity.InputSystem",
-        "Unity.Services.Vivox",
         "Unity.Mathematics",
         "Unity.TextMeshPro",
         "ParrelSync",
-        "Unity.Multiplayer.Playmode"
+        "Unity.Multiplayer.Playmode",
+        "EnoxSoftware.OpenCVForUnity",
+        "Stereolabs.Zed"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

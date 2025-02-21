@@ -16,19 +16,15 @@ MonoBehaviour:
   m_EnableEditors: 1
   m_MainEditorInstance:
     Name: Main Editor
-    <CorrespondingNodeId>k__BackingField: Main Editor|0_run
-    m_Nodes:
-    - Main Editor|0_run
-    - Main Editor|0_deploy
+    <CorrespondingNodeId>k__BackingField: 
+    m_Nodes: []
     m_PlayerTag: 
     m_InitialScene: {fileID: 0}
   m_EditorInstances: []
   m_LocalInstances:
   - Name: Instance
-    <CorrespondingNodeId>k__BackingField: Instance - Run
-    m_Nodes:
-    - Instance - Build
-    - Instance - Run
+    <CorrespondingNodeId>k__BackingField: 
+    m_Nodes: []
     m_BuildProfile: {fileID: 11400000, guid: 0ebb328d5e5039b45adc0c577a5ac65c, type: 2}
     advancedConfiguration:
       m_StreamLogsToMainEditor: 1

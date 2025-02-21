@@ -14,12 +14,16 @@ public class DotProductToggle : MonoBehaviour
 
     void Awake()
     {
-        playerCameraTransform = Camera.main.transform;
+        playerCameraTransform = Camera.main != null ? Camera.main.transform : null;
         if (m_LookAtTransform == null)
             m_LookAtTransform = transform;
     }
+
     void Update()
     {
+        if (playerCameraTransform == null)
+            return;
+
         bool wasLookingAt = isLookingAt;
         isLookingAt = XRMultiplayer.Utils.IsPlayerLookingTowards(playerCameraTransform, m_LookAtTransform, dotProductThreshold);
         if (wasLookingAt != isLookingAt)

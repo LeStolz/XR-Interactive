@@ -12,50 +12,17 @@ using UnityEditor.PackageManager.Requests;
 
 /// <summary>
 /// Manages the various compiler defines that the ZED Unity plugin uses to enable and disable features that are dependent on specific packages. 
-/// This includes the SteamVR and Oculus plugins (for controller interaction), OpenCV for Unity (for ArUco detection) and the Lightweight and High Definition Render Pipelines. 
+/// This includes the SteamVR and Oculus plugins (for controller interaction) and OpenCV for Unity (for ArUco detection). 
 /// </summary>
 [InitializeOnLoad]
 public class ZEDDefineHandler : AssetPostprocessor
 {
-    const float PACKAGE_LOAD_TIMEOUT_SECONDS = 5f;
     static ZEDDefineHandler()
-    {
-        if (!EditorApplication.isPlayingOrWillChangePlaymode) //TODO: Find a way to make this run only once when you open Unity. 
-        {
-            CheckForLWRPPackage();
-        }   
+    {  
     }
 
     static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
-#region VR Plugins
-        if (CheckPackageExists("OVRManager"))
-        {
-            ActivateDefine("Oculus", "ZED_OCULUS");
-        }
-        else
-        {
-            DeactivateDefine("Oculus", "ZED_OCULUS");
-        }
-
-        if (CheckPackageExists("SteamVR_Camera")) //"OpenVR" and "SteamVR" exist in script names in the Oculus plugin. 
-        {
-            ActivateDefine("SteamVR", "ZED_STEAM_VR");
-        }
-        else
-        {
-            DeactivateDefine("SteamVR", "ZED_STEAM_VR");
-        }
-
-        if (CheckPackageExists("SteamVR_Input_Sources"))
-        {
-            ActivateDefine("SteamVR_2_0_Input", "ZED_SVR_2_0_INPUT");
-        }
-        else
-        {
-            DeactivateDefine("SteamVR_2_0_Input", "ZED_SVR_2_0_INPUT");
-        }
-#endregion
 
 #region OpenCV
         string opencvfilename = "opencvforunity.dll";
@@ -73,59 +40,12 @@ public class ZEDDefineHandler : AssetPostprocessor
         }
 
 #endregion
-
-
-    }
-
-    static ListRequest request;
-
-    static void CheckForLWRPPackage()
-    {
-        request = Client.List();
-
-
-        EditorApplication.update += CheckForLWRPPackageRequestFinished;
-        
-    }
-
-    static void CheckForLWRPPackageRequestFinished()
-    {
-        if (request.IsCompleted && request.Status == StatusCode.Success)
-        {
-            bool foundlwrppackage = false;
-            bool foundhdrppackage = false;
-
-            foreach (UnityEditor.PackageManager.PackageInfo package in request.Result)
-            {
-                if (package.name.Contains("render-pipelines.lightweight"))
-                {
-                    //Debug.Log("Lightweight Render Pipeline package detected.");
-                    foundlwrppackage = true;
-                    break;
-                }
-                else if (package.name.Contains("render-pipelines.high-definition"))
-                {
-                    //Debug.Log("High Definition Render Pipeline package detected.");
-                    foundhdrppackage = true;
-                    break;
-                }
-            }
-
-            if (foundlwrppackage) ActivateDefine("LWRP", "ZED_LWRP");
-            else DeactivateDefine("LWRP", "ZED_LWRP");
-
-            if (foundhdrppackage) ActivateDefine("HDRP", "ZED_HDRP");
-            else DeactivateDefine("HDRP", "ZED_HDRP");
-
-            //Debug.Log("Scanned packages in " + requesttime.ToString("F2") + " seconds.");
-            EditorApplication.update -= CheckForLWRPPackageRequestFinished;
-        }
     }
 
     /// <summary>
-    /// Finds if a folder in the project exists with the specified name. 
+    /// Finds if a folder in the project exists with the specified name.
     /// Used to check if a plugin has been imported, as the relevant plugins are placed
-    /// in a folder named after the package. Example: "Assets/Oculus". 
+    /// in a folder named after the package. Example: "Assets/Oculus".
     /// </summary>
     /// <param name="name">Package name.</param>
     /// <returns></returns>
@@ -136,8 +56,8 @@ public class ZEDDefineHandler : AssetPostprocessor
     }
 
     /// <summary>
-    /// Activates a define tag in the project. Used to enable compiling sections of scripts with that tag enabled. 
-    /// For instance, parts of this script under a #if ZED_STEAM_VR statement will be ignored by the compiler unless ZED_STEAM_VR is enabled. 
+    /// Activates a define tag in the project. Used to enable compiling sections of scripts with that tag enabled.
+    /// For instance, parts of this script under a #if ZED_STEAM_VR statement will be ignored by the compiler unless ZED_STEAM_VR is enabled.
     /// </summary>
     public static void ActivateDefine(string packageName, string defineName)
     {
@@ -159,28 +79,11 @@ public class ZEDDefineHandler : AssetPostprocessor
         }
         PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
 
-        // FOR OCULUS QUEST
-        string defines_android = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android);
-        if (defines_android.Length != 0)
-        {
-            if (!defines_android.Contains(defineName))
-            {
-                defines_android += ";" + defineName;
-            }
-        }
-        else
-        {
-            if (!defines_android.Contains(defineName))
-            {
-                defines_android += defineName;
-            }
-        }
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, defines_android);
     }
 
     /// <summary>
-    /// Removes a define tag from the project. 
-    /// Called whenever a package is checked for but not found. 
+    /// Removes a define tag from the project.
+    /// Called whenever a package is checked for but not found.
     /// Removing the define tags will prevent compilation of code marked with that tag, like #if ZED_OCULUS.
     /// </summary>
     public static void DeactivateDefine(string packagename, string defineName)
