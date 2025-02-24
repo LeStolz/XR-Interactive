@@ -1,5 +1,5 @@
 using UnityEngine;
-using XRMultiplayer;
+using Multiplayer;
 
 public class InteractableSpawner : MonoBehaviour
 {

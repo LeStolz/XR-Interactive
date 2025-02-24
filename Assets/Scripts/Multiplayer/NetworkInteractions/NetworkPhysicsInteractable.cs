@@ -5,7 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// NetworkInteractableGrab adds some extra functionality to the NetworkBaseInteractable class

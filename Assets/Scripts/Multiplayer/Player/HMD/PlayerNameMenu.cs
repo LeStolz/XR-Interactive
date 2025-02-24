@@ -1,12 +1,12 @@
 using TMPro;
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// A simple example of how to setup a player appearance menu and utilize the bindable variables.
     /// </summary>
-    public class PlayerAppearanceMenu : MonoBehaviour
+    public class PlayerNameMenu : MonoBehaviour
     {
         [SerializeField] TMP_InputField m_PlayerNameInputField;
 

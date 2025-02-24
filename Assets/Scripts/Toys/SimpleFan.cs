@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using XRMultiplayer;
+using Multiplayer;
 
 public class SimpleFan : MonoBehaviour
 {

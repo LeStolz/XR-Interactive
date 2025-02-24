@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
-    /// This class is used to represent the Avatar IK system in both the <see cref="XRINetworkPlayer"/> and the Offline Player"/>.
+    /// This class is used to represent the Avatar IK system in both the <see cref="NetworkPlayer"/> and the Offline Player"/>.
     /// </summary>
     public class XRAvatarIK : MonoBehaviour
     {

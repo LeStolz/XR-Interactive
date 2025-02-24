@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     public class DelayedUnityEvent : MonoBehaviour
     {

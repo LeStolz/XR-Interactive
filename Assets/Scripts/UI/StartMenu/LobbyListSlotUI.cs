@@ -3,7 +3,7 @@ using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     public class LobbyListSlotUI : MonoBehaviour
     {

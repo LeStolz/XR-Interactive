@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// This class will synchronize the hand poses over the network.
@@ -568,7 +568,10 @@ namespace XRMultiplayer
                 m_RightHandOrigin = m_RightHandTransformReference;
             }
 
-            XRINetworkPlayer.LocalPlayer.SetHandOrigins(m_LeftHandOrigin, m_RightHandOrigin);
+            if (NetworkPlayer.LocalPlayer is XRINetworkAvatar avatar)
+            {
+                avatar.SetHandOrigins(m_LeftHandOrigin, m_RightHandOrigin);
+            }
         }
 
         void ResetHandsToStart()

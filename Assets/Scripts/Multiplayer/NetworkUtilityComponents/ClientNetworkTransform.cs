@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode.Components;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// ClientNetworkTransform class is responsible for updating the

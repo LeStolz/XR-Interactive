@@ -11,7 +11,7 @@ using Unity.XR.CoreUtils.Bindings.Variables;
 using Unity.Services.Authentication;
 using UnityEngine.SceneManagement;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// This class manages the relationship between Lobby, Relay, and Unity Transport.

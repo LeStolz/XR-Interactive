@@ -1,7 +1,7 @@
 using Unity.XR.CoreUtils;
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// Represents the offline player avatar.

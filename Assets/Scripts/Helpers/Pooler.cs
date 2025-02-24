@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     public class Pooler : MonoBehaviour
     {

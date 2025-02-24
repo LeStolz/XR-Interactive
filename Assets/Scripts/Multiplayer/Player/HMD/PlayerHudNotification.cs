@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// This class controls the display of the Player HUD Notification aka the Toast.

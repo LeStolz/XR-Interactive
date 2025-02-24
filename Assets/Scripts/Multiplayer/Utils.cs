@@ -3,7 +3,7 @@ using System.Text;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     public class Utils : MonoBehaviour
     {

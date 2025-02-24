@@ -8,7 +8,7 @@ using UnityEngine;
 using Unity.Services.Lobbies;
 using UnityEditor;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
 #if USE_FORCED_BYTE_SERIALIZATION
     /// <summary>
@@ -308,41 +308,37 @@ namespace XRMultiplayer
         }
 
         /// <summary>
-        /// Finds all <see cref="XRINetworkPlayer"/>'s existing in the scene and gets the <see cref="XRINetworkPlayer"/>
+        /// Finds all <see cref="NetworkPlayer"/>'s existing in the scene and gets the <see cref="NetworkPlayer"/>
         /// based on <see cref="NetworkObject.OwnerClientId"/> for that player.
         /// </summary>
         /// <param name="id">
         /// <see cref="NetworkObject.OwnerClientId"/> of the player.
         /// </param>
         /// <param name="player">
-        /// Out <see cref="XRINetworkPlayer"/>.
+        /// Out <see cref="NetworkPlayer"/>.
         /// </param>
         /// <returns>
         /// Returns true based on whether or not a player with that Id exists.
         /// </returns>
-        public virtual bool TryGetPlayerByID(ulong id, out XRINetworkPlayer player)
+        public virtual bool TryGetPlayerByID(ulong id, out NetworkPlayer player)
         {
             player = null;
 
             if (NetworkManager.ConnectedClients.TryGetValue(id, out var client))
             {
-                if (client.PlayerObject == null)
+                if (client.PlayerObject == null || !client.PlayerObject.TryGetComponent(out NetworkPlayer p))
                 {
                     player = FindPlayerByReference(id);
                     if (player != null)
+                    {
+                        client.PlayerObject = player.NetworkObject;
                         return true;
+                    }
                 }
                 else
                 {
-                    if (client.PlayerObject.TryGetComponent(out XRINetworkPlayer p))
-                    {
-                        player = p;
-                        return true;
-                    }
-
-                    Utils.Log($"Player with id {id} does not have a XRINetworkPlayer component", 2);
-                    Debug.LogError($"Player with id {id} does not have a XRINetworkPlayer component");
-                    return false;
+                    player = p;
+                    return true;
                 }
             }
 
@@ -356,12 +352,12 @@ namespace XRMultiplayer
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        XRINetworkPlayer FindPlayerByReference(ulong id)
+        NetworkPlayer FindPlayerByReference(ulong id)
         {
-            XRINetworkPlayer[] allPlayers = FindObjectsByType<XRINetworkPlayer>(FindObjectsSortMode.None);
+            NetworkPlayer[] allPlayers = FindObjectsByType<NetworkPlayer>(FindObjectsSortMode.None);
 
             //Loops through existing players and returns true if player with id is found.
-            foreach (XRINetworkPlayer p in allPlayers)
+            foreach (NetworkPlayer p in allPlayers)
             {
                 if (p.NetworkObject.OwnerClientId == id)
                 {
@@ -386,7 +382,7 @@ namespace XRMultiplayer
         /// invokes the callback <see cref="playerStateChanged"/>.
         /// </summary>
         /// <param name="playerID"><see cref="NetworkObject.OwnerClientId"/> of the joined player.</param>
-        /// <remarks>Called from <see cref="XRINetworkPlayer.CompleteSetup"/>.</remarks>
+        /// <remarks>Called from <see cref="NetworkPlayer.CompleteSetup"/>.</remarks>
         public virtual void PlayerJoined(ulong playerID)
         {
             // If playerID is not already registered, then add.
@@ -402,7 +398,7 @@ namespace XRMultiplayer
         }
 
         /// <summary>
-        /// Called from <see cref="XRINetworkPlayer.OnDestroy"/>.
+        /// Called from <see cref="NetworkPlayer.OnDestroy"/>.
         /// </summary>
         /// <param name="playerID"><see cref="NetworkObject.OwnerClientId"/> of the player who left.</param>
         public virtual void PlayerLeft(ulong playerID)
@@ -578,7 +574,6 @@ namespace XRMultiplayer
             }
 
             return connected;
-
         }
 
         /// <summary>

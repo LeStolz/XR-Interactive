@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     public class LobbyUI : MonoBehaviour
     {

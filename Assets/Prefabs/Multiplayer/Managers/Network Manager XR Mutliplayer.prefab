@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc99996a191dc34aab62c66e4aa42b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkManagerExpanded: 0
+  NetworkManagerExpanded: 1
   NetworkConfig:
     ProtocolVersion: 0
-    NetworkTransport: {fileID: 0}
+    NetworkTransport: {fileID: 2613880095383542483}
     PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists: []

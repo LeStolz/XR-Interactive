@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// NetworkSocketInteractor class is responsible for synchronizing the

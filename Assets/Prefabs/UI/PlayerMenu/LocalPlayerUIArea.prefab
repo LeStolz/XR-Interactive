@@ -124,8 +124,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_MainPanelRoot: {fileID: 523189973586566910}
-  m_HostRoomPanel: {fileID: 0}
-  m_ClientRoomPanel: {fileID: 0}
   m_LeaveTableButtonObject: {fileID: 580289638425086849}
   m_OfflineWarningPanels: []
   m_OnlinePanels:
@@ -141,14 +139,9 @@ MonoBehaviour:
   m_AppearanceConfirmButton: {fileID: 5891367815760423014}
   m_LeaveRoomPanel: {fileID: 8295540984114719278}
   m_RoomCodeTexts:
-  - {fileID: 0}
   - {fileID: 1957196694825508553}
-  - {fileID: 0}
   m_RoomNameText:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 3666786937086471267}
-  m_RoomNameInputField: {fileID: 0}
   m_MinMaxMoveSpeed: {x: 2, y: 20}
   m_MinMaxTurnAmount: {x: 15, y: 180}
   m_SnapTurnUpdateAmount: 15
@@ -1848,6 +1841,21 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: NetworkSeatManager, MRTTT
       objectReference: {fileID: 0}
+    - target: {fileID: 228957570923681079, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.45882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 228957570923681079, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.42745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 228957570923681079, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 267524913266692848, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_text
@@ -1858,6 +1866,11 @@ PrefabInstance:
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8321923966460561635}
+    - target: {fileID: 1111239695123110477, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_RoleID
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1175532193287333191, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1958,6 +1971,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1423641953743839628, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.08627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 1423641953743839628, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 1423641953743839628, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1449215991790713834, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1967,6 +1995,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 1.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 2721024338395741733, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2922293840808279194, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
@@ -1978,6 +2011,26 @@ PrefabInstance:
       propertyPath: m_Keyboard
       value: 
       objectReference: {fileID: 5779751410324461684}
+    - target: {fileID: 3418033736457337959, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.45882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 3418033736457337959, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.42745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 3418033736457337959, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730506476025399206, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_RoleID
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3868976507327568245, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -2003,6 +2056,21 @@ PrefabInstance:
       propertyPath: m_OnTextSubmitted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8321923966460561635}
+    - target: {fileID: 4576759963193657564, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.08627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 4576759963193657564, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 4576759963193657564, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5083972310617106049, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2012,6 +2080,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: NetworkSeatManager, MRTTT
+      objectReference: {fileID: 0}
+    - target: {fileID: 6203679866054560841, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.53333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 6203679866054560841, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 6203679866054560841, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.32156864
       objectReference: {fileID: 0}
     - target: {fileID: 6293644515742750177, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
@@ -2033,6 +2116,11 @@ PrefabInstance:
       propertyPath: m_Keyboard
       value: 
       objectReference: {fileID: 5779751410324461684}
+    - target: {fileID: 7421903140388069080, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_RoleID
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7589055549037996964, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2053,6 +2141,21 @@ PrefabInstance:
       propertyPath: m_Keyboard
       value: 
       objectReference: {fileID: 5779751410324461684}
+    - target: {fileID: 8815169378295293209, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.53333336
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815169378295293209, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815169378295293209, guid: 131a9cc496ab0f141aa13146e69b28ec,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.32156864
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

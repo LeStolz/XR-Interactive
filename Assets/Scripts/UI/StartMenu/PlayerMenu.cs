@@ -8,7 +8,7 @@ using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     [DefaultExecutionOrder(100)]
     public class PlayerMenu : MonoBehaviour

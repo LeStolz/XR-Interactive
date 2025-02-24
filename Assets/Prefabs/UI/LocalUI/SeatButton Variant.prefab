@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20784315, g: 0.61960787, b: 1, a: 1}
+  m_Color: {r: 0.20784314, g: 0.61960787, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2109,13 +2109,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9199843128275830456, guid: 2e796c603e04a4e49b9c2f3d022f5860,
         type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9199843128275830456, guid: 2e796c603e04a4e49b9c2f3d022f5860,
+        type: 3}
       propertyPath: m_Color.g
       value: 0.61960787
       objectReference: {fileID: 0}
     - target: {fileID: 9199843128275830456, guid: 2e796c603e04a4e49b9c2f3d022f5860,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.20784315
+      value: 0.20784314
       objectReference: {fileID: 0}
     - target: {fileID: 9199843128275830456, guid: 2e796c603e04a4e49b9c2f3d022f5860,
         type: 3}
@@ -2186,26 +2191,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3030828fa1c00a64594136b7c480267f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SeatColors:
-  - {r: 0.20784315, g: 0.61960787, b: 1, a: 1}
+  m_RoleColors:
+  - {r: 0.20784314, g: 0.61960787, b: 1, a: 1}
   - {r: 1, g: 0.74509805, b: 0.08627451, a: 1}
-  - {r: 1, g: 0.427451, b: 0.45882356, a: 1}
-  - {r: 0.32156864, g: 0.94117653, b: 0.53333336, a: 1}
-  m_SeatImages:
+  - {r: 1, g: 0.42745098, b: 0.45882353, a: 1}
+  - {r: 0.32156864, g: 0.9411765, b: 0.53333336, a: 1}
+  m_RoleImages:
   - {fileID: 3982322595714194362}
   - {fileID: 1947293836314391274}
-  m_PlayerInSeatText: {fileID: 5994538344427929644}
-  m_SeatUnoccupiedObject: {fileID: 8202380071344682407}
-  m_SeatOccupiedObject: {fileID: 7577452685222885548}
-  m_OwnedSeatUI: {fileID: 6465774464066611719}
-  m_TakenSeatUI: {fileID: 6002253590470936586}
-  m_HoveredObject: {fileID: 5465088151161830083}
-  m_IsSpectator: 0
-  m_SeatID: 0
-  m_IsHovered: 0
+  m_PlayerInRoleText: {fileID: 5994538344427929644}
+  m_RoleUnoccupiedObject: {fileID: 8202380071344682407}
+  m_RoleOccupiedObject: {fileID: 7577452685222885548}
+  m_OwnedRoleUI: {fileID: 6465774464066611719}
+  m_TakenRoleUI: {fileID: 6002253590470936586}
+  m_RoleID: 0
   m_IsOccupied: 0
-  m_IsLocalPlayer: 0
-  m_AvailableSeatText: <color=#7B7B7B><i>Available</i></color>
+  m_AvailableRoleText: <color=#7B7B7B><i>Available</i></color>
 --- !u!114 &3982322595714194362 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9199843128275830456, guid: 2e796c603e04a4e49b9c2f3d022f5860,
@@ -2221,12 +2222,6 @@ MonoBehaviour:
 --- !u!224 &4879009255856950105 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 819053464432612955, guid: 2e796c603e04a4e49b9c2f3d022f5860,
-    type: 3}
-  m_PrefabInstance: {fileID: 5253560944264305922}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5465088151161830083 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 234048023625148353, guid: 2e796c603e04a4e49b9c2f3d022f5860,
     type: 3}
   m_PrefabInstance: {fileID: 5253560944264305922}
   m_PrefabAsset: {fileID: 0}

@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// Simple implmentation of a Networked Slider.

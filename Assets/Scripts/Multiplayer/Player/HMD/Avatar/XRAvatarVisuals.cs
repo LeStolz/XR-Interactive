@@ -1,9 +1,8 @@
 using System;
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
-    [RequireComponent(typeof(XRINetworkPlayer))]
     public class XRAvatarVisuals : MonoBehaviour
     {
         /// <summary>
@@ -21,17 +20,11 @@ namespace XRMultiplayer
         /// <summary>
         /// Reference to the attached XRINetworkPlayer component.
         /// </summary>
-        protected XRINetworkPlayer m_NetworkPlayer;
+        [SerializeField]
+        protected NetworkPlayer m_NetworkPlayer;
 
         public virtual void Awake()
         {
-            if (!TryGetComponent(out m_NetworkPlayer))
-            {
-                Debug.LogError("XRAvatarVisuals requires a XRINetworkPlayerAvatar component to be attached to the same GameObject. Disabling this component now.");
-                enabled = false;
-                return;
-            }
-
             m_NetworkPlayer.onSpawnedLocal += PlayerSpawnedLocal;
         }
 

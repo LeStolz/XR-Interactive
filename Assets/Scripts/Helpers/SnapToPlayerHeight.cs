@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     [ExecuteInEditMode]
     public class SnapToPlayerHeight : MonoBehaviour

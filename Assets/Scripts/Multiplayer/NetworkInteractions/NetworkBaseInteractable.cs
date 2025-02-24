@@ -13,7 +13,7 @@ using System.Collections;
 using UnityEditor;
 #endif
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// NetworkInteractableBase class synchronizes the <see cref=XRBaseInteractable"/> events over the network.
@@ -196,7 +196,7 @@ namespace XRMultiplayer
         /// Foldout states for the editor.
         /// </summary>
         [HideInInspector, SerializeField]
-        bool[] m_FoldoutValues = {true, true, true};
+        bool[] m_FoldoutValues = { true, true, true };
 #endif
 
         /// <summary>

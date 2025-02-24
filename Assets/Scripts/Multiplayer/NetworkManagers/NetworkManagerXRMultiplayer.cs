@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// Manages the network functionality for VR multiplayer.

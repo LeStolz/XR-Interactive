@@ -8,7 +8,7 @@ using UnityEngine.XR.Hands;
 using UnityEditor;
 #endif
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// This class controls the curl of the fingers based on hand tracking or controller tracking.
@@ -133,7 +133,7 @@ namespace XRMultiplayer
                         handFidelityOptions[i].fingerJoints[j].jointTransformReferences = new List<JointToTransformReference>();
 
                         int jointDepth = i == 0 ? 4 : 3;
-                        if(j == 0) jointDepth -= 1;  // Thumb has 1 less joint than the other fingers
+                        if (j == 0) jointDepth -= 1;  // Thumb has 1 less joint than the other fingers
 
                         int startDepth = i == 0 ? 0 : 1;
 
@@ -141,7 +141,7 @@ namespace XRMultiplayer
                     }
 
                     //Get extra fingers as mittens
-                    if(i == 2)
+                    if (i == 2)
                     {
                         handFidelityOptions[i].fingerJoints[2].jointTransformReferences.AddRange(GetFingerJoints(m_FingerNames[3], 1, 3, m_FingerStartJointIds[3]));
                         handFidelityOptions[i].fingerJoints[2].jointTransformReferences.AddRange(GetFingerJoints(m_FingerNames[4], 1, 3, m_FingerStartJointIds[4]));
@@ -168,7 +168,7 @@ namespace XRMultiplayer
                         Transform currentChild = child;
 
                         //Navigate to the starting joint based on the startDepth
-                        for(int i = 0; i < startDepth; i++)
+                        for (int i = 0; i < startDepth; i++)
                         {
                             currentChild = currentChild.GetChild(0);
                         }

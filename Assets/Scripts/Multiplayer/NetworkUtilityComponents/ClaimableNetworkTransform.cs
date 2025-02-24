@@ -1,7 +1,7 @@
 using System;
 using Unity.Netcode.Components;
 using UnityEngine;
-using XRMultiplayer;
+using Multiplayer;
 
 namespace UnityLabs.SmartUX.Network
 {

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// Fires events when this object is is within the field of view of the gaze transform. This is currently used to

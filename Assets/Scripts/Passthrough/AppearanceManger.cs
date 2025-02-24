@@ -4,7 +4,7 @@ using Unity.XR.CoreUtils.Bindings.Variables;
 using UnityEngine;
 using UnityLabs.Slices.Passthrough;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// Manages the overall appearance including AR/MR/VR passthrough state and hand visuals.

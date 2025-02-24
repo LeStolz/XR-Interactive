@@ -2,14 +2,11 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
-using XRMultiplayer;
+using Multiplayer;
 
 public class PlayerColocation : NetworkBehaviour
 {
     public bool isShowingAvatar = true;
-
-    [SerializeField]
-    XRINetworkPlayer m_NetworkPlayer;
 
     [SerializeField]
     GameObject[] m_AvatarObjects;

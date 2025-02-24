@@ -1,94 +1,93 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using XRMultiplayer;
 
-public class RoleButton : MonoBehaviour
+namespace Multiplayer
 {
-    public Color[] seatColors => m_SeatColors;
-
-    [SerializeField]
-    Color[] m_SeatColors;
-
-    [SerializeField]
-    Image[] m_SeatImages;
-
-    [SerializeField]
-    TMP_Text m_PlayerInSeatText;
-
-    [SerializeField]
-    GameObject m_SeatUnoccupiedObject;
-
-    [SerializeField]
-    GameObject m_SeatOccupiedObject;
-
-    [SerializeField]
-    GameObject m_OwnedSeatUI;
-
-    [SerializeField]
-    GameObject m_TakenSeatUI;
-
-    [SerializeField, Range(0, 3)]
-    int m_SeatID;
-
-    [SerializeField]
-    bool m_IsOccupied = false;
-
-    [SerializeField]
-    string m_AvailableSeatText = "<color=#7B7B7B><i>Available</i></color>";
-
-    string m_PlayerNameInSeat = "Player Name";
-
-    XRINetworkPlayer m_PlayerInSeat;
-
-    void OnValidate()
+    class RoleButton : MonoBehaviour
     {
-        foreach (var icon in m_SeatImages)
-            icon.color = m_SeatColors[m_SeatID];
+        public Color[] RoleColors => m_RoleColors;
 
-        SetOccupied(m_IsOccupied);
-    }
+        [SerializeField]
+        Color[] m_RoleColors;
 
-    public void SetPlayerName(string name)
-    {
-        m_PlayerNameInSeat = name;
-        m_PlayerInSeatText.text = m_IsOccupied ? m_PlayerNameInSeat : m_AvailableSeatText;
-    }
+        [SerializeField]
+        Image[] m_RoleImages;
 
-    public void AssignPlayerToSeat(XRINetworkPlayer player)
-    {
-        if (m_PlayerInSeat != null)
-            RemovePlayerFromSeat();
+        [SerializeField]
+        TMP_Text m_PlayerInRoleText;
 
-        m_PlayerInSeat = player;
+        [SerializeField]
+        GameObject m_RoleUnoccupiedObject;
 
-        SetPlayerName(m_PlayerInSeat.playerName);
+        [SerializeField]
+        GameObject m_RoleOccupiedObject;
 
-        m_PlayerInSeat.onNameUpdated += SetPlayerName;
+        [SerializeField]
+        GameObject m_OwnedRoleUI;
 
-        if (m_PlayerInSeat.IsLocalPlayer)
-            XRINetworkGameManager.LocalPlayerColor.Value = m_SeatColors[m_SeatID];
+        [SerializeField]
+        GameObject m_TakenRoleUI;
 
-        SetOccupied(true);
-    }
+        [SerializeField, Range(0, 3)]
+        int m_RoleID;
 
-    public void RemovePlayerFromSeat()
-    {
-        if (m_PlayerInSeat == null)
+        [SerializeField]
+        bool m_IsOccupied = false;
+
+        [SerializeField]
+        string m_AvailableRoleText = "<color=#7B7B7B><i>Available</i></color>";
+
+        string m_PlayerNameInRole = "Player Name";
+
+        NetworkPlayer m_PlayerInRole;
+
+        void OnValidate()
         {
-            Debug.LogWarning("Trying to remove player from seat but no player is assigned to this seat.");
-            return;
+            foreach (var icon in m_RoleImages)
+                icon.color = m_RoleColors[m_RoleID];
+
+            SetOccupied(m_IsOccupied);
         }
-        m_PlayerInSeat.onNameUpdated -= SetPlayerName;
 
-        m_PlayerInSeat = null;
-        SetOccupied(false);
-    }
+        public void SetPlayerName(string name)
+        {
+            m_PlayerNameInRole = name;
+            m_PlayerInRoleText.text = m_IsOccupied ? m_PlayerNameInRole : m_AvailableRoleText;
+        }
 
-    public void SetOccupied(bool occupied)
-    {
-        m_IsOccupied = occupied;
-        m_SeatImages[1].enabled = m_IsOccupied;
-        m_PlayerInSeatText.text = m_IsOccupied ? m_PlayerNameInSeat : m_AvailableSeatText;
+        public void AssignPlayerToRole(NetworkPlayer player)
+        {
+            if (m_PlayerInRole != null)
+                RemovePlayerFromRole();
+
+            m_PlayerInRole = player;
+
+            SetPlayerName(m_PlayerInRole.PlayerName);
+
+            m_PlayerInRole.onNameUpdated += SetPlayerName;
+
+            SetOccupied(true);
+        }
+
+        public void RemovePlayerFromRole()
+        {
+            if (m_PlayerInRole == null)
+            {
+                Debug.LogWarning("Trying to remove player from role but no player is assigned to this role.");
+                return;
+            }
+            m_PlayerInRole.onNameUpdated -= SetPlayerName;
+
+            m_PlayerInRole = null;
+            SetOccupied(false);
+        }
+
+        public void SetOccupied(bool occupied)
+        {
+            m_IsOccupied = occupied;
+            m_RoleImages[1].enabled = m_IsOccupied;
+            m_PlayerInRoleText.text = m_IsOccupied ? m_PlayerNameInRole : m_AvailableRoleText;
+        }
     }
 }

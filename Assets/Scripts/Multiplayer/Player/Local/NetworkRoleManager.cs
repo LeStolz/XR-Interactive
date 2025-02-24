@@ -2,168 +2,196 @@ using System;
 using Unity.Netcode;
 using Unity.XR.CoreUtils;
 using UnityEngine;
-using XRMultiplayer;
+using Multiplayer;
 
-public class NetworkRoleManager : NetworkBehaviour
+public enum Role
 {
-    public enum Role
+    Server,
+    ZEDTracker,
+    HMD,
+    Tablet,
+}
+
+namespace Multiplayer
+{
+    class NetworkRoleManager : NetworkBehaviour
     {
-        ZEDTracker,
-        Server,
-        HMD,
-        Tablet,
-    }
+        [SerializeField]
+        RoleButton[] roleButtons;
 
-    [SerializeField]
-    RoleButton[] roleButtons;
+        public static NetworkRoleManager Instance { get; private set; }
+        public Role localRole;
+        NetworkList<NetworkedRole> networkedRoles;
 
-    public Role role;
-    public NetworkList<NetworkedRole> networkedRoles;
-
-    void Awake()
-    {
-        networkedRoles = new NetworkList<NetworkedRole>();
-    }
-
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-        if (IsServer)
+        void Awake()
         {
-            networkedRoles.Clear();
-            for (int i = 0; i < Enum.GetValues(typeof(Role)).Length; i++)
+            if (Instance != null)
             {
-                networkedRoles.Add(new NetworkedRole { playerID = 0 });
+                Destroy(gameObject);
+                return;
             }
-            XRINetworkGameManager.Instance.playerStateChanged += OnPlayerStateChanged;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            networkedRoles = new NetworkList<NetworkedRole>();
         }
 
-        RequestRoleServerRpc(NetworkManager.Singleton.LocalClientId, (int)role);
-    }
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
 
-    public override void OnNetworkDespawn()
-    {
-        base.OnNetworkDespawn();
+            if (IsServer)
+            {
+                networkedRoles.Clear();
+                for (int i = 0; i < Enum.GetValues(typeof(Role)).Length; i++)
+                {
+                    networkedRoles.Add(new NetworkedRole { playerID = 0, isOccupied = false });
+                }
+            }
 
-        XRINetworkGameManager.Instance.playerStateChanged -= OnPlayerStateChanged;
+            UpdateNetworkedRoleVisuals();
+            networkedRoles.OnListChanged += OnNetworkRolesChanged;
+            RequestRoleServerRpc(NetworkManager.Singleton.LocalClientId, (int)localRole);
 
-        TeleportToRoleDefault(false, role);
-    }
+            if (IsServer)
+                XRINetworkGameManager.Instance.playerStateChanged += OnPlayerStateChanged;
+        }
 
-    void OnPlayerStateChanged(ulong playerID, bool connected)
-    {
-        if (!connected)
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+
+            foreach (var roleButton in roleButtons)
+            {
+                roleButton.RemovePlayerFromRole();
+            }
+
+            XRINetworkGameManager.Instance.playerStateChanged -= OnPlayerStateChanged;
+            networkedRoles.OnListChanged -= OnNetworkRolesChanged;
+
+            TeleportToRoleDefault(false, localRole);
+        }
+
+        void OnNetworkRolesChanged(NetworkListEvent<NetworkedRole> changeEvent)
+        {
+            UpdateNetworkedRoleVisuals();
+        }
+
+        void OnPlayerStateChanged(ulong playerID, bool connected)
+        {
+            if (!connected)
+            {
+                for (int i = 0; i < networkedRoles.Count; i++)
+                {
+                    if (networkedRoles[i].playerID == playerID)
+                    {
+                        ServerRemoveRole(i);
+                    }
+                }
+                UpdateNetworkedRoleVisuals();
+            }
+        }
+
+        public void TeleportToRoleDefault(bool online, Role role)
+        {
+            if (!online)
+            {
+                var XROrigin = FindFirstObjectByType<XROrigin>();
+                if (XROrigin != null)
+                {
+                    XROrigin.transform.SetPositionAndRotation(new(0, 0.4f, -0.6f), Quaternion.identity);
+                }
+
+                return;
+            }
+
+            // Teleport to role's default position
+        }
+
+        [Rpc(SendTo.Server)]
+        void RequestRoleServerRpc(ulong localPlayerID, int newRoleID)
+        {
+            if (networkedRoles[newRoleID].isOccupied)
+            {
+                Debug.LogError($"Role {newRoleID} is already occupied");
+                return;
+            }
+
+            ServerAssignRole(newRoleID, localPlayerID);
+        }
+
+        void ServerAssignRole(int newRoleID, ulong localPlayerID)
+        {
+            networkedRoles[newRoleID] = new NetworkedRole { playerID = localPlayerID, isOccupied = true };
+
+            UpdateNetworkedRoleVisuals();
+            AssignRoleRpc(newRoleID, localPlayerID);
+        }
+
+        void ServerRemoveRole(int roleID)
+        {
+            networkedRoles[roleID] = new NetworkedRole { playerID = 0, isOccupied = false };
+            UpdateNetworkedRoleVisuals();
+            RemovePlayerFromRoleRpc(roleID);
+        }
+
+        [Rpc(SendTo.Everyone)]
+        void RemovePlayerFromRoleRpc(int roleID)
+        {
+            roleButtons[roleID].RemovePlayerFromRole();
+        }
+
+        void UpdateNetworkedRoleVisuals()
         {
             for (int i = 0; i < networkedRoles.Count; i++)
             {
-                if (networkedRoles[i].playerID == playerID)
+                if (!networkedRoles[i].isOccupied)
                 {
-                    ServerRemoveRole(i);
+                    roleButtons[i].SetOccupied(false);
+                }
+                else
+                {
+                    if (XRINetworkGameManager.Instance.TryGetPlayerByID(networkedRoles[i].playerID, out var player))
+                    {
+                        roleButtons[i].AssignPlayerToRole(player);
+                    }
                 }
             }
         }
-    }
 
-    public void TeleportToRoleDefault(bool online, Role role)
-    {
-        if (!online)
+        [Rpc(SendTo.Everyone)]
+        void AssignRoleRpc(int roleID, ulong playerID)
         {
-            var XROrigin = FindFirstObjectByType<XROrigin>();
-            if (XROrigin != null)
+            if (XRINetworkGameManager.Instance.TryGetPlayerByID(playerID, out var player))
             {
-                XROrigin.transform.SetPositionAndRotation(new(0, 0.4f, -0.6f), Quaternion.identity);
-            }
-
-            return;
-        }
-
-        // Teleport to role's default position
-    }
-
-    [Rpc(SendTo.Server)]
-    void RequestRoleServerRpc(ulong localPlayerID, int newRoleID)
-    {
-        if (networkedRoles[newRoleID].playerID != 0)
-        {
-            Debug.LogError($"Role {newRoleID} is already occupied");
-            return;
-        }
-
-        ServerAssignRole(newRoleID, localPlayerID);
-    }
-
-    void ServerAssignRole(int newRoleID, ulong localPlayerID)
-    {
-        if (newRoleID >= 0)
-        {
-            networkedRoles[newRoleID] = new NetworkedRole { playerID = localPlayerID };
-        }
-
-        UpdateNetworkedRoleVisuals();
-
-        AssignRoleRpc(newRoleID, localPlayerID);
-    }
-
-    void ServerRemoveRole(int roleID)
-    {
-        networkedRoles[roleID] = new NetworkedRole { playerID = 0 };
-
-        UpdateNetworkedRoleVisuals();
-        UpdateNetworkedRoleVisualsRpc();
-    }
-
-    [Rpc(SendTo.Everyone)]
-    void UpdateNetworkedRoleVisualsRpc()
-    {
-        UpdateNetworkedRoleVisuals();
-    }
-
-    void UpdateNetworkedRoleVisuals()
-    {
-        for (int i = 0; i < roleButtons.Length; i++)
-        {
-            if (networkedRoles[i].playerID == 0)
-            {
-                roleButtons[i].SetOccupied(false);
+                roleButtons[roleID].AssignPlayerToRole(player);
+                if (playerID == NetworkManager.Singleton.LocalClientId)
+                {
+                    TeleportToRoleDefault(true, (Role)roleID);
+                }
             }
             else
             {
-                if (XRINetworkGameManager.Instance.TryGetPlayerByID(networkedRoles[i].playerID, out var player))
-                    roleButtons[i].AssignPlayerToSeat(player);
+                Debug.Log($"Player with id {playerID} not found");
             }
         }
     }
 
-    [Rpc(SendTo.Everyone)]
-    void AssignRoleRpc(int roleID, ulong playerID)
+    [Serializable]
+    public struct NetworkedRole : INetworkSerializable, IEquatable<NetworkedRole>
     {
-        if (XRINetworkGameManager.Instance.TryGetPlayerByID(playerID, out var player))
+        public bool isOccupied;
+        public ulong playerID;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
-            if (playerID == NetworkManager.Singleton.LocalClientId)
-            {
-                TeleportToRoleDefault(true, (Role)roleID);
-            }
+            serializer.SerializeValue(ref isOccupied);
+            serializer.SerializeValue(ref playerID);
         }
-        else
+
+        public readonly bool Equals(NetworkedRole other)
         {
-            Debug.LogError($"Player with id {playerID} not found");
+            return isOccupied == other.isOccupied && playerID == other.playerID;
         }
-    }
-}
-
-[Serializable]
-public struct NetworkedRole : INetworkSerializable, IEquatable<NetworkedRole>
-{
-    public ulong playerID;
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref playerID);
-    }
-
-    public readonly bool Equals(NetworkedRole other)
-    {
-        return playerID == other.playerID;
     }
 }

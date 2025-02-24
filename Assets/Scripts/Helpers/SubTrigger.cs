@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace XRMultiplayer
+namespace Multiplayer
 {
     /// <summary>
     /// A simple class used for callbacks when OnTriggerEnter or OnTriggerExit is called.

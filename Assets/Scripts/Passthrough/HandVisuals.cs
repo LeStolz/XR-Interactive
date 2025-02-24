@@ -1,5 +1,5 @@
 using UnityEngine;
-using XRMultiplayer;
+using Multiplayer;
 
 namespace UnityLabs.Slices.Passthrough
 {

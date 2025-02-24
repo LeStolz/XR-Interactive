@@ -5,7 +5,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System;
 using UnityEngine.Events;
-using XRMultiplayer;
+using Multiplayer;
 
 namespace MRTTT
 {
