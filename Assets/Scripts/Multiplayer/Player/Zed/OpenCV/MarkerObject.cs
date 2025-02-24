@@ -1,5 +1,4 @@
-﻿#if ZED_OPENCV_FOR_UNITY
-
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,4 +54,3 @@ public abstract class MarkerObject : MonoBehaviour
     }
 }
 
-#endif

@@ -1,5 +1,4 @@
-﻿#if ZED_OPENCV_FOR_UNITY
-
+﻿
 using UnityEngine;
 
 /// <summary>
@@ -22,4 +21,3 @@ public class MarkerObject_MoveToMarkerSimple : MarkerObject
     }
 }
 
-#endif
