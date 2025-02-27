@@ -7,13 +7,13 @@ namespace Multiplayer
     public class NetworkPlayerSpawner : NetworkBehaviour
     {
         [SerializeField]
-        NetworkPlayer HMDPrefab;
+        NetworkObject HMDPrefab;
         [SerializeField]
-        NetworkPlayer ZEDTrackerPrefab;
+        NetworkObject ZEDTrackerPrefab;
         [SerializeField]
-        NetworkPlayer ServerPrefab;
+        NetworkObject ServerPrefab;
         [SerializeField]
-        NetworkPlayer TabletPrefab;
+        NetworkObject TabletPrefab;
 
         public override void OnNetworkSpawn()
         {
@@ -21,7 +21,18 @@ namespace Multiplayer
 
             if (IsOwner)
             {
-                var rolesToPlayers = new Dictionary<Role, NetworkPlayer>
+                SpawnPlayerRpc(
+                    (int)NetworkRoleManager.Instance.localRole,
+                    NetworkManager.Singleton.LocalClientId
+                );
+            }
+        }
+
+        [Rpc(SendTo.Server)]
+        void SpawnPlayerRpc(int roleId, ulong clientId)
+        {
+            var role = (Role)roleId;
+            var rolesToPlayers = new Dictionary<Role, NetworkObject>
                 {
                     { Role.HMD, HMDPrefab },
                     { Role.ZEDTracker, ZEDTrackerPrefab },
@@ -29,11 +40,10 @@ namespace Multiplayer
                     { Role.Tablet, TabletPrefab }
                 };
 
-                var player = Instantiate(rolesToPlayers[NetworkRoleManager.Instance.localRole]);
-                player.GetComponent<NetworkObject>().Spawn();
-            }
+            var player = Instantiate(rolesToPlayers[role]);
+            player.SpawnWithOwnership(clientId);
 
-            NetworkObject.Despawn(true);
+            Destroy(gameObject);
         }
     }
 }

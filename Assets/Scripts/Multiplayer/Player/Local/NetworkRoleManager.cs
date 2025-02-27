@@ -2,7 +2,6 @@ using System;
 using Unity.Netcode;
 using Unity.XR.CoreUtils;
 using UnityEngine;
-using Multiplayer;
 
 public enum Role
 {
@@ -16,6 +15,17 @@ namespace Multiplayer
 {
     class NetworkRoleManager : NetworkBehaviour
     {
+        [field: SerializeField]
+        public GameObject MRInteractionSetup { get; private set; }
+        [SerializeField]
+        Canvas WorldSpaceCanvas;
+        [SerializeField]
+        Canvas ScreenSpaceCanvas;
+        [SerializeField]
+        GameObject TableUI;
+        [SerializeField]
+        int tableScale;
+
         [SerializeField]
         RoleButton[] roleButtons;
 
@@ -34,6 +44,16 @@ namespace Multiplayer
             DontDestroyOnLoad(gameObject);
 
             networkedRoles = new NetworkList<NetworkedRole>();
+        }
+
+        void Start()
+        {
+            if (localRole != Role.HMD)
+            {
+                TableUI.transform.parent = ScreenSpaceCanvas.transform;
+                TableUI.transform.localScale = new Vector3(tableScale, tableScale, tableScale);
+                TableUI.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            }
         }
 
         public override void OnNetworkSpawn()

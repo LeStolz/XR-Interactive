@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6913818244571813981}
-  - component: {fileID: 1587881236899117597}
+  - component: {fileID: 6968926235104109946}
   - component: {fileID: 3516558222374315807}
   m_Layer: 0
   m_Name: PlayerSpawner
@@ -33,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1587881236899117597
+--- !u!114 &6968926235104109946
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1535153770
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -71,9 +71,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  HMDPrefab: {fileID: 2964797132934831150, guid: 43fea61e4cd2dbe44863e22d25f02fcb,
+  HMDPrefab: {fileID: 2980657018758764505, guid: 43fea61e4cd2dbe44863e22d25f02fcb,
     type: 3}
-  ZEDTrackerPrefab: {fileID: 2370082965206227620, guid: a774ad3674b5d624193980dae5a44bdb,
+  ZEDTrackerPrefab: {fileID: 544272113863195681, guid: a774ad3674b5d624193980dae5a44bdb,
     type: 3}
-  ServerPrefab: {fileID: 6104453587079615988, guid: 335a6c0f62b60624e84ad86e124ffc76,
+  ServerPrefab: {fileID: 635232231450708762, guid: 335a6c0f62b60624e84ad86e124ffc76,
+    type: 3}
+  TabletPrefab: {fileID: 2722537192005433508, guid: 627ed13328d643c4caa6a2c878692e36,
     type: 3}
