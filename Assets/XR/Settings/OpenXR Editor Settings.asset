@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975057b4fdcfb8142b3080d19a5cc712, type: 3}
   m_Name: OpenXR Editor Settings
   m_EditorClassIdentifier: 
-  Keys: 07000000
+  Keys: 07000000010000000e000000
   Values:
   - featureSets:
     - com.unity.openxr.featureset.meta
+  - featureSets:
+    - com.microsoft.openxr.featureset.wmr
+  - featureSets:
+    - com.microsoft.openxr.featureset.hololens
   m_vulkanAdditionalGraphicsQueue: 0

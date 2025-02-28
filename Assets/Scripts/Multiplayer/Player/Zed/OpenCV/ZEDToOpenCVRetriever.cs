@@ -1,5 +1,4 @@
-﻿#if ZED_OPENCV_FOR_UNITY
-
+﻿
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
@@ -332,5 +331,3 @@ public class ZEDToOpenCVRetriever : MonoBehaviour
     }
 
 }
-
-#endif
