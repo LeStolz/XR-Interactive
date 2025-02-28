@@ -10,6 +10,7 @@ using UnityEngine.XR;
 public class ForceTrackingSpaceType : MonoBehaviour
 {
 
+#if UNITY_2019_3_OR_NEWER
     public TrackingOriginModeFlags trackingType = TrackingOriginModeFlags.Floor;
 
     // Use this for initialization
@@ -22,5 +23,13 @@ public class ForceTrackingSpaceType : MonoBehaviour
             subsystems[i].TrySetTrackingOriginMode(TrackingOriginModeFlags.Floor);
         }
     }
+#else
+    public TrackingSpaceType trackingType =  TrackingSpaceType.RoomScale;
 
+    // Use this for initialization
+    void Start ()
+    {
+        XRDevice.SetTrackingSpaceType(trackingType);
+    }
+#endif	
 }

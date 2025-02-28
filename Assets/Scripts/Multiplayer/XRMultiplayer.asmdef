@@ -20,7 +20,7 @@
         "ParrelSync",
         "Unity.Multiplayer.Playmode",
         "EnoxSoftware.OpenCVForUnity",
-        "Stereolabs.Zed"
+        "ZED"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

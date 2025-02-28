@@ -1,4 +1,5 @@
-﻿
+﻿#if ZED_OPENCV_FOR_UNITY
+
 using OpenCVForUnity.CoreModule;
 using OpenCVForUnity.ImgprocModule;
 using OpenCVForUnity.UnityUtils;
@@ -213,7 +214,6 @@ public class ZEDToOpenCVRetriever : MonoBehaviour
             Mat buffermat = GetOpenCVBufferMat(zedCam.ImageHeight, zedCam.ImageWidth, SLMatType2CVMatType(mattype));
 
             //copyToMat(zedmat.GetPtr(), cvMat);
-            //MatUtils.copyFromMat(buffermat, zedmat.GetPtr());
             MatUtils.copyToMat(zedmat.GetPtr(), buffermat);
 
             ConvertColorSpace(buffermat, ref cvMat, conversionatend);
@@ -331,3 +331,5 @@ public class ZEDToOpenCVRetriever : MonoBehaviour
     }
 
 }
+
+#endif

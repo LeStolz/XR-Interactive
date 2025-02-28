@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#if ZED_HDRP || ZED_URP
+#if ZED_LWRP || ZED_HDRP
 using UnityEngine.Rendering;
 #endif
 
@@ -44,14 +44,14 @@ public class DrawOutputToPlane : MonoBehaviour
         cam.targetTexture = targetTexture;
 
         if (outputRenderer) outputRenderer.material.SetTexture("_MainTex", outputTexture); //TODO: Cache shader ID. 
-                                                                                           // (targetRenderer) targetRenderer.material.mainTexture = targetTexture;
+                                                                                                 // (targetRenderer) targetRenderer.material.mainTexture = targetTexture;
 
-#if ZED_HDRP || ZED_URP
+#if ZED_LWRP || ZED_HDRP
         RenderPipelineManager.endFrameRendering += OnFrameEnd;
         if (outputRenderer) outputRenderer.material.mainTexture = targetTexture;
 #endif
     }
-#if ZED_HDRP || ZED_URP
+#if ZED_LWRP || ZED_HDRP
     /// <summary>
     /// Blits the intermediary targetTexture to the final outputTexture for rendering. Used in SRP because there is no OnRenderImage automatic function. 
     /// </summary>

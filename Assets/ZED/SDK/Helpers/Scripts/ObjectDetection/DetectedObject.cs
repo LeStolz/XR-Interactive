@@ -13,12 +13,12 @@ using System;
 /// </remarks>
 public class DetectedObject
 {
-    private ObjectData objectData;
+    private ObjectDataSDK objectData;
     /// <summary>
     /// The raw ObjectData object that this instance is an abstraction of - ObjectData's data comes
     /// directly from the SDK and doesn't follow Unity conventions. 
     /// </summary>
-    public ObjectData rawObjectData
+    public ObjectDataSDK rawObjectData
     {
         get
         {
@@ -41,22 +41,22 @@ public class DetectedObject
     /// <summary>
     /// Class of object that was detected (person, vehicle, etc.)
     /// </summary>
-    public OBJECT_CLASS label
+    public OBJECT_CLASS objectClass
     {
         get
         {
-            return objectData.label;
+            return objectData.objectClass;
         }
     }
 
     /// <summary>
     /// SubClass of object that was detected  
     /// </summary>
-    public OBJECT_SUBCLASS subLabel
+    public OBJECT_SUBCLASS objectSubClass
     {
         get
         {
-            return objectData.subLabel;
+            return objectData.objectSubClass;
         }
     }
 
@@ -65,11 +65,11 @@ public class DetectedObject
     /// visible recently, but is no longer visible. "OFF" means that object detection has tracking turned off, 
     /// so 3D data will never be available. 
     /// </summary>
-    public OBJECT_TRACKING_STATE trackingState
+    public OBJECT_TRACK_STATE trackingState
     {
         get
         {
-            return objectData.trackingState;
+            return objectData.objectTrackingState;
         }
     }
 
@@ -134,7 +134,7 @@ public class DetectedObject
     /// <param name="viewingmanager">ZEDManager assigned to the ZED camera that detected the object.</param>
     /// <param name="campos">World position of the left ZED camera when the object was detected.</param>
     /// <param name="camrot">World rotation of the left ZED camera when the object was detected.</param>
-    public DetectedObject(ObjectData odata, ZEDManager viewingmanager, Vector3 campos, Quaternion camrot)
+    public DetectedObject(ObjectDataSDK odata, ZEDManager viewingmanager, Vector3 campos, Quaternion camrot)
     {
         objectData = odata;
         detectingZEDManager = viewingmanager;
@@ -172,8 +172,14 @@ public class DetectedObject
         for (int i = 0; i < 4; i++)
         {
             Vector2 rawcoord;
-            rawcoord.x = objectData.boundingBox2D[i].x * scaleForCanvasUnityError + cxoffset;
-            rawcoord.y = detectingZEDManager.zedCamera.ImageHeight - objectData.boundingBox2D[i].y + cyoffset;
+            rawcoord.x = objectData.imageBoundingBox[i].x * scaleForCanvasUnityError + cxoffset;
+            rawcoord.y = detectingZEDManager.zedCamera.ImageHeight - objectData.imageBoundingBox[i].y + cyoffset;
+            
+
+#if UNITY_2018_1_OR_NEWER
+            //Terrible hack to compensate for bug in Unity that scales the Canvas very improperly if you have certain (necessary) values on the projection matrix. 
+            rawcoord.y = (rawcoord.y - (zedimageheight / 2f)) * scaleForCanvasUnityError + (zedimageheight / 2f);
+#endif
 
             flippedYimagecoords[i] = rawcoord;
         }
@@ -211,7 +217,7 @@ public class DetectedObject
     /// </summary>
     /// <param name="scaleForCanvasUnityError">Adds an optional scaling factor to handle a bug in 2018.3 and greater where the
     /// canvas set to Screen Space - Camera has very weird offsets when its projection matrix has certain small changes made to it directly.</param>
-    public UnityEngine.Rect Get2DBoundingBoxRect(float scaleForCanvasUnityError = 1f)
+    public Rect Get2DBoundingBoxRect(float scaleForCanvasUnityError = 1f)
     {
         Vector2[] imagecoords = Get2DBoundingBoxCorners_Image(scaleForCanvasUnityError);
 
@@ -220,7 +226,7 @@ public class DetectedObject
 
         Vector2 bottomleftcorner = imagecoords[3];
 
-        return new UnityEngine.Rect(bottomleftcorner, new Vector2(width, height));
+        return new Rect(bottomleftcorner, new Vector2(width, height));
     }
 
     /// <summary>
@@ -229,8 +235,8 @@ public class DetectedObject
     public Vector3 Get3DWorldPosition()
     {
         //Get the center of the transformed bounding box. 
-        float ypos = (localToWorld(objectData.boundingBox[0]).y - localToWorld(objectData.boundingBox[4]).y) / 2f + localToWorld(objectData.boundingBox[4]).y;
-        Vector3 transformedroot = localToWorld(objectData.position);
+        float ypos = (localToWorld(objectData.worldBoundingBox[0]).y - localToWorld(objectData.worldBoundingBox[4]).y) / 2f + localToWorld(objectData.worldBoundingBox[4]).y;
+        Vector3 transformedroot = localToWorld(objectData.rootWorldPosition);
 
         return new Vector3(transformedroot.x, ypos, transformedroot.z);
     }
@@ -262,7 +268,7 @@ public class DetectedObject
     /// </summary>
     public Bounds Get3DWorldBounds()
     {
-        Vector3[] worldcorners = objectData.boundingBox;
+        Vector3[] worldcorners = objectData.worldBoundingBox;
 
         Quaternion pitchrot = GetRotationWithoutYaw();
 
@@ -295,7 +301,7 @@ public class DetectedObject
 
         for (int i = 0; i < 8; i++)
         {
-            worldspacecorners[i] = localToWorld(objectData.boundingBox[i]);
+            worldspacecorners[i] = localToWorld(objectData.worldBoundingBox[i]);
         }
 
         return worldspacecorners;
@@ -317,7 +323,6 @@ public class DetectedObject
             if (maskTexture == null)
             {
                 IntPtr maskpointer = maskMat.GetPtr(sl.ZEDMat.MEM.MEM_CPU);
-                
                 if (maskpointer != IntPtr.Zero)
                 {
                     maskTexture = ZEDMatToTexture_CPU(maskMat, false);
@@ -391,6 +396,7 @@ public class DetectedObject
             byte[] texbytes = new byte[zedmat.GetStepBytes() * height];
             System.Runtime.InteropServices.Marshal.Copy(maskpointer, texbytes, 0, texbytes.Length);
 
+
             if (flipYcoords)
             {
                 byte[] flippedbytes = new byte[texbytes.Length];
@@ -412,7 +418,7 @@ public class DetectedObject
         }
         else
         {
-            //Debug.LogError("Pointer to texture was null - returning null.");
+            Debug.LogError("Pointer to texture was null - returning null.");
             return null;
         }
     }

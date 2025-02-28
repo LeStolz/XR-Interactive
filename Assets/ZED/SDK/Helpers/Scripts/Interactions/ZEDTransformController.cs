@@ -120,7 +120,7 @@ public class ZEDTransformController : MonoBehaviour
         //Find the available VR controllers and assigning them to our List.
         yield return new WaitForSeconds(1f);
 
-        var trackers = FindObjectsOfType<ZEDControllerTracker_DemoInputs>();
+        var trackers = FindObjectsOfType<ZEDControllerTracker>();
         foreach (ZEDControllerTracker_DemoInputs tracker in trackers)
         {
             objectTrackers.Add(tracker);
@@ -184,7 +184,7 @@ public class ZEDTransformController : MonoBehaviour
             }
             else if (motion == RelativeMotion.Camera)
             {
-                gravity = Quaternion.FromToRotation(zedManager.GetZedRootTransform().up, Vector3.up);
+                gravity = Quaternion.FromToRotation(zedManager.GetZedRootTansform().up, Vector3.up);
                 transform.localPosition += zedManager.GetMainCameraTransform().right * moveAxis.x;
                 transform.localPosition += zedManager.GetMainCameraTransform().forward * moveAxis.z;
                 transform.localPosition += gravity * zedManager.GetMainCameraTransform().up * moveAxis.y;
@@ -213,7 +213,7 @@ public class ZEDTransformController : MonoBehaviour
                 if (Mathf.Abs(moveaxis.y) < 0.1f) moveaxis.y = 0;
                 inputRotation += moveaxis.x * rotationSpeed * 360f * Time.deltaTime;
 
-                gravity = Quaternion.FromToRotation(zedManager.GetZedRootTransform().up, Vector3.up);
+                gravity = Quaternion.FromToRotation(zedManager.GetZedRootTansform().up, Vector3.up);
                 transform.localPosition += gravity * zedManager.GetMainCameraTransform().up * moveaxis.y * movementSpeed * Time.deltaTime;
 
                 if (objectTrackers[0].CheckClickButton(ControllerButtonState.Held))
@@ -230,7 +230,7 @@ public class ZEDTransformController : MonoBehaviour
                 if (moveaxis.x != 0 || moveaxis.y != 0)
                 {
                     isMoving = true;
-                    gravity = Quaternion.FromToRotation(zedManager.GetZedRootTransform().up, Vector3.up);
+                    gravity = Quaternion.FromToRotation(zedManager.GetZedRootTansform().up, Vector3.up);
                     transform.localPosition += zedManager.GetMainCameraTransform().right * moveaxis.x * movementSpeed * Time.deltaTime;
                     transform.localPosition += gravity * zedManager.GetMainCameraTransform().forward * moveaxis.y * movementSpeed * Time.deltaTime;
                 }
@@ -305,7 +305,7 @@ public class ZEDTransformController : MonoBehaviour
     {
         //If the ZEDManager uses Estimate Initial Position and tracking, then the position will change shortly after OnZEDReady.
         //We'll make a non-async call to EstimateInitialPosition to determine what the angle will be. 
-        if (zedManager.setFloorAsOrigin && zedManager.enableTracking)
+        if (zedManager.estimateInitialPosition && zedManager.enableTracking)
         {
             Vector3 initpos = Vector3.zero;
             Quaternion initrot = Quaternion.identity;
@@ -324,7 +324,7 @@ public class ZEDTransformController : MonoBehaviour
         }
 
         //If we're going to know where the floor is, then make sure the object doesn't spawn in the floor if the user is looking down. 
-        if(zedManager.setFloorAsOrigin)
+        if(zedManager.estimateInitialPosition)
         {
             if (transform.position.y < 0.5f) transform.position = new Vector3(transform.position.x, 0.5f, transform.position.z);
         }
@@ -334,7 +334,7 @@ public class ZEDTransformController : MonoBehaviour
     {
         for (int i = 0; i < 50; i++)
         {
-            print(zedManager.GetZedRootTransform().position);
+            print(zedManager.GetZedRootTansform().position);
             yield return null;
         }
 

@@ -1,0 +1,17 @@
+{
+    "name": "ZED",
+    "rootNamespace": "",
+    "references": [
+        "SteamVR",
+        "SteamVR_Actions"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

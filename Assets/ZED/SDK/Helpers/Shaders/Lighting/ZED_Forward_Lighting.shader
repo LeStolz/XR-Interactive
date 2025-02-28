@@ -4,6 +4,7 @@
 {
 
 	Properties{
+		[MaterialToggle] directionalLightEffect("Directional light affects image", Int) = 0
 		_MaxDepth("Max Depth Range", Range(1,40)) = 40
 		_DepthXYZTex("Depth texture", 2D) = "" {}
 		_MainTex("Main texture", 2D) = "" {}
@@ -30,7 +31,7 @@
 				#pragma multi_compile_fwdbase
 				#pragma multi_compile_fwdadd_fullshadows
 
-				#pragma multi_compile __ NO_DEPTH
+				#pragma multi_compile __ NO_DEPTH_OCC
 
 				#include "HLSLSupport.cginc"
 				#include "UnityShaderVariables.cginc"
@@ -71,17 +72,12 @@
 				sampler2D _MaskTex;
 				int _HasShadows;
 				float4 ZED_directionalLight[2];
+				int directionalLightEffect;
 				float _ZEDFactorAffectReal;
 				float _MaxDepth;
 
-				bool Unity_IsNan_float3(float3 In)
-				{
-					bool Out = (In < 0.0 || In > 0.0 || In == 0.0) ? 0 : 1;
-					return Out;
-				}
-
 				// vertex shader
-				v2f_surf vert_surf(appdata_full v)
+				v2f_surf vert_surf(appdata_full v) 
 				{
 
 					v2f_surf o;
@@ -102,26 +98,24 @@
 				}
 
 				// fragment shader
-				void frag_surf(v2f_surf IN, out fixed4 outColor : SV_Target, out float outDepth : SV_Depth)
+				void frag_surf(v2f_surf IN, out fixed4 outColor : SV_Target, out float outDepth : SV_Depth) 
 				{
 					UNITY_INITIALIZE_OUTPUT(fixed4,outColor);
 					float4 uv = IN.pack0;
 
 					float3 zed_xyz = tex2D(_DepthXYZTex, uv.zw).xxx;
 
-					//Filter out depth values beyond the max value.
-					if (_MaxDepth < 40.0) //Avoid clipping out FAR values when not using feature.
+					//Filter out depth values beyond the max value. 
+					if (_MaxDepth < 40.0) //Avoid clipping out FAR values when not using feature. 
 					{
-						if (zed_xyz.z > _MaxDepth || Unity_IsNan_float3(zed_xyz.z)) discard;
+						if (zed_xyz.z > _MaxDepth) discard;
 					}
 
-				#ifdef NO_DEPTH
+				#ifdef NO_DEPTH_OCC
 					#if SHADER_API_D3D11
 						outDepth = 0;
-					#elif SHADER_API_GLCORE 
+					#elif SHADER_API_GLCORE
 						outDepth = 1000;//fake infinite depth
-					#elif SHADER_API_VULKAN
-						outDepth = 0;
 					#endif
 				#else
 					outDepth = computeDepthXYZ(zed_xyz.z);
@@ -142,7 +136,7 @@
 					// e(1) == 2.71828182846
 					if (_HasShadows == 1) {
 						//Depends on the ambient lighting
-						float atten = saturate(tex2D(_DirectionalShadowMap, fixed2(uv.z, 1 - uv.w)) + log(1 + 1.72 * length(UNITY_LIGHTMODEL_AMBIENT.rgb) / 4.0));
+						float atten = saturate(tex2D(_DirectionalShadowMap, fixed2(uv.z, 1 - uv.w)) + log(1 + 1.72*length(UNITY_LIGHTMODEL_AMBIENT.rgb)/4.0));
 
 						c = half4(color*atten);
 					}

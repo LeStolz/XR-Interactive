@@ -28,7 +28,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4371821831063078}
   m_Father: {fileID: 4138687653623062}
@@ -122,7 +121,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4552186382818458}
   m_Father: {fileID: 4138687653623062}
@@ -216,7 +214,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4327115905062700}
   - {fileID: 4795017531386668}
@@ -357,7 +354,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4327115905062700}
   m_RootOrder: 0
@@ -381,12 +377,10 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 2
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -411,7 +405,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &114833973883948664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,7 +447,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4795017531386668}
   m_RootOrder: 0
@@ -478,12 +470,10 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 2
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -508,7 +498,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &114346753093240460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,7 +539,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4138687653623062}
   m_Father: {fileID: 0}
@@ -581,15 +569,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraID: 0
-  depthMode: 3
+  depthMode: 1
   inputType: 0
-  resolution: 1
-  FPS: 30
-  serialNumber: 0
+  resolution: 2
+  FPS: 60
   svoInputFileName: 
   opencvCalibFile: 
-  openTimeoutSec: 5
-  asyncGrabRecovery: 0
   svoLoopBack: 1
   svoRealTimeMode: 0
   currentFrame: 0
@@ -602,7 +587,7 @@ MonoBehaviour:
   enableTracking: 1
   enableSpatialMemory: 1
   pathSpatialMemory: 
-  setFloorAsOrigin: 1
+  estimateInitialPosition: 0
   trackingIsStatic: 0
   mappingResolutionPreset: 1
   mappingRangePreset: 1
@@ -611,46 +596,28 @@ MonoBehaviour:
   saveMeshWhenOver: 0
   meshPath: Assets/ZEDMesh.obj
   meshFilterParameters: 0
-  objectDetectionInstanceID: 0
   objectDetectionImageSyncMode: 0
   objectDetectionTracking: 1
   objectDetection2DMask: 0
-  objectDetectionModel: 2
-  objectDetectionMaxRange: 40
-  objectDetectionPredictionTimeout: 0.2
-  objectDetectionAllowReducedPrecisionInference: 0
-  objectDetectionFilteringMode: 1
+  objectDetectionModel: 0
+  bodyFitting: 0
+  maxRange: 40
+  SK_personDetectionConfidenceThreshold: 50
   OD_personDetectionConfidenceThreshold: 60
-  OD_vehicleDetectionConfidenceThreshold: 60
-  OD_bagDetectionConfidenceThreshold: 60
-  OD_animalDetectionConfidenceThreshold: 60
-  OD_electronicsDetectionConfidenceThreshold: 60
-  OD_fruitVegetableDetectionConfidenceThreshold: 60
-  OD_sportDetectionConfidenceThreshold: 60
+  vehicleDetectionConfidenceThreshold: 60
+  bagDetectionConfidenceThreshold: 60
+  animalDetectionConfidenceThreshold: 60
+  electronicsDetectionConfidenceThreshold: 60
+  fruitVegetableDetectionConfidenceThreshold: 60
   objectClassPersonFilter: 1
   objectClassVehicleFilter: 1
   objectClassBagFilter: 1
   objectClassAnimalFilter: 1
   objectClassElectronicsFilter: 1
   objectClassFruitVegetableFilter: 1
-  objectClassSportFilter: 1
-  bodyTrackingInstanceID: 1
-  bodyTrackingImageSyncMode: 1
-  bodyTrackingTracking: 1
-  bodyTracking2DMask: 0
-  bodyTrackingModel: 2
-  bodyTrackingMaxRange: 40
-  bodyTrackingPredictionTimeout: 0.2
-  bodyTrackingAllowReducedPrecisionInference: 0
-  enableBodyFitting: 1
-  bodyFormat: 2
-  bodySelection: 0
-  bodyTrackingMinimumKPThreshold: 0
-  bodyTrackingConfidenceThreshold: 60
   depthOcclusion: 1
   postProcessing: 1
   m_cameraBrightness: 100
-  enableFillMode: 0
   enableImageEnhancement: 1
   m_maxDepthRange: 40
   svoOutputFileName: Assets/Recording.svo
@@ -675,10 +642,8 @@ MonoBehaviour:
   enableRightDepthMeasure: 0
   showarrig: 0
   enableIMUFusion: 1
-  depthMinRange: -1
-  setGravityAsOrigin: 1
   enableSelfCalibration: 1
-  videoSettingsInitMode: 2
+  videoSettingsInitMode: 0
   videoBrightness: 4
   videoContrast: 4
   videoHue: 0
@@ -700,8 +665,7 @@ MonoBehaviour:
   HMDDevice: '-'
   trackingState: '-'
   objectDetectionFPS: '-'
-  bodyTrackingFPS: '-'
-  ZEDGrabError: 1
+  sensingMode: 1
   setIMUPriorInAR: 1
   allowARPassThrough: 1
   gravityRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -712,7 +676,6 @@ MonoBehaviour:
   advancedPanelOpen: 0
   spatialMappingFoldoutOpen: 0
   objectDetectionFoldoutOpen: 0
-  bodyTrackingFoldoutOpen: 0
   recordingFoldoutOpen: 0
   streamingOutFoldoutOpen: 0
   camControlFoldoutOpen: 0
@@ -746,7 +709,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4138687653623062}
   m_RootOrder: 2
@@ -783,12 +745,10 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -813,4 +773,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
