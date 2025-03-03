@@ -5,8 +5,8 @@ using UnityEngine;
 
 public enum Role
 {
-    Server,
-    ZEDTracker,
+    ZED,
+    SerTracker,
     HMD,
     Tablet,
 }

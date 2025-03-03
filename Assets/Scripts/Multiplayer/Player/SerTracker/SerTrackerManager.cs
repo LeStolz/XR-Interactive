@@ -1,7 +1,7 @@
 
 namespace Multiplayer
 {
-    class ServerManager : NetworkPlayer
+    class SerTrackerManager : NetworkPlayer
     {
         public override void OnNetworkSpawn()
         {

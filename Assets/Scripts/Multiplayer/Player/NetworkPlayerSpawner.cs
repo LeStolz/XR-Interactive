@@ -35,8 +35,8 @@ namespace Multiplayer
             var rolesToPlayers = new Dictionary<Role, NetworkObject>
                 {
                     { Role.HMD, HMDPrefab },
-                    { Role.ZEDTracker, ZEDTrackerPrefab },
-                    { Role.Server, ServerPrefab },
+                    { Role.SerTracker, ZEDTrackerPrefab },
+                    { Role.ZED, ServerPrefab },
                     { Role.Tablet, TabletPrefab }
                 };
 

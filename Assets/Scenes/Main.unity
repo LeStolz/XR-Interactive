@@ -1500,6 +1500,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 746578930}
+    - target: {fileID: 6010115278479696585, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: m_text
+      value: SERTRACKER
+      objectReference: {fileID: 0}
     - target: {fileID: 6988656293725261171, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1519,6 +1524,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7364655034634347086, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: m_text
+      value: ZED
       objectReference: {fileID: 0}
     - target: {fileID: 8103964354916183331, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
