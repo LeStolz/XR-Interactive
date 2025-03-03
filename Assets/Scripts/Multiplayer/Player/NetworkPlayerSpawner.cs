@@ -9,9 +9,9 @@ namespace Multiplayer
         [SerializeField]
         NetworkObject HMDPrefab;
         [SerializeField]
-        NetworkObject ZEDTrackerPrefab;
+        NetworkObject SerTrackerPrefab;
         [SerializeField]
-        NetworkObject ServerPrefab;
+        NetworkObject ZEDPrefab;
         [SerializeField]
         NetworkObject TabletPrefab;
 
@@ -35,8 +35,8 @@ namespace Multiplayer
             var rolesToPlayers = new Dictionary<Role, NetworkObject>
                 {
                     { Role.HMD, HMDPrefab },
-                    { Role.SerTracker, ZEDTrackerPrefab },
-                    { Role.ZED, ServerPrefab },
+                    { Role.SerTracker, SerTrackerPrefab },
+                    { Role.ZED, ZEDPrefab },
                     { Role.Tablet, TabletPrefab }
                 };
 
