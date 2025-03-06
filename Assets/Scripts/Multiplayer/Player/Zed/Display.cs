@@ -126,6 +126,8 @@ public class Display : NetworkBehaviour
             triangles = triangles
         };
 
+        Debug.Log("ASDASD");
+
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         meshFilter.sharedMesh = displayMesh;
         MeshCollider meshCollider = GetComponent<MeshCollider>();
