@@ -33,7 +33,7 @@ public class Display : NetworkBehaviour
     {
         if (IsOwner)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 calibrating = true;
                 ZEDCanvas.SetActive(true);

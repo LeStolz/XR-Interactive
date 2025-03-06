@@ -21,7 +21,7 @@ namespace Multiplayer
         Canvas WorldSpaceCanvas;
         [SerializeField]
         Canvas ScreenSpaceCanvas;
-        [SerializeField]
+        [field: SerializeField]
         public GameObject TableUI { get; private set; }
         [SerializeField]
         int tableScale;

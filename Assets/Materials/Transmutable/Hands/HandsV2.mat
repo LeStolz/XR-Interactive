@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   version: 9
 --- !u!21 &2100000
 Material:
@@ -36,7 +36,7 @@ Material:
   disabledShaderPasses:
   - DepthOnly
   - MOTIONVECTORS
-  m_LockedProperties:
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -93,7 +93,7 @@ Material:
     - Vector1_4: 0.211
     - Vector1_69b40c1ee2e1422cbfcae389f53b36a9: 1
     - Vector1_8671db567d5d4784b29e8ff511bd8f1e: 1
-    - _ARPassthroughAlpha: 0.99999994
+    - _ARPassthroughAlpha: 1
     - _AlphaClip: 0
     - _AlphaCutoff: 0.6
     - _AlphaToMask: 0
@@ -132,7 +132,7 @@ Material:
     - _OutlinePinchRange: 0.15
     - _OutlineSphereHardness: 0.3
     - _OutlineWidth: 0.00134
-    - _PassthroughAlpha: 0.99999994
+    - _PassthroughAlpha: 1
     - _PassthroughBoundaryCrossAlpha: 1
     - _PinchIntensity: 0
     - _PinchRange: 0.03
@@ -205,6 +205,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 639247ca83abc874e893eb93af2b5e44, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   version: 0

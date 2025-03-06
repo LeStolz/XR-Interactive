@@ -384,14 +384,14 @@ MonoBehaviour:
   <MRInteractionSetup>k__BackingField: {fileID: 698738286}
   WorldSpaceCanvas: {fileID: 359651004}
   ScreenSpaceCanvas: {fileID: 1731669378}
-  TableUI: {fileID: 1475478078}
+  <TableUI>k__BackingField: {fileID: 1475478078}
   tableScale: 1700
   roleButtons:
   - {fileID: 1986141258}
   - {fileID: 613319759}
   - {fileID: 384921885}
   - {fileID: 911258898}
-  localRole: 1
+  localRole: 0
 --- !u!114 &911258898 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3900589965684633313, guid: 3c7e97c2ac5aede4c834e98354f624e2,
@@ -765,7 +765,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1327681150}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1290,7 +1290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112520556}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
