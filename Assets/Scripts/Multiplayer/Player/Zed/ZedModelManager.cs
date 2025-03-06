@@ -1,4 +1,5 @@
 
+using OpenCVForUnity.PhotoModule;
 using UnityEngine;
 
 namespace Multiplayer
@@ -12,11 +13,17 @@ namespace Multiplayer
         [SerializeField]
         GameObject cameraEyes;
         [SerializeField]
-        GameObject display;
+        Display display;
         [SerializeField]
         GameObject marker;
         [SerializeField]
         Transform leftEye;
+
+        int iterations = 0;
+        const int MAX_ITERATIONS = 30;
+        Vector3 markerPositionSum = Vector3.zero;
+        Vector3 markerRotationSum = Vector3.zero;
+        bool calibrating = true;
 
         public override void OnNetworkSpawn()
         {
@@ -50,17 +57,45 @@ namespace Multiplayer
         {
             if (IsOwner)
             {
-                if (marker.activeSelf)
+                if (Input.GetKeyDown(KeyCode.E) && marker.activeSelf)
                 {
-                    cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
-                    cameraEyes.transform.SetParent(marker.transform);
-
-                    marker.transform.position = Vector3.zero;
-                    marker.transform.eulerAngles = new Vector3(-90, 180, 0);
-                    leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
-                    zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
-                    display.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                    calibrating = true;
                 }
+
+                if (calibrating)
+                {
+                    markerPositionSum += marker.transform.position;
+                    markerRotationSum += marker.transform.rotation.eulerAngles;
+
+                    iterations++;
+
+                    if (iterations >= MAX_ITERATIONS)
+                    {
+                        var markerPositionAverage = markerPositionSum / MAX_ITERATIONS;
+                        var markerRotationAverage = markerRotationSum / MAX_ITERATIONS;
+
+                        marker.transform.SetPositionAndRotation(markerPositionAverage, Quaternion.Euler(markerRotationAverage));
+
+                        var parent = transform.parent;
+
+                        cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
+
+                        cameraEyes.transform.SetParent(marker.transform);
+                        marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(90, 0, 0)));
+                        cameraEyes.transform.SetParent(parent);
+
+                        leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+
+                        calibrating = false;
+                        iterations = 0;
+                        markerPositionSum = Vector3.zero;
+                        markerRotationSum = Vector3.zero;
+
+                        display.Calibrate();
+                    }
+                }
+
+                zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
             }
         }
     }

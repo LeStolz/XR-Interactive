@@ -9,15 +9,18 @@ using UnityEngine;
 /// </summary>
 public class MarkerObject_MoveToMarkerSimple : MarkerObject
 {
+    public bool HideWhenNotSeen = true;
+
     public override void MarkerDetectedSingle(Vector3 worldposition, Quaternion worldrotation)
     {
-        gameObject.SetActive(true);
+        if (HideWhenNotSeen)
+            gameObject.SetActive(true);
         transform.SetPositionAndRotation(worldposition, worldrotation);
     }
 
     public override void MarkerNotDetected()
     {
-        gameObject.SetActive(false);
+        if (HideWhenNotSeen)
+            gameObject.SetActive(false);
     }
 }
-

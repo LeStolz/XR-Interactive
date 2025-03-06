@@ -38,16 +38,10 @@ public class Display : NetworkBehaviour
         }
     }
 
-    void Update()
+    public void Calibrate()
     {
-        if (IsOwner)
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                calibrating = true;
-                ZEDCanvas.SetActive(true);
-            }
-        }
+        calibrating = true;
+        ZEDCanvas.SetActive(true);
     }
 
     void OnMarkersDetected(Dictionary<int, List<sl.Pose>> detectedposes)
