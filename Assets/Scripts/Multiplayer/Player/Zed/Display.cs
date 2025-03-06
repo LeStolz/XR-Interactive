@@ -15,7 +15,7 @@ public class Display : NetworkBehaviour
     [SerializeField]
     GameObject ZEDCanvas;
     [SerializeField]
-    ZEDArUcoDetectionManager ZEDArUcoDetectionManager;
+    ZEDArUcoDetectionManager DisplayCornersDetectionManager;
 
     int iterations = 0;
     const int MAX_ITERATIONS = 30;
@@ -27,7 +27,7 @@ public class Display : NetworkBehaviour
 
     void Start()
     {
-        ZEDArUcoDetectionManager.OnMarkersDetected += OnMarkersDetected;
+        DisplayCornersDetectionManager.OnMarkersDetected += OnMarkersDetected;
     }
 
     public override void OnNetworkSpawn()

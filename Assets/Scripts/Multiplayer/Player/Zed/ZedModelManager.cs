@@ -11,6 +11,12 @@ namespace Multiplayer
         GameObject zedModel;
         [SerializeField]
         GameObject cameraEyes;
+        [SerializeField]
+        GameObject display;
+        [SerializeField]
+        GameObject marker;
+        [SerializeField]
+        Transform leftEye;
 
         public override void OnNetworkSpawn()
         {
@@ -44,7 +50,17 @@ namespace Multiplayer
         {
             if (IsOwner)
             {
-                zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                if (marker.activeSelf)
+                {
+                    cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
+                    cameraEyes.transform.SetParent(marker.transform);
+
+                    marker.transform.position = Vector3.zero;
+                    marker.transform.eulerAngles = new Vector3(-90, 180, 0);
+                    leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                    zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                    display.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                }
             }
         }
     }
