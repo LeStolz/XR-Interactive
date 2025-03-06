@@ -22,7 +22,7 @@ namespace Multiplayer
         [SerializeField]
         Canvas ScreenSpaceCanvas;
         [SerializeField]
-        GameObject TableUI;
+        public GameObject TableUI { get; private set; }
         [SerializeField]
         int tableScale;
 

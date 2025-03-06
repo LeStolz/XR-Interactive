@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Multiplayer
 {
-    class ZedTrackerManager : NetworkPlayer
+    class ZedModelManager : NetworkPlayer
     {
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
@@ -24,6 +24,8 @@ namespace Multiplayer
                 {
                     obj.SetActive(true);
                 }
+
+                NetworkRoleManager.Instance.TableUI.SetActive(false);
             }
         }
 
@@ -34,6 +36,7 @@ namespace Multiplayer
             if (IsOwner)
             {
                 NetworkRoleManager.Instance.MRInteractionSetup.SetActive(true);
+                NetworkRoleManager.Instance.TableUI.SetActive(true);
             }
         }
 
