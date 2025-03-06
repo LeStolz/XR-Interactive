@@ -8,7 +8,7 @@ using UnityEngine;
 public class Display : NetworkBehaviour
 {
     readonly float cornerOffset = 0.17f;
-    readonly float displayPlaneOffset = 0.0f;
+    readonly float displayPlaneOffset = 0.01f;
 
     [SerializeField]
     GameObject[] markers;
@@ -18,9 +18,10 @@ public class Display : NetworkBehaviour
     ZEDArUcoDetectionManager ZEDArUcoDetectionManager;
 
     int iterations = 0;
-    const int MAX_ITERATIONS = 20;
+    const int MAX_ITERATIONS = 30;
     readonly Vector3[] markerSums = new Vector3[3];
     readonly Vector3[] markerAverages = new Vector3[3];
+    Vector3[] displayCorners = new Vector3[4];
 
     bool calibrating = true;
 
@@ -38,6 +39,10 @@ public class Display : NetworkBehaviour
                 calibrating = true;
                 ZEDCanvas.SetActive(true);
             }
+        }
+        else
+        {
+            RequestUpdateDisplayRpc();
         }
     }
 
@@ -73,24 +78,22 @@ public class Display : NetworkBehaviour
                     Vector3 v = markerAverages[2] - markerAverages[0];
                     Vector3 normal = Vector3.Cross(u, v).normalized;
 
-                    Vector3[] vertices = new Vector3[4];
+                    displayCorners[0] = markerAverages[0];
+                    displayCorners[1] = markerAverages[1];
+                    displayCorners[2] = markerAverages[2];
+                    displayCorners[3] = displayCorners[0] - displayCorners[2] + displayCorners[1];
 
-                    vertices[0] = markerAverages[0];
-                    vertices[1] = markerAverages[1];
-                    vertices[2] = markerAverages[2];
-                    vertices[3] = vertices[0] - vertices[2] + vertices[1];
+                    displayCorners = displayCorners.Select(v => v + normal * displayPlaneOffset).ToArray();
 
-                    vertices = vertices.Select(v => v + normal * displayPlaneOffset).ToArray();
+                    u = (displayCorners[2] - displayCorners[1]).normalized * cornerOffset;
+                    v = (displayCorners[2] - displayCorners[0]).normalized * cornerOffset;
 
-                    u = (vertices[2] - vertices[1]).normalized * cornerOffset;
-                    v = (vertices[2] - vertices[0]).normalized * cornerOffset;
+                    displayCorners[0] += u - v;
+                    displayCorners[1] += -u + v;
+                    displayCorners[2] += u + v;
+                    displayCorners[3] += -u - v;
 
-                    vertices[0] += u - v;
-                    vertices[1] += -u + v;
-                    vertices[2] += u + v;
-                    vertices[3] += -u - v;
-
-                    UpdateDisplayRpc(vertices[0], vertices[1], vertices[2], vertices[3]);
+                    UpdateDisplayRpc(displayCorners[0], displayCorners[1], displayCorners[2], displayCorners[3]);
 
                     calibrating = false;
                     ZEDCanvas.SetActive(false);
@@ -126,11 +129,15 @@ public class Display : NetworkBehaviour
             triangles = triangles
         };
 
-        Debug.Log("ASDASD");
-
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         meshFilter.sharedMesh = displayMesh;
         MeshCollider meshCollider = GetComponent<MeshCollider>();
         meshCollider.sharedMesh = displayMesh;
+    }
+
+    [Rpc(SendTo.Owner)]
+    void RequestUpdateDisplayRpc()
+    {
+        UpdateDisplayRpc(displayCorners[0], displayCorners[1], displayCorners[2], displayCorners[3]);
     }
 }
