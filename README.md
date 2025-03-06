@@ -1,5 +1,9 @@
 # XR Public Spectator Interactive
 
+## Todo
+
+- Bluetooth or local.
+
 ## Setup
 
 - Download OpenCVForUnity.
