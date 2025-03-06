@@ -73,7 +73,6 @@ public class Display : NetworkBehaviour
                     Vector3 v = markerAverages[2] - markerAverages[0];
                     Vector3 normal = Vector3.Cross(u, v).normalized;
 
-                    Mesh mesh = new();
                     Vector3[] vertices = new Vector3[4];
 
                     vertices[0] = markerAverages[0];
@@ -91,19 +90,7 @@ public class Display : NetworkBehaviour
                     vertices[2] += u + v;
                     vertices[3] += -u - v;
 
-                    int[] triangles = new int[]
-                    {
-                    0, 3, 1,
-                    0, 1, 2
-                    };
-
-                    mesh.vertices = vertices;
-                    mesh.triangles = triangles;
-
-                    MeshFilter meshFilter = GetComponent<MeshFilter>();
-                    meshFilter.sharedMesh = mesh;
-                    MeshCollider meshCollider = GetComponent<MeshCollider>();
-                    meshCollider.sharedMesh = mesh;
+                    UpdateDisplayRpc(vertices[0], vertices[1], vertices[2], vertices[3]);
 
                     calibrating = false;
                     ZEDCanvas.SetActive(false);
@@ -114,9 +101,34 @@ public class Display : NetworkBehaviour
                 }
             }
         }
-        else
-        {
+    }
 
-        }
+    [Rpc(SendTo.Everyone)]
+    void UpdateDisplayRpc(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
+    {
+        int[] triangles = new int[]
+        {
+            0, 3, 1,
+            0, 1, 2
+        };
+
+        Vector3[] vertices = new Vector3[]
+        {
+            vertex0,
+            vertex1,
+            vertex2,
+            vertex3
+        };
+
+        Mesh displayMesh = new()
+        {
+            vertices = vertices,
+            triangles = triangles
+        };
+
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        meshFilter.sharedMesh = displayMesh;
+        MeshCollider meshCollider = GetComponent<MeshCollider>();
+        meshCollider.sharedMesh = displayMesh;
     }
 }
