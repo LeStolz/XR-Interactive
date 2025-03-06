@@ -30,6 +30,14 @@ public class Display : NetworkBehaviour
         ZEDArUcoDetectionManager.OnMarkersDetected += OnMarkersDetected;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner)
+        {
+            RequestUpdateDisplayRpc();
+        }
+    }
+
     void Update()
     {
         if (IsOwner)
@@ -39,10 +47,6 @@ public class Display : NetworkBehaviour
                 calibrating = true;
                 ZEDCanvas.SetActive(true);
             }
-        }
-        else
-        {
-            RequestUpdateDisplayRpc();
         }
     }
 
@@ -55,7 +59,6 @@ public class Display : NetworkBehaviour
 
         if (IsOwner)
         {
-
             Vector3[] markerPosition = markers.Select(m => m.transform.position).ToArray();
 
             if (markers.All(m => m.activeSelf))
