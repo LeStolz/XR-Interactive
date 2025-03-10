@@ -8,6 +8,8 @@ namespace Multiplayer
     {
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
+        [SerializeField]
+        new GameObject camera;
 
         public override void OnNetworkSpawn()
         {
@@ -38,7 +40,10 @@ namespace Multiplayer
         [Rpc(SendTo.Owner)]
         public void CalibrateRpc(Vector3 position, Vector3 rotation)
         {
-            transform.SetPositionAndRotation(position, Quaternion.Euler(rotation));
+            transform.SetPositionAndRotation(
+                position - camera.transform.position,
+                Quaternion.Euler(rotation - camera.transform.eulerAngles)
+            );
         }
     }
 }

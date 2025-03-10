@@ -45,14 +45,14 @@ namespace Multiplayer
 				}
 				else
 				{
-					outputHitMarker.SetActive(false);
+					outputHitMarker.transform.position = new(1000, 1000, 1000);
 				}
 
 				inputHitMarker.transform.forward = hit.normal;
 			}
 			else
 			{
-				inputHitMarker.SetActive(false);
+				inputHitMarker.transform.position = new(1000, 1000, 1000);
 			}
 		}
 	}
