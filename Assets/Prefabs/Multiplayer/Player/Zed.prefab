@@ -809,6 +809,7 @@ MonoBehaviour:
   display: {fileID: 2644724735897397089}
   marker: {fileID: 8325605581026384357}
   leftEye: {fileID: 1684221975922522107}
+  originDetectionManager: {fileID: 6250844917621179330}
 --- !u!1 &7790811099120680775
 GameObject:
   m_ObjectHideFlags: 0
