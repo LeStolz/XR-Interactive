@@ -1,10 +1,14 @@
 using System.Collections.Generic;
+using Mono.Cecil.Cil;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Multiplayer
 {
     class ZedModelManager : NetworkPlayer
     {
+        const float HEIGHT_OFFSET_FROM_TRACKER = -1.45f;
+
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
@@ -48,6 +52,19 @@ namespace Multiplayer
             }
         }
 
+        [Rpc(SendTo.Owner)]
+        void RequestCalibrationRpc()
+        {
+            var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
+            if (serTrackerManager != null)
+            {
+                serTrackerManager.CalibrateRpc(
+                    zedModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
+                    zedModel.transform.rotation.eulerAngles
+                );
+            }
+        }
+
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();
@@ -59,7 +76,7 @@ namespace Multiplayer
             }
         }
 
-        void OnMarkersDetected(Dictionary<int, List<sl.Pose>> detectedposes)
+        void Update()
         {
             if (IsOwner)
             {
@@ -67,7 +84,13 @@ namespace Multiplayer
                 {
                     calibrating = true;
                 }
+            }
+        }
 
+        void OnMarkersDetected(Dictionary<int, List<sl.Pose>> detectedposes)
+        {
+            if (IsOwner)
+            {
                 if (calibrating)
                 {
                     markerPositionSum += marker.transform.position;
@@ -90,7 +113,7 @@ namespace Multiplayer
                         cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
 
                         cameraEyes.transform.SetParent(marker.transform);
-                        marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(90, 0, -180)));
+                        marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90, 0, 0)));
                         cameraEyes.transform.SetParent(parent);
 
                         leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
@@ -101,6 +124,15 @@ namespace Multiplayer
                         markerRotationSum = Vector3.zero;
 
                         display.Calibrate();
+
+                        var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
+                        if (serTrackerManager != null)
+                        {
+                            serTrackerManager.CalibrateRpc(
+                                zedModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
+                                zedModel.transform.rotation.eulerAngles
+                            );
+                        }
                     }
                 }
 

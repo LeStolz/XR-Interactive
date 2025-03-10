@@ -1,4 +1,5 @@
 
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Multiplayer
@@ -26,6 +27,13 @@ namespace Multiplayer
                     }
                 }
             }
+        }
+
+        [Rpc(SendTo.Owner)]
+        public void CalibrateRpc(Vector3 position, Vector3 rotation)
+        {
+            transform.position = position;
+            transform.rotation = Quaternion.Euler(rotation);
         }
     }
 }

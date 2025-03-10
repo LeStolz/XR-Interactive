@@ -43,8 +43,16 @@ namespace Multiplayer
 					outputHitMarker.transform.position = hitThroughPortal.point;
 					outputHitMarker.transform.forward = hitThroughPortal.normal;
 				}
+				else
+				{
+					outputHitMarker.SetActive(false);
+				}
 
 				inputHitMarker.transform.forward = hit.normal;
+			}
+			else
+			{
+				inputHitMarker.SetActive(false);
 			}
 		}
 	}
