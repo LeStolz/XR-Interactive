@@ -1,5 +1,3 @@
-
-using OpenCVForUnity.PhotoModule;
 using UnityEngine;
 
 namespace Multiplayer
