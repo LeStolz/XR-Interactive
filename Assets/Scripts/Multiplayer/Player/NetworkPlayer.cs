@@ -63,7 +63,8 @@ namespace Multiplayer
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();
-            PlayerHudNotification.Instance.ShowText($"<b>{m_PlayerName.Value}</b> left");
+            if (PlayerHudNotification.Instance.gameObject.activeInHierarchy)
+                PlayerHudNotification.Instance.ShowText($"<b>{m_PlayerName.Value}</b> left");
             onDisconnected?.Invoke(this);
         }
 

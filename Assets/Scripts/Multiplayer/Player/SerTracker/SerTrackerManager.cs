@@ -26,14 +26,19 @@ namespace Multiplayer
                         obj.SetActive(true);
                     }
                 }
+
+                var ZedModelManager = FindFirstObjectByType<ZedModelManager>();
+                if (ZedModelManager != null)
+                {
+                    ZedModelManager.RequestCalibrationRpc();
+                }
             }
         }
 
         [Rpc(SendTo.Owner)]
         public void CalibrateRpc(Vector3 position, Vector3 rotation)
         {
-            transform.position = position;
-            transform.rotation = Quaternion.Euler(rotation);
+            transform.SetPositionAndRotation(position, Quaternion.Euler(rotation));
         }
     }
 }

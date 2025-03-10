@@ -53,7 +53,7 @@ namespace Multiplayer
         }
 
         [Rpc(SendTo.Owner)]
-        void RequestCalibrationRpc()
+        public void RequestCalibrationRpc()
         {
             var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
             if (serTrackerManager != null)
