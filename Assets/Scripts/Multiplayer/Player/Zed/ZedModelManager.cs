@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Multiplayer
@@ -16,12 +17,19 @@ namespace Multiplayer
         GameObject marker;
         [SerializeField]
         Transform leftEye;
+        [SerializeField]
+        ZEDArUcoDetectionManager originDetectionManager;
 
         int iterations = 0;
         const int MAX_ITERATIONS = 30;
         Vector3 markerPositionSum = Vector3.zero;
         Vector3 markerRotationSum = Vector3.zero;
         bool calibrating = true;
+
+        void Start()
+        {
+            originDetectionManager.OnMarkersDetected += OnMarkersDetected;
+        }
 
         public override void OnNetworkSpawn()
         {
@@ -51,7 +59,7 @@ namespace Multiplayer
             }
         }
 
-        void Update()
+        void OnMarkersDetected(Dictionary<int, List<sl.Pose>> detectedposes)
         {
             if (IsOwner)
             {
@@ -72,14 +80,17 @@ namespace Multiplayer
                         var markerPositionAverage = markerPositionSum / MAX_ITERATIONS;
                         var markerRotationAverage = markerRotationSum / MAX_ITERATIONS;
 
-                        marker.transform.SetPositionAndRotation(markerPositionAverage, Quaternion.Euler(markerRotationAverage));
+                        marker.transform.SetPositionAndRotation(
+                            markerPositionAverage,
+                            Quaternion.Euler(markerRotationAverage)
+                        );
 
-                        var parent = transform.parent;
+                        var parent = cameraEyes.transform.parent;
 
                         cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
 
                         cameraEyes.transform.SetParent(marker.transform);
-                        marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(90, 0, 0)));
+                        marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(90, 0, -180)));
                         cameraEyes.transform.SetParent(parent);
 
                         leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);

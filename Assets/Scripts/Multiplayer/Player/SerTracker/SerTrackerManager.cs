@@ -12,11 +12,8 @@ namespace Multiplayer
         {
             base.OnNetworkSpawn();
 
-
             if (IsOwner)
             {
-                NetworkRoleManager.Instance.MRInteractionSetup.SetActive(false);
-
                 foreach (var obj in objectsToEnableOnSpawn)
                 {
                     if (obj.TryGetComponent(out Camera camera))
@@ -28,8 +25,6 @@ namespace Multiplayer
                         obj.SetActive(true);
                     }
                 }
-
-                NetworkRoleManager.Instance.TableUI.SetActive(false);
             }
         }
     }
