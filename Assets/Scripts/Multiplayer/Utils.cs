@@ -5,6 +5,61 @@ using UnityEngine;
 
 namespace Multiplayer
 {
+    class Calibrator
+    {
+        int iterations = 0;
+        const int MAX_ITERATIONS = 20;
+
+        readonly Vector3[] sums;
+        readonly Vector3[] averages;
+
+        public Calibrator(int num)
+        {
+            sums = new Vector3[num];
+            averages = new Vector3[num];
+        }
+
+        bool calibrating = true;
+
+        public void StartCalibration()
+        {
+            calibrating = true;
+        }
+
+        public void Calibrate(Vector3[] values, Action<Vector3[]> OnCalibrated)
+        {
+            if (!calibrating)
+            {
+                return;
+            }
+
+            for (int i = 0; i < sums.Length; i++)
+            {
+                sums[i] += values[i];
+            }
+
+            iterations++;
+
+            if (iterations >= MAX_ITERATIONS)
+            {
+                for (int i = 0; i < averages.Length; i++)
+                {
+                    averages[i] = sums[i] / MAX_ITERATIONS;
+                }
+
+                OnCalibrated(averages);
+
+                calibrating = false;
+                iterations = 0;
+
+                for (int i = 0; i < sums.Length; i++)
+                {
+                    sums[i] = Vector3.zero;
+                }
+            }
+        }
+    }
+
     public class Utils : MonoBehaviour
     {
         public static LogLevel s_LogLevel = LogLevel.Developer;

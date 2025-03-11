@@ -23,12 +23,7 @@ namespace Multiplayer
         Transform leftEye;
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
-
-        int iterations = 0;
-        const int MAX_ITERATIONS = 30;
-        Vector3 markerPositionSum = Vector3.zero;
-        Vector3 markerRotationSum = Vector3.zero;
-        bool calibrating = true;
+        readonly Calibrator calibrator = new(2);
 
         void Start()
         {
@@ -82,7 +77,7 @@ namespace Multiplayer
             {
                 if (Input.GetKeyDown(KeyCode.E) && marker.activeSelf)
                 {
-                    calibrating = true;
+                    calibrator.StartCalibration();
                 }
             }
         }
@@ -91,17 +86,12 @@ namespace Multiplayer
         {
             if (IsOwner)
             {
-                if (calibrating)
-                {
-                    markerPositionSum += marker.transform.position;
-                    markerRotationSum += marker.transform.rotation.eulerAngles;
-
-                    iterations++;
-
-                    if (iterations >= MAX_ITERATIONS)
+                calibrator.Calibrate(
+                    new Vector3[] { marker.transform.position, marker.transform.rotation.eulerAngles },
+                    (averages) =>
                     {
-                        var markerPositionAverage = markerPositionSum / MAX_ITERATIONS;
-                        var markerRotationAverage = markerRotationSum / MAX_ITERATIONS;
+                        var markerPositionAverage = averages[0];
+                        var markerRotationAverage = averages[1];
 
                         marker.transform.SetPositionAndRotation(
                             markerPositionAverage,
@@ -117,23 +107,18 @@ namespace Multiplayer
                         cameraEyes.transform.SetParent(parent);
 
                         leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
-
-                        calibrating = false;
-                        iterations = 0;
-                        markerPositionSum = Vector3.zero;
-                        markerRotationSum = Vector3.zero;
-
-                        display.Calibrate();
-
-                        var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
-                        if (serTrackerManager != null)
-                        {
-                            serTrackerManager.CalibrateRpc(
-                                zedModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                                zedModel.transform.rotation.eulerAngles
-                            );
-                        }
                     }
+                );
+
+                display.Calibrate();
+
+                var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
+                if (serTrackerManager != null)
+                {
+                    serTrackerManager.CalibrateRpc(
+                        zedModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
+                        zedModel.transform.rotation.eulerAngles
+                    );
                 }
 
                 zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);

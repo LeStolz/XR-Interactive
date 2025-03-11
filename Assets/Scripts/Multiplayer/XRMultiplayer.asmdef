@@ -20,7 +20,8 @@
         "ParrelSync",
         "Unity.Multiplayer.Playmode",
         "EnoxSoftware.OpenCVForUnity",
-        "ZED"
+        "ZED",
+        "SteamVR"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Multiplayer;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -17,13 +18,8 @@ public class Display : NetworkBehaviour
     [SerializeField]
     ZEDArUcoDetectionManager DisplayCornersDetectionManager;
 
-    int iterations = 0;
-    const int MAX_ITERATIONS = 30;
-    readonly Vector3[] markerSums = new Vector3[3];
-    readonly Vector3[] markerAverages = new Vector3[3];
     Vector3[] displayCorners = new Vector3[4];
-
-    bool calibrating = true;
+    readonly Calibrator calibrator = new(3);
 
     void Start()
     {
@@ -40,37 +36,26 @@ public class Display : NetworkBehaviour
 
     public void Calibrate()
     {
-        calibrating = true;
+
+        calibrator.StartCalibration();
         ZEDCanvas.SetActive(true);
     }
 
     void OnMarkersDetected(Dictionary<int, List<sl.Pose>> detectedposes)
     {
-        if (!calibrating)
+        if (!IsOwner)
         {
             return;
         }
 
-        if (IsOwner)
+        Vector3[] markerPosition = markers.Select(m => m.transform.position).ToArray();
+
+        if (markers.All(m => m.activeSelf))
         {
-            Vector3[] markerPosition = markers.Select(m => m.transform.position).ToArray();
-
-            if (markers.All(m => m.activeSelf))
-            {
-                markerSums[0] += markerPosition[0];
-                markerSums[1] += markerPosition[1];
-                markerSums[2] += markerPosition[2];
-
-                iterations++;
-
-                if (iterations >= MAX_ITERATIONS)
+            calibrator.Calibrate(
+                markerPosition,
+                (markerAverages) =>
                 {
-
-
-                    markerAverages[0] = markerSums[0] / MAX_ITERATIONS;
-                    markerAverages[1] = markerSums[1] / MAX_ITERATIONS;
-                    markerAverages[2] = markerSums[2] / MAX_ITERATIONS;
-
                     Vector3 u = markerAverages[1] - markerAverages[0];
                     Vector3 v = markerAverages[2] - markerAverages[0];
                     Vector3 normal = Vector3.Cross(u, v).normalized;
@@ -91,15 +76,10 @@ public class Display : NetworkBehaviour
                     displayCorners[3] += -u - v;
 
                     UpdateDisplayRpc(displayCorners[0], displayCorners[1], displayCorners[2], displayCorners[3]);
-
-                    calibrating = false;
-                    ZEDCanvas.SetActive(false);
-                    iterations = 0;
-                    markerSums[0] = Vector3.zero;
-                    markerSums[1] = Vector3.zero;
-                    markerSums[2] = Vector3.zero;
                 }
-            }
+            );
+
+            ZEDCanvas.SetActive(false);
         }
     }
 
