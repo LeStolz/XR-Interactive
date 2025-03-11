@@ -11,10 +11,6 @@ namespace Multiplayer
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
         new GameObject camera;
-        bool calibrating = false;
-
-        Vector3 position;
-        Vector3 rotation;
 
         public override void OnNetworkSpawn()
         {
@@ -42,30 +38,11 @@ namespace Multiplayer
             }
         }
 
-        void LateUpdate()
-        {
-            if (!calibrating)
-            {
-                return;
-            }
-
-            transform.SetPositionAndRotation(
-                position - camera.transform.position,
-                Quaternion.Euler(rotation - camera.transform.eulerAngles)
-            );
-
-            camera.GetComponent<SteamVR_TrackedObject>().enabled = false;
-            camera.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-            calibrating = false;
-        }
-
         [Rpc(SendTo.Owner)]
         public void CalibrateRpc(Vector3 position, Vector3 rotation)
         {
-            calibrating = true;
-            camera.GetComponent<SteamVR_TrackedObject>().enabled = true;
-            this.position = position;
-            this.rotation = rotation;
+            transform.rotation = Quaternion.Euler(rotation - camera.transform.localEulerAngles);
+            transform.position = position - camera.transform.localPosition;
         }
     }
 }

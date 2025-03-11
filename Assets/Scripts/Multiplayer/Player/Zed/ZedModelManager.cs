@@ -107,21 +107,21 @@ namespace Multiplayer
                         cameraEyes.transform.SetParent(parent);
 
                         leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+
+                        display.Calibrate();
+
+                        var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
+                        if (serTrackerManager != null)
+                        {
+                            serTrackerManager.CalibrateRpc(
+                                zedModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
+                                zedModel.transform.rotation.eulerAngles
+                            );
+                        }
+
+                        zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
                     }
                 );
-
-                display.Calibrate();
-
-                var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
-                if (serTrackerManager != null)
-                {
-                    serTrackerManager.CalibrateRpc(
-                        zedModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                        zedModel.transform.rotation.eulerAngles
-                    );
-                }
-
-                zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
             }
         }
     }
