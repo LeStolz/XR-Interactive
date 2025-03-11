@@ -36,7 +36,6 @@ public class Display : NetworkBehaviour
 
     public void Calibrate()
     {
-
         calibrator.StartCalibration();
         ZEDCanvas.SetActive(true);
     }
@@ -76,10 +75,9 @@ public class Display : NetworkBehaviour
                     displayCorners[3] += -u - v;
 
                     UpdateDisplayRpc(displayCorners[0], displayCorners[1], displayCorners[2], displayCorners[3]);
+                    ZEDCanvas.SetActive(false);
                 }
             );
-
-            ZEDCanvas.SetActive(false);
         }
     }
 

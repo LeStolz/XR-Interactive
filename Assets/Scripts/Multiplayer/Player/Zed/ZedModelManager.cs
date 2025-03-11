@@ -110,6 +110,8 @@ namespace Multiplayer
 
                         display.Calibrate();
 
+                        zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+
                         var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
                         if (serTrackerManager != null)
                         {
@@ -118,8 +120,6 @@ namespace Multiplayer
                                 zedModel.transform.rotation.eulerAngles
                             );
                         }
-
-                        zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
                     }
                 );
             }

@@ -41,7 +41,15 @@ namespace Multiplayer
         [Rpc(SendTo.Owner)]
         public void CalibrateRpc(Vector3 position, Vector3 rotation)
         {
-            transform.rotation = Quaternion.Euler(rotation - camera.transform.localEulerAngles);
+            var targetRot = Quaternion.Euler(rotation);
+            Vector3 pivot = transform.position;
+            Vector3 currentEuler = transform.rotation.eulerAngles;
+            var rotationDiff = targetRot * Quaternion.Inverse(transform.rotation);
+
+            transform.RotateAround(pivot, Vector3.right, rotationDiff.eulerAngles.x - currentEuler.x);
+            transform.RotateAround(pivot, Vector3.up, rotationDiff.eulerAngles.y - currentEuler.y);
+            transform.RotateAround(pivot, Vector3.forward, rotationDiff.eulerAngles.z - currentEuler.z);
+
             transform.position = position - camera.transform.localPosition;
         }
     }
