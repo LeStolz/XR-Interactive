@@ -1,4 +1,3 @@
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Multiplayer
@@ -68,14 +67,14 @@ namespace Multiplayer
 				}
 				else
 				{
-					outputHitMarker.transform.position = new(1000, 1000, 1000);
+					outputHitMarker.transform.position = new(0, -10, 0);
 				}
 
 				inputHitMarker.transform.forward = hit.normal;
 			}
 			else
 			{
-				inputHitMarker.transform.position = new(1000, 1000, 1000);
+				inputHitMarker.transform.position = new(0, -10, 0);
 			}
 		}
 	}

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Mono.Cecil.Cil;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace Multiplayer
 {
     class ZedModelManager : NetworkPlayer
     {
-        const float HEIGHT_OFFSET_FROM_TRACKER = -1.47f;
+        const float HEIGHT_OFFSET_FROM_TRACKER = -1.57f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
