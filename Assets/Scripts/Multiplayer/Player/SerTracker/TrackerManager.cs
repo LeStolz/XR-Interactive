@@ -5,16 +5,30 @@ namespace Multiplayer
 	class TrackerManager : MonoBehaviour
 	{
 		[SerializeField]
-		Camera outputPortal;
+		GameObject outputPortal;
 		[SerializeField]
 		GameObject inputHitMarker;
 		[SerializeField]
 		GameObject inputHitMarkerThroughPortal;
 		[SerializeField]
 		GameObject outputHitMarker;
+		[SerializeField]
+		GameObject model;
+
+		public void SetOutputPortal(GameObject outputPortal)
+		{
+			this.outputPortal = outputPortal;
+		}
 
 		void Update()
 		{
+			model.transform.SetPositionAndRotation(transform.position, transform.rotation);
+
+			if (outputPortal == null)
+			{
+				return;
+			}
+
 			if (
 				Physics.Raycast(
 					transform.position, transform.forward,

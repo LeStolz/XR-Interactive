@@ -7,12 +7,12 @@ namespace Multiplayer
 {
     class ZedModelManager : NetworkPlayer
     {
-        const float HEIGHT_OFFSET_FROM_TRACKER = -1.45f;
+        const float HEIGHT_OFFSET_FROM_TRACKER = -1.47f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
-        [SerializeField]
-        GameObject zedModel;
+        [field: SerializeField]
+        public GameObject ZEDModel { get; private set; }
         [SerializeField]
         GameObject cameraEyes;
         [SerializeField]
@@ -54,8 +54,8 @@ namespace Multiplayer
             if (serTrackerManager != null)
             {
                 serTrackerManager.CalibrateRpc(
-                    zedModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                    zedModel.transform.rotation.eulerAngles
+                    ZEDModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
+                    ZEDModel.transform.forward
                 );
             }
         }
@@ -110,14 +110,14 @@ namespace Multiplayer
 
                         display.Calibrate();
 
-                        zedModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                        ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
                         var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
                         if (serTrackerManager != null)
                         {
                             serTrackerManager.CalibrateRpc(
-                                zedModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                                zedModel.transform.rotation.eulerAngles
+                                ZEDModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
+                                ZEDModel.transform.forward
                             );
                         }
                     }

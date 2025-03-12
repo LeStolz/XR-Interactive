@@ -1,7 +1,6 @@
 
 using Unity.Netcode;
 using UnityEngine;
-using Valve.VR;
 
 namespace Multiplayer
 {
@@ -11,6 +10,8 @@ namespace Multiplayer
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
         new GameObject camera;
+        [SerializeField]
+        TrackerManager trackerManager;
 
         public override void OnNetworkSpawn()
         {
@@ -39,18 +40,22 @@ namespace Multiplayer
         }
 
         [Rpc(SendTo.Owner)]
-        public void CalibrateRpc(Vector3 position, Vector3 rotation)
+        public void CalibrateRpc(Vector3 eulerPos, Vector3 targetForward)
         {
-            var targetRot = Quaternion.Euler(rotation);
-            Vector3 pivot = transform.position;
-            Vector3 currentEuler = transform.rotation.eulerAngles;
-            var rotationDiff = targetRot * Quaternion.Inverse(transform.rotation);
+            transform.rotation = Quaternion.identity;
 
-            transform.RotateAround(pivot, Vector3.right, rotationDiff.eulerAngles.x - currentEuler.x);
-            transform.RotateAround(pivot, Vector3.up, rotationDiff.eulerAngles.y - currentEuler.y);
-            transform.RotateAround(pivot, Vector3.forward, rotationDiff.eulerAngles.z - currentEuler.z);
+            var targetForwardXZ = new Vector3(targetForward.x, 0, targetForward.z).normalized;
+            var forwardXZ = new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z).normalized;
+            var angleDifferent = Vector3.SignedAngle(forwardXZ, targetForwardXZ, Vector3.up);
 
-            transform.position = position - camera.transform.localPosition;
+            transform.Rotate(Vector3.up, angleDifferent);
+            transform.position = eulerPos - (camera.transform.position - transform.position);
+
+            var ZedModelManager = FindFirstObjectByType<ZedModelManager>();
+            if (ZedModelManager != null)
+            {
+                trackerManager.SetOutputPortal(ZedModelManager.ZEDModel);
+            }
         }
     }
 }
