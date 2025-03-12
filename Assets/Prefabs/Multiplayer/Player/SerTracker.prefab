@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7889340503138121143}
-  - {fileID: 5718241122704053471}
+  - {fileID: 9020057317995667000}
   - {fileID: 4292509216995403795}
   m_Father: {fileID: 3106291068487865884}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -149,7 +149,8 @@ MonoBehaviour:
   inputHitMarker: {fileID: 486179004675450181}
   inputHitMarkerThroughPortal: {fileID: 5196958228973802582}
   outputHitMarker: {fileID: 8564060639186477214}
-  model: {fileID: 2606733713527361941}
+  model: {fileID: 9217710127811922952}
+  serTrackerManager: {fileID: 3230529017000498113}
 --- !u!1 &2606733713527361941
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +184,7 @@ Transform:
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 2853130941384325067}
+  m_Father: {fileID: 9020057317995667000}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &7635101085498928814
 MeshFilter:
@@ -407,6 +408,39 @@ MonoBehaviour:
   objectsToEnableOnSpawn:
   - {fileID: 1526716920243172067}
   camera: {fileID: 1017168899782425847}
+  trackerManager: {fileID: 2659626107875824942}
+--- !u!1 &9217710127811922952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9020057317995667000}
+  m_Layer: 0
+  m_Name: Model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9020057317995667000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217710127811922952}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5718241122704053471}
+  m_Father: {fileID: 2853130941384325067}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1968398346177098743
 PrefabInstance:
   m_ObjectHideFlags: 0

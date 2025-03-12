@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Multiplayer
@@ -14,6 +15,8 @@ namespace Multiplayer
 		GameObject outputHitMarker;
 		[SerializeField]
 		GameObject model;
+		[SerializeField]
+		SerTrackerManager serTrackerManager;
 
 		public void SetOutputPortal(GameObject outputPortal)
 		{
@@ -36,6 +39,7 @@ namespace Multiplayer
 			))
 			{
 				inputHitMarker.transform.SetPositionAndRotation(hit.point, transform.rotation);
+				serTrackerManager.DrawLineRpc(transform.position, inputHitMarker.transform.position, Color.red);
 
 				Matrix4x4 teleportMatrix =
 					 outputPortal.transform.localToWorldMatrix *
@@ -56,6 +60,11 @@ namespace Multiplayer
 				{
 					outputHitMarker.transform.position = hitThroughPortal.point;
 					outputHitMarker.transform.forward = hitThroughPortal.normal;
+					serTrackerManager.DrawLineRpc(
+						inputHitMarkerThroughPortal.transform.position,
+						outputHitMarker.transform.position,
+						Color.green
+					);
 				}
 				else
 				{

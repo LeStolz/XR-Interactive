@@ -57,5 +57,11 @@ namespace Multiplayer
                 trackerManager.SetOutputPortal(ZedModelManager.ZEDModel);
             }
         }
+
+        [Rpc(SendTo.NotOwner)]
+        public void DrawLineRpc(Vector3 start, Vector3 end, Color color)
+        {
+            Debug.DrawLine(start, end, color);
+        }
     }
 }
