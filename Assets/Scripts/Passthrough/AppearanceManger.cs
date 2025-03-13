@@ -103,7 +103,6 @@ namespace Multiplayer
 
         void SetARState()
         {
-            Debug.Log("[AppearanceManager] Entering AR state");
             if (m_HandMaskClipSourceVolume != null)
                 m_HandMaskClipSourceVolume.clipSourceEnabled = false;
             if (m_HandVisuals != null)
@@ -117,7 +116,6 @@ namespace Multiplayer
 
         void SetMRState()
         {
-            Debug.Log("[AppearanceManager] Entering MR state");
             if (m_HandMaskClipSourceVolume != null)
             {
                 m_HandMaskClipSourceVolume.clipSourceEnabled = true;
@@ -137,7 +135,6 @@ namespace Multiplayer
 
         void SetVRState()
         {
-            Debug.Log("[AppearanceManager] Entering VR state");
             if (m_HandMaskClipSourceVolume != null)
             {
                 m_HandMaskClipSourceVolume.clipSourceEnabled = true;

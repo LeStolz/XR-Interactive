@@ -11,7 +11,7 @@ namespace Multiplayer
         const int MAX_ITERATIONS = 30;
         int fails = 0;
         const int MAX_FAILS = 10;
-        const float EPS = 0.01f;
+        const float EPS = 0.1f;
 
         readonly Vector3[] sums;
         readonly Vector3[] averages;
@@ -38,13 +38,12 @@ namespace Multiplayer
 
             for (int i = 0; i < sums.Length; i++)
             {
-                if ((sums[i] / iterations - values[i]).magnitude > EPS)
+                if (iterations > 1 && (sums[i] / iterations - values[i]).magnitude > EPS)
                 {
                     fails++;
 
                     if (fails >= MAX_FAILS)
                     {
-                        calibrating = false;
                         fails = 0;
                         iterations = 0;
 

@@ -91,6 +91,8 @@ namespace Multiplayer
                     new Vector3[] { marker.transform.position, marker.transform.rotation.eulerAngles },
                     (averages) =>
                     {
+                        Debug.Log("ASD");
+
                         var markerPositionAverage = averages[0];
                         var markerRotationAverage = averages[1];
 

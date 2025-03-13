@@ -173,7 +173,6 @@ namespace Multiplayer
             // Check for existing singleton reference. If once already exists early out.
             if (s_Instance != null)
             {
-                Utils.Log($"{k_DebugPrepend}Duplicate XRINetworkGameManager found, destroying.", 2);
                 Destroy(gameObject);
                 return;
             }
@@ -190,7 +189,6 @@ namespace Multiplayer
             }
             else
             {
-                Utils.Log($"{k_DebugPrepend}Missing Managers, Disabling Component", 2);
                 enabled = false;
                 return;
             }
@@ -439,7 +437,6 @@ namespace Multiplayer
         /// </summary>
         public virtual async void QuickJoinLobby()
         {
-            Utils.Log($"{k_DebugPrepend}Joining Lobby by Quick Join.");
             if (await AbleToConnect())
             {
                 ConnectToLobby(await m_LobbyManager.QuickJoinLobby());
@@ -452,7 +449,6 @@ namespace Multiplayer
         /// <param name="lobby">Lobby to join.</param>
         public virtual async void JoinLobbyByCode(string code)
         {
-            Utils.Log($"{k_DebugPrepend}Joining Lobby by room code: {code}.");
             if (await AbleToConnect())
             {
                 ConnectToLobby(await m_LobbyManager.JoinLobby(roomCode: code));
@@ -465,7 +461,6 @@ namespace Multiplayer
         /// <param name="lobby">Lobby to join.</param>
         public virtual async void JoinLobbySpecific(Lobby lobby)
         {
-            Utils.Log($"{k_DebugPrepend}Joining specific Lobby: {lobby.Name}.");
             if (await AbleToConnect())
             {
                 ConnectToLobby(await m_LobbyManager.JoinLobby(lobby: lobby));
@@ -480,7 +475,6 @@ namespace Multiplayer
         /// <param name="playerCount">Maximum allowed players.</param>
         public virtual async void CreateNewLobby(string roomName = null, bool isPrivate = false, int playerCount = maxPlayers)
         {
-            Utils.Log($"{k_DebugPrepend}Creating New Lobby: {roomName}.");
             if (await AbleToConnect())
             {
                 ConnectToLobby(await m_LobbyManager.CreateLobby(roomName, isPrivate, playerCount));
@@ -563,7 +557,6 @@ namespace Multiplayer
 
             if (connected)
             {
-                Utils.Log($"{k_DebugPrepend}Connected to game session. Lobby: {m_LobbyManager.connectedLobby.Name}.");
                 m_ConnectionState.Value = ConnectionState.Connected;
                 SubscribeToLobbyEvents();
             }
@@ -691,7 +684,6 @@ namespace Multiplayer
             {
                 m_ConnectionState.Value = ConnectionState.None;
             }
-            Utils.Log($"{k_DebugPrepend}Disconnected from Game.");
             return fullyDisconnected;
         }
     }
