@@ -31,7 +31,7 @@ namespace Multiplayer
 				return;
 			}
 
-			RayCastAndTeleport(transform, 2);
+			RayCastAndTeleport(transform, hitMarkers.Length);
 		}
 
 		void RayCastAndTeleport(Transform transform, int depth)
@@ -44,12 +44,13 @@ namespace Multiplayer
 			if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, LayerMask.GetMask("Room")))
 			{
 				hitMarkers[depth].transform.SetPositionAndRotation(hit.point, transform.rotation);
-				serTrackerManager.DrawLineRpc(transform.position, hitMarkers[depth].transform.position, Color.red);
+				serTrackerManager.DrawLineRpc(transform.position, hitMarkers[depth].transform.position, Color.white);
 
 				depth--;
 
 				if (depth < 0 || !hit.transform.gameObject.CompareTag("InputPortal"))
 				{
+					hitMarkers[depth + 1].transform.forward = hit.normal;
 					return;
 				}
 

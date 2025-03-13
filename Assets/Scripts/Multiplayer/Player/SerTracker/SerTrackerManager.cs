@@ -58,7 +58,7 @@ namespace Multiplayer
             }
         }
 
-        [Rpc(SendTo.NotOwner)]
+        [Rpc(SendTo.Everyone)]
         public void DrawLineRpc(Vector3 start, Vector3 end, Color color)
         {
             Debug.DrawLine(start, end, color);

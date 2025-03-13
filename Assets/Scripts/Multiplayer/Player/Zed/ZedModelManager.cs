@@ -59,6 +59,8 @@ namespace Multiplayer
                     calibrationPoint.transform.forward
                 );
             }
+
+            ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
         }
 
         public override void OnNetworkDespawn()
