@@ -6,20 +6,22 @@ namespace Multiplayer
 {
     class ZedModelManager : NetworkPlayer
     {
-        const float HEIGHT_OFFSET_FROM_TRACKER = -1.57f;
+        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.57f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
-        [field: SerializeField]
-        public GameObject ZEDModel { get; private set; }
+        [SerializeField]
+        GameObject ZEDModel;
+        [SerializeField]
+        GameObject calibrationPoint;
         [SerializeField]
         GameObject cameraEyes;
         [SerializeField]
         Display display;
         [SerializeField]
         GameObject marker;
-        [SerializeField]
-        Transform leftEye;
+        [field: SerializeField]
+        public Transform LeftEye { get; private set; }
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2);
@@ -53,8 +55,8 @@ namespace Multiplayer
             if (serTrackerManager != null)
             {
                 serTrackerManager.CalibrateRpc(
-                    ZEDModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                    ZEDModel.transform.forward
+                    calibrationPoint.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
+                    calibrationPoint.transform.forward
                 );
             }
         }
@@ -99,13 +101,13 @@ namespace Multiplayer
 
                         var parent = cameraEyes.transform.parent;
 
-                        cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
+                        cameraEyes.transform.SetPositionAndRotation(LeftEye.transform.position, LeftEye.transform.rotation);
 
                         cameraEyes.transform.SetParent(marker.transform);
                         marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90, 0, 0)));
                         cameraEyes.transform.SetParent(parent);
 
-                        leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                        LeftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
                         display.Calibrate();
 
@@ -115,8 +117,8 @@ namespace Multiplayer
                         if (serTrackerManager != null)
                         {
                             serTrackerManager.CalibrateRpc(
-                                ZEDModel.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                                ZEDModel.transform.forward
+                                calibrationPoint.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
+                                calibrationPoint.transform.forward
                             );
                         }
                     }

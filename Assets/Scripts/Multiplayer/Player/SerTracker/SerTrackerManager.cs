@@ -54,7 +54,7 @@ namespace Multiplayer
             var ZedModelManager = FindFirstObjectByType<ZedModelManager>();
             if (ZedModelManager != null)
             {
-                trackerManager.SetOutputPortal(ZedModelManager.ZEDModel);
+                trackerManager.SetOutputPortal(ZedModelManager.LeftEye.gameObject);
             }
         }
 

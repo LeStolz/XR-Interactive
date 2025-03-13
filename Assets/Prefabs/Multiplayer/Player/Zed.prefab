@@ -389,6 +389,37 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &3945549727168162281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 871543778471059239}
+  m_Layer: 0
+  m_Name: CalibrationPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &871543778471059239
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3945549727168162281}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.01, y: -0.015, z: -0.0215}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8048376942498337546}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3987864595856676397
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,11 +835,12 @@ MonoBehaviour:
   - {fileID: 8053742614054498156}
   - {fileID: 7790811099120680775}
   - {fileID: 8325605581026384357}
-  <ZEDModel>k__BackingField: {fileID: 8048376942497976106}
+  ZEDModel: {fileID: 8048376942497976106}
+  calibrationPoint: {fileID: 3945549727168162281}
   cameraEyes: {fileID: 1681358979142847779}
   display: {fileID: 2644724735897397089}
   marker: {fileID: 8325605581026384357}
-  leftEye: {fileID: 1684221975922522107}
+  <LeftEye>k__BackingField: {fileID: 1684221975922522107}
   originDetectionManager: {fileID: 6250844917621179330}
 --- !u!1 &7790811099120680775
 GameObject:
@@ -1659,7 +1691,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 400000, guid: 8b79161667c79a24d9aaf0abc511ef9d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 871543778471059239}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100000, guid: 8b79161667c79a24d9aaf0abc511ef9d,
         type: 3}

@@ -146,7 +146,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outputPortal: {fileID: 0}
-  inputHitMarker: {fileID: 486179004675450181}
+  hitMarkers:
+  - {fileID: 8564060639186477214}
+  - {fileID: 5196958228973802582}
+  - {fileID: 486179004675450181}
   inputHitMarkerThroughPortal: {fileID: 5196958228973802582}
   outputHitMarker: {fileID: 8564060639186477214}
   model: {fileID: 9217710127811922952}
@@ -327,9 +330,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8876817907448501148}
   - {fileID: 816888926319466055}
   - {fileID: 5041253002591135572}
+  - {fileID: 8876817907448501148}
   - {fileID: 2853130941384325067}
   m_Father: {fileID: 4798036151423359888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

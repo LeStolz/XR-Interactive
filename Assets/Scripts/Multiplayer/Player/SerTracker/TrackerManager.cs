@@ -7,7 +7,7 @@ namespace Multiplayer
 		[SerializeField]
 		GameObject outputPortal;
 		[SerializeField]
-		GameObject inputHitMarker;
+		GameObject[] hitMarkers;
 		[SerializeField]
 		GameObject inputHitMarkerThroughPortal;
 		[SerializeField]
@@ -31,50 +31,49 @@ namespace Multiplayer
 				return;
 			}
 
-			if (
-				Physics.Raycast(
-					transform.position, transform.forward,
-					out RaycastHit hit, 100, LayerMask.GetMask("InputPortal")
-			))
+			RayCastAndTeleport(transform, 2);
+		}
+
+		void RayCastAndTeleport(Transform transform, int depth)
+		{
+			if (depth < 0)
 			{
-				inputHitMarker.transform.SetPositionAndRotation(hit.point, transform.rotation);
-				serTrackerManager.DrawLineRpc(transform.position, inputHitMarker.transform.position, Color.red);
+				return;
+			}
+
+			if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100))
+			{
+				hitMarkers[depth].transform.SetPositionAndRotation(hit.point, transform.rotation);
+				serTrackerManager.DrawLineRpc(transform.position, hitMarkers[depth].transform.position, Color.red);
+
+				depth--;
+
+				if (depth < 0 || hit.transform.gameObject.layer != LayerMask.GetMask("InputPortal"))
+				{
+					return;
+				}
 
 				Matrix4x4 teleportMatrix =
 					 outputPortal.transform.localToWorldMatrix *
 					 hit.transform.worldToLocalMatrix *
-					inputHitMarker.transform.localToWorldMatrix;
+					hitMarkers[depth + 1].transform.localToWorldMatrix;
 
-				inputHitMarkerThroughPortal.transform.SetPositionAndRotation(
+				hitMarkers[depth].transform.SetPositionAndRotation(
 					teleportMatrix.GetColumn(3),
 					teleportMatrix.rotation
 				);
 
-				if (
-					Physics.Raycast(
-						inputHitMarkerThroughPortal.transform.position,
-						inputHitMarkerThroughPortal.transform.forward,
-						out RaycastHit hitThroughPortal, 100
-				))
-				{
-					outputHitMarker.transform.position = hitThroughPortal.point;
-					outputHitMarker.transform.forward = hitThroughPortal.normal;
-					serTrackerManager.DrawLineRpc(
-						inputHitMarkerThroughPortal.transform.position,
-						outputHitMarker.transform.position,
-						Color.green
-					);
-				}
-				else
-				{
-					outputHitMarker.transform.position = new(0, -10, 0);
-				}
+				RayCastAndTeleport(hitMarkers[depth].transform, depth - 1);
 
-				inputHitMarker.transform.forward = hit.normal;
+				hitMarkers[depth + 1].transform.forward = hit.normal;
 			}
 			else
 			{
-				inputHitMarker.transform.position = new(0, -10, 0);
+				while (depth >= 0)
+				{
+					hitMarkers[depth].transform.position = new(0, -10, 0);
+					depth--;
+				}
 			}
 		}
 	}
