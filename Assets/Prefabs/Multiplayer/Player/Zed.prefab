@@ -435,7 +435,7 @@ GameObject:
   - component: {fileID: 2644724735897397089}
   m_Layer: 8
   m_Name: Display
-  m_TagString: Untagged
+  m_TagString: InputPortal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

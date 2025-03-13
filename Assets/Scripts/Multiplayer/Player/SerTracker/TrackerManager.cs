@@ -41,14 +41,14 @@ namespace Multiplayer
 				return;
 			}
 
-			if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100))
+			if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, LayerMask.GetMask("Room")))
 			{
 				hitMarkers[depth].transform.SetPositionAndRotation(hit.point, transform.rotation);
 				serTrackerManager.DrawLineRpc(transform.position, hitMarkers[depth].transform.position, Color.red);
 
 				depth--;
 
-				if (depth < 0 || hit.transform.gameObject.layer != LayerMask.GetMask("InputPortal"))
+				if (depth < 0 || !hit.transform.gameObject.CompareTag("InputPortal"))
 				{
 					return;
 				}
