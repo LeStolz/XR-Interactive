@@ -19,7 +19,7 @@ public class Display : NetworkBehaviour
     ZEDArUcoDetectionManager DisplayCornersDetectionManager;
 
     Vector3[] displayCorners = new Vector3[4];
-    readonly Calibrator calibrator = new(3);
+    readonly Calibrator calibrator = new(3, new float[] { 0.1f, 0.1f, 0.1f });
 
     void Start()
     {

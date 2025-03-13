@@ -88,7 +88,6 @@ namespace Multiplayer
             Lobby lobby;
             try
             {
-                Utils.Log($"{k_DebugPrepend} Getting lobby via Quick Join");
                 lobby = await LobbyService.Instance.QuickJoinLobbyAsync(GetQuickJoinFilterOptions());
                 await SetupRelay(lobby);
                 ConnectedToLobby(lobby);
@@ -203,7 +202,6 @@ namespace Multiplayer
 
                 // RATE LIMIT: 2 request per 6 seconds
                 var lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, playerCount, options);
-                Utils.Log($"{k_DebugPrepend}Created Lobby with Join Code: {joinCode}, Region: {alloc.Region}, Build ID: {Application.version}, Scene: {SceneManager.GetActiveScene().name}, Editor: {hideEditorFromLobby}");
 
                 // Stop the heartbeat routine if one exists, and starts a new one. This keeps the lobby active for visibility
                 if (m_HeartBeatRoutine != null) StopCoroutine(m_HeartBeatRoutine);
@@ -219,7 +217,6 @@ namespace Multiplayer
             {
                 string failureMessage = "Failed to Create Lobby. Please try again.";
                 Utils.Log($"{k_DebugPrepend}{failureMessage}\n\n{e}", 1);
-                // Debug.LogWarning($"[XRMPT] {failureMessage}\n\n{e}");
                 OnLobbyFailed?.Invoke(failureMessage);
                 return null;
             }
@@ -276,19 +273,16 @@ namespace Multiplayer
             if (roomCode != null)
             {
                 // RATE LIMIT: 2 request per 6 seconds
-                Utils.Log($"{k_DebugPrepend} Getting lobby via Code: {roomCode}");
                 return await LobbyService.Instance.JoinLobbyByCodeAsync(roomCode);
             }
             else if (lobby != null)
             {
                 // RATE LIMIT: 2 request per 6 seconds
-                Utils.Log($"{k_DebugPrepend} Getting lobby via Lobby Id: {lobby.Id}");
                 return await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id);
             }
             else
             {
                 // RATE LIMIT: 1 request per 10 seconds
-                Utils.Log($"{k_DebugPrepend} Getting lobby via Quick Join");
                 return await LobbyService.Instance.QuickJoinLobbyAsync(GetQuickJoinFilterOptions());
             }
         }
@@ -317,7 +311,6 @@ namespace Multiplayer
             {
                 // Continuously ping the lobby to keep it alive
                 LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
-                Utils.Log($"{k_DebugPrepend}Sending Heartbeat Ping for Lobby {lobbyId}");
                 yield return delay;
             }
         }

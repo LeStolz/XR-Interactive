@@ -1465,6 +1465,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ef1a21d25d23a3f4690512c2d75a67a1, type: 2}
     - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac,
         type: 3}
+      propertyPath: depthMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114711245158774928, guid: e13ee7e0790c7d243b7aa67fe604acac,
+        type: 3}
       propertyPath: resolution
       value: 2
       objectReference: {fileID: 0}

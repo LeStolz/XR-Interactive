@@ -119,7 +119,6 @@ namespace Multiplayer
 #if HAS_MPPM
         string CheckMPPM()
         {
-            Utils.Log($"{k_DebugPrepend}MPPM Found");
             string mppmString = "";
             if (CurrentPlayer.ReadOnlyTags().Length > 0)
             {
@@ -138,7 +137,6 @@ namespace Multiplayer
 #if HAS_PARRELSYNC
         string CheckParrelSync()
         {
-            Utils.Log($"{k_DebugPrepend}ParrelSync Found");
             string pSyncString = "";
             if (ClonesManager.IsClone()) pSyncString += ClonesManager.GetArgument();
             return pSyncString;

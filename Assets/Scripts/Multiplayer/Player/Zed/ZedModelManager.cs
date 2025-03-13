@@ -24,7 +24,7 @@ namespace Multiplayer
         public Transform LeftEye { get; private set; }
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
-        readonly Calibrator calibrator = new(2);
+        readonly Calibrator calibrator = new(2, new float[] { 0.1f, 10f });
 
         void Start()
         {
@@ -45,6 +45,8 @@ namespace Multiplayer
                 }
 
                 NetworkRoleManager.Instance.TableUI.SetActive(false);
+
+                calibrator.StartCalibration();
             }
         }
 
@@ -91,10 +93,11 @@ namespace Multiplayer
                     new Vector3[] { marker.transform.position, marker.transform.rotation.eulerAngles },
                     (averages) =>
                     {
-                        Debug.Log("ASD");
-
                         var markerPositionAverage = averages[0];
                         var markerRotationAverage = averages[1];
+
+                        Debug.Log(markerPositionAverage);
+                        Debug.Log(markerRotationAverage);
 
                         marker.transform.SetPositionAndRotation(
                             markerPositionAverage,
