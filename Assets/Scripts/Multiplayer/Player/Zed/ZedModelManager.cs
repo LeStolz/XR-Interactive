@@ -6,7 +6,7 @@ namespace Multiplayer
 {
     class ZedModelManager : NetworkPlayer
     {
-        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.57f;
+        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.4f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
@@ -59,8 +59,6 @@ namespace Multiplayer
                     calibrationPoint.transform.forward
                 );
             }
-
-            ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
         }
 
         public override void OnNetworkDespawn()

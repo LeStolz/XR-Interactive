@@ -50,7 +50,7 @@ namespace Multiplayer
         {
             if (localRole != Role.HMD)
             {
-                TableUI.transform.parent = ScreenSpaceCanvas.transform;
+                TableUI.transform.SetParent(ScreenSpaceCanvas.transform, false);
                 TableUI.transform.localScale = new Vector3(tableScale, tableScale, tableScale);
                 TableUI.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             }
