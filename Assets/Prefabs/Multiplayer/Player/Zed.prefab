@@ -905,12 +905,12 @@ MonoBehaviour:
   - {fileID: 8053742614054498156}
   - {fileID: 7790811099120680775}
   - {fileID: 8325605581026384357}
-  ZEDModel: {fileID: 4754742899233775574}
+  <ZEDModel>k__BackingField: {fileID: 4754742899233775574}
   calibrationPoint: {fileID: 3945549727168162281}
   cameraEyes: {fileID: 1681358979142847779}
   display: {fileID: 2644724735897397089}
   marker: {fileID: 8325605581026384357}
-  <LeftEye>k__BackingField: {fileID: 1684221975922522107}
+  LeftEye: {fileID: 1684221975922522107}
   originDetectionManager: {fileID: 6250844917621179330}
 --- !u!1 &7790811099120680775
 GameObject:

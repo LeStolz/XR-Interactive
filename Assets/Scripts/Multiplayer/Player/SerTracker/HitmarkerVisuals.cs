@@ -4,7 +4,9 @@ namespace Multiplayer
 {
 	class HitMarkerVisuals : MonoBehaviour
 	{
-		const float ROTATE_SPEED = 10f;
+		[SerializeField]
+		GameObject parent;
+		const float ROTATE_SPEED = 20f;
 
 		void Update()
 		{

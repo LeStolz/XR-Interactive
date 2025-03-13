@@ -10,8 +10,8 @@ namespace Multiplayer
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
-        [SerializeField]
-        GameObject ZEDModel;
+        [field: SerializeField]
+        public GameObject ZEDModel { get; private set; }
         [SerializeField]
         GameObject calibrationPoint;
         [SerializeField]
@@ -20,8 +20,8 @@ namespace Multiplayer
         Display display;
         [SerializeField]
         GameObject marker;
-        [field: SerializeField]
-        public Transform LeftEye { get; private set; }
+        [SerializeField]
+        Transform LeftEye;
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2, new float[] { 0.1f, 360f });
