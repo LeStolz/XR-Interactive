@@ -8,7 +8,10 @@ namespace Multiplayer
     class Calibrator
     {
         int iterations = 0;
-        const int MAX_ITERATIONS = 20;
+        const int MAX_ITERATIONS = 30;
+        int fails = 0;
+        const int MAX_FAILS = 10;
+        const float EPS = 0.01f;
 
         readonly Vector3[] sums;
         readonly Vector3[] averages;
@@ -35,6 +38,25 @@ namespace Multiplayer
 
             for (int i = 0; i < sums.Length; i++)
             {
+                if ((sums[i] / iterations - values[i]).magnitude > EPS)
+                {
+                    fails++;
+
+                    if (fails >= MAX_FAILS)
+                    {
+                        calibrating = false;
+                        fails = 0;
+                        iterations = 0;
+
+                        for (int j = 0; j < sums.Length; j++)
+                        {
+                            sums[j] = Vector3.zero;
+                        }
+                    }
+
+                    return;
+                }
+
                 sums[i] += values[i];
             }
 
@@ -51,6 +73,7 @@ namespace Multiplayer
 
                 calibrating = false;
                 iterations = 0;
+                fails = 0;
 
                 for (int i = 0; i < sums.Length; i++)
                 {

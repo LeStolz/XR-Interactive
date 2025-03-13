@@ -6,7 +6,7 @@ namespace Multiplayer
 {
     class ZedModelManager : NetworkPlayer
     {
-        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.4f;
+        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.5f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
