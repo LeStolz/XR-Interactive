@@ -75,7 +75,7 @@ MonoBehaviour:
     type: 3}
   SerTrackerPrefab: {fileID: 635232231450708762, guid: 335a6c0f62b60624e84ad86e124ffc76,
     type: 3}
-  ZEDPrefab: {fileID: -5284644783758453236, guid: 9e7392af481ea794d805d4c18855b009,
+  ZEDPrefab: {fileID: -5284644783758453236, guid: a774ad3674b5d624193980dae5a44bdb,
     type: 3}
   TabletPrefab: {fileID: 2722537192005433508, guid: 627ed13328d643c4caa6a2c878692e36,
     type: 3}
