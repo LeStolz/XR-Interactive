@@ -15,6 +15,8 @@ namespace Multiplayer
 		[SerializeField]
 		GameObject model;
 		[SerializeField]
+		GameObject arrow;
+		[SerializeField]
 		SerTrackerManager serTrackerManager;
 
 		public void SetOutputPortal(GameObject outputPortal)
@@ -31,7 +33,7 @@ namespace Multiplayer
 				return;
 			}
 
-			RayCastAndTeleport(transform, hitMarkers.Length - 1);
+			RayCastAndTeleport(arrow.transform, hitMarkers.Length - 1);
 		}
 
 		void RayCastAndTeleport(Transform transform, int depth)
