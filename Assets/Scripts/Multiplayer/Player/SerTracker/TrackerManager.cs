@@ -9,10 +9,6 @@ namespace Multiplayer
 		[SerializeField]
 		GameObject[] hitMarkers;
 		[SerializeField]
-		GameObject inputHitMarkerThroughPortal;
-		[SerializeField]
-		GameObject outputHitMarker;
-		[SerializeField]
 		GameObject model;
 		[SerializeField]
 		GameObject arrow;

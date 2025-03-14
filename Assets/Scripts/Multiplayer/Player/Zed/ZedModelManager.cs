@@ -10,14 +10,14 @@ namespace Multiplayer
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
-        [field: SerializeField]
-        public GameObject ZEDModel { get; private set; }
+        [SerializeField]
+        GameObject ZEDModel;
         [SerializeField]
         GameObject calibrationPoint;
         [SerializeField]
         GameObject cameraEyes;
-        [SerializeField]
-        Display display;
+        [field: SerializeField]
+        public Portal Portal { get; private set; }
         [SerializeField]
         GameObject marker;
         [SerializeField]
@@ -111,7 +111,7 @@ namespace Multiplayer
 
                         LeftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
-                        display.Calibrate();
+                        Portal.Calibrate();
 
                         ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
