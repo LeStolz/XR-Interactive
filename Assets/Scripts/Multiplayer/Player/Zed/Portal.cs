@@ -89,14 +89,14 @@ public class Portal : NetworkBehaviour
         var v2 = vertex1;
         var v3 = vertex0;
 
-        var w = (v1 - v0).magnitude;
-        var h = (v3 - v0).magnitude;
+        var w = (v1 - v0).magnitude / 10;
+        var h = (v3 - v0).magnitude / 10;
 
         transform.position = v0 + (v1 - v0) / 2 + (v3 - v0) / 2;
         transform.up = Vector3.Cross(v1 - v0, v3 - v0).normalized;
         transform.localScale = new Vector3(w, 1, h);
 
-        OutputPortal.transform.localScale = new Vector3(w, 1, h);
+        OutputPortal.transform.localScale = transform.localScale;
     }
 
     [Rpc(SendTo.Owner)]
