@@ -12,6 +12,8 @@ namespace Multiplayer
         new GameObject camera;
         [SerializeField]
         TrackerManager trackerManager;
+        [SerializeField]
+        LineRenderer lineRenderer;
 
         public override void OnNetworkSpawn()
         {
@@ -31,7 +33,7 @@ namespace Multiplayer
                     }
                 }
 
-                var ZedModelManager = FindFirstObjectByType<ZedModelManager>();
+                var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
                 if (ZedModelManager != null)
                 {
                     ZedModelManager.RequestCalibrationRpc();
@@ -51,7 +53,7 @@ namespace Multiplayer
             transform.Rotate(Vector3.up, angleDifferent);
             transform.position = eulerPos - (camera.transform.position - transform.position);
 
-            var ZedModelManager = FindFirstObjectByType<ZedModelManager>();
+            var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
             if (ZedModelManager != null)
             {
                 trackerManager.SetOutputPortal(ZedModelManager.ZEDModel);
@@ -59,9 +61,17 @@ namespace Multiplayer
         }
 
         [Rpc(SendTo.Everyone)]
-        public void DrawLineRpc(Vector3 start, Vector3 end, Color color)
+        public void DrawLineRpc(Vector3 start, Vector3 end)
         {
-            Debug.DrawLine(start, end, color);
+            if (start == end)
+            {
+                lineRenderer.enabled = false;
+                return;
+            }
+
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, start);
+            lineRenderer.SetPosition(1, end);
         }
     }
 }

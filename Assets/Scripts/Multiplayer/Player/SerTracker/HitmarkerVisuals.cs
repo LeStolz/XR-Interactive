@@ -7,10 +7,12 @@ namespace Multiplayer
 		[SerializeField]
 		GameObject parent;
 		const float ROTATE_SPEED = 20f;
+		float currentRotation = 0;
 
 		void Update()
 		{
-			transform.Rotate(transform.forward, ROTATE_SPEED * Time.deltaTime);
+			currentRotation += ROTATE_SPEED * Time.deltaTime;
+			parent.transform.localRotation = Quaternion.Euler(0, currentRotation, 0);
 		}
 	}
 }

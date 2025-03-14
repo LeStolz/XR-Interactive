@@ -46,7 +46,9 @@ namespace Multiplayer
 			if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, LayerMask.GetMask("Room")))
 			{
 				hitMarkers[depth].transform.SetPositionAndRotation(hit.point, transform.rotation);
-				serTrackerManager.DrawLineRpc(transform.position, hitMarkers[depth].transform.position, Color.white);
+
+				if (depth == hitMarkers.Length - 1)
+					serTrackerManager.DrawLineRpc(transform.position, hitMarkers[depth].transform.position);
 
 				depth--;
 
@@ -72,6 +74,9 @@ namespace Multiplayer
 			}
 			else
 			{
+				if (depth == hitMarkers.Length - 1)
+					serTrackerManager.DrawLineRpc(transform.position, transform.position + transform.forward * 100);
+
 				while (depth >= 0)
 				{
 					hitMarkers[depth].transform.position = new(0, -10, 0);

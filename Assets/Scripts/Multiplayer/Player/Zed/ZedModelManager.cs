@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Multiplayer
 {
-    class ZedModelManager : NetworkPlayer
+    class ZEDModelManager : NetworkPlayer
     {
-        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.5f;
+        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.55f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
@@ -95,9 +95,6 @@ namespace Multiplayer
                     {
                         var markerPositionAverage = averages[0];
                         var markerRotationAverage = averages[1];
-
-                        Debug.Log(markerPositionAverage);
-                        Debug.Log(markerRotationAverage);
 
                         marker.transform.SetPositionAndRotation(
                             markerPositionAverage,
