@@ -11,8 +11,8 @@ namespace Multiplayer
 
 		void Update()
 		{
-			currentRotation += ROTATE_SPEED * Time.deltaTime;
-			parent.transform.localRotation = Quaternion.Euler(0, currentRotation, 0);
+			currentRotation = (currentRotation + ROTATE_SPEED * Time.deltaTime) % 360;
+			transform.localRotation = Quaternion.Euler(0, currentRotation, 0);
 		}
 	}
 }

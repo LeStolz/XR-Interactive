@@ -489,7 +489,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 30751877938da3247a927eba7122ec9e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -831,7 +831,7 @@ GameObject:
   - component: {fileID: -5284644783758453236}
   - component: {fileID: 2370082965206227620}
   m_Layer: 0
-  m_Name: Zed
+  m_Name: ZED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
