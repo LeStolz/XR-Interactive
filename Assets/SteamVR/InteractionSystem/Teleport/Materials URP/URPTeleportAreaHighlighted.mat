@@ -17,7 +17,7 @@ Material:
   - _FLIPBOOKBLENDING_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap:
     OriginalShader: Standard
@@ -88,7 +88,7 @@ Material:
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
     - _ColorMode: 0
-    - _Cull: 0
+    - _Cull: 2
     - _Cutoff: 0.5
     - _Darken: 0.641
     - _DetailNormalMapScale: 1
@@ -131,10 +131,10 @@ Material:
     - g_flReflectanceMin: 0
     - g_flReflectanceScale: 1
     m_Colors:
-    - _BaseColor: {r: 0.18325105, g: 0.7196769, b: 0.743, a: 0.61960787}
+    - _BaseColor: {r: 0.18325102, g: 0.7196769, b: 0.743, a: 1}
     - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.18325102, g: 0.7196769, b: 0.743, a: 0.61960787}
+    - _Color: {r: 0.183251, g: 0.7196769, b: 0.743, a: 1}
     - _EmissionColor: {r: 0.003060855, g: 0.003060855, b: 0.003060855, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}

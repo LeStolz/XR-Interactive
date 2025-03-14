@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3450785715092641318}
-  - component: {fileID: 1138336856137225907}
   m_Layer: 0
   m_Name: Cross
   m_TagString: Untagged
@@ -33,19 +32,6 @@ Transform:
   - {fileID: 3122780179684291130}
   m_Father: {fileID: 6820428099957216419}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1138336856137225907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3318219152428046295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de563f7972328ac45812c1b053069e8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 6002852058713876385}
 --- !u!1 &3831220173624891342
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6820428099957216419}
   - component: {fileID: 7425218962937112681}
+  - component: {fileID: 7938317342495539229}
   m_Layer: 0
   m_Name: Hitmarker
   m_TagString: Untagged
@@ -201,3 +188,16 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &7938317342495539229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6002852058713876385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de563f7972328ac45812c1b053069e8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  child: {fileID: 3318219152428046295}
