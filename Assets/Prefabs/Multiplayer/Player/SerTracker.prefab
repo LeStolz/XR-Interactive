@@ -130,8 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 1
-  origin: {fileID: 0}
+  index: 3
+  origin: {fileID: 4798036151423359888}
 --- !u!114 &8248971712283084368
 MonoBehaviour:
   m_ObjectHideFlags: 0
