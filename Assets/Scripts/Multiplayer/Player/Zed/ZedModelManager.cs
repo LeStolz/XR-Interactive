@@ -18,15 +18,19 @@ namespace Multiplayer
         GameObject cameraEyes;
         [SerializeField]
         Portal inputPortal;
-        [field: SerializeField]
-        public Camera OutputPortal { get; private set; }
         [SerializeField]
         GameObject marker;
         [SerializeField]
-        Transform LeftEye;
+        Transform leftEye;
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
+
+        readonly SerTrackerManager serTrackerManager;
+        TrackerManager TrackerManager
+        {
+            get => serTrackerManager.TrackerManager;
+        }
 
         void Start()
         {
@@ -60,9 +64,7 @@ namespace Multiplayer
             {
                 serTrackerManager.CalibrateRpc(
                     calibrationPoint.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                    calibrationPoint.transform.forward,
-                    LeftEye.GetComponent<Camera>().pixelWidth,
-                    LeftEye.GetComponent<Camera>().pixelHeight
+                    calibrationPoint.transform.forward
                 );
             }
         }
@@ -87,10 +89,13 @@ namespace Multiplayer
                     calibrator.StartCalibration();
                 }
 
-                OutputPortal.gameObject.transform.SetPositionAndRotation(
-                    LeftEye.transform.position,
-                    LeftEye.transform.rotation
-                );
+                if (TrackerManager != null)
+                    RayCastAndTeleport(
+                        new Ray(
+                            TrackerManager.Arrow.transform.position,
+                            TrackerManager.Arrow.transform.forward
+                        ), TrackerManager.HitMarkers.Length - 1
+                    );
             }
         }
 
@@ -112,13 +117,13 @@ namespace Multiplayer
 
                         var parent = cameraEyes.transform.parent;
 
-                        cameraEyes.transform.SetPositionAndRotation(LeftEye.transform.position, LeftEye.transform.rotation);
+                        cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
 
                         cameraEyes.transform.SetParent(marker.transform);
                         marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90, 0, 0)));
                         cameraEyes.transform.SetParent(parent);
 
-                        LeftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                        leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
                         inputPortal.Calibrate();
 
@@ -129,14 +134,58 @@ namespace Multiplayer
                         {
                             serTrackerManager.CalibrateRpc(
                                 calibrationPoint.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                                calibrationPoint.transform.forward,
-                                LeftEye.GetComponent<Camera>().pixelWidth,
-                                LeftEye.GetComponent<Camera>().pixelHeight
+                                calibrationPoint.transform.forward
                             );
                         }
                     }
                 );
             }
         }
+
+        void RayCastAndTeleport(Ray ray, int depth)
+        {
+            if (depth < 0)
+            {
+                return;
+            }
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Room")))
+            {
+                TrackerManager.HitMarkers[depth].transform.position = hit.point;
+                TrackerManager.HitMarkers[depth].transform.forward = hit.normal;
+
+                serTrackerManager.DrawLineRpc(
+                    depth,
+                    ray.origin, TrackerManager.HitMarkers[depth].transform.position
+                );
+
+                if (!hit.transform.gameObject.CompareTag("InputPortal"))
+                {
+                    return;
+                }
+
+                var inputPortal = hit.transform.gameObject.GetComponent<Portal>();
+                var outputPortal = leftEye.GetComponent<Camera>();
+
+                RayCastAndTeleport(
+                    outputPortal.ScreenPointToRay(inputPortal.PortalSpaceToScreenSpace(hit.point, outputPortal)),
+                    depth - 1
+                );
+            }
+            else
+            {
+                serTrackerManager.DrawLineRpc(
+                    depth,
+                    ray.origin, ray.origin + ray.direction * 10
+                );
+
+                while (depth >= 0)
+                {
+                    TrackerManager.HitMarkers[depth].transform.position = new(0, -10, 0);
+                    depth--;
+                }
+            }
+        }
+
     }
 }

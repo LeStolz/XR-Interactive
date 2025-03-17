@@ -10,8 +10,8 @@ namespace Multiplayer
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
         new GameObject camera;
-        [SerializeField]
-        TrackerManager trackerManager;
+        [field: SerializeField]
+        public TrackerManager TrackerManager { get; private set; }
         public bool IsLocalOwner => IsOwner;
 
         public override void OnNetworkSpawn()
@@ -42,8 +42,7 @@ namespace Multiplayer
 
         [Rpc(SendTo.Owner)]
         public void CalibrateRpc(
-            Vector3 eulerPos, Vector3 targetForward,
-            int cameraPixelWidth, int cameraPixelHeight
+            Vector3 eulerPos, Vector3 targetForward
         )
         {
             transform.rotation = Quaternion.identity;
@@ -54,21 +53,12 @@ namespace Multiplayer
 
             transform.Rotate(Vector3.up, angleDifference);
             transform.position = eulerPos - (camera.transform.position - transform.position);
-
-            var ZEDModelManager = FindFirstObjectByType<ZEDModelManager>();
-            if (ZEDModelManager != null)
-            {
-                trackerManager.SetOutputPortal(
-                    ZEDModelManager.OutputPortal.gameObject,
-                    cameraPixelWidth, cameraPixelHeight
-                );
-            }
         }
 
         [Rpc(SendTo.Everyone)]
         public void DrawLineRpc(int hitMarkerId, Vector3 start, Vector3 end)
         {
-            trackerManager.DrawLine(hitMarkerId, start, end);
+            TrackerManager.DrawLine(hitMarkerId, start, end);
         }
     }
 }

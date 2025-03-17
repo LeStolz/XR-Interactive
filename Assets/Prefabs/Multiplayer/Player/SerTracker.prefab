@@ -145,12 +145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9348ca5a3c2363e43a207c8370877f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outputPortalCamera: {fileID: 0}
-  hitMarkers:
+  <HitMarkers>k__BackingField:
   - {fileID: 5457619968650938146}
   - {fileID: 4313246188829082361}
-  model: {fileID: 9217710127811922952}
-  arrow: {fileID: 7988173369895697739}
+  <Model>k__BackingField: {fileID: 9217710127811922952}
+  <Arrow>k__BackingField: {fileID: 7988173369895697739}
   serTrackerManager: {fileID: 3230529017000498113}
 --- !u!1 &7216983216408653989
 GameObject:
@@ -261,7 +260,7 @@ MonoBehaviour:
   objectsToEnableOnSpawn:
   - {fileID: 1526716920243172067}
   camera: {fileID: 1017168899782425847}
-  trackerManager: {fileID: 2659626107875824942}
+  <TrackerManager>k__BackingField: {fileID: 2659626107875824942}
 --- !u!1 &7988173369895697739
 GameObject:
   m_ObjectHideFlags: 0

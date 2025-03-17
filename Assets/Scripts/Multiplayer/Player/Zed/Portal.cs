@@ -108,19 +108,14 @@ public class Portal : NetworkBehaviour
     {
         Vector3 localPosition = transform.InverseTransformPoint(position) / 10;
         Vector2 local2DPosition = new(
-            1 - (localPosition.x + 0.5f),
+            localPosition.x + 0.5f,
             localPosition.z + 0.5f
         );
-        Debug.Log(local2DPosition);
-        Debug.Log(camera.pixelWidth);
-        Debug.Log(camera.pixelHeight);
 
         Vector2 screenPosition = new(
             local2DPosition.x * camera.pixelWidth,
             local2DPosition.y * camera.pixelHeight
         );
-
-        // Debug.Log(screenPosition);
 
         return screenPosition;
     }
