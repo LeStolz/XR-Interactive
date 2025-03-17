@@ -22,6 +22,11 @@ namespace Multiplayer
 
 		void Update()
 		{
+			if (!serTrackerManager.IsLocalOwner)
+			{
+				return;
+			}
+
 			model.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
 			if (outputPortal == null)

@@ -391,7 +391,7 @@ MonoBehaviour:
   - {fileID: 613319759}
   - {fileID: 384921885}
   - {fileID: 911258898}
-  localRole: 0
+  localRole: 1
 --- !u!114 &911258898 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3900589965684633313, guid: 3c7e97c2ac5aede4c834e98354f624e2,
@@ -1786,6 +1786,11 @@ PrefabInstance:
     - target: {fileID: 4985723522326004683, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5217168321996794947, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5226676815425555333, guid: 3c7e97c2ac5aede4c834e98354f624e2,
