@@ -26,7 +26,7 @@ namespace Multiplayer
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
 
-        readonly SerTrackerManager serTrackerManager;
+        SerTrackerManager serTrackerManager;
         TrackerManager TrackerManager
         {
             get => serTrackerManager.TrackerManager;
@@ -59,7 +59,7 @@ namespace Multiplayer
         [Rpc(SendTo.Owner)]
         public void RequestCalibrationRpc()
         {
-            var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
+            serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
             if (serTrackerManager != null)
             {
                 serTrackerManager.CalibrateRpc(
@@ -129,7 +129,7 @@ namespace Multiplayer
 
                         ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
-                        var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
+                        serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
                         if (serTrackerManager != null)
                         {
                             serTrackerManager.CalibrateRpc(
