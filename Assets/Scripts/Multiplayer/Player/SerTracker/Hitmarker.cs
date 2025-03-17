@@ -2,12 +2,19 @@ using UnityEngine;
 
 namespace Multiplayer
 {
-	class HitMarkerVisuals : MonoBehaviour
+	class Hitmarker : MonoBehaviour
 	{
 		[SerializeField]
 		GameObject child;
 		const float ROTATE_SPEED = 30f;
 		float currentRotation = 0;
+
+		void Start()
+		{
+			var lineRenderer = GetComponent<LineRenderer>();
+			var meshColor = child.GetComponentInChildren<MeshRenderer>().material.color;
+			lineRenderer.startColor = lineRenderer.endColor = meshColor;
+		}
 
 		void Update()
 		{

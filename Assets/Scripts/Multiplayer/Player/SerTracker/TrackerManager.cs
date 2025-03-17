@@ -7,7 +7,7 @@ namespace Multiplayer
 		[SerializeField]
 		GameObject outputPortal;
 		[SerializeField]
-		GameObject[] hitMarkers;
+		Hitmarker[] hitMarkers;
 		[SerializeField]
 		GameObject model;
 		[SerializeField]
@@ -43,8 +43,10 @@ namespace Multiplayer
 			{
 				hitMarkers[depth].transform.SetPositionAndRotation(hit.point, transform.rotation);
 
-				if (depth == hitMarkers.Length - 1)
-					serTrackerManager.DrawLineRpc(transform.position, hitMarkers[depth].transform.position);
+				serTrackerManager.DrawLineRpc(
+					depth,
+					transform.position, hitMarkers[depth].transform.position
+				);
 
 				depth--;
 
@@ -70,8 +72,10 @@ namespace Multiplayer
 			}
 			else
 			{
-				if (depth == hitMarkers.Length - 1)
-					serTrackerManager.DrawLineRpc(transform.position, transform.position + transform.forward * 100);
+				serTrackerManager.DrawLineRpc(
+					depth,
+					transform.position, transform.position + transform.forward * 10
+				);
 
 				while (depth >= 0)
 				{
@@ -79,6 +83,21 @@ namespace Multiplayer
 					depth--;
 				}
 			}
+		}
+
+		public void DrawLine(int hitMarkerId, Vector3 start, Vector3 end)
+		{
+			var lineRenderer = hitMarkers[hitMarkerId].GetComponent<LineRenderer>();
+
+			if (start == end)
+			{
+				lineRenderer.enabled = false;
+				return;
+			}
+
+			lineRenderer.enabled = true;
+			lineRenderer.SetPosition(0, start);
+			lineRenderer.SetPosition(1, end);
 		}
 	}
 }

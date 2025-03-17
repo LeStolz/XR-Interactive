@@ -12,8 +12,6 @@ namespace Multiplayer
         new GameObject camera;
         [SerializeField]
         TrackerManager trackerManager;
-        [SerializeField]
-        LineRenderer lineRenderer;
 
         public override void OnNetworkSpawn()
         {
@@ -61,17 +59,9 @@ namespace Multiplayer
         }
 
         [Rpc(SendTo.Everyone)]
-        public void DrawLineRpc(Vector3 start, Vector3 end)
+        public void DrawLineRpc(int hitMarkerId, Vector3 start, Vector3 end)
         {
-            if (start == end)
-            {
-                lineRenderer.enabled = false;
-                return;
-            }
-
-            lineRenderer.enabled = true;
-            lineRenderer.SetPosition(0, start);
-            lineRenderer.SetPosition(1, end);
+            trackerManager.DrawLine(hitMarkerId, start, end);
         }
     }
 }

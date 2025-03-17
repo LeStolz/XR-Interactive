@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Portal : NetworkBehaviour
 {
-    readonly float cornerOffset = 0.17f;
-    readonly float portalPlaneOffset = 0.01f;
+    readonly float cornerOffset = 0.24f;
+    readonly float portalPlaneOffset = 0.1f;
 
     [SerializeField]
     GameObject[] markers;
@@ -18,7 +18,7 @@ public class Portal : NetworkBehaviour
     [SerializeField]
     ZEDArUcoDetectionManager PortalCornersDetectionManager;
 
-    Vector3[] portalCorners = new Vector3[4];
+    Vector3[] portalCorners = new Vector3[3];
     readonly Calibrator calibrator = new(3, new float[] { 0.1f, 0.1f, 0.1f });
 
     void Start()
@@ -62,7 +62,6 @@ public class Portal : NetworkBehaviour
                     portalCorners[0] = markerAverages[0];
                     portalCorners[1] = markerAverages[1];
                     portalCorners[2] = markerAverages[2];
-                    portalCorners[3] = portalCorners[0] - portalCorners[2] + portalCorners[1];
 
                     portalCorners = portalCorners.Select(v => v + normal * portalPlaneOffset).ToArray();
 
@@ -72,9 +71,8 @@ public class Portal : NetworkBehaviour
                     portalCorners[0] += u - v;
                     portalCorners[1] += -u + v;
                     portalCorners[2] += u + v;
-                    portalCorners[3] += -u - v;
 
-                    UpdatePortalRpc(portalCorners[0], portalCorners[1], portalCorners[2], portalCorners[3]);
+                    UpdatePortalRpc(portalCorners[0], portalCorners[1], portalCorners[2]);
                     ZEDCanvas.SetActive(false);
                 }
             );
@@ -82,18 +80,19 @@ public class Portal : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    void UpdatePortalRpc(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2, Vector3 vertex3)
+    void UpdatePortalRpc(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
     {
-        var v0 = vertex2;
-        var v1 = vertex3;
-        var v2 = vertex1;
-        var v3 = vertex0;
+        var v0 = vertex1;
+        var v1 = vertex2;
+        var v2 = vertex0;
 
         var w = (v1 - v0).magnitude / 10;
-        var h = (v3 - v0).magnitude / 10;
+        var h = (v2 - v1).magnitude / 10;
 
-        transform.position = v0 + (v1 - v0) / 2 + (v3 - v0) / 2;
-        transform.up = Vector3.Cross(v1 - v0, v3 - v0).normalized;
+        transform.SetPositionAndRotation(
+            v0 + (v1 - v0) / 2 + (v2 - v1) / 2,
+            Quaternion.LookRotation(v1 - v2, -Vector3.Cross(v0 - v1, v2 - v1))
+        );
         transform.localScale = new Vector3(w, 1, h);
 
         OutputPortal.transform.localScale = transform.localScale;
@@ -102,6 +101,6 @@ public class Portal : NetworkBehaviour
     [Rpc(SendTo.Owner)]
     void RequestUpdatePortalRpc()
     {
-        UpdatePortalRpc(portalCorners[0], portalCorners[1], portalCorners[2], portalCorners[3]);
+        UpdatePortalRpc(portalCorners[0], portalCorners[1], portalCorners[2]);
     }
 }

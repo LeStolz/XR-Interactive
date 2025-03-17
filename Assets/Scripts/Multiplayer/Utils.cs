@@ -69,6 +69,9 @@ namespace Multiplayer
                     averages[i] = sums[i] / MAX_ITERATIONS;
                 }
 
+                Debug.Log(values);
+                Debug.Log(averages);
+
                 OnCalibrated(averages);
 
                 calibrating = false;

@@ -391,7 +391,7 @@ MonoBehaviour:
   - {fileID: 613319759}
   - {fileID: 384921885}
   - {fileID: 911258898}
-  localRole: 1
+  localRole: 0
 --- !u!114 &911258898 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3900589965684633313, guid: 3c7e97c2ac5aede4c834e98354f624e2,
@@ -1736,7 +1736,7 @@ PrefabInstance:
     - target: {fileID: 1454045060055181606, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1454045060055181606, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
@@ -1862,12 +1862,12 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1421188171}
-  - {fileID: 1235325151}
-  - {fileID: 1324612993}
-  - {fileID: 1996598795}
-  - {fileID: 746578928}
-  - {fileID: 636736290}
   - {fileID: 2112520558}
   - {fileID: 1327681152}
   - {fileID: 1157338193}
+  - {fileID: 1324612993}
+  - {fileID: 1996598795}
+  - {fileID: 1421188171}
+  - {fileID: 1235325151}
+  - {fileID: 746578928}
+  - {fileID: 636736290}

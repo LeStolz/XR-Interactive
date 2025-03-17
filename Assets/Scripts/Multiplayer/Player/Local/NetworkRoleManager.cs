@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using Unity.Netcode;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.XR.Management;
 
 public enum Role
 {
@@ -53,6 +55,25 @@ namespace Multiplayer
                 TableUI.transform.SetParent(ScreenSpaceCanvas.transform, false);
                 TableUI.transform.localScale = new Vector3(tableScale, tableScale, tableScale);
                 TableUI.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            }
+
+            if (localRole == Role.HMD || localRole == Role.SerTracker)
+            {
+                StartCoroutine(StartXR());
+            }
+        }
+
+        IEnumerator StartXR()
+        {
+            yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
+
+            if (XRGeneralSettings.Instance.Manager.activeLoader == null)
+            {
+                Debug.LogError("Initializing XR Failed. Check Editor or Player log for details.");
+            }
+            else
+            {
+                XRGeneralSettings.Instance.Manager.StartSubsystems();
             }
         }
 
