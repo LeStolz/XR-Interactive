@@ -11,8 +11,7 @@ namespace Multiplayer
         [SerializeField]
         new GameObject camera;
         [field: SerializeField]
-        public TrackerManager TrackerManager { get; private set; }
-        public bool IsLocalOwner => IsOwner;
+        public GameObject Model { get; private set; }
 
         public override void OnNetworkSpawn()
         {

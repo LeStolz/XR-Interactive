@@ -26,11 +26,15 @@ namespace Multiplayer
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
 
+
+        [SerializeField]
+        Hitmarker[] hitMarkers;
+        [SerializeField]
+        GameObject model;
+        [SerializeField]
+        GameObject arrow;
+
         SerTrackerManager serTrackerManager;
-        TrackerManager TrackerManager
-        {
-            get => serTrackerManager == null ? null : serTrackerManager.TrackerManager;
-        }
 
         void Start()
         {
@@ -89,13 +93,17 @@ namespace Multiplayer
                     calibrator.StartCalibration();
                 }
 
-                if (TrackerManager != null)
-                    RayCastAndTeleport(
-                        new Ray(
-                            TrackerManager.Arrow.transform.position,
-                            TrackerManager.Arrow.transform.forward
-                        ), TrackerManager.HitMarkers.Length - 1
-                    );
+                model.transform.SetPositionAndRotation(
+                    serTrackerManager.Model.transform.position,
+                    serTrackerManager.Model.transform.rotation
+                );
+
+                RayCastAndTeleport(
+                    new Ray(
+                        arrow.transform.position,
+                        arrow.transform.forward
+                    ), hitMarkers.Length - 1
+                );
             }
         }
 
@@ -151,12 +159,12 @@ namespace Multiplayer
 
             if (Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Room")))
             {
-                TrackerManager.HitMarkers[depth].transform.position = hit.point;
-                TrackerManager.HitMarkers[depth].transform.forward = hit.normal;
+                hitMarkers[depth].transform.position = hit.point;
+                hitMarkers[depth].transform.forward = hit.normal;
 
                 DrawLineRpc(
                     depth,
-                    ray.origin, TrackerManager.HitMarkers[depth].transform.position
+                    ray.origin, hitMarkers[depth].transform.position
                 );
 
                 if (!hit.transform.gameObject.CompareTag("InputPortal"))
@@ -181,7 +189,7 @@ namespace Multiplayer
 
                 while (depth >= 0)
                 {
-                    TrackerManager.HitMarkers[depth].transform.position = new(0, -10, 0);
+                    hitMarkers[depth].transform.position = new(0, -10, 0);
                     depth--;
                 }
             }
@@ -190,7 +198,22 @@ namespace Multiplayer
         [Rpc(SendTo.Everyone)]
         public void DrawLineRpc(int hitMarkerId, Vector3 start, Vector3 end)
         {
-            TrackerManager.DrawLine(hitMarkerId, start, end);
+            DrawLine(hitMarkerId, start, end);
+        }
+
+        public void DrawLine(int hitMarkerId, Vector3 start, Vector3 end)
+        {
+            var lineRenderer = hitMarkers[hitMarkerId].GetComponent<LineRenderer>();
+
+            if (start == end)
+            {
+                lineRenderer.enabled = false;
+                return;
+            }
+
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, start);
+            lineRenderer.SetPosition(1, end);
         }
     }
 }
