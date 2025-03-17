@@ -55,11 +55,11 @@ namespace Multiplayer
             transform.Rotate(Vector3.up, angleDifference);
             transform.position = eulerPos - (camera.transform.position - transform.position);
 
-            var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
-            if (ZedModelManager != null)
+            var ZEDModelManager = FindFirstObjectByType<ZEDModelManager>();
+            if (ZEDModelManager != null)
             {
                 trackerManager.SetOutputPortal(
-                    ZedModelManager.LeftEye.gameObject,
+                    ZEDModelManager.OutputPortal.gameObject,
                     cameraPixelWidth, cameraPixelHeight
                 );
             }

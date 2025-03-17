@@ -17,11 +17,13 @@ namespace Multiplayer
         [SerializeField]
         GameObject cameraEyes;
         [SerializeField]
-        Portal Portal;
+        Portal inputPortal;
+        [field: SerializeField]
+        public Camera OutputPortal { get; private set; }
         [SerializeField]
         GameObject marker;
-        [field: SerializeField]
-        public Transform LeftEye { get; private set; }
+        [SerializeField]
+        Transform LeftEye;
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
@@ -113,7 +115,7 @@ namespace Multiplayer
 
                         LeftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
-                        Portal.Calibrate();
+                        inputPortal.Calibrate();
 
                         ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 

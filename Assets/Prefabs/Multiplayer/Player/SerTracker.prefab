@@ -145,10 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9348ca5a3c2363e43a207c8370877f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outputPortal: {fileID: 0}
+  outputPortalCamera: {fileID: 0}
   hitMarkers:
   - {fileID: 5457619968650938146}
-  - {fileID: 8465560368710628330}
   - {fileID: 4313246188829082361}
   model: {fileID: 9217710127811922952}
   arrow: {fileID: 7988173369895697739}
@@ -183,7 +182,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 816888926319466055}
-  - {fileID: 5041253002591135572}
   - {fileID: 8876817907448501148}
   - {fileID: 2853130941384325067}
   m_Father: {fileID: 4798036151423359888}
@@ -435,132 +433,6 @@ Transform:
   - {fileID: 2099429300093932091}
   m_Father: {fileID: 2853130941384325067}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1968398346177098743
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 3106291068487865884}
-    m_Modifications:
-    - target: {fileID: 859308172949681374, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: d2bbbd01c5b7a6b4bb5a1316f21fc1ff, type: 2}
-    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.b
-      value: 0.8352941
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.g
-      value: 0.63529414
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.r
-      value: 0.2627451
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.b
-      value: 0.8352941
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.g
-      value: 0.63529414
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.r
-      value: 0.2627451
-      objectReference: {fileID: 0}
-    - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_Name
-      value: ZED Input Hitmarker Through Portal
-      objectReference: {fileID: 0}
-    - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b02ad60e8a5a3324f99c7a2a4897ba62, type: 3}
---- !u!4 &5041253002591135572 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6820428099957216419, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-    type: 3}
-  m_PrefabInstance: {fileID: 1968398346177098743}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8465560368710628330 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7938317342495539229, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
-    type: 3}
-  m_PrefabInstance: {fileID: 1968398346177098743}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de563f7972328ac45812c1b053069e8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2708860073567946559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -577,7 +449,7 @@ PrefabInstance:
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
       propertyPath: m_Name
-      value: ZED Output Hitmarker
+      value: Output Hitmarker
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
@@ -703,7 +575,7 @@ PrefabInstance:
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
       propertyPath: m_Name
-      value: ZED Input Hitmarker
+      value: Input Hitmarker
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
@@ -793,7 +665,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 845c8a084f725b9418a9d91dcc2d757a, type: 3}
       propertyPath: m_Name
-      value: ZED
+      value: HMD
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 845c8a084f725b9418a9d91dcc2d757a, type: 3}
       propertyPath: m_LocalScale.x
