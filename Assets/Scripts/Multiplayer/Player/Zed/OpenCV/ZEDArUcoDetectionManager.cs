@@ -1,5 +1,4 @@
-﻿#if ZED_OPENCV_FOR_UNITY
-
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -252,5 +251,3 @@ public class ZEDArUcoDetectionManager : MonoBehaviour
         DICT_APRILTAG_36h11 = Aruco.DICT_APRILTAG_36h11
     }
 }
-
-#endif

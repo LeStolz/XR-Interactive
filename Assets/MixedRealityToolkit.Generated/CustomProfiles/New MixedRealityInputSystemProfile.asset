@@ -121,6 +121,13 @@ MonoBehaviour:
     runtimePlatform: 33
     deviceManagerProfile: {fileID: 11400000, guid: 8f48cb9c26fb518499c65c9f9e8bb4ed,
       type: 2}
+  - componentType:
+      reference: Microsoft.MixedReality.Toolkit.Input.InputSimulationService, Microsoft.MixedReality.Toolkit.Services.InputSimulation
+    componentName: New data provider 15
+    priority: 0
+    runtimePlatform: -1
+    deviceManagerProfile: {fileID: 11400000, guid: 41478039094d47641bf4e09c20e61a5a,
+      type: 2}
   focusProviderType:
     reference: Microsoft.MixedReality.Toolkit.Input.FocusProvider, Microsoft.MixedReality.Toolkit.Services.InputSystem
   raycastProviderType:
@@ -139,7 +146,7 @@ MonoBehaviour:
   enableControllerMapping: 1
   controllerMappingProfile: {fileID: 11400000, guid: 39ded1fd0711a0c448413d0e1ec4f7f3,
     type: 2}
-  controllerVisualizationProfile: {fileID: 11400000, guid: ac2477ca3c42e514f86bc810089ba605,
+  controllerVisualizationProfile: {fileID: 11400000, guid: 9cd09ad620360b543840a6b34f8094a9,
     type: 2}
   handTrackingProfile: {fileID: 11400000, guid: e445e6fda57508c46935bb141b7673a7,
     type: 2}

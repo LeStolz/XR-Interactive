@@ -1,5 +1,6 @@
 ﻿//======= Copyright (c) Stereolabs Corporation, All rights reserved. ===============
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
 
 /// <summary>
@@ -1537,3 +1538,4 @@ public class ZEDCameraEditor : Editor
     }
 
 }
+#endif

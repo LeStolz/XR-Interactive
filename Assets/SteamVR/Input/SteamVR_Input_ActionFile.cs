@@ -5,8 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 using System.Linq;
-using Valve.Newtonsoft.Json;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Valve.VR
 {
@@ -221,7 +221,7 @@ namespace Valve.VR
             {
                 string jsonText = File.ReadAllText(path);
 
-                SteamVR_Input_ActionFile actionFile = Valve.Newtonsoft.Json.JsonConvert.DeserializeObject<SteamVR_Input_ActionFile>(jsonText);
+                SteamVR_Input_ActionFile actionFile = Newtonsoft.Json.JsonConvert.DeserializeObject<SteamVR_Input_ActionFile>(jsonText);
                 actionFile.filePath = path;
                 actionFile.InitializeHelperLists();
 

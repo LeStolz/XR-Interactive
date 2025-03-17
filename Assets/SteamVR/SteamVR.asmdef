@@ -4,7 +4,8 @@
     "references": [
         "SteamVR_Windows_EditorHelper",
         "Unity.XR.OpenVR",
-        "UnityEngine.SpatialTracking"
+        "UnityEngine.SpatialTracking",
+        "Valve.Newtonsoft"
     ],
     "includePlatforms": [],
     "excludePlatforms": [

@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: a647be562d11f0d46a24b26bf8b44041
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 119922
+  packageName: PUN 2 - FREE
+  packageVersion: 2.49
+  assetPath: Assets/Photon/PhotonUnityNetworking/Demos/Shared Assets/Animator/ThirdPersonAnimatorController.controller
+  uploadId: 722643
