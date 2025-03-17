@@ -10,7 +10,7 @@ namespace Multiplayer
         int iterations = 0;
         const int MAX_ITERATIONS = 30;
         int fails = 0;
-        const int MAX_FAILS = 5;
+        const int MAX_FAILS = 2;
 
         readonly Vector3[] sums;
         readonly Vector3[] averages;
@@ -68,6 +68,9 @@ namespace Multiplayer
                 {
                     averages[i] = sums[i] / MAX_ITERATIONS;
                 }
+
+                Debug.Log(values);
+                Debug.Log(averages);
 
                 OnCalibrated(averages);
 

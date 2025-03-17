@@ -4,27 +4,37 @@ using UnityEngine;
 
 namespace Multiplayer
 {
-    class ZedModelManager : NetworkPlayer
+    class ZEDModelManager : NetworkPlayer
     {
-        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.5f;
+        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.52f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
-        [field: SerializeField]
-        public GameObject ZEDModel { get; private set; }
+        [SerializeField]
+        GameObject ZEDModel;
         [SerializeField]
         GameObject calibrationPoint;
         [SerializeField]
         GameObject cameraEyes;
         [SerializeField]
-        Display display;
+        Portal inputPortal;
         [SerializeField]
         GameObject marker;
         [SerializeField]
-        Transform LeftEye;
+        Transform leftEye;
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
-        readonly Calibrator calibrator = new(2, new float[] { 0.1f, 360f });
+        readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
+
+
+        [SerializeField]
+        Hitmarker[] hitMarkers;
+        [SerializeField]
+        GameObject model;
+        [SerializeField]
+        GameObject arrow;
+
+        SerTrackerManager serTrackerManager;
 
         void Start()
         {
@@ -53,7 +63,7 @@ namespace Multiplayer
         [Rpc(SendTo.Owner)]
         public void RequestCalibrationRpc()
         {
-            var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
+            serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
             if (serTrackerManager != null)
             {
                 serTrackerManager.CalibrateRpc(
@@ -82,6 +92,19 @@ namespace Multiplayer
                 {
                     calibrator.StartCalibration();
                 }
+
+                if (serTrackerManager != null)
+                    model.transform.SetPositionAndRotation(
+                        serTrackerManager.Model.transform.position,
+                        serTrackerManager.Model.transform.rotation
+                    );
+
+                RayCastAndTeleport(
+                    new Ray(
+                        arrow.transform.position,
+                        arrow.transform.forward
+                    ), hitMarkers.Length - 1
+                );
             }
         }
 
@@ -96,9 +119,6 @@ namespace Multiplayer
                         var markerPositionAverage = averages[0];
                         var markerRotationAverage = averages[1];
 
-                        Debug.Log(markerPositionAverage);
-                        Debug.Log(markerRotationAverage);
-
                         marker.transform.SetPositionAndRotation(
                             markerPositionAverage,
                             Quaternion.Euler(markerRotationAverage)
@@ -106,19 +126,19 @@ namespace Multiplayer
 
                         var parent = cameraEyes.transform.parent;
 
-                        cameraEyes.transform.SetPositionAndRotation(LeftEye.transform.position, LeftEye.transform.rotation);
+                        cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
 
                         cameraEyes.transform.SetParent(marker.transform);
                         marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90, 0, 0)));
                         cameraEyes.transform.SetParent(parent);
 
-                        LeftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                        leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
-                        display.Calibrate();
+                        inputPortal.Calibrate();
 
                         ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
-                        var serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
+                        serTrackerManager = FindFirstObjectByType<SerTrackerManager>();
                         if (serTrackerManager != null)
                         {
                             serTrackerManager.CalibrateRpc(
@@ -129,6 +149,72 @@ namespace Multiplayer
                     }
                 );
             }
+        }
+
+        void RayCastAndTeleport(Ray ray, int depth)
+        {
+            if (depth < 0)
+            {
+                return;
+            }
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Room")))
+            {
+                hitMarkers[depth].transform.position = hit.point;
+                hitMarkers[depth].transform.forward = hit.normal;
+
+                DrawLineRpc(
+                    depth,
+                    ray.origin, hitMarkers[depth].transform.position
+                );
+
+                if (!hit.transform.gameObject.CompareTag("InputPortal"))
+                {
+                    return;
+                }
+
+                var inputPortal = hit.transform.gameObject.GetComponent<Portal>();
+                var outputPortal = leftEye.GetComponent<Camera>();
+
+                RayCastAndTeleport(
+                    outputPortal.ScreenPointToRay(inputPortal.PortalSpaceToScreenSpace(hit.point, outputPortal)),
+                    depth - 1
+                );
+            }
+            else
+            {
+                DrawLineRpc(
+                    depth,
+                    ray.origin, ray.origin + ray.direction * 10
+                );
+
+                while (depth >= 0)
+                {
+                    hitMarkers[depth].transform.position = new(0, -10, 0);
+                    depth--;
+                }
+            }
+        }
+
+        [Rpc(SendTo.Everyone)]
+        public void DrawLineRpc(int hitMarkerId, Vector3 start, Vector3 end)
+        {
+            DrawLine(hitMarkerId, start, end);
+        }
+
+        public void DrawLine(int hitMarkerId, Vector3 start, Vector3 end)
+        {
+            var lineRenderer = hitMarkers[hitMarkerId].GetComponent<LineRenderer>();
+
+            if (start == end)
+            {
+                lineRenderer.enabled = false;
+                return;
+            }
+
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, start);
+            lineRenderer.SetPosition(1, end);
         }
     }
 }

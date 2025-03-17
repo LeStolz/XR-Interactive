@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using Unity.Netcode;
 using Unity.XR.CoreUtils;
 using UnityEngine;
+using UnityEngine.XR.Management;
 
 public enum Role
 {
@@ -54,6 +56,32 @@ namespace Multiplayer
                 TableUI.transform.localScale = new Vector3(tableScale, tableScale, tableScale);
                 TableUI.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             }
+
+            if (localRole == Role.HMD || localRole == Role.SerTracker)
+            {
+                StartCoroutine(StartXR());
+            }
+        }
+
+        IEnumerator StartXR()
+        {
+
+            if (XRGeneralSettings.Instance.Manager.activeLoader != null)
+            {
+                XRGeneralSettings.Instance.Manager.StopSubsystems();
+                XRGeneralSettings.Instance.Manager.DeinitializeLoader();
+            }
+
+            yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
+
+            if (XRGeneralSettings.Instance.Manager.activeLoader == null)
+            {
+                Debug.LogError("Initializing XR Failed. Check Editor or Player log for details.");
+            }
+            else
+            {
+                XRGeneralSettings.Instance.Manager.StartSubsystems();
+            }
         }
 
         public override void OnNetworkSpawn()
@@ -88,8 +116,6 @@ namespace Multiplayer
 
             XRINetworkGameManager.Instance.playerStateChanged -= OnPlayerStateChanged;
             networkedRoles.OnListChanged -= OnNetworkRolesChanged;
-
-            TeleportToRoleDefault(false, localRole);
         }
 
         void OnNetworkRolesChanged(NetworkListEvent<NetworkedRole> changeEvent)
@@ -110,22 +136,6 @@ namespace Multiplayer
                 }
                 UpdateNetworkedRoleVisuals();
             }
-        }
-
-        public void TeleportToRoleDefault(bool online, Role role)
-        {
-            if (!online)
-            {
-                var XROrigin = FindFirstObjectByType<XROrigin>();
-                if (XROrigin != null)
-                {
-                    XROrigin.transform.SetPositionAndRotation(new(0, 0.4f, -0.6f), Quaternion.identity);
-                }
-
-                return;
-            }
-
-            // Teleport to role's default position
         }
 
         [Rpc(SendTo.Server)]
@@ -185,10 +195,6 @@ namespace Multiplayer
             if (XRINetworkGameManager.Instance.TryGetPlayerByID(playerID, out var player))
             {
                 roleButtons[roleID].AssignPlayerToRole(player);
-                if (playerID == NetworkManager.Singleton.LocalClientId)
-                {
-                    TeleportToRoleDefault(true, (Role)roleID);
-                }
             }
             else
             {
