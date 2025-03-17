@@ -16,12 +16,12 @@ namespace Multiplayer
         GameObject calibrationPoint;
         [SerializeField]
         GameObject cameraEyes;
-        [field: SerializeField]
-        public Portal Portal { get; private set; }
+        [SerializeField]
+        Portal Portal;
         [SerializeField]
         GameObject marker;
-        [SerializeField]
-        Transform LeftEye;
+        [field: SerializeField]
+        public Transform LeftEye { get; private set; }
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
@@ -58,7 +58,9 @@ namespace Multiplayer
             {
                 serTrackerManager.CalibrateRpc(
                     calibrationPoint.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                    calibrationPoint.transform.forward
+                    calibrationPoint.transform.forward,
+                    LeftEye.GetComponent<Camera>().pixelWidth,
+                    LeftEye.GetComponent<Camera>().pixelHeight
                 );
             }
         }
@@ -120,7 +122,9 @@ namespace Multiplayer
                         {
                             serTrackerManager.CalibrateRpc(
                                 calibrationPoint.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                                calibrationPoint.transform.forward
+                                calibrationPoint.transform.forward,
+                                LeftEye.GetComponent<Camera>().pixelWidth,
+                                LeftEye.GetComponent<Camera>().pixelHeight
                             );
                         }
                     }

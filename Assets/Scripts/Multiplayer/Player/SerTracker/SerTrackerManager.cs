@@ -41,21 +41,27 @@ namespace Multiplayer
         }
 
         [Rpc(SendTo.Owner)]
-        public void CalibrateRpc(Vector3 eulerPos, Vector3 targetForward)
+        public void CalibrateRpc(
+            Vector3 eulerPos, Vector3 targetForward,
+            int cameraPixelWidth, int cameraPixelHeight
+        )
         {
             transform.rotation = Quaternion.identity;
 
             var targetForwardXZ = new Vector3(targetForward.x, 0, targetForward.z).normalized;
             var forwardXZ = new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z).normalized;
-            var angleDifferent = Vector3.SignedAngle(forwardXZ, targetForwardXZ, Vector3.up);
+            var angleDifference = Vector3.SignedAngle(forwardXZ, targetForwardXZ, Vector3.up);
 
-            transform.Rotate(Vector3.up, angleDifferent);
+            transform.Rotate(Vector3.up, angleDifference);
             transform.position = eulerPos - (camera.transform.position - transform.position);
 
             var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
             if (ZedModelManager != null)
             {
-                trackerManager.SetOutputPortal(ZedModelManager.Portal.OutputPortal);
+                trackerManager.SetOutputPortal(
+                    ZedModelManager.LeftEye.gameObject,
+                    cameraPixelWidth, cameraPixelHeight
+                );
             }
         }
 

@@ -5,7 +5,7 @@ namespace Multiplayer
 	class TrackerManager : MonoBehaviour
 	{
 		[SerializeField]
-		GameObject outputPortal;
+		Camera outputPortalCamera;
 		[SerializeField]
 		Hitmarker[] hitMarkers;
 		[SerializeField]
@@ -15,9 +15,12 @@ namespace Multiplayer
 		[SerializeField]
 		SerTrackerManager serTrackerManager;
 
-		public void SetOutputPortal(GameObject outputPortal)
+		public void SetOutputPortal(GameObject outputPortal, int pixelWidth, int pixelHeight)
 		{
-			this.outputPortal = outputPortal;
+			outputPortalCamera = outputPortal.GetComponent<Camera>();
+			// outputPortalCamera.pixelWidth = pixelWidth;
+			// outputPortalCamera.pixelHeight = pixelHeight;
+			outputPortalCamera = outputPortal.GetComponent<Camera>();
 		}
 
 		void Update()
@@ -29,57 +32,48 @@ namespace Multiplayer
 
 			model.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
-			if (outputPortal == null)
+			if (outputPortalCamera == null)
 			{
 				return;
 			}
 
-			RayCastAndTeleport(arrow.transform, hitMarkers.Length - 1);
+			RayCastAndTeleport(new Ray(arrow.transform.position, arrow.transform.forward), hitMarkers.Length - 1);
 		}
 
-		void RayCastAndTeleport(Transform transform, int depth)
+		void RayCastAndTeleport(Ray ray, int depth)
 		{
 			if (depth < 0)
 			{
 				return;
 			}
 
-			if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100, LayerMask.GetMask("Room")))
+			if (Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Room")))
 			{
-				hitMarkers[depth].transform.SetPositionAndRotation(hit.point, transform.rotation);
+				hitMarkers[depth].transform.position = hit.point;
+				hitMarkers[depth].transform.forward = hit.normal;
 
 				serTrackerManager.DrawLineRpc(
 					depth,
-					transform.position, hitMarkers[depth].transform.position
+					ray.origin, hitMarkers[depth].transform.position
 				);
 
-				depth--;
-
-				if (depth < 0 || !hit.transform.gameObject.CompareTag("InputPortal"))
+				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
-					hitMarkers[depth + 1].transform.forward = hit.normal;
 					return;
 				}
 
-				Matrix4x4 teleportMatrix =
-					 outputPortal.transform.localToWorldMatrix *
-					 hit.transform.worldToLocalMatrix *
-					hitMarkers[depth + 1].transform.localToWorldMatrix;
+				var inputPortal = hit.transform.gameObject.GetComponent<Portal>();
 
-				hitMarkers[depth].transform.SetPositionAndRotation(
-					teleportMatrix.GetColumn(3),
-					teleportMatrix.rotation
+				RayCastAndTeleport(
+					outputPortalCamera.ScreenPointToRay(inputPortal.PortalSpaceToScreenSpace(hit.point, outputPortalCamera)),
+					depth - 1
 				);
-
-				RayCastAndTeleport(hitMarkers[depth].transform, depth - 1);
-
-				hitMarkers[depth + 1].transform.forward = hit.normal;
 			}
 			else
 			{
 				serTrackerManager.DrawLineRpc(
 					depth,
-					transform.position, transform.position + transform.forward * 10
+					ray.origin, ray.origin + ray.direction * 10
 				);
 
 				while (depth >= 0)

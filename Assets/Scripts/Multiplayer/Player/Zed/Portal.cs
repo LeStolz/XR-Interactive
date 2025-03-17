@@ -13,8 +13,6 @@ public class Portal : NetworkBehaviour
     GameObject[] markers;
     [SerializeField]
     GameObject ZEDCanvas;
-    [field: SerializeField]
-    public GameObject OutputPortal { get; private set; }
     [SerializeField]
     ZEDArUcoDetectionManager PortalCornersDetectionManager;
 
@@ -82,6 +80,10 @@ public class Portal : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void UpdatePortalRpc(Vector3 vertex0, Vector3 vertex1, Vector3 vertex2)
     {
+        portalCorners[0] = vertex0;
+        portalCorners[1] = vertex1;
+        portalCorners[2] = vertex2;
+
         var v0 = vertex1;
         var v1 = vertex2;
         var v2 = vertex0;
@@ -94,13 +96,28 @@ public class Portal : NetworkBehaviour
             Quaternion.LookRotation(v1 - v2, -Vector3.Cross(v0 - v1, v2 - v1))
         );
         transform.localScale = new Vector3(w, 1, h);
-
-        OutputPortal.transform.localScale = transform.localScale;
     }
 
     [Rpc(SendTo.Owner)]
     void RequestUpdatePortalRpc()
     {
         UpdatePortalRpc(portalCorners[0], portalCorners[1], portalCorners[2]);
+    }
+
+    public Vector2 PortalSpaceToScreenSpace(Vector3 position, Camera camera)
+    {
+        Vector3 localPosition = transform.InverseTransformPoint(position);
+        Vector2 local2DPosition = new(
+            1 - (localPosition.x + 0.5f),
+            localPosition.z + 0.5f
+        );
+        Vector2 screenPosition = new(
+            local2DPosition.x * camera.pixelWidth,
+            local2DPosition.y * camera.pixelHeight
+        );
+
+        Debug.Log(screenPosition);
+
+        return screenPosition;
     }
 }
