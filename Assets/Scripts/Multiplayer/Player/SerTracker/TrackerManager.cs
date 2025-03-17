@@ -20,7 +20,6 @@ namespace Multiplayer
 			outputPortalCamera = outputPortal.GetComponent<Camera>();
 			// outputPortalCamera.pixelWidth = pixelWidth;
 			// outputPortalCamera.pixelHeight = pixelHeight;
-			outputPortalCamera = outputPortal.GetComponent<Camera>();
 		}
 
 		void Update()

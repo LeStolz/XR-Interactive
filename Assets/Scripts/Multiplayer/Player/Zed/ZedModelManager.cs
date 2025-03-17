@@ -86,6 +86,11 @@ namespace Multiplayer
                 {
                     calibrator.StartCalibration();
                 }
+
+                OutputPortal.gameObject.transform.SetPositionAndRotation(
+                    LeftEye.transform.position,
+                    LeftEye.transform.rotation
+                );
             }
         }
 

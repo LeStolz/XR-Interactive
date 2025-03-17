@@ -106,17 +106,21 @@ public class Portal : NetworkBehaviour
 
     public Vector2 PortalSpaceToScreenSpace(Vector3 position, Camera camera)
     {
-        Vector3 localPosition = transform.InverseTransformPoint(position);
+        Vector3 localPosition = transform.InverseTransformPoint(position) / 10;
         Vector2 local2DPosition = new(
             1 - (localPosition.x + 0.5f),
             localPosition.z + 0.5f
         );
+        Debug.Log(local2DPosition);
+        Debug.Log(camera.pixelWidth);
+        Debug.Log(camera.pixelHeight);
+
         Vector2 screenPosition = new(
             local2DPosition.x * camera.pixelWidth,
             local2DPosition.y * camera.pixelHeight
         );
 
-        Debug.Log(screenPosition);
+        // Debug.Log(screenPosition);
 
         return screenPosition;
     }
