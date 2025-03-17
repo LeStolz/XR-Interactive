@@ -29,7 +29,7 @@ namespace Multiplayer
         SerTrackerManager serTrackerManager;
         TrackerManager TrackerManager
         {
-            get => serTrackerManager.TrackerManager;
+            get => serTrackerManager == null ? null : serTrackerManager.TrackerManager;
         }
 
         void Start()
@@ -154,7 +154,7 @@ namespace Multiplayer
                 TrackerManager.HitMarkers[depth].transform.position = hit.point;
                 TrackerManager.HitMarkers[depth].transform.forward = hit.normal;
 
-                serTrackerManager.DrawLineRpc(
+                DrawLineRpc(
                     depth,
                     ray.origin, TrackerManager.HitMarkers[depth].transform.position
                 );
@@ -174,7 +174,7 @@ namespace Multiplayer
             }
             else
             {
-                serTrackerManager.DrawLineRpc(
+                DrawLineRpc(
                     depth,
                     ray.origin, ray.origin + ray.direction * 10
                 );
@@ -187,5 +187,10 @@ namespace Multiplayer
             }
         }
 
+        [Rpc(SendTo.Everyone)]
+        public void DrawLineRpc(int hitMarkerId, Vector3 start, Vector3 end)
+        {
+            TrackerManager.DrawLine(hitMarkerId, start, end);
+        }
     }
 }
