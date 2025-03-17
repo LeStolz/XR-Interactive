@@ -93,10 +93,11 @@ namespace Multiplayer
                     calibrator.StartCalibration();
                 }
 
-                model.transform.SetPositionAndRotation(
-                    serTrackerManager.Model.transform.position,
-                    serTrackerManager.Model.transform.rotation
-                );
+                if (serTrackerManager != null)
+                    model.transform.SetPositionAndRotation(
+                        serTrackerManager.Model.transform.position,
+                        serTrackerManager.Model.transform.rotation
+                    );
 
                 RayCastAndTeleport(
                     new Ray(
