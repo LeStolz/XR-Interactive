@@ -830,7 +830,6 @@ GameObject:
   - component: {fileID: 6941411071437322785}
   - component: {fileID: 2091602359817252452}
   - component: {fileID: 8219148601616259402}
-  - component: {fileID: 1746119723416804942}
   m_Layer: 0
   m_Name: OutputPortal
   m_TagString: Untagged
@@ -928,26 +927,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1746119723416804942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7260025246312912442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71c5f8dc427d26046bdf827f28ee52c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  markers:
-  - {fileID: 7019160230572938505}
-  - {fileID: 1961192933686539362}
-  - {fileID: 1166800405096649113}
-  ZEDCanvas: {fileID: 9081795389872405544}
-  <OutputPortal>k__BackingField: {fileID: 7260025246312912442}
-  PortalCornersDetectionManager: {fileID: 1494131047873636913}
 --- !u!1 &7480520517737551323
 GameObject:
   m_ObjectHideFlags: 0

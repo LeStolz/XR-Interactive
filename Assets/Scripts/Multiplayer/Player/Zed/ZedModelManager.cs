@@ -24,7 +24,7 @@ namespace Multiplayer
         Transform LeftEye;
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
-        readonly Calibrator calibrator = new(2, new float[] { 0.1f, 360f });
+        readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
 
         void Start()
         {

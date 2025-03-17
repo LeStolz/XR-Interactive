@@ -19,7 +19,7 @@ public class Portal : NetworkBehaviour
     ZEDArUcoDetectionManager PortalCornersDetectionManager;
 
     Vector3[] portalCorners = new Vector3[3];
-    readonly Calibrator calibrator = new(3, new float[] { 0.1f, 0.1f, 0.1f });
+    readonly Calibrator calibrator = new(3, new float[] { 0.5f, 0.5f, 0.5f });
 
     void Start()
     {
