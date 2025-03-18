@@ -99,7 +99,8 @@ namespace Multiplayer
 
             UpdateNetworkedRoleVisuals();
             networkedRoles.OnListChanged += OnNetworkRolesChanged;
-            RequestRoleServerRpc(NetworkManager.Singleton.LocalClientId, (int)localRole);
+            NetworkPlayer.LocalPlayer.onSpawnedAll += () =>
+                RequestRoleServerRpc(NetworkManager.Singleton.LocalClientId, (int)localRole);
 
             if (IsServer)
                 XRINetworkGameManager.Instance.playerStateChanged += OnPlayerStateChanged;

@@ -4,8 +4,9 @@
 
 - Local + auto connect.
 - Fix disconnect errors.
-- Fix Hololens, display and origin error in calibration.
+- Fix trackers, Hololens, display and origin error in calibration.
 - Less bandwidth.
+- Remove markerDetection codes.
 
 ## Setup
 

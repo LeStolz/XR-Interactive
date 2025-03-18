@@ -115,7 +115,7 @@ namespace Multiplayer
             if (!m_InitialConnected & !string.IsNullOrEmpty(currentName.ToString()))
             {
                 m_InitialConnected = true;
-                if (!IsLocalPlayer)
+                if (!IsLocalPlayer && PlayerHudNotification.Instance.gameObject.activeInHierarchy)
                     PlayerHudNotification.Instance.ShowText($"<b>{PlayerName}</b> joined");
             }
 

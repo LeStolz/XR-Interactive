@@ -464,7 +464,7 @@ MonoBehaviour:
   - {fileID: 613319759}
   - {fileID: 384921885}
   - {fileID: 911258898}
-  localRole: 1
+  localRole: 3
 --- !u!1001 &807251195
 PrefabInstance:
   m_ObjectHideFlags: 0

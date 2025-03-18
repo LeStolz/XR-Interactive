@@ -25,9 +25,8 @@ namespace Multiplayer
             {
                 gameObject.SetActive(false);
                 confirmButton.onClick.Invoke();
+                SubmitNewPlayerName(NetworkRoleManager.Instance.localRole.ToString());
             }
-
-            SubmitNewPlayerName(NetworkRoleManager.Instance.localRole.ToString());
         }
 
         void OnDestroy()
