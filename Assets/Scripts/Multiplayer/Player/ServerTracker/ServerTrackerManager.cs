@@ -4,14 +4,12 @@ using UnityEngine;
 
 namespace Multiplayer
 {
-    class SerTrackerManager : NetworkPlayer
+    class ServerTrackerManager : NetworkPlayer
     {
-        [SerializeField]
-        GameObject[] objectsToEnableOnSpawn;
+        [field: SerializeField]
+        public GameObject[] Trackers { get; private set; }
         [SerializeField]
         new GameObject camera;
-        [field: SerializeField]
-        public GameObject Model { get; private set; }
 
         public override void OnNetworkSpawn()
         {
@@ -19,16 +17,9 @@ namespace Multiplayer
 
             if (IsOwner)
             {
-                foreach (var obj in objectsToEnableOnSpawn)
+                foreach (var tracker in Trackers)
                 {
-                    if (obj.TryGetComponent(out Camera camera))
-                    {
-                        camera.enabled = true;
-                    }
-                    else
-                    {
-                        obj.SetActive(true);
-                    }
+                    tracker.SetActive(true);
                 }
 
                 var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
@@ -40,9 +31,7 @@ namespace Multiplayer
         }
 
         [Rpc(SendTo.Owner)]
-        public void CalibrateRpc(
-            Vector3 eulerPos, Vector3 targetForward
-        )
+        public void CalibrateRpc(Vector3 eulerPos, Vector3 targetForward)
         {
             transform.rotation = Quaternion.identity;
 
