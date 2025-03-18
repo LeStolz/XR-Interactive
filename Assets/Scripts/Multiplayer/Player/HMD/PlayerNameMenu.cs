@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Multiplayer
 {
@@ -9,6 +10,7 @@ namespace Multiplayer
     public class PlayerNameMenu : MonoBehaviour
     {
         [SerializeField] TMP_InputField m_PlayerNameInputField;
+        [SerializeField] Button confirmButton;
 
         void Awake()
         {
@@ -18,6 +20,14 @@ namespace Multiplayer
         void Start()
         {
             SetPlayerName(XRINetworkGameManager.LocalPlayerName.Value);
+
+            if (NetworkRoleManager.Instance.localRole != Role.Tablet)
+            {
+                gameObject.SetActive(false);
+                confirmButton.onClick.Invoke();
+            }
+
+            SubmitNewPlayerName(NetworkRoleManager.Instance.localRole.ToString());
         }
 
         void OnDestroy()

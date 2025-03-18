@@ -3,6 +3,7 @@
 ## Todo
 
 - Local + auto connect.
+- Fix disconnect errors.
 - Fix Hololens, display and origin error in calibration.
 - Less bandwidth.
 

@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 1491813474252762412}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2820755278015670981}
@@ -1859,7 +1859,7 @@ PrefabInstance:
     - target: {fileID: 267524913266692848, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_text
-      value: ZEDTRACKER
+      value: SERTRACKER
       objectReference: {fileID: 0}
     - target: {fileID: 713834411879593816, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
@@ -2094,7 +2094,7 @@ PrefabInstance:
     - target: {fileID: 3957198153003176567, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
       propertyPath: m_text
-      value: SERVER
+      value: ZED
       objectReference: {fileID: 0}
     - target: {fileID: 4546649077525090075, guid: 131a9cc496ab0f141aa13146e69b28ec,
         type: 3}
