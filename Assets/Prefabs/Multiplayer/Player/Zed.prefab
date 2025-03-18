@@ -916,7 +916,7 @@ MonoBehaviour:
   marker: {fileID: 8325605581026384357}
   leftEye: {fileID: 1684221975922522107}
   originDetectionManager: {fileID: 6250844917621179330}
-  hitMarkers:
+  <HitMarkers>k__BackingField:
   - {fileID: 2889430404782477281}
   - {fileID: 7740170712291089376}
   - {fileID: 8968921254472025328}
