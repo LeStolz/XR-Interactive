@@ -1,5 +1,3 @@
-using System;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Multiplayer
@@ -8,18 +6,17 @@ namespace Multiplayer
 	{
 		[SerializeField]
 		GameObject arrow;
-		[SerializeField]
-		HitMarker[] hitMarkers;
+		readonly HitMarker[] hitMarkers;
 		[SerializeField]
 		int id;
 		[SerializeField]
 		ServerTrackerManager serverTrackerManager;
 
-		public void StartRayCastAndTeleport(Camera outputPortal, HitMarker[] hitMarkers)
+		public void StartRayCastAndTeleport(Camera outputPortal)
 		{
-			if (this.hitMarkers == null || this.hitMarkers.Length != hitMarkers.Length)
+			if (!UpdateHitmarkers())
 			{
-				this.hitMarkers = hitMarkers;
+				return;
 			}
 
 			RayCastAndTeleport(
@@ -79,6 +76,11 @@ namespace Multiplayer
 
 		public void DrawLine(int hitMarkerId, Vector3 start, Vector3 end)
 		{
+			if (!UpdateHitmarkers())
+			{
+				return;
+			}
+
 			var lineRenderer = hitMarkers[hitMarkerId].GetComponent<LineRenderer>();
 
 			if (start == end)
@@ -90,6 +92,23 @@ namespace Multiplayer
 			lineRenderer.enabled = true;
 			lineRenderer.SetPosition(0, start);
 			lineRenderer.SetPosition(1, end);
+		}
+
+		bool UpdateHitmarkers()
+		{
+			if (hitMarkers.Length != 0)
+			{
+				return true;
+			}
+
+			var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
+
+			if (ZedModelManager == null)
+			{
+				return false;
+			}
+
+			return true;
 		}
 	}
 }

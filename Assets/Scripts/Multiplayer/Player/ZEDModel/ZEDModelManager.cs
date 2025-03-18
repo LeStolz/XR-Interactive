@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace Multiplayer
 {
     class ZEDModelManager : NetworkPlayer
     {
-        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.52f;
+        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.51f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
@@ -28,8 +27,8 @@ namespace Multiplayer
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
 
         ServerTrackerManager serTrackerManager;
-        [SerializeField]
-        HitMarker[] hitMarkers;
+        [field: SerializeField]
+        public HitMarker[] HitMarkers { get; private set; }
 
         void Start()
         {
@@ -93,8 +92,7 @@ namespace Multiplayer
                     for (int i = 0; i < serTrackerManager.Trackers.Length; i++)
                     {
                         serTrackerManager.Trackers[i].StartRayCastAndTeleport(
-                            leftEye.GetComponent<Camera>(),
-                            hitMarkers.Skip(2 * i).Take(2).ToArray()
+                            leftEye.GetComponent<Camera>()
                         );
                     }
                 }

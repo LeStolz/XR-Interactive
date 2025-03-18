@@ -4,7 +4,7 @@
 
 - Bluetooth or local.
 - Fix Hololens calibration.
-- Fix error in calibration.
+- Fix display and origin error in calibration.
 - Auto connect.
 - Less bandwidth.
 - Build
