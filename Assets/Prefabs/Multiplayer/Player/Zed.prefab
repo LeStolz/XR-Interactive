@@ -917,10 +917,10 @@ MonoBehaviour:
   leftEye: {fileID: 1684221975922522107}
   originDetectionManager: {fileID: 6250844917621179330}
   <HitMarkers>k__BackingField:
-  - {fileID: 2889430404782477281}
   - {fileID: 7740170712291089376}
-  - {fileID: 8968921254472025328}
+  - {fileID: 2889430404782477281}
   - {fileID: 7483756303678794503}
+  - {fileID: 8968921254472025328}
 --- !u!1 &7790811099120680775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,10 +1446,20 @@ PrefabInstance:
       propertyPath: m_Parameters.colorGradient.key1.r
       value: 0.2627451
       objectReference: {fileID: 0}
+    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
       propertyPath: m_Name
-      value: Input Hitmarker (1)
+      value: Hitmarker P1 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
@@ -1552,10 +1562,20 @@ PrefabInstance:
       propertyPath: m_Positions.Array.data[1].y
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
       propertyPath: m_Name
-      value: Output Hitmarker (1)
+      value: Hitmarker P2 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
@@ -1661,7 +1681,7 @@ PrefabInstance:
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
       propertyPath: m_Name
-      value: Output Hitmarker
+      value: Hitmarker P2
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
@@ -2045,7 +2065,7 @@ PrefabInstance:
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
       propertyPath: m_Name
-      value: Input Hitmarker
+      value: Hitmarker P1
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}

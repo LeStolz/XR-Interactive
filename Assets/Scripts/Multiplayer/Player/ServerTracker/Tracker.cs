@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Multiplayer
@@ -6,7 +7,7 @@ namespace Multiplayer
 	{
 		[SerializeField]
 		GameObject arrow;
-		readonly HitMarker[] hitMarkers;
+		HitMarker[] hitMarkers;
 		[SerializeField]
 		int id;
 		[SerializeField]
@@ -96,7 +97,7 @@ namespace Multiplayer
 
 		bool UpdateHitmarkers()
 		{
-			if (hitMarkers.Length != 0)
+			if (hitMarkers != null && hitMarkers.Length != 0)
 			{
 				return true;
 			}
@@ -107,6 +108,8 @@ namespace Multiplayer
 			{
 				return false;
 			}
+
+			hitMarkers = ZedModelManager.HitMarkers.Skip(2 * id).Take(2).ToArray();
 
 			return true;
 		}

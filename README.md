@@ -2,12 +2,9 @@
 
 ## Todo
 
-- Bluetooth or local.
-- Fix Hololens calibration.
-- Fix display and origin error in calibration.
-- Auto connect.
+- Local + auto connect.
+- Fix Hololens, display and origin error in calibration.
 - Less bandwidth.
-- Build
 
 ## Setup
 
