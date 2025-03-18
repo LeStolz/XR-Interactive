@@ -15,22 +15,13 @@ namespace Multiplayer
 		[SerializeField]
 		ServerTrackerManager serverTrackerManager;
 
-		public void Calibrate(ulong zedId)
+		public void StartRayCastAndTeleport(Camera outputPortal, HitMarker[] hitMarkers)
 		{
-			foreach (var hitMarker in hitMarkers)
+			if (this.hitMarkers == null || this.hitMarkers.Length != hitMarkers.Length)
 			{
-				var hitMarkerNetworkObject = hitMarker.GetComponent<NetworkObject>();
-
-				if (hitMarkerNetworkObject && hitMarkerNetworkObject.IsOwner)
-				{
-					hitMarkerNetworkObject.RemoveOwnership();
-					hitMarkerNetworkObject.ChangeOwnership(zedId);
-				}
+				this.hitMarkers = hitMarkers;
 			}
-		}
 
-		public void StartRayCastAndTeleport(Camera outputPortal)
-		{
 			RayCastAndTeleport(
 				outputPortal,
 				new Ray(

@@ -31,7 +31,7 @@ namespace Multiplayer
         }
 
         [Rpc(SendTo.Owner)]
-        public void CalibrateRpc(Vector3 eulerPos, Vector3 targetForward, RpcParams rpcParams = default)
+        public void CalibrateRpc(Vector3 eulerPos, Vector3 targetForward)
         {
             transform.rotation = Quaternion.identity;
 
@@ -41,11 +41,6 @@ namespace Multiplayer
 
             transform.Rotate(Vector3.up, angleDifference);
             transform.position = eulerPos - (camera.transform.position - transform.position);
-
-            foreach (var tracker in Trackers)
-            {
-                tracker.Calibrate(rpcParams.Receive.SenderClientId);
-            }
         }
 
         [Rpc(SendTo.Everyone)]

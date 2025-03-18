@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -27,6 +28,8 @@ namespace Multiplayer
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
 
         ServerTrackerManager serTrackerManager;
+        [SerializeField]
+        HitMarker[] hitMarkers;
 
         void Start()
         {
@@ -90,7 +93,8 @@ namespace Multiplayer
                     for (int i = 0; i < serTrackerManager.Trackers.Length; i++)
                     {
                         serTrackerManager.Trackers[i].StartRayCastAndTeleport(
-                            leftEye.GetComponent<Camera>()
+                            leftEye.GetComponent<Camera>(),
+                            hitMarkers.Skip(2 * i).Take(2).ToArray()
                         );
                     }
                 }
