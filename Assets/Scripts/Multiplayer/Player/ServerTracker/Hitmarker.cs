@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Multiplayer
 {
-	class Hitmarker : MonoBehaviour
+	class HitMarker : MonoBehaviour
 	{
 		[SerializeField]
 		GameObject child;

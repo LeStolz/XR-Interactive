@@ -1,7 +1,6 @@
 using System.Collections;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 namespace Multiplayer
@@ -19,7 +18,6 @@ namespace Multiplayer
         [SerializeField] TMP_Text m_ConnectionSuccessText;
         [SerializeField] TMP_Text m_ConnectionFailedText;
 
-        [Header("Room Creation")]
         [SerializeField] TMP_InputField m_RoomNameText;
 
         [SerializeField] GameObject[] m_ConnectionSubPanels;
@@ -71,8 +69,16 @@ namespace Multiplayer
 
             if (!XRINetworkGameManager.Instance.IsAuthenticated())
             {
-                ToggleConnectionSubPanel(6);
-                await XRINetworkGameManager.Instance.Authenticate();
+                try
+                {
+                    await XRINetworkGameManager.Instance.Authenticate();
+                    ToggleConnectionSubPanel(4);
+                }
+                catch
+                {
+                    ToggleConnectionSubPanel(0);
+                    return;
+                }
             }
             CheckForInternet();
         }
@@ -81,7 +87,7 @@ namespace Multiplayer
         {
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
-                ToggleConnectionSubPanel(6);
+                ToggleConnectionSubPanel(4);
             }
             else
             {
@@ -92,10 +98,7 @@ namespace Multiplayer
         public void CreateLobby()
         {
             XRINetworkGameManager.Connected.Subscribe(OnConnected);
-            if (string.IsNullOrEmpty(m_RoomNameText.text) || m_RoomNameText.text == "<Room Name>")
-            {
-                m_RoomNameText.text = $"{XRINetworkGameManager.LocalPlayerName.Value}'s Table";
-            }
+            m_RoomNameText.text = $"{XRINetworkGameManager.LocalPlayerName.Value}'s Table";
             XRINetworkGameManager.Instance.CreateNewLobby(m_RoomNameText.text, false, m_PlayerCount);
             m_ConnectionSuccessText.text = $"Joining {m_RoomNameText.text}";
         }
@@ -110,40 +113,9 @@ namespace Multiplayer
             XRINetworkGameManager.Instance.CancelMatchmaking();
         }
 
-        /// <summary>
-        /// Set the room name
-        /// </summary>
-        /// <param name="roomName">The name of the room</param>
-        /// <remarks> This function is called from <see cref="XRIKeyboardDisplay"/>
-        public void SetRoomName(string roomName)
-        {
-            if (!string.IsNullOrEmpty(roomName))
-            {
-                m_RoomNameText.text = roomName;
-            }
-        }
-
-        /// <summary>
-        /// Join a room by code
-        /// </summary>
-        /// <param name="roomCode">The room code to join</param>
-        /// <remarks> This function is called from <see cref="XRIKeyboardDisplay"/>
-        public void EnterRoomCode(string roomCode)
-        {
-            if (roomCode.Length < 5)
-            {
-                ToggleConnectionSubPanel(5);
-                return;
-            }
-            ToggleConnectionSubPanel(3);
-            XRINetworkGameManager.Connected.Subscribe(OnConnected);
-            XRINetworkGameManager.Instance.JoinLobbyByCode(roomCode.ToUpper());
-            m_ConnectionSuccessText.text = $"Joining Room: {roomCode.ToUpper()}";
-        }
-
         public void JoinLobby(Lobby lobby)
         {
-            ToggleConnectionSubPanel(3);
+            ToggleConnectionSubPanel(1);
             XRINetworkGameManager.Connected.Subscribe(OnConnected);
             XRINetworkGameManager.Instance.JoinLobbySpecific(lobby);
             m_ConnectionSuccessText.text = $"Joining {lobby.Name}";
@@ -178,7 +150,7 @@ namespace Multiplayer
         {
             if (connected)
             {
-                ToggleConnectionSubPanel(4);
+                ToggleConnectionSubPanel(2);
 
                 // Unsubscribe from the event after connection to prevent multiple subscriptions
                 XRINetworkGameManager.Connected.Unsubscribe(OnConnected);
@@ -192,7 +164,7 @@ namespace Multiplayer
 
         public void FailedToConnect(string reason)
         {
-            ToggleConnectionSubPanel(5);
+            ToggleConnectionSubPanel(3);
             m_ConnectionFailedText.text = $"<b>Error:</b> {reason}";
         }
 
