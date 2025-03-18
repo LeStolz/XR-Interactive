@@ -53,7 +53,6 @@ public partial class GameManager
             TurnOffMarkerTrackingModule();
             ARCamera.GetComponent<Camera>().fieldOfView = VirtualTrackingCamera.GetComponent<Camera>().fieldOfView;
             MarkerTracked = true;
-
         }
         else
         {
@@ -72,8 +71,6 @@ public partial class GameManager
             }
             Debug.Log(trackMarkerCountDown);
         }
-
-
     }
 
     private void UpdateARSpace()
@@ -92,7 +89,6 @@ public partial class GameManager
         CloneMarker.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         CloneMarker.transform.localScale = Vector3.one;
 
-
         CloneMarker.transform.SetParent(VirtualTrackingCamera.transform);
         OpenCVMarker.transform.SetParent(OpenCVMarkerTrackingModule.transform);
         OpenCVMarkerTrackingModule.SetActive(false);
@@ -102,10 +98,8 @@ public partial class GameManager
         {
             SetUp(CloneMarker);
         }
-
         else
         {
-
             StartCoroutine(IE_WaitForCondition(() => (ARCamera.transform.localPosition != Vector3.zero) && (ARCamera.transform.localRotation != Quaternion.identity),
                 () =>
                 {
@@ -119,7 +113,6 @@ public partial class GameManager
     {
         if (_setUp) return;
         _setUp = true;
-
 
         Destroy(VirtualTrackingCamera);
         cloneMarker.transform.SetParent(null);

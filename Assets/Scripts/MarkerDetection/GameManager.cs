@@ -7,7 +7,6 @@ public partial class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance = null;
 
     [Header("User")]
-    public bool isAudience;
     public Player playerManager;
 
     [Header("Hololens")]
@@ -23,8 +22,10 @@ public partial class GameManager : MonoBehaviourPunCallbacks
     private bool init = false;
     private void Update()
     {
-        UpdateHololens();
-        
+        if (init)
+        {
+            UpdateHololens();
+        }
     }
 
 }

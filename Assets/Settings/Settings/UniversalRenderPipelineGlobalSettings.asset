@@ -53,7 +53,9 @@ MonoBehaviour:
       - rid: 8729842038319087633
       - rid: 8729842038319087634
       - rid: 7366274132978696201
-      - rid: 7366274132978696202
+      - rid: -2
+      - rid: -2
+      - rid: 7366274201614024706
     m_RuntimeSettings:
       m_List:
       - rid: 8729842038319087616
@@ -96,6 +98,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 7366274132978696192
       type: {class: Renderer2DResources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
       data:
@@ -248,7 +252,7 @@ MonoBehaviour:
         m_IncludeReferencedInScenes: 0
         m_IncludeAssetsByLabel: 0
         m_LabelToInclude: 
-    - rid: 5676684527432892536
+    - rid: 7366274201614024706
       type: {class: STP/RuntimeResources, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_setupCS: {fileID: 7200000, guid: 33be2e9a5506b2843bdb2bdff9cad5e1, type: 3}
