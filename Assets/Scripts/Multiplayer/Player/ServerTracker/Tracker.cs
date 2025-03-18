@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Multiplayer
@@ -13,6 +14,20 @@ namespace Multiplayer
 		int id;
 		[SerializeField]
 		ServerTrackerManager serverTrackerManager;
+
+		public void Calibrate(ulong zedId)
+		{
+			foreach (var hitMarker in hitMarkers)
+			{
+				var hitMarkerNetworkObject = hitMarker.GetComponent<NetworkObject>();
+
+				if (hitMarkerNetworkObject && hitMarkerNetworkObject.IsOwner)
+				{
+					hitMarkerNetworkObject.RemoveOwnership();
+					hitMarkerNetworkObject.ChangeOwnership(zedId);
+				}
+			}
+		}
 
 		public void StartRayCastAndTeleport(Camera outputPortal)
 		{
