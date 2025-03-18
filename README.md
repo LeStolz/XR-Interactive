@@ -6,6 +6,7 @@
 - Fix disconnect errors.
 - Fix trackers, Hololens, display and origin error in calibration.
 - Less bandwidth.
+- Write README.
 
 ## Setup
 
