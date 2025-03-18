@@ -14,24 +14,24 @@ namespace Multiplayer
 
         void Awake()
         {
-            XRINetworkGameManager.LocalPlayerName.Subscribe(SetPlayerName);
+            NetworkGameManager.LocalPlayerName.Subscribe(SetPlayerName);
         }
 
         void Start()
         {
-            SetPlayerName(XRINetworkGameManager.LocalPlayerName.Value);
+            SetPlayerName(NetworkGameManager.LocalPlayerName.Value);
 
-            if (NetworkRoleManager.Instance.localRole != Role.Tablet)
+            if (NetworkGameManager.Instance.localRole != Role.Tablet)
             {
                 gameObject.SetActive(false);
                 confirmButton.onClick.Invoke();
-                SubmitNewPlayerName(NetworkRoleManager.Instance.localRole.ToString());
+                SubmitNewPlayerName(NetworkGameManager.Instance.localRole.ToString());
             }
         }
 
         void OnDestroy()
         {
-            XRINetworkGameManager.LocalPlayerName.Unsubscribe(SetPlayerName);
+            NetworkGameManager.LocalPlayerName.Unsubscribe(SetPlayerName);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Multiplayer
         /// <param name="text"></param>
         public void SubmitNewPlayerName(string text)
         {
-            XRINetworkGameManager.LocalPlayerName.Value = text;
+            NetworkGameManager.LocalPlayerName.Value = text;
         }
 
         void SetPlayerName(string newName)

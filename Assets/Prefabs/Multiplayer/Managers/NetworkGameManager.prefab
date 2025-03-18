@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2808410049059023866}
   - component: {fileID: 3763782728091630267}
   m_Layer: 0
-  m_Name: XRI_Network_Game_Manager
+  m_Name: NetworkGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,9 +73,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  m_DefaultPlayerName: Unity Creator
-  m_AutoConnectOnLobbyJoin: 1
-  positionalVoiceChat: 1
+  <MRInteractionSetup>k__BackingField: {fileID: 0}
+  WorldSpaceCanvas: {fileID: 0}
+  ScreenSpaceCanvas: {fileID: 0}
+  <TableUI>k__BackingField: {fileID: 0}
+  tableScale: 0
+  roleButtons: []
+  localRole: 0
 --- !u!114 &2808410049059023866
 MonoBehaviour:
   m_ObjectHideFlags: 0

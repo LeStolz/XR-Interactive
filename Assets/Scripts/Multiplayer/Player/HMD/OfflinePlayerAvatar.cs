@@ -27,12 +27,12 @@ namespace Multiplayer
 
         void OnEnable()
         {
-            XRINetworkGameManager.Connected.Subscribe((bool connected) => gameObject.SetActive(!connected));
+            NetworkGameManager.Connected.Subscribe((bool connected) => gameObject.SetActive(!connected));
         }
 
         void OnDisable()
         {
-            XRINetworkGameManager.Connected.Unsubscribe((bool connected) => gameObject.SetActive(!connected));
+            NetworkGameManager.Connected.Unsubscribe((bool connected) => gameObject.SetActive(!connected));
         }
 
         /// <inheritdoc/>

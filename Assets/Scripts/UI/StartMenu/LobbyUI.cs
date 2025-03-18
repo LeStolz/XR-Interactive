@@ -34,10 +34,10 @@ namespace Multiplayer
 
         private void Start()
         {
-            m_PlayerCount = XRINetworkGameManager.maxPlayers;
+            m_PlayerCount = NetworkGameManager.maxPlayers;
 
-            XRINetworkGameManager.Instance.connectionFailedAction += FailedToConnect;
-            XRINetworkGameManager.Instance.connectionUpdated += ConnectedUpdated;
+            NetworkGameManager.Instance.connectionFailedAction += FailedToConnect;
+            NetworkGameManager.Instance.connectionUpdated += ConnectedUpdated;
 
             foreach (Transform t in m_LobbyListParent)
             {
@@ -57,21 +57,21 @@ namespace Multiplayer
 
         private void OnDestroy()
         {
-            XRINetworkGameManager.Instance.connectionFailedAction -= FailedToConnect;
-            XRINetworkGameManager.Instance.connectionUpdated -= ConnectedUpdated;
+            NetworkGameManager.Instance.connectionFailedAction -= FailedToConnect;
+            NetworkGameManager.Instance.connectionUpdated -= ConnectedUpdated;
 
             LobbyManager.status.Unsubscribe(ConnectedUpdated);
         }
         public async void CheckInternetAsync()
         {
-            if (XRINetworkGameManager.Instance == null)
+            if (NetworkGameManager.Instance == null)
                 return;
 
-            if (!XRINetworkGameManager.Instance.IsAuthenticated())
+            if (!NetworkGameManager.Instance.IsAuthenticated())
             {
                 try
                 {
-                    await XRINetworkGameManager.Instance.Authenticate();
+                    await NetworkGameManager.Instance.Authenticate();
                     ToggleConnectionSubPanel(4);
                 }
                 catch
@@ -97,34 +97,34 @@ namespace Multiplayer
 
         public void CreateLobby()
         {
-            XRINetworkGameManager.Connected.Subscribe(OnConnected);
-            m_RoomNameText.text = $"{XRINetworkGameManager.LocalPlayerName.Value}'s Table";
-            XRINetworkGameManager.Instance.CreateNewLobby(m_RoomNameText.text, false, m_PlayerCount);
+            NetworkGameManager.Connected.Subscribe(OnConnected);
+            m_RoomNameText.text = $"{NetworkGameManager.LocalPlayerName.Value}'s Table";
+            NetworkGameManager.Instance.CreateNewLobby(m_RoomNameText.text, false, m_PlayerCount);
             m_ConnectionSuccessText.text = $"Joining {m_RoomNameText.text}";
         }
 
         public void UpdatePlayerCount(int count)
         {
-            m_PlayerCount = Mathf.Clamp(count, 1, XRINetworkGameManager.maxPlayers);
+            m_PlayerCount = Mathf.Clamp(count, 1, NetworkGameManager.maxPlayers);
         }
 
         public void CancelConnection()
         {
-            XRINetworkGameManager.Instance.CancelMatchmaking();
+            NetworkGameManager.Instance.CancelMatchmaking();
         }
 
         public void JoinLobby(Lobby lobby)
         {
             ToggleConnectionSubPanel(1);
-            XRINetworkGameManager.Connected.Subscribe(OnConnected);
-            XRINetworkGameManager.Instance.JoinLobbySpecific(lobby);
+            NetworkGameManager.Connected.Subscribe(OnConnected);
+            NetworkGameManager.Instance.JoinLobbySpecific(lobby);
             m_ConnectionSuccessText.text = $"Joining {lobby.Name}";
         }
 
         public void QuickJoinLobby()
         {
-            XRINetworkGameManager.Connected.Subscribe(OnConnected);
-            XRINetworkGameManager.Instance.QuickJoinLobby();
+            NetworkGameManager.Connected.Subscribe(OnConnected);
+            NetworkGameManager.Instance.QuickJoinLobby();
             m_ConnectionSuccessText.text = "Joining Random";
         }
 
@@ -153,7 +153,7 @@ namespace Multiplayer
                 ToggleConnectionSubPanel(2);
 
                 // Unsubscribe from the event after connection to prevent multiple subscriptions
-                XRINetworkGameManager.Connected.Unsubscribe(OnConnected);
+                NetworkGameManager.Connected.Unsubscribe(OnConnected);
             }
         }
 
@@ -205,7 +205,7 @@ namespace Multiplayer
 
         async void GetAllLobbies()
         {
-            if (onCD || (int)XRINetworkGameManager.CurrentConnectionState.Value < 2) return;
+            if (onCD || (int)NetworkGameManager.CurrentConnectionState.Value < 2) return;
             if (m_CooldownFillRoutine != null) StopCoroutine(m_CooldownFillRoutine);
             m_CooldownFillRoutine = StartCoroutine(UpdateButtonCooldown());
 

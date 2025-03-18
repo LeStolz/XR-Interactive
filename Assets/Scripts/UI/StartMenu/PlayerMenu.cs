@@ -52,8 +52,8 @@ namespace Multiplayer
             m_MoveProvider = FindAnyObjectByType<DynamicMoveProvider>();
             m_TurnProvider = FindAnyObjectByType<SnapTurnProvider>();
 
-            XRINetworkGameManager.Connected.Subscribe(ConnectOnline);
-            XRINetworkGameManager.ConnectedRoomName.Subscribe(UpdateRoomName);
+            NetworkGameManager.Connected.Subscribe(ConnectOnline);
+            NetworkGameManager.ConnectedRoomName.Subscribe(UpdateRoomName);
 
             // ConnectOnline(false);
             HideCurrentUI();
@@ -64,7 +64,7 @@ namespace Multiplayer
             // Enable and disable directly serialized actions with this behavior's enabled lifecycle.
             m_MenuButtonInput.EnableDirectActionIfModeUsed();
 
-            TogglePanel(XRINetworkGameManager.Connected.Value ? 0 : m_DefaultPanel);
+            TogglePanel(NetworkGameManager.Connected.Value ? 0 : m_DefaultPanel);
         }
 
         void OnDisable()
@@ -74,8 +74,8 @@ namespace Multiplayer
 
         private void OnDestroy()
         {
-            XRINetworkGameManager.Connected.Unsubscribe(ConnectOnline);
-            XRINetworkGameManager.ConnectedRoomName.Unsubscribe(UpdateRoomName);
+            NetworkGameManager.Connected.Unsubscribe(ConnectOnline);
+            NetworkGameManager.ConnectedRoomName.Unsubscribe(UpdateRoomName);
         }
 
         private void Update()
@@ -87,7 +87,7 @@ namespace Multiplayer
                     ToggleMenu();
                 }
             }
-            if (XRINetworkGameManager.Connected.Value)
+            if (NetworkGameManager.Connected.Value)
             {
             }
             else
@@ -126,7 +126,7 @@ namespace Multiplayer
 
             if (connected)
             {
-                UpdateRoomName(XRINetworkGameManager.ConnectedRoomName.Value);
+                UpdateRoomName(NetworkGameManager.ConnectedRoomName.Value);
                 TogglePanel(0);
             }
             else
@@ -174,7 +174,7 @@ namespace Multiplayer
             {
                 ToggleMenu();
             }
-            TogglePanel(XRINetworkGameManager.Connected.Value ? 0 : m_DefaultPanel);
+            TogglePanel(NetworkGameManager.Connected.Value ? 0 : m_DefaultPanel);
         }
 
         public void ToggleMenu()
@@ -202,13 +202,13 @@ namespace Multiplayer
 
         public void LogOut()
         {
-            XRINetworkGameManager.Instance.Disconnect();
+            NetworkGameManager.Instance.Disconnect();
             TogglePanel(m_DefaultPanel);
         }
 
         public void QuickJoin()
         {
-            XRINetworkGameManager.Instance.QuickJoinLobby();
+            NetworkGameManager.Instance.QuickJoinLobby();
         }
 
         public void SetVolumeLevel(float sliderValue)
@@ -221,11 +221,11 @@ namespace Multiplayer
         {
             foreach (var text in m_RoomCodeTexts)
             {
-                text.text = $"Table Code: {XRINetworkGameManager.ConnectedRoomCode}";
+                text.text = $"Table Code: {NetworkGameManager.ConnectedRoomCode}";
             }
             foreach (var t in m_RoomNameText)
             {
-                t.text = XRINetworkGameManager.ConnectedRoomName.Value;
+                t.text = NetworkGameManager.ConnectedRoomName.Value;
             }
         }
 
@@ -263,7 +263,7 @@ namespace Multiplayer
 
         public void ConfirmAppearance()
         {
-            if (!XRINetworkGameManager.Connected.Value)
+            if (!NetworkGameManager.Connected.Value)
             {
                 TogglePanel(2);
             }

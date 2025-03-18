@@ -22,13 +22,13 @@ namespace Multiplayer
         /// <inheritdoc/>
         void OnEnable()
         {
-            XRINetworkGameManager.Connected.Subscribe(SetObjectsActive);
-            SetObjectsActive(XRINetworkGameManager.Connected.Value);
+            NetworkGameManager.Connected.Subscribe(SetObjectsActive);
+            SetObjectsActive(NetworkGameManager.Connected.Value);
         }
 
         void Start()
         {
-            XRINetworkGameManager.Instance.connectionFailedAction += (reason) =>
+            NetworkGameManager.Instance.connectionFailedAction += (reason) =>
             {
                 SetObjectsActive(false);
             };
@@ -36,7 +36,7 @@ namespace Multiplayer
 
         void OnDestroy()
         {
-            XRINetworkGameManager.Instance.connectionFailedAction -= (reason) =>
+            NetworkGameManager.Instance.connectionFailedAction -= (reason) =>
             {
                 SetObjectsActive(false);
             };
@@ -45,7 +45,7 @@ namespace Multiplayer
         /// <inheritdoc/>
         void OnDisable()
         {
-            XRINetworkGameManager.Connected.Unsubscribe(SetObjectsActive);
+            NetworkGameManager.Connected.Unsubscribe(SetObjectsActive);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Multiplayer
 
         public void ToggleOnlineObjects()
         {
-            if (XRINetworkGameManager.Connected.Value)
+            if (NetworkGameManager.Connected.Value)
             {
                 foreach (GameObject g in objectsToEnableOnline)
                 {

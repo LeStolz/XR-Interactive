@@ -22,7 +22,7 @@ namespace Multiplayer
             if (IsOwner)
             {
                 SpawnPlayerRpc(
-                    (int)NetworkRoleManager.Instance.localRole,
+                    (int)NetworkGameManager.Instance.localRole,
                     NetworkManager.Singleton.LocalClientId
                 );
             }

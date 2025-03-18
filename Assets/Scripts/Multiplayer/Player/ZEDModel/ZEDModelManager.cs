@@ -41,14 +41,14 @@ namespace Multiplayer
 
             if (IsOwner)
             {
-                NetworkRoleManager.Instance.MRInteractionSetup.SetActive(false);
+                NetworkGameManager.Instance.MRInteractionSetup.SetActive(false);
 
                 foreach (var obj in objectsToEnableOnSpawn)
                 {
                     obj.SetActive(true);
                 }
 
-                NetworkRoleManager.Instance.TableUI.SetActive(false);
+                NetworkGameManager.Instance.TableUI.SetActive(false);
 
                 calibrator.StartCalibration();
             }
@@ -73,8 +73,8 @@ namespace Multiplayer
 
             if (IsOwner)
             {
-                NetworkRoleManager.Instance.MRInteractionSetup.SetActive(true);
-                NetworkRoleManager.Instance.TableUI.SetActive(true);
+                NetworkGameManager.Instance.MRInteractionSetup.SetActive(true);
+                NetworkGameManager.Instance.TableUI.SetActive(true);
             }
         }
 
