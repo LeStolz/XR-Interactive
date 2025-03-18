@@ -7,7 +7,7 @@ namespace Multiplayer
     class ServerTrackerManager : NetworkPlayer
     {
         [field: SerializeField]
-        public GameObject[] Trackers { get; private set; }
+        public Tracker[] Trackers { get; private set; }
         [SerializeField]
         new GameObject camera;
 
@@ -19,7 +19,7 @@ namespace Multiplayer
             {
                 foreach (var tracker in Trackers)
                 {
-                    tracker.SetActive(true);
+                    tracker.gameObject.SetActive(true);
                 }
 
                 var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
@@ -41,6 +41,12 @@ namespace Multiplayer
 
             transform.Rotate(Vector3.up, angleDifference);
             transform.position = eulerPos - (camera.transform.position - transform.position);
+        }
+
+        [Rpc(SendTo.Everyone)]
+        public void DrawLineRpc(int trackerId, int hitMarkerId, Vector3 start, Vector3 end)
+        {
+            Trackers[trackerId].DrawLine(hitMarkerId, start, end);
         }
     }
 }

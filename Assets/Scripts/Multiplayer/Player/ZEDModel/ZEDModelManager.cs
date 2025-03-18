@@ -26,9 +26,6 @@ namespace Multiplayer
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
 
-        [SerializeField]
-        Tracker[] trackers;
-
         ServerTrackerManager serTrackerManager;
 
         void Start()
@@ -90,16 +87,10 @@ namespace Multiplayer
 
                 if (serTrackerManager != null)
                 {
-                    for (int i = 0; i < trackers.Length; i++)
+                    for (int i = 0; i < serTrackerManager.Trackers.Length; i++)
                     {
-                        trackers[i].transform.SetPositionAndRotation(
-                            serTrackerManager.Trackers[i].transform.position,
-                            serTrackerManager.Trackers[i].transform.rotation
-                        );
-
-                        trackers[i].StartRayCastAndTeleport(
-                            leftEye.GetComponent<Camera>(),
-                            (hitMarkerId, start, end) => DrawLineRpc(i, hitMarkerId, start, end)
+                        serTrackerManager.Trackers[i].StartRayCastAndTeleport(
+                            leftEye.GetComponent<Camera>()
                         );
                     }
                 }
@@ -147,12 +138,6 @@ namespace Multiplayer
                     }
                 );
             }
-        }
-
-        [Rpc(SendTo.Everyone)]
-        public void DrawLineRpc(int trackerId, int hitMarkerId, Vector3 start, Vector3 end)
-        {
-            trackers[trackerId].DrawLine(hitMarkerId, start, end);
         }
     }
 }

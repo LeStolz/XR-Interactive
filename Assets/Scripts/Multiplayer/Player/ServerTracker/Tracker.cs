@@ -9,8 +9,12 @@ namespace Multiplayer
 		GameObject arrow;
 		[SerializeField]
 		HitMarker[] hitMarkers;
+		[SerializeField]
+		int id;
+		[SerializeField]
+		ServerTrackerManager serverTrackerManager;
 
-		public void StartRayCastAndTeleport(Camera outputPortal, Action<int, Vector3, Vector3> DrawLineRpc)
+		public void StartRayCastAndTeleport(Camera outputPortal)
 		{
 			RayCastAndTeleport(
 				outputPortal,
@@ -18,12 +22,11 @@ namespace Multiplayer
 					arrow.transform.position,
 					arrow.transform.forward
 				),
-				hitMarkers.Length - 1,
-				DrawLineRpc
+				hitMarkers.Length - 1
 			);
 		}
 
-		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth, Action<int, Vector3, Vector3> DrawLineRpc)
+		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
 		{
 			if (depth < 0)
 			{
@@ -35,8 +38,8 @@ namespace Multiplayer
 				hitMarkers[depth].transform.position = hit.point;
 				hitMarkers[depth].transform.forward = hit.normal;
 
-				DrawLineRpc(
-					depth,
+				serverTrackerManager.DrawLineRpc(
+					id, depth,
 					ray.origin, hitMarkers[depth].transform.position
 				);
 
@@ -50,14 +53,13 @@ namespace Multiplayer
 				RayCastAndTeleport(
 					outputPortal,
 					outputPortal.ScreenPointToRay(inputPortal.PortalSpaceToScreenSpace(hit.point, outputPortal)),
-					depth - 1,
-					DrawLineRpc
+					depth - 1
 				);
 			}
 			else
 			{
-				DrawLineRpc(
-					depth,
+				serverTrackerManager.DrawLineRpc(
+					id, depth,
 					ray.origin, ray.origin + ray.direction * 10
 				);
 

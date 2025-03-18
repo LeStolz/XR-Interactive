@@ -7,6 +7,7 @@
 - Fix error in calibration.
 - Auto connect.
 - Less bandwidth.
+- Build
 
 ## Setup
 
