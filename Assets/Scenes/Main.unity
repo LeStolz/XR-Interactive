@@ -2468,6 +2468,16 @@ PrefabInstance:
       propertyPath: 'm_ConnectionSubPanels.Array.data[5]'
       value: 
       objectReference: {fileID: 981317231541604507}
+    - target: {fileID: 4954784469425458131, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4954784469425458131, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4985723522326004683, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
       propertyPath: m_AnchorMax.y
