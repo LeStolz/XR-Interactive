@@ -95,10 +95,10 @@ namespace OpenCVMarkerBasedAR
 
             List<Point3> m_markerCorners3dList = new List<Point3>();
 
-            m_markerCorners3dList.Add(new Point3(-0.5f, -0.5f, 0) * Constants.MARKER_LENGTH_IN_METERS);
-            m_markerCorners3dList.Add(new Point3(+0.5f, -0.5f, 0) * Constants.MARKER_LENGTH_IN_METERS);
-            m_markerCorners3dList.Add(new Point3(+0.5f, +0.5f, 0) * Constants.MARKER_LENGTH_IN_METERS);
-            m_markerCorners3dList.Add(new Point3(-0.5f, +0.5f, 0) * Constants.MARKER_LENGTH_IN_METERS);
+            m_markerCorners3dList.Add(new Point3(-0.5f, -0.5f, 0) * MarkerTracking.MARKER_LENGTH_IN_METERS);
+            m_markerCorners3dList.Add(new Point3(+0.5f, -0.5f, 0) * MarkerTracking.MARKER_LENGTH_IN_METERS);
+            m_markerCorners3dList.Add(new Point3(+0.5f, +0.5f, 0) * MarkerTracking.MARKER_LENGTH_IN_METERS);
+            m_markerCorners3dList.Add(new Point3(-0.5f, +0.5f, 0) * MarkerTracking.MARKER_LENGTH_IN_METERS);
 
             m_markerCorners3d.fromList(m_markerCorners3dList);
 

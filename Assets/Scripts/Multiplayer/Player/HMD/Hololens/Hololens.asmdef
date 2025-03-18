@@ -1,0 +1,17 @@
+{
+    "name": "MarkerDetection",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ba171b3dd2a51234ab864770f99741a5",
+        "GUID:7404ed9ad29ad3844ac3a261c8d45b60"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
