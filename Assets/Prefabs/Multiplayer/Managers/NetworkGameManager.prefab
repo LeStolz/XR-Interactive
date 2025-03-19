@@ -77,8 +77,12 @@ MonoBehaviour:
   WorldSpaceCanvas: {fileID: 0}
   ScreenSpaceCanvas: {fileID: 0}
   <TableUI>k__BackingField: {fileID: 0}
-  tableScale: 0
-  roleButtons: []
+  tableScale: 1700
+  roleButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   localRole: 0
 --- !u!114 &2808410049059023866
 MonoBehaviour:

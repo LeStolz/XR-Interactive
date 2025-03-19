@@ -53,7 +53,6 @@ namespace Multiplayer
             m_TurnProvider = FindAnyObjectByType<SnapTurnProvider>();
 
             NetworkGameManager.Connected.Subscribe(ConnectOnline);
-            NetworkGameManager.ConnectedRoomName.Subscribe(UpdateRoomName);
 
             // ConnectOnline(false);
             HideCurrentUI();
@@ -75,7 +74,6 @@ namespace Multiplayer
         private void OnDestroy()
         {
             NetworkGameManager.Connected.Unsubscribe(ConnectOnline);
-            NetworkGameManager.ConnectedRoomName.Unsubscribe(UpdateRoomName);
         }
 
         private void Update()
@@ -126,7 +124,6 @@ namespace Multiplayer
 
             if (connected)
             {
-                UpdateRoomName(NetworkGameManager.ConnectedRoomName.Value);
                 TogglePanel(0);
             }
             else
@@ -214,19 +211,6 @@ namespace Multiplayer
         public void SetVolumeLevel(float sliderValue)
         {
             m_Mixer.SetFloat("MainVolume", Mathf.Log10(sliderValue) * 20);
-        }
-
-        // Room Options
-        void UpdateRoomName(string newValue)
-        {
-            foreach (var text in m_RoomCodeTexts)
-            {
-                text.text = $"Table Code: {NetworkGameManager.ConnectedRoomCode}";
-            }
-            foreach (var t in m_RoomNameText)
-            {
-                t.text = NetworkGameManager.ConnectedRoomName.Value;
-            }
         }
 
         // Player Options

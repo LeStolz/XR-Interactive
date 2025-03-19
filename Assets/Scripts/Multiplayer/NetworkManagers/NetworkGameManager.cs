@@ -33,17 +33,11 @@ namespace Multiplayer
 
         public const int maxPlayers = 6;
 
-        const string defaultPlayerName = "";
-
         public static NetworkGameManager Instance { get; private set; }
         public static ulong LocalId;
         public static string AuthenicationId;
 
-        public static string ConnectedRoomCode;
-        public static string ConnectedRoomRegion;
-
-        public static BindableVariable<string> ConnectedRoomName = new("");
-        public static BindableVariable<string> LocalPlayerName = new(defaultPlayerName);
+        public static BindableVariable<string> LocalPlayerName = new("");
         public static IReadOnlyBindableVariable<bool> Connected
         {
             get => connected;
@@ -64,6 +58,8 @@ namespace Multiplayer
 
         public AuthenticationManager AuthenticationManager { get; private set; }
 
+
+
         readonly List<ulong> currentPlayerIDs = new();
         NetworkList<NetworkedRole> networkedRoles;
         [field: SerializeField]
@@ -77,12 +73,13 @@ namespace Multiplayer
         [SerializeField]
         int tableScale;
 
+
+
         [SerializeField]
         RoleButton[] roleButtons;
         public Role localRole;
 
         bool isShuttingDown = false;
-
         const string debugPrepend = "<color=#FAC00C>[Network Game Manager]</color> ";
 
         protected virtual async void Awake()
@@ -93,9 +90,10 @@ namespace Multiplayer
                 return;
             }
             Instance = this;
+            DontDestroyOnLoad(gameObject);
             networkedRoles = new NetworkList<NetworkedRole>();
 
-            LocalPlayerName.Value = defaultPlayerName;
+            LocalPlayerName.Value = "";
 
             if (TryGetComponent(out LobbyManager lobbyManager) && TryGetComponent(out AuthenticationManager authenticationManager))
             {
@@ -378,10 +376,6 @@ namespace Multiplayer
         {
             bool connected;
 
-            ConnectedRoomRegion = LobbyManager.connectedLobby.Data[LobbyManager.k_RegionKeyIdentifier].Value;
-            ConnectedRoomCode = LobbyManager.connectedLobby.LobbyCode;
-            ConnectedRoomName.Value = LobbyManager.connectedLobby.Name;
-
             if (LobbyManager.connectedLobby.HostId == AuthenicationId)
             {
                 connected = NetworkManager.Singleton.StartHost();
@@ -446,11 +440,6 @@ namespace Multiplayer
             if (!changes.LobbyDeleted)
             {
                 changes.ApplyToLobby(LobbyManager.connectedLobby);
-
-                if (changes.Name.Changed)
-                {
-                    ConnectedRoomName.Value = LobbyManager.connectedLobby.Name;
-                }
             }
         }
 
@@ -592,7 +581,7 @@ namespace Multiplayer
                 }
                 else
                 {
-                    if (NetworkGameManager.Instance.TryGetPlayerByID(networkedRoles[i].playerID, out var player))
+                    if (TryGetPlayerByID(networkedRoles[i].playerID, out var player))
                     {
                         roleButtons[i].AssignPlayerToRole(player);
                     }
@@ -603,7 +592,7 @@ namespace Multiplayer
         [Rpc(SendTo.Everyone)]
         void AssignRoleRpc(int roleID, ulong playerID)
         {
-            if (NetworkGameManager.Instance.TryGetPlayerByID(playerID, out var player))
+            if (TryGetPlayerByID(playerID, out var player))
             {
                 roleButtons[roleID].AssignPlayerToRole(player);
             }

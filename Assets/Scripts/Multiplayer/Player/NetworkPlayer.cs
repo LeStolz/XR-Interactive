@@ -1,6 +1,8 @@
 using Unity.Netcode;
 using Unity.Collections;
 using System;
+using UnityEngine;
+using System.Collections;
 
 namespace Multiplayer
 {
@@ -57,7 +59,7 @@ namespace Multiplayer
 
                 SetupLocalPlayer();
             }
-            CompleteSetup();
+            StartCoroutine(CompleteSetup());
         }
 
         public override void OnNetworkDespawn()
@@ -95,15 +97,16 @@ namespace Multiplayer
         /// <summary>
         /// Called when the player object is finished being setup.
         /// </summary>
-        void CompleteSetup()
+        IEnumerator CompleteSetup()
         {
-            // Add player to XRINetworkManager.
             NetworkGameManager.Instance.PlayerJoined(NetworkObject.OwnerClientId);
 
             UpdatePlayerName(new FixedString128Bytes(""), m_PlayerName.Value);
 
-            onSpawnedAll?.Invoke();
+            yield return new WaitUntil(() => NetworkGameManager.Instance.IsSpawned);
             NetworkGameManager.Instance.RequestRoleServerRpc();
+            Debug.Log("BASDSD");
+            onSpawnedAll?.Invoke();
         }
 
         /// <summary>
