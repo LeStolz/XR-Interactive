@@ -1,6 +1,8 @@
 using Unity.Netcode;
 using Unity.Collections;
 using System;
+using UnityEngine;
+using System.Collections;
 
 namespace Multiplayer
 {
@@ -37,11 +39,11 @@ namespace Multiplayer
 
             if (IsOwner)
             {
-                XRINetworkGameManager.LocalPlayerName.Unsubscribe(UpdateLocalPlayerName);
+                NetworkGameManager.LocalPlayerName.Unsubscribe(UpdateLocalPlayerName);
             }
             else if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsConnectedClient)
             {
-                XRINetworkGameManager.Instance.PlayerLeft(NetworkObject.OwnerClientId);
+                NetworkGameManager.Instance.PlayerLeft(NetworkObject.OwnerClientId);
             }
         }
 
@@ -53,11 +55,11 @@ namespace Multiplayer
             if (IsOwner)
             {
                 LocalPlayer = this;
-                XRINetworkGameManager.Instance.LocalPlayerConnected(NetworkObject.OwnerClientId);
+                NetworkGameManager.Instance.LocalPlayerConnected(NetworkObject.OwnerClientId);
 
                 SetupLocalPlayer();
             }
-            CompleteSetup();
+            StartCoroutine(CompleteSetup());
         }
 
         public override void OnNetworkDespawn()
@@ -76,32 +78,36 @@ namespace Multiplayer
         /// <remarks>Only called on the Local Player.</remarks>
         protected virtual void SetupLocalPlayer()
         {
-            m_PlayerName.Value = new FixedString128Bytes(XRINetworkGameManager.LocalPlayerName.Value);
-            XRINetworkGameManager.LocalPlayerName.Subscribe(UpdateLocalPlayerName);
+            m_PlayerName.Value = new FixedString128Bytes(NetworkGameManager.LocalPlayerName.Value);
+            NetworkGameManager.LocalPlayerName.Subscribe(UpdateLocalPlayerName);
 
             onSpawnedLocal?.Invoke();
         }
 
         /// <summary>
-        /// Callback for the bindable variable <see cref="XRINetworkGameManager.LocalPlayerName"/>.
+        /// Callback for the bindable variable <see cref="NetworkGameManager.LocalPlayerName"/>.
         /// </summary>
         /// <param name="name">New Name for player.</param>
         /// <remarks>Only called on Local Player.</remarks>
         protected virtual void UpdateLocalPlayerName(string name)
         {
-            m_PlayerName.Value = new FixedString128Bytes(XRINetworkGameManager.LocalPlayerName.Value);
+            m_PlayerName.Value = new FixedString128Bytes(NetworkGameManager.LocalPlayerName.Value);
         }
 
         /// <summary>
         /// Called when the player object is finished being setup.
         /// </summary>
-        void CompleteSetup()
+        IEnumerator CompleteSetup()
         {
-            // Add player to XRINetworkManager.
-            XRINetworkGameManager.Instance.PlayerJoined(NetworkObject.OwnerClientId);
+            NetworkGameManager.Instance.PlayerJoined(NetworkObject.OwnerClientId);
 
             UpdatePlayerName(new FixedString128Bytes(""), m_PlayerName.Value);
 
+            yield return new WaitUntil(() => NetworkGameManager.Instance.IsSpawned);
+            NetworkGameManager.Instance.RequestRoleServerRpc(
+                (int)NetworkGameManager.Instance.localRole,
+                NetworkObject.OwnerClientId
+            );
             onSpawnedAll?.Invoke();
         }
 
@@ -115,7 +121,7 @@ namespace Multiplayer
             if (!m_InitialConnected & !string.IsNullOrEmpty(currentName.ToString()))
             {
                 m_InitialConnected = true;
-                if (!IsLocalPlayer)
+                if (!IsLocalPlayer && PlayerHudNotification.Instance.gameObject.activeInHierarchy)
                     PlayerHudNotification.Instance.ShowText($"<b>{PlayerName}</b> joined");
             }
 

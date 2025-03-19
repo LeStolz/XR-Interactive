@@ -79,7 +79,7 @@ namespace Multiplayer
             }
 
             // Cache PlayerId.
-            XRINetworkGameManager.AuthenicationId = AuthenticationService.Instance.PlayerId;
+            NetworkGameManager.AuthenicationId = AuthenticationService.Instance.PlayerId;
             return UnityServices.State == ServicesInitializationState.Initialized;
         }
 

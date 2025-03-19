@@ -153,13 +153,13 @@ namespace Multiplayer
         /// This function will try to create a lobby and host a networked session.
         /// </summary>
         /// <returns></returns>
-        public async Task<Lobby> CreateLobby(string roomName = null, bool isPrivate = false, int playerCount = XRINetworkGameManager.maxPlayers)
+        public async Task<Lobby> CreateLobby(string roomName = null, bool isPrivate = false, int playerCount = NetworkGameManager.maxPlayers)
         {
             try
             {
                 m_Status.Value = "Creating Relay";
                 // Creates a new Allocation based on the defined max players above
-                var alloc = await RelayService.Instance.CreateAllocationAsync(XRINetworkGameManager.maxPlayers);
+                var alloc = await RelayService.Instance.CreateAllocationAsync(NetworkGameManager.maxPlayers);
 
                 m_Status.Value = "Creating Join Code";
                 // Get a join code based on the Allocation
@@ -198,7 +198,7 @@ namespace Multiplayer
 
                 m_Status.Value = "Creating Lobby";
                 // Creates the Lobby with the specified max players and lobby options. Currently just naming "General Lobby"
-                string lobbyName = string.IsNullOrEmpty(roomName) ? $"{XRINetworkGameManager.LocalPlayerName.Value}'s Table" : $"{roomName}";
+                string lobbyName = string.IsNullOrEmpty(roomName) ? $"{NetworkGameManager.LocalPlayerName.Value}'s Table" : $"{roomName}";
 
                 // RATE LIMIT: 2 request per 6 seconds
                 var lobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, playerCount, options);
@@ -426,8 +426,8 @@ namespace Multiplayer
 
         public static bool CanJoinLobby(Lobby lobby)
         {
-            return (XRINetworkGameManager.Instance.lobbyManager.connectedLobby == null) ||
-            (XRINetworkGameManager.Instance.lobbyManager.connectedLobby != null && lobby.Id != XRINetworkGameManager.Instance.lobbyManager.connectedLobby.Id);
+            return (NetworkGameManager.Instance.LobbyManager.connectedLobby == null) ||
+            (NetworkGameManager.Instance.LobbyManager.connectedLobby != null && lobby.Id != NetworkGameManager.Instance.LobbyManager.connectedLobby.Id);
         }
     }
 }

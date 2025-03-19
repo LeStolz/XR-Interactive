@@ -107,7 +107,7 @@ public class PlayerColocation : NetworkBehaviour
 
     void UpdatePlayerUIAndVisuals(ulong playerID, bool isColocated, ulong[] playerIDsInGroup = null)
     {
-        if (XRINetworkGameManager.Instance.TryGetPlayerByID(playerID, out var networkPlayer))
+        if (NetworkGameManager.Instance.TryGetPlayerByID(playerID, out var networkPlayer))
         {
             Debug.Log($"Setting player {playerID} in group {isColocated}");
             PlayerColocation playerColocation = networkPlayer.GetComponent<PlayerColocation>();

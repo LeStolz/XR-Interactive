@@ -22,7 +22,7 @@ namespace Multiplayer
             if (IsOwner)
             {
                 SpawnPlayerRpc(
-                    (int)NetworkRoleManager.Instance.localRole,
+                    (int)NetworkGameManager.Instance.localRole,
                     NetworkManager.Singleton.LocalClientId
                 );
             }
@@ -35,7 +35,7 @@ namespace Multiplayer
             var rolesToPlayers = new Dictionary<Role, NetworkObject>
                 {
                     { Role.HMD, HMDPrefab },
-                    { Role.SerTracker, SerTrackerPrefab },
+                    { Role.ServerTracker, SerTrackerPrefab },
                     { Role.ZED, ZEDPrefab },
                     { Role.Tablet, TabletPrefab }
                 };
