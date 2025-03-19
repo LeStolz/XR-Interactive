@@ -4,7 +4,7 @@
 
 - Local + auto connect.
 - Fix trackers (rewrite readme), Hololens, display and origin error in calibration.
-- Less bandwidth.
+- Less bandwidth 3.
 
 ## Setup
 
