@@ -1,9 +1,10 @@
 using System.Collections;
+using Multiplayer;
 using UnityEngine;
 
 public class MarkerTracking : MonoBehaviour
 {
-    static float MARKER_LENGTH_IN_METERS_REAL = .433f;
+    public static float MARKER_LENGTH_IN_METERS_REAL = .43f;
     static float MARKER_ERROR = 1.45f / 1.9f;
 
     public static float MARKER_LENGTH_IN_METERS => MARKER_LENGTH_IN_METERS_REAL * MARKER_ERROR;
@@ -14,6 +15,13 @@ public class MarkerTracking : MonoBehaviour
     IEnumerator Start()
     {
         yield return new WaitForSeconds(2f);
+
+        if (NetworkGameManager.Instance.localRole != Role.HMD || NetworkGameManager.Instance.localRole != Role.ServerTracker)
+        {
+            Destroy(gameObject);
+            yield break;
+        }
+
         WebcamTextureMarkerTracking.SetActive(true);
     }
 

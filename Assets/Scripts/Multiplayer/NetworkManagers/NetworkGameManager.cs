@@ -144,7 +144,7 @@ namespace Multiplayer
                 TableUI.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             }
 
-            if (localRole == Role.HMD || localRole == Role.SerTracker)
+            if (localRole == Role.HMD || localRole == Role.ServerTracker)
             {
                 StartCoroutine(StartXR());
             }
@@ -635,7 +635,7 @@ namespace Multiplayer
     public enum Role
     {
         ZED,
-        SerTracker,
+        ServerTracker,
         HMD,
         Tablet,
     }

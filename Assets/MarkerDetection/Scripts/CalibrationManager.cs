@@ -6,9 +6,9 @@ using System.Collections;
 using UnityEngine.SpatialTracking;
 using Multiplayer;
 
-public class HololensManager : MonoBehaviour
+public class CalibrationManager : MonoBehaviour
 {
-    public static HololensManager Instance = null;
+    public static CalibrationManager Instance = null;
 
     [Header("Hololens")]
     public Transform ARPlaySpace;
@@ -40,7 +40,7 @@ public class HololensManager : MonoBehaviour
 
     void Start()
     {
-        if (NetworkGameManager.Instance.localRole != Role.HMD)
+        if (NetworkGameManager.Instance.localRole != Role.HMD || NetworkGameManager.Instance.localRole != Role.ServerTracker)
         {
             Destroy(gameObject);
             return;

@@ -244,7 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7955563279946572778}
   m_Layer: 0
-  m_Name: MarkerDetectionManager
+  m_Name: HMDCalibrationManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,6 +263,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3466135726080654985}
   - {fileID: 263944659386323754}
   - {fileID: 7500775199712303076}
   - {fileID: 5513697344129793149}
@@ -424,6 +425,56 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WebcamTextureMarkerTracking: {fileID: 1196543470449652585}
   ARMarker: {fileID: 4610157513624027335}
+--- !u!1 &4932148418923866471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3466135726080654985}
+  - component: {fileID: 5217361941438328433}
+  m_Layer: 0
+  m_Name: CalibrationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3466135726080654985
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4932148418923866471}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7955563279946572778}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5217361941438328433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4932148418923866471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add52739c882141438ef3604677f314e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ARPlaySpace: {fileID: 0}
+  ARCamera: {fileID: 0}
+  VirtualTrackingCamera: {fileID: 2611566317944248850}
+  trackMarkerDuration: 3
+  OpenCVMarkerTrackingModule: {fileID: 4226099292723712351}
+  OpenCVMarker: {fileID: 3748237763807392964}
 --- !u!1001 &263944659386210722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -784,6 +835,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 481af8aa586b8b741ba696b998f5f41a, type: 3}
+--- !u!1 &2611566317944248850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7337611002297379450, guid: 481af8aa586b8b741ba696b998f5f41a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4749692243858681960}
+  m_PrefabAsset: {fileID: 0}
 --- !u!20 &5173289524062522219 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 441771161922108163, guid: 481af8aa586b8b741ba696b998f5f41a,

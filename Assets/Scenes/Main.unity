@@ -802,12 +802,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1336192443 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2611566317944248850, guid: 6a3a80b84761e7f46b0710303600cdc4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1699433042}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1421188171
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -977,8 +971,18 @@ PrefabInstance:
     - target: {fileID: 4226099292723712351, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
       propertyPath: m_Name
-      value: MarkerDetectionManager
+      value: HMDCalibrationManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5217361941438328433, guid: 6a3a80b84761e7f46b0710303600cdc4,
+        type: 3}
+      propertyPath: ARCamera
+      value: 
+      objectReference: {fileID: 1654893734}
+    - target: {fileID: 5217361941438328433, guid: 6a3a80b84761e7f46b0710303600cdc4,
+        type: 3}
+      propertyPath: ARPlaySpace
+      value: 
+      objectReference: {fileID: 1462420614}
     - target: {fileID: 7955563279946572778, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1034,68 +1038,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
---- !u!1 &1699433043 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4226099292723712351, guid: 6a3a80b84761e7f46b0710303600cdc4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1699433042}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1699433044 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3748237763807392964, guid: 6a3a80b84761e7f46b0710303600cdc4,
-    type: 3}
-  m_PrefabInstance: {fileID: 1699433042}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1718773140
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1718773142}
-  - component: {fileID: 1718773141}
-  m_Layer: 0
-  m_Name: HololensManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1718773141
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718773140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: add52739c882141438ef3604677f314e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ARPlaySpace: {fileID: 1462420614}
-  ARCamera: {fileID: 1654893734}
-  VirtualTrackingCamera: {fileID: 1336192443}
-  trackMarkerDuration: 3
-  OpenCVMarkerTrackingModule: {fileID: 1699433043}
-  OpenCVMarker: {fileID: 1699433044}
---- !u!4 &1718773142
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718773140}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1731669374
 GameObject:
   m_ObjectHideFlags: 0
@@ -2307,6 +2249,5 @@ SceneRoots:
   - {fileID: 1996598795}
   - {fileID: 1235325151}
   - {fileID: 1421188171}
-  - {fileID: 1718773142}
   - {fileID: 1699433042}
   - {fileID: 636736290}
