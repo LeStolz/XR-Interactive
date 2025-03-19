@@ -97,7 +97,11 @@ namespace Multiplayer
 
 		bool UpdateHitmarkers()
 		{
-			if (hitMarkers != null && hitMarkers.Length != 0)
+			if (
+				hitMarkers != null &&
+				hitMarkers.Length != 0 &&
+				hitMarkers.All(hm => hm != null)
+			)
 			{
 				return true;
 			}

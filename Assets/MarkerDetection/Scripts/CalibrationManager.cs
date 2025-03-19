@@ -40,7 +40,7 @@ public class CalibrationManager : MonoBehaviour
 
     void Start()
     {
-        if (NetworkGameManager.Instance.localRole != Role.HMD || NetworkGameManager.Instance.localRole != Role.ServerTracker)
+        if (NetworkGameManager.Instance.localRole != Role.HMD && NetworkGameManager.Instance.localRole != Role.ServerTracker)
         {
             Destroy(gameObject);
             Instance = null;

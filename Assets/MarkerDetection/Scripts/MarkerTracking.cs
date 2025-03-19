@@ -16,7 +16,7 @@ public class MarkerTracking : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        if (NetworkGameManager.Instance.localRole != Role.HMD || NetworkGameManager.Instance.localRole != Role.ServerTracker)
+        if (NetworkGameManager.Instance.localRole != Role.HMD && NetworkGameManager.Instance.localRole != Role.ServerTracker)
         {
             Destroy(gameObject);
             yield break;
