@@ -2,8 +2,10 @@
     "name": "MarkerDetection",
     "rootNamespace": "",
     "references": [
+        "GUID:cef0e9dabbfe59a4790acbf31c21f33e",
+        "GUID:7404ed9ad29ad3844ac3a261c8d45b60",
         "GUID:ba171b3dd2a51234ab864770f99741a5",
-        "GUID:7404ed9ad29ad3844ac3a261c8d45b60"
+        "GUID:0fde87536b4fef14283339cce1af56ad"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

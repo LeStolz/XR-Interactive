@@ -4,6 +4,7 @@ using Microsoft.MixedReality.Toolkit.Input;
 using System;
 using System.Collections;
 using UnityEngine.SpatialTracking;
+using Multiplayer;
 
 public class HololensManager : MonoBehaviour
 {
@@ -39,6 +40,12 @@ public class HololensManager : MonoBehaviour
 
     void Start()
     {
+        if (NetworkGameManager.Instance.localRole != Role.HMD)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         EnablePoseTrackingComponents(false);
 
         ARPlaySpace = ARCamera.transform.parent;
