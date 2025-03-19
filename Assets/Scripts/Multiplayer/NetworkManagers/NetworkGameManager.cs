@@ -537,17 +537,15 @@ namespace Multiplayer
         }
 
         [Rpc(SendTo.Server)]
-        public void RequestRoleServerRpc()
+        public void RequestRoleServerRpc(int newRoleID, ulong newClientID)
         {
-            int newRoleID = (int)localRole;
-
             if (networkedRoles[newRoleID].isOccupied)
             {
                 Debug.LogError($"Role {newRoleID} is already occupied");
                 return;
             }
 
-            ServerAssignRole(newRoleID, NetworkManager.Singleton.LocalClientId);
+            ServerAssignRole(newRoleID, newClientID);
         }
 
         void ServerAssignRole(int newRoleID, ulong localPlayerID)

@@ -104,8 +104,10 @@ namespace Multiplayer
             UpdatePlayerName(new FixedString128Bytes(""), m_PlayerName.Value);
 
             yield return new WaitUntil(() => NetworkGameManager.Instance.IsSpawned);
-            NetworkGameManager.Instance.RequestRoleServerRpc();
-            Debug.Log("BASDSD");
+            NetworkGameManager.Instance.RequestRoleServerRpc(
+                (int)NetworkGameManager.Instance.localRole,
+                NetworkObject.OwnerClientId
+            );
             onSpawnedAll?.Invoke();
         }
 
