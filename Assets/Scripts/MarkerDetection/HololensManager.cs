@@ -118,6 +118,7 @@ public partial class GameManager
         cloneMarker.transform.SetParent(null);
         ARPlaySpace.transform.SetParent(cloneMarker.transform);
         cloneMarker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90f, 0f, 0f)));
+        ARPlaySpace.transform.localPosition = Vector3.zero;
         ARPlaySpace.transform.SetParent(null);
         ARPlaySpace.transform.eulerAngles = new(
                                                 snapToMutiplyOf(ARPlaySpace.transform.eulerAngles.x, 360f),
