@@ -383,6 +383,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1996598795}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &698738287 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6391579207171690961, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1996598795}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &767109365
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,8 +418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add52739c882141438ef3604677f314e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ARPlaySpace: {fileID: 1462420614}
-  ARCamera: {fileID: 1654893734}
+  XRPlaySpace: {fileID: 698738287}
+  XRCamera: {fileID: 1654893734}
   VirtualTrackingCamera: {fileID: 926644231}
   trackMarkerDuration: 3
   OpenCVMarkerTrackingModule: {fileID: 1498878456}
@@ -1018,6 +1024,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3675988287524684941, guid: 6a3a80b84761e7f46b0710303600cdc4,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4226099292723712351, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
@@ -1624,7 +1635,7 @@ PrefabInstance:
     - target: {fileID: 6484816944661230508, guid: 7d554cf076fc46143bcaf9a54fc2204d,
         type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 131255
+      value: 131511
       objectReference: {fileID: 0}
     - target: {fileID: 7101621870033203765, guid: 7d554cf076fc46143bcaf9a54fc2204d,
         type: 3}
@@ -1676,15 +1687,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6484816944661230506, guid: 7d554cf076fc46143bcaf9a54fc2204d,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1996598799}
+      addedObject: {fileID: 1996598808}
     - targetCorrespondingSourceObject: {fileID: 6484816944661230506, guid: 7d554cf076fc46143bcaf9a54fc2204d,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1996598798}
+      addedObject: {fileID: 1996598807}
     - targetCorrespondingSourceObject: {fileID: 6484816944661230506, guid: 7d554cf076fc46143bcaf9a54fc2204d,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1996598797}
+      addedObject: {fileID: 1996598806}
   m_SourcePrefab: {fileID: 100100000, guid: 7d554cf076fc46143bcaf9a54fc2204d, type: 3}
 --- !u!20 &1996598796 stripped
 Camera:
@@ -1692,14 +1703,43 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1996598795}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1996598797
+--- !u!4 &1996598800 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6484816944661230505, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1996598795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1996598806
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654893734}
-  m_Enabled: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf98dd1206224111a38765365e98e207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockCursorWhenFocusLocked: 1
+  setCursorInvisibleWhenFocusLocked: 0
+  maxGazeCollisionDistance: 10
+  raycastLayerMasks:
+  - serializedVersion: 2
+    m_Bits: 4294967291
+  stabilizer:
+    storedStabilitySamples: 60
+  gazeTransform: {fileID: 0}
+  minHeadVelocityThreshold: 0.5
+  maxHeadVelocityThreshold: 2
+--- !u!114 &1996598807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654893734}
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a21b486d0bb44444b1418aaa38b44de, type: 3}
   m_Name: 
@@ -1712,30 +1752,7 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
---- !u!114 &1996598798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654893734}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf98dd1206224111a38765365e98e207, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lockCursorWhenFocusLocked: 1
-  setCursorInvisibleWhenFocusLocked: 0
-  maxGazeCollisionDistance: 10
-  raycastLayerMasks:
-  - serializedVersion: 2
-    m_Bits: 3221422579
-  stabilizer:
-    storedStabilitySamples: 60
-  gazeTransform: {fileID: 0}
-  minHeadVelocityThreshold: 0.5
-  maxHeadVelocityThreshold: 2
---- !u!114 &1996598799
+--- !u!114 &1996598808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1750,12 +1767,6 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
---- !u!4 &1996598800 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6484816944661230505, guid: 7d554cf076fc46143bcaf9a54fc2204d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1996598795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2023478224 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8321923966460561635, guid: 3c7e97c2ac5aede4c834e98354f624e2,

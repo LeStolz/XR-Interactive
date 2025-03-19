@@ -56,5 +56,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "XR-Interactive.sln"
+    "dotnet.defaultSolution": "XR-Interactive.sln",
+    "cSpell.words": [
+        "Behaviour"
+    ]
 }

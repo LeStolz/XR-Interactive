@@ -9,18 +9,17 @@ public class CalibrationManager : MonoBehaviour
 {
     public static CalibrationManager Instance = null;
 
-    [Header("Hololens")]
-    public Transform ARPlaySpace;
-    public GameObject ARCamera;
+    public Transform XRPlaySpace;
+    public GameObject XRCamera;
     public GameObject VirtualTrackingCamera;
     public float trackMarkerDuration = 3000f;
     public GameObject OpenCVMarkerTrackingModule;
     public GameObject OpenCVMarker;
 
     float trackMarkerCountDown = 0f;
-    public bool HololensMarkerTracking { get => hololensMarkerTracking; set => hololensMarkerTracking = value; }
-    bool hololensMarkerTracking = false;
+    public bool HMDMarkerTracking { get; set; } = false;
     public bool MarkerTracked { get; private set; }
+    public GameObject CloneMarker { get; private set; }
 
     void Awake()
     {
@@ -43,61 +42,57 @@ public class CalibrationManager : MonoBehaviour
             return;
         }
 
-        EnablePoseTrackingComponents(false);
-        Debug.Log("Virtual Tracking Camera: ");
-        ARPlaySpace = ARCamera.transform.parent;
-        ARCamera.transform.localPosition = Vector3.zero;
-        ARCamera.GetComponent<Camera>().clearFlags = CameraClearFlags.SolidColor;
+        if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
+        {
+            trackedPoseDriver.enabled = false;
+        }
+
+        XRCamera.transform.localPosition = Vector3.zero;
+        XRCamera.GetComponent<Camera>().clearFlags = CameraClearFlags.SolidColor;
         VirtualTrackingCamera.SetActive(true);
     }
 
-    private void Update()
+    void Update()
     {
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            ARCamera.transform.SetLocalPositionAndRotation(new(0f, 10f, 0f), Quaternion.Euler(new(0f, 10f, 0f)));
-        }
-#endif
         if (trackMarkerCountDown >= trackMarkerDuration && !MarkerTracked)
         {
-            EnablePoseTrackingComponents(true);
+            if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
+            {
+                trackedPoseDriver.enabled = true;
+            }
+
             TurnOffMarkerTrackingModule();
-            ARCamera.GetComponent<Camera>().fieldOfView = VirtualTrackingCamera.GetComponent<Camera>().fieldOfView;
+
+            XRCamera.GetComponent<Camera>().fieldOfView = VirtualTrackingCamera.GetComponent<Camera>().fieldOfView;
             MarkerTracked = true;
         }
         else
         {
-            HololensMarkerTracking = OpenCVMarker.activeSelf;
+            HMDMarkerTracking = OpenCVMarker.activeSelf;
+
             if (!MarkerTracked)
             {
-                UpdateARSpace();
+                VirtualTrackingCamera.transform.SetParent(XRCamera.transform);
+                VirtualTrackingCamera.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                OpenCVMarker.transform.SetParent(VirtualTrackingCamera.transform);
             }
-            if (HololensMarkerTracking)
+            if (HMDMarkerTracking)
             {
                 trackMarkerCountDown += Time.deltaTime;
+                Debug.Log(trackMarkerCountDown);
             }
             else
             {
                 trackMarkerCountDown = 0;
             }
-            Debug.Log(trackMarkerCountDown);
         }
     }
 
-    private void UpdateARSpace()
+    void TurnOffMarkerTrackingModule()
     {
-        VirtualTrackingCamera.transform.SetParent(ARCamera.transform);
-        VirtualTrackingCamera.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        OpenCVMarker.transform.SetParent(VirtualTrackingCamera.transform);
-    }
+        PlayerHudNotification.Instance.ShowText("Marker tracked");
 
-    public GameObject CloneMarker { get; private set; }
-
-    private void TurnOffMarkerTrackingModule()
-    {
-        Debug.Log("Turn off Marker Tracking Module");
-        CloneMarker = Instantiate(OpenCVMarker.gameObject, parent: OpenCVMarker.transform);
+        CloneMarker = Instantiate(OpenCVMarker, parent: OpenCVMarker.transform);
         CloneMarker.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         CloneMarker.transform.localScale = Vector3.one;
 
@@ -105,109 +100,34 @@ public class CalibrationManager : MonoBehaviour
         OpenCVMarker.transform.SetParent(OpenCVMarkerTrackingModule.transform);
         OpenCVMarkerTrackingModule.SetActive(false);
 
-
-        if ((ARCamera.transform.localPosition != Vector3.zero) && (ARCamera.transform.localRotation != Quaternion.identity))
-        {
-            SetUp(CloneMarker);
-        }
-        else
-        {
-            StartCoroutine(IE_WaitForCondition(() => (ARCamera.transform.localPosition != Vector3.zero) && (ARCamera.transform.localRotation != Quaternion.identity),
-                () =>
-                {
-                    SetUp(CloneMarker);
-                }));
-        }
+        StartCoroutine(IE_WaitForCondition(
+            () =>
+                XRCamera.transform.localPosition != Vector3.zero &&
+                XRCamera.transform.localRotation != Quaternion.identity,
+            () =>
+            {
+                PlayerHudNotification.Instance.ShowText("Calibrating");
+                Calibrate();
+            }
+        ));
     }
 
-    private bool _setUp = false;
-    private void SetUp(GameObject cloneMarker)
+    bool calibrated = false;
+    void Calibrate()
     {
-        if (_setUp) return;
-        _setUp = true;
+        if (calibrated) return;
+        calibrated = true;
 
+        CloneMarker.transform.SetParent(null);
+        XRPlaySpace.transform.SetParent(CloneMarker.transform);
+        CloneMarker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90f, 180f, 0f)));
+        XRPlaySpace.transform.SetParent(null);
         Destroy(VirtualTrackingCamera);
-        cloneMarker.transform.SetParent(null);
-        ARPlaySpace.transform.SetParent(cloneMarker.transform);
-        cloneMarker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90f, 0f, 0f)));
-        // ARPlaySpace.transform.localPosition = Vector3.zero;
-        ARPlaySpace.transform.SetParent(null);
-        ARPlaySpace.transform.eulerAngles = new(
-                                                snapToMutiplyOf(ARPlaySpace.transform.eulerAngles.x, 360f),
-                                                ARPlaySpace.transform.eulerAngles.y,
-                                                snapToMutiplyOf(ARPlaySpace.transform.eulerAngles.z, 360f)
-                                            );
-
     }
 
-    public float snapToMutiplyOf(float value, float baseVal)
-    {
-        return (float)Math.Round(value / baseVal) * baseVal;
-    }
-
-    public IEnumerator IE_WaitForCondition(Func<bool> condition, Action action)
+    IEnumerator IE_WaitForCondition(Func<bool> condition, Action action)
     {
         yield return new WaitUntil(condition);
         action.Invoke();
-    }
-
-    public void ForceStopTrackingOnHololens()
-    {
-        trackMarkerDuration = 1f;
-        trackMarkerCountDown = trackMarkerDuration + 1f;
-    }
-
-
-    private void EnablePoseTrackingComponents(bool enable)
-    {
-        if (ARCamera.TryGetComponent(out MixedRealityInputModule mrtkInputModule))
-        {
-            //mrtkInputModule.enabled = enable;
-            if (enable)
-            {
-                mrtkInputModule.enabled = enable;
-            }
-            else
-            {
-                Destroy(mrtkInputModule);
-            }
-        }
-        else if (enable)
-        {
-            ARCamera.AddComponent<MixedRealityInputModule>();
-        }
-
-        if (ARCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
-        {
-            //trackedPoseDriver.enabled = enable;
-            if (enable)
-            {
-                trackedPoseDriver.enabled = enable;
-            }
-            else
-            {
-                Destroy(trackedPoseDriver);
-            }
-        }
-        else if (enable)
-        {
-            var obj = ARCamera.AddComponent<TrackedPoseDriver>();
-            //  obj.UseRelativeTransform = true;
-        }
-        //if (ARCamera.TryGetComponent(out GazeProvider gazeProvider))
-        //{
-        //    if (enable)
-        //    {
-        //        gazeProvider.enabled = enable;
-        //    }
-        //    else
-        //    {
-        //        Destroy(gazeProvider);
-        //    }
-        //}
-        //else if (enable)
-        //{
-        //    ARCamera.AddComponent<GazeProvider>();
-        //}
     }
 }
