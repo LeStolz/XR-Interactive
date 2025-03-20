@@ -73,7 +73,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   HMDPrefab: {fileID: 2980657018758764505, guid: 43fea61e4cd2dbe44863e22d25f02fcb,
     type: 3}
-  SerTrackerPrefab: {fileID: 635232231450708762, guid: 335a6c0f62b60624e84ad86e124ffc76,
+  ServerTrackerPrefab: {fileID: 635232231450708762, guid: 335a6c0f62b60624e84ad86e124ffc76,
     type: 3}
   ZEDPrefab: {fileID: -5284644783758453236, guid: a774ad3674b5d624193980dae5a44bdb,
     type: 3}

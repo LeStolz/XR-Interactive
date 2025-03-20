@@ -10,8 +10,6 @@ namespace Multiplayer
 		HitMarker[] hitMarkers;
 		[SerializeField]
 		int id;
-		[SerializeField]
-		ServerTrackerManager serverTrackerManager;
 
 		public void StartRayCastAndTeleport(Camera outputPortal)
 		{

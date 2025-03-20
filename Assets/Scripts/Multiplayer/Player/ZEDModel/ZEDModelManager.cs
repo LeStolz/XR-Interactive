@@ -1,19 +1,14 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Multiplayer
 {
     class ZEDModelManager : NetworkPlayer
     {
-        public readonly float HEIGHT_OFFSET_FROM_TRACKER = -1.51f;
-
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
         GameObject ZEDModel;
-        [SerializeField]
-        GameObject calibrationPoint;
         [SerializeField]
         GameObject cameraEyes;
         [SerializeField]
@@ -26,7 +21,7 @@ namespace Multiplayer
         ZEDArUcoDetectionManager originDetectionManager;
         readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
 
-        ServerTrackerManager serTrackerManager;
+        ServerTrackerManager serverTrackerManager;
         [field: SerializeField]
         public HitMarker[] HitMarkers { get; private set; }
 
@@ -54,19 +49,6 @@ namespace Multiplayer
             }
         }
 
-        [Rpc(SendTo.Owner)]
-        public void RequestCalibrationRpc()
-        {
-            serTrackerManager = FindFirstObjectByType<ServerTrackerManager>();
-            if (serTrackerManager != null)
-            {
-                serTrackerManager.CalibrateRpc(
-                    calibrationPoint.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                    calibrationPoint.transform.forward
-                );
-            }
-        }
-
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();
@@ -87,14 +69,18 @@ namespace Multiplayer
                     calibrator.StartCalibration();
                 }
 
-                if (serTrackerManager != null)
+                if (serverTrackerManager != null)
                 {
-                    for (int i = 0; i < serTrackerManager.Trackers.Length; i++)
+                    for (int i = 0; i < serverTrackerManager.Trackers.Length; i++)
                     {
-                        serTrackerManager.Trackers[i].StartRayCastAndTeleport(
+                        serverTrackerManager.Trackers[i].StartRayCastAndTeleport(
                             leftEye.GetComponent<Camera>()
                         );
                     }
+                }
+                else
+                {
+                    serverTrackerManager = FindFirstObjectByType<ServerTrackerManager>();
                 }
             }
         }
@@ -128,15 +114,6 @@ namespace Multiplayer
                         inputPortal.Calibrate();
 
                         ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
-
-                        serTrackerManager = FindFirstObjectByType<ServerTrackerManager>();
-                        if (serTrackerManager != null)
-                        {
-                            serTrackerManager.CalibrateRpc(
-                                calibrationPoint.transform.position + new Vector3(0, HEIGHT_OFFSET_FROM_TRACKER, 0),
-                                calibrationPoint.transform.forward
-                            );
-                        }
                     }
                 );
             }

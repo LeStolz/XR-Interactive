@@ -518,37 +518,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1 &3945549727168162281
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 871543778471059239}
-  m_Layer: 0
-  m_Name: CalibrationPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &871543778471059239
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3945549727168162281}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.02, y: -0.022499999, z: -0.032250002}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 6214682957058095759}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4754742899233775574
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +549,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8048376942498337546}
-  - {fileID: 871543778471059239}
   m_Father: {fileID: 2234147197840847253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2909400726771943326
@@ -910,7 +878,6 @@ MonoBehaviour:
   - {fileID: 7790811099120680775}
   - {fileID: 8325605581026384357}
   ZEDModel: {fileID: 4754742899233775574}
-  calibrationPoint: {fileID: 3945549727168162281}
   cameraEyes: {fileID: 1681358979142847779}
   inputPortal: {fileID: 1789519295153248951}
   marker: {fileID: 8325605581026384357}
