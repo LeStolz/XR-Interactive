@@ -24,7 +24,19 @@ namespace Multiplayer
                 canvas.SetActive(false);
             }
 
-            Calibrate(0);
+            if (IsOwner)
+            {
+                transform.SetPositionAndRotation(new Vector3(
+                    PlayerPrefs.GetFloat("ServerTrackerManagerPositionX", 0),
+                    PlayerPrefs.GetFloat("ServerTrackerManagerPositionY", 0),
+                    PlayerPrefs.GetFloat("ServerTrackerManagerPositionZ", 0)),
+                    Quaternion.Euler(new Vector3(
+                        PlayerPrefs.GetFloat("ServerTrackerManagerRotationX", 0),
+                        PlayerPrefs.GetFloat("ServerTrackerManagerRotationY", 0),
+                        PlayerPrefs.GetFloat("ServerTrackerManagerRotationZ", 0)
+                    ))
+                );
+            }
         }
 
         public void Calibrate(int trackerId)
@@ -44,6 +56,13 @@ namespace Multiplayer
 
             transform.SetParent(thisParent);
             Trackers[trackerId].transform.SetParent(trackerParent);
+
+            PlayerPrefs.SetFloat("ServerTrackerManagerPositionX", transform.position.x);
+            PlayerPrefs.SetFloat("ServerTrackerManagerPositionY", transform.position.y);
+            PlayerPrefs.SetFloat("ServerTrackerManagerPositionZ", transform.position.z);
+            PlayerPrefs.SetFloat("ServerTrackerManagerRotationX", transform.rotation.eulerAngles.x);
+            PlayerPrefs.SetFloat("ServerTrackerManagerRotationY", transform.rotation.eulerAngles.y);
+            PlayerPrefs.SetFloat("ServerTrackerManagerRotationZ", transform.rotation.eulerAngles.z);
 
             CalibrateRpc(transform.position, transform.rotation.eulerAngles);
         }
