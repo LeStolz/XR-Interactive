@@ -30,6 +30,29 @@ namespace Multiplayer
 			);
 		}
 
+		void Update()
+		{
+			if (!UpdateHitmarkers())
+			{
+				return;
+			}
+
+			for (int i = 0; i < hitMarkers.Length; i++)
+			{
+				if (hitMarkers[i].transform.position.y < -5)
+				{
+					DrawLine(
+						i,
+						arrow.transform.position,
+						arrow.transform.position + arrow.transform.forward * 10
+					);
+					continue;
+				}
+
+				DrawLine(i, arrow.transform.position, hitMarkers[i].transform.position);
+			}
+		}
+
 		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
 		{
 			if (depth < 0)
@@ -41,11 +64,6 @@ namespace Multiplayer
 			{
 				hitMarkers[depth].transform.position = hit.point;
 				hitMarkers[depth].transform.forward = hit.normal;
-
-				serverTrackerManager.DrawLineRpc(
-					id, depth,
-					ray.origin, hitMarkers[depth].transform.position
-				);
 
 				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
@@ -62,11 +80,6 @@ namespace Multiplayer
 			}
 			else
 			{
-				serverTrackerManager.DrawLineRpc(
-					id, depth,
-					ray.origin, ray.origin + ray.direction * 10
-				);
-
 				while (depth >= 0)
 				{
 					hitMarkers[depth].transform.position = new(0, -10, 0);
@@ -75,7 +88,7 @@ namespace Multiplayer
 			}
 		}
 
-		public void DrawLine(int hitMarkerId, Vector3 start, Vector3 end)
+		void DrawLine(int hitMarkerId, Vector3 start, Vector3 end)
 		{
 			if (!UpdateHitmarkers())
 			{

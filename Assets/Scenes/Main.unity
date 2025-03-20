@@ -875,7 +875,7 @@ PrefabInstance:
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
       propertyPath: localRole
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
@@ -1950,6 +1950,6 @@ SceneRoots:
   - {fileID: 1996598795}
   - {fileID: 1235325151}
   - {fileID: 1421188171}
-  - {fileID: 767109367}
   - {fileID: 1699433042}
+  - {fileID: 767109367}
   - {fileID: 636736290}

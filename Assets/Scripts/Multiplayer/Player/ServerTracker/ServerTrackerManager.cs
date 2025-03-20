@@ -41,11 +41,5 @@ namespace Multiplayer
             transform.Rotate(Vector3.up, angleDifference);
             transform.position = eulerPos - (camera.transform.position - transform.position);
         }
-
-        [Rpc(SendTo.Everyone)]
-        public void DrawLineRpc(int trackerId, int hitMarkerId, Vector3 start, Vector3 end)
-        {
-            Trackers[trackerId].DrawLine(hitMarkerId, start, end);
-        }
     }
 }
