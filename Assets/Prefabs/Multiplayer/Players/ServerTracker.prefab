@@ -1532,7 +1532,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 4553792172343494461}
   id: 0
-  serverTrackerManager: {fileID: 3230529017000498113}
 --- !u!114 &706879981415831591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1619,6 +1618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  OFFSET: {x: 1.365, y: 0, z: -1.325}
   <Trackers>k__BackingField:
   - {fileID: 4390638607340976808}
   - {fileID: 5006859864287978664}
@@ -2099,7 +2099,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 8273921436517110861}
   id: 1
-  serverTrackerManager: {fileID: 3230529017000498113}
 --- !u!114 &2421054737287718669
 MonoBehaviour:
   m_ObjectHideFlags: 0

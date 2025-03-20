@@ -11,6 +11,11 @@
 
 ## Implementation
 
+### Measurements
+
+- Center of marker to side: 41.5cm.
+- Side length of tile: 45.5cm.
+
 The following calibration steps do not need to be in order.
 
 ### Calibrate ZED

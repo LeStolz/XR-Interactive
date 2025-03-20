@@ -1,9 +1,13 @@
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Multiplayer
 {
     class ServerTrackerManager : NetworkPlayer
     {
+        [SerializeField]
+        Vector3 OFFSET;
+
         [field: SerializeField]
         public Tracker[] Trackers { get; private set; }
         [SerializeField]
@@ -29,10 +33,18 @@ namespace Multiplayer
             Trackers[trackerId].transform.SetParent(null);
             transform.SetParent(Trackers[trackerId].transform);
 
-            Trackers[trackerId].transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90, 0, 0)));
+            Trackers[trackerId].transform.SetPositionAndRotation(OFFSET, Quaternion.Euler(new(-90, 0, 0)));
 
             transform.SetParent(thisParent);
             Trackers[trackerId].transform.SetParent(trackerParent);
+
+            CalibrateRpc(transform.position, transform.rotation.eulerAngles);
+        }
+
+        [Rpc(SendTo.NotMe)]
+        void CalibrateRpc(Vector3 position, Vector3 rotation)
+        {
+            transform.SetPositionAndRotation(position, Quaternion.Euler(rotation));
         }
     }
 }
