@@ -3,14 +3,18 @@
 ## Todo
 
 - Local + auto connect.
-- Fix trackers (rewrite readme), Hololens, display and origin error in calibration.
-- Less bandwidth 3.
+- Fix trackers, Hololens, display and origin error in calibration.
 
 ## Setup
 
 - Download OpenCVForUnity.
 
 ## Implementation
+
+### Measurements
+
+- Center of marker to side: 41.5cm.
+- Side length of tile: 45.5cm.
 
 The following calibration steps do not need to be in order.
 
@@ -21,9 +25,7 @@ The following calibration steps do not need to be in order.
 
 ### Calibrate Vive trackers
 
-- Headset is placed right under ZED.
-- By subtracting the y-coordinate of ZED by some meters, we get the position of the headset.
-- By setting the forward vector of the headset to be in the same plane as ZED's, we get its orientation.
+- Detect origin by placing one of the trackers at an offset of some meters from the ID 0 marker.
 
 ### Calibrate HMD(s)
 

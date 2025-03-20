@@ -1,5 +1,4 @@
 using UnityEngine;
-using Microsoft.MixedReality.Toolkit.Input;
 using System;
 using System.Collections;
 using UnityEngine.SpatialTracking;
@@ -34,7 +33,7 @@ public class CalibrationManager : MonoBehaviour
 
     void Start()
     {
-        if (NetworkGameManager.Instance.localRole != Role.HMD && NetworkGameManager.Instance.localRole != Role.ServerTracker)
+        if (NetworkGameManager.Instance.localRole != Role.HMD)
         {
             Destroy(gameObject);
             Instance = null;

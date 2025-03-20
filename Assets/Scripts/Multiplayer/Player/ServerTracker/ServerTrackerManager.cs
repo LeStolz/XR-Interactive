@@ -5,47 +5,72 @@ namespace Multiplayer
 {
     class ServerTrackerManager : NetworkPlayer
     {
+        [SerializeField]
+        Vector3 OFFSET;
+
         [field: SerializeField]
         public Tracker[] Trackers { get; private set; }
         [SerializeField]
         new GameObject camera;
+        [SerializeField]
+        GameObject canvas;
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
+            if (!IsOwner)
+            {
+                canvas.SetActive(false);
+            }
+
             if (IsOwner)
             {
-                foreach (var tracker in Trackers)
-                {
-                    tracker.gameObject.SetActive(true);
-                }
-
-                var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
-                if (ZedModelManager != null)
-                {
-                    ZedModelManager.RequestCalibrationRpc();
-                }
+                transform.SetPositionAndRotation(new Vector3(
+                    PlayerPrefs.GetFloat("ServerTrackerManagerPositionX", 0),
+                    PlayerPrefs.GetFloat("ServerTrackerManagerPositionY", 0),
+                    PlayerPrefs.GetFloat("ServerTrackerManagerPositionZ", 0)),
+                    Quaternion.Euler(new Vector3(
+                        PlayerPrefs.GetFloat("ServerTrackerManagerRotationX", 0),
+                        PlayerPrefs.GetFloat("ServerTrackerManagerRotationY", 0),
+                        PlayerPrefs.GetFloat("ServerTrackerManagerRotationZ", 0)
+                    ))
+                );
             }
         }
 
-        [Rpc(SendTo.Owner)]
-        public void CalibrateRpc(Vector3 eulerPos, Vector3 targetForward)
+        public void Calibrate(int trackerId)
         {
-            transform.rotation = Quaternion.identity;
+            if (trackerId < 0 || trackerId >= Trackers.Length)
+            {
+                return;
+            }
 
-            var targetForwardXZ = new Vector3(targetForward.x, 0, targetForward.z).normalized;
-            var forwardXZ = new Vector3(camera.transform.forward.x, 0, camera.transform.forward.z).normalized;
-            var angleDifference = Vector3.SignedAngle(forwardXZ, targetForwardXZ, Vector3.up);
+            var trackerParent = Trackers[trackerId].transform.parent;
+            var thisParent = transform.parent;
 
-            transform.Rotate(Vector3.up, angleDifference);
-            transform.position = eulerPos - (camera.transform.position - transform.position);
+            Trackers[trackerId].transform.SetParent(null);
+            transform.SetParent(Trackers[trackerId].transform);
+
+            Trackers[trackerId].transform.SetPositionAndRotation(OFFSET, Quaternion.Euler(new(-90, 0, 0)));
+
+            transform.SetParent(thisParent);
+            Trackers[trackerId].transform.SetParent(trackerParent);
+
+            PlayerPrefs.SetFloat("ServerTrackerManagerPositionX", transform.position.x);
+            PlayerPrefs.SetFloat("ServerTrackerManagerPositionY", transform.position.y);
+            PlayerPrefs.SetFloat("ServerTrackerManagerPositionZ", transform.position.z);
+            PlayerPrefs.SetFloat("ServerTrackerManagerRotationX", transform.rotation.eulerAngles.x);
+            PlayerPrefs.SetFloat("ServerTrackerManagerRotationY", transform.rotation.eulerAngles.y);
+            PlayerPrefs.SetFloat("ServerTrackerManagerRotationZ", transform.rotation.eulerAngles.z);
+
+            CalibrateRpc(transform.position, transform.rotation.eulerAngles);
         }
 
-        [Rpc(SendTo.Everyone)]
-        public void DrawLineRpc(int trackerId, int hitMarkerId, Vector3 start, Vector3 end)
+        [Rpc(SendTo.NotMe)]
+        void CalibrateRpc(Vector3 position, Vector3 rotation)
         {
-            Trackers[trackerId].DrawLine(hitMarkerId, start, end);
+            transform.SetPositionAndRotation(position, Quaternion.Euler(rotation));
         }
     }
 }
