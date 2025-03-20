@@ -536,7 +536,6 @@ MonoBehaviour:
   XRPlaySpace: {fileID: 698738287}
   XRCamera: {fileID: 1654893734}
   VirtualTrackingCamera: {fileID: 926644231}
-  trackMarkerDuration: 1000
   OpenCVMarkerTrackingModule: {fileID: 1498878456}
   OpenCVMarker: {fileID: 792238647}
 --- !u!4 &767109367
@@ -996,7 +995,7 @@ PrefabInstance:
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
       propertyPath: localRole
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
