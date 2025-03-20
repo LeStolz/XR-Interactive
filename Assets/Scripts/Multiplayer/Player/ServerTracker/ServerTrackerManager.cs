@@ -12,10 +12,17 @@ namespace Multiplayer
         public Tracker[] Trackers { get; private set; }
         [SerializeField]
         new GameObject camera;
+        [SerializeField]
+        GameObject canvas;
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+
+            if (!IsOwner)
+            {
+                canvas.SetActive(false);
+            }
 
             Calibrate(0);
         }

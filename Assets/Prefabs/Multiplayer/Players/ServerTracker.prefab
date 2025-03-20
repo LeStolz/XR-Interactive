@@ -262,7 +262,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!82 &4645702078195063602
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1623,6 +1623,7 @@ MonoBehaviour:
   - {fileID: 4390638607340976808}
   - {fileID: 5006859864287978664}
   camera: {fileID: 1017168899782425847}
+  canvas: {fileID: 4603712646318990185}
 --- !u!1 &7848739054143859491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1885,7 +1886,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!82 &2367687808078787906
 AudioSource:
   m_ObjectHideFlags: 0
