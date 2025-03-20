@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Multiplayer
 {
-    class Calibrator
+    public class Calibrator
     {
         int iterations = 0;
         const int MAX_ITERATIONS = 30;

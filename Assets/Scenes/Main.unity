@@ -421,7 +421,7 @@ MonoBehaviour:
   XRPlaySpace: {fileID: 698738287}
   XRCamera: {fileID: 1654893734}
   VirtualTrackingCamera: {fileID: 926644231}
-  trackMarkerDuration: 3
+  trackMarkerDuration: 1000
   OpenCVMarkerTrackingModule: {fileID: 1498878456}
   OpenCVMarker: {fileID: 792238647}
 --- !u!4 &767109367

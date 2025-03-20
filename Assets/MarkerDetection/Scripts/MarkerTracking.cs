@@ -5,7 +5,7 @@ using UnityEngine;
 public class MarkerTracking : MonoBehaviour
 {
     public static float MARKER_LENGTH_IN_METERS_REAL = .43f;
-    static float MARKER_ERROR = 1.45f / 1.9f;
+    static float MARKER_ERROR = 1.0f;
 
     public static float MARKER_LENGTH_IN_METERS => MARKER_LENGTH_IN_METERS_REAL * MARKER_ERROR;
 

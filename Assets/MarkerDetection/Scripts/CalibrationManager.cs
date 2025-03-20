@@ -7,15 +7,14 @@ using Multiplayer;
 
 public class CalibrationManager : MonoBehaviour
 {
+    readonly Calibrator calibrator = new(2, new float[] { 7770.5f, 720f });
     public static CalibrationManager Instance = null;
-
     public Transform XRPlaySpace;
     public GameObject XRCamera;
     public GameObject VirtualTrackingCamera;
-    public float trackMarkerDuration = 3000f;
+    private float trackMarkerDuration = 2f;
     public GameObject OpenCVMarkerTrackingModule;
     public GameObject OpenCVMarker;
-
     float trackMarkerCountDown = 0f;
     public bool HMDMarkerTracking { get; set; } = false;
     public bool MarkerTracked { get; private set; }
@@ -56,15 +55,34 @@ public class CalibrationManager : MonoBehaviour
     {
         if (trackMarkerCountDown >= trackMarkerDuration && !MarkerTracked)
         {
-            if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
+            calibrator.StartCalibration();
+            calibrator.Calibrate(
+            new Vector3[] { OpenCVMarker.transform.position, OpenCVMarker.transform.rotation.eulerAngles },
+            (averages) =>
             {
-                trackedPoseDriver.enabled = true;
-            }
+                var markerPositionAverage = averages[0];
+                var markerRotationAverage = averages[1];
 
-            TurnOffMarkerTrackingModule();
+                Debug.Log(markerPositionAverage);
+                Debug.Log(markerRotationAverage);
 
-            XRCamera.GetComponent<Camera>().fieldOfView = VirtualTrackingCamera.GetComponent<Camera>().fieldOfView;
-            MarkerTracked = true;
+                OpenCVMarker.transform.SetPositionAndRotation(
+                            markerPositionAverage,
+                            Quaternion.Euler(markerRotationAverage)
+                );
+
+                if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
+                {
+                    trackedPoseDriver.enabled = true;
+                }
+                
+                TurnOffMarkerTrackingModule();
+
+                XRCamera.GetComponent<Camera>().fieldOfView = VirtualTrackingCamera.GetComponent<Camera>().fieldOfView;
+
+                MarkerTracked = true;
+            });
+
         }
         else
         {
