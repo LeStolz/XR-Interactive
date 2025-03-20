@@ -933,7 +933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageRetriever: {fileID: 5588430175930192676}
-  markerWidthMeters: 0.43
+  markerWidthMeters: 0.433
   markerDictionary: 0
 --- !u!1 &7819493227129665547
 GameObject:

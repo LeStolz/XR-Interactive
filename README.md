@@ -15,6 +15,8 @@
 
 - Center of marker to side: 41.5cm.
 - Side length of tile: 45.5cm.
+- Side length of floor marker: 43.3cm.
+- Side length of portal marker: 34cm.
 
 The following calibration steps do not need to be in order.
 
@@ -26,6 +28,7 @@ The following calibration steps do not need to be in order.
 ### Calibrate Vive trackers
 
 - Detect origin by placing one of the trackers at an offset of some meters from the ID 0 marker.
+- Position and rotation is saved for subsequent uses.
 
 ### Calibrate HMD(s)
 
