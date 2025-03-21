@@ -6,9 +6,6 @@
         "Unity.Netcode.Runtime",
         "Unity.Collections",
         "Unity.Services.Core",
-        "Unity.Services.Lobbies",
-        "Unity.Services.Authentication",
-        "Unity.Services.Relay",
         "Unity.XR.Management",
         "Unity.XR.Hands",
         "Unity.XR.Interaction.Toolkit",
@@ -21,7 +18,9 @@
         "Unity.Multiplayer.Playmode",
         "EnoxSoftware.OpenCVForUnity",
         "ZED",
-        "SteamVR"
+        "SteamVR",
+        "Netcode for GameObjects Community Extensions",
+        "Unity.Networking.Transport"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

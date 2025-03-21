@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +14,7 @@ namespace Multiplayer
         [SerializeField] GameObject m_JoinImage;
 
         LobbyUI m_LobbyListUI;
-        Lobby m_Lobby;
+        DiscoveryResponseData m_Lobby;
 
         bool m_NonJoinable = false;
 
@@ -24,28 +23,16 @@ namespace Multiplayer
             ToggleHover(false);
         }
 
-        public void CreateLobbyUI(Lobby lobby, LobbyUI lobbyListUI)
+        public void CreateLobbyUI(DiscoveryResponseData lobby, LobbyUI lobbyListUI)
         {
             m_NonJoinable = false;
             m_Lobby = lobby;
             m_LobbyListUI = lobbyListUI;
             m_JoinButton.onClick.AddListener(JoinRoom);
-            m_RoomNameText.text = lobby.Name;
-            m_PlayerCountText.text = $"{lobby.Players.Count}/{lobby.MaxPlayers}";
-            m_JoinButton.interactable = m_Lobby.AvailableSlots <= 0;
+            m_RoomNameText.text = lobby.ServerName;
+            m_PlayerCountText.text = "";
+            m_JoinButton.interactable = true;
             m_FullImage.SetActive(false);
-            m_JoinImage.SetActive(false);
-        }
-
-        public void CreateNonJoinableLobbyUI(Lobby lobby, LobbyUI lobbyListUI, string statusText)
-        {
-            m_NonJoinable = true;
-            m_JoinButton.interactable = false;
-            m_Lobby = lobby;
-            m_LobbyListUI = lobbyListUI;
-            m_RoomNameText.text = lobby.Name;
-            m_StatusText.text = statusText;
-            m_FullImage.SetActive(true);
             m_JoinImage.SetActive(false);
         }
 
@@ -54,14 +41,7 @@ namespace Multiplayer
             if (m_NonJoinable) return;
             if (toggle)
             {
-                if (m_Lobby != null && m_Lobby.AvailableSlots > 0)
-                {
-                    SetLobbyAvailable(true);
-                }
-                else
-                {
-                    SetLobbyAvailable(false);
-                }
+                SetLobbyAvailable(true);
             }
             else
             {
@@ -75,8 +55,7 @@ namespace Multiplayer
             m_JoinImage.SetActive(available);
             m_FullImage.SetActive(!available);
 
-            if (m_Lobby != null)
-                m_JoinButton.interactable = available;
+            m_JoinButton.interactable = available;
         }
 
         private void OnDestroy()

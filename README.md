@@ -2,7 +2,7 @@
 
 ## Todo
 
-- Local + auto connect.
+- connect, reconnect.
 - Fix trackers, Hololens, display and origin error in calibration.
 
 ## Setup

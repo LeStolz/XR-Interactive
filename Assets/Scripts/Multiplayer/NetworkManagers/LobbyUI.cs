@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Services.Lobbies.Models;
 using UnityEngine;
 using TMPro;
 
@@ -10,22 +9,18 @@ namespace Multiplayer
         [Header("Lobby List")]
         [SerializeField] Transform m_LobbyListParent;
         [SerializeField] GameObject m_LobbyListPrefab;
-        [SerializeField] float m_AutoRefreshTime = 5.0f;
-        [SerializeField] float m_RefreshCooldownTime = .5f;
+        [SerializeField] float getLobbiesTime = 5.0f;
+        [SerializeField] float refreshLobbiesTime = .5f;
 
         [Header("Connection Texts")]
         [SerializeField] TMP_Text m_ConnectionUpdatedText;
         [SerializeField] TMP_Text m_ConnectionSuccessText;
         [SerializeField] TMP_Text m_ConnectionFailedText;
 
-        [SerializeField] TMP_InputField m_RoomNameText;
-
         [SerializeField] GameObject[] m_ConnectionSubPanels;
 
-        Coroutine m_UpdateLobbiesRoutine;
-        Coroutine m_CooldownFillRoutine;
-
-        int m_PlayerCount;
+        Coroutine GetLobbiesRoutine;
+        Coroutine RefreshLobbiesRoutine;
 
         private void Awake()
         {
@@ -34,8 +29,6 @@ namespace Multiplayer
 
         private void Start()
         {
-            m_PlayerCount = NetworkGameManager.maxPlayers;
-
             NetworkGameManager.Instance.connectionFailedAction += FailedToConnect;
             NetworkGameManager.Instance.connectionUpdated += ConnectedUpdated;
 
@@ -62,24 +55,11 @@ namespace Multiplayer
 
             LobbyManager.status.Unsubscribe(ConnectedUpdated);
         }
-        public async void CheckInternetAsync()
+        public void CheckInternetAsync()
         {
             if (NetworkGameManager.Instance == null)
                 return;
 
-            if (!NetworkGameManager.Instance.IsAuthenticated())
-            {
-                try
-                {
-                    await NetworkGameManager.Instance.Authenticate();
-                    ToggleConnectionSubPanel(4);
-                }
-                catch
-                {
-                    ToggleConnectionSubPanel(0);
-                    return;
-                }
-            }
             CheckForInternet();
         }
 
@@ -95,36 +75,18 @@ namespace Multiplayer
             }
         }
 
-        public void CreateLobby()
-        {
-            NetworkGameManager.Connected.Subscribe(OnConnected);
-            m_RoomNameText.text = $"{NetworkGameManager.LocalPlayerName.Value}'s Table";
-            NetworkGameManager.Instance.CreateNewLobby(m_RoomNameText.text, false, m_PlayerCount);
-            m_ConnectionSuccessText.text = $"Joining {m_RoomNameText.text}";
-        }
-
-        public void UpdatePlayerCount(int count)
-        {
-            m_PlayerCount = Mathf.Clamp(count, 1, NetworkGameManager.maxPlayers);
-        }
-
-        public void CancelConnection()
-        {
-            NetworkGameManager.Instance.CancelMatchmaking();
-        }
-
-        public void JoinLobby(Lobby lobby)
+        public void JoinLobby(DiscoveryResponseData lobby)
         {
             ToggleConnectionSubPanel(1);
             NetworkGameManager.Connected.Subscribe(OnConnected);
             NetworkGameManager.Instance.JoinLobbySpecific(lobby);
-            m_ConnectionSuccessText.text = $"Joining {lobby.Name}";
+            m_ConnectionSuccessText.text = $"Joining {lobby.ServerName}";
         }
 
-        public void QuickJoinLobby()
+        public void CreateLobby()
         {
             NetworkGameManager.Connected.Subscribe(OnConnected);
-            NetworkGameManager.Instance.QuickJoinLobby();
+            NetworkGameManager.Instance.CreateLobby();
             m_ConnectionSuccessText.text = "Joining Random";
         }
 
@@ -170,68 +132,53 @@ namespace Multiplayer
 
         public void HideLobbies()
         {
-            EnableRefresh();
-            if (m_UpdateLobbiesRoutine != null) StopCoroutine(m_UpdateLobbiesRoutine);
+            if (GetLobbiesRoutine != null) StopCoroutine(GetLobbiesRoutine);
+            if (RefreshLobbiesRoutine != null) StopCoroutine(RefreshLobbiesRoutine);
         }
 
         public void ShowLobbies()
         {
             GetAllLobbies();
-            if (m_UpdateLobbiesRoutine != null) StopCoroutine(m_UpdateLobbiesRoutine);
-            m_UpdateLobbiesRoutine = StartCoroutine(UpdateAvailableLobbies());
+            if (GetLobbiesRoutine != null) StopCoroutine(GetLobbiesRoutine);
+            GetLobbiesRoutine = StartCoroutine(GetAvailableLobbies());
+
+            if (RefreshLobbiesRoutine != null) StopCoroutine(RefreshLobbiesRoutine);
+            RefreshLobbiesRoutine = StartCoroutine(RefreshAvailableLobbies());
         }
 
-        IEnumerator UpdateAvailableLobbies()
+        IEnumerator GetAvailableLobbies()
         {
             while (true)
             {
-                yield return new WaitForSeconds(m_AutoRefreshTime);
+                yield return new WaitForSeconds(getLobbiesTime);
                 GetAllLobbies();
             }
         }
 
-        bool onCD = false;
-        void EnableRefresh()
+        IEnumerator RefreshAvailableLobbies()
         {
-            onCD = false;
+            while (true)
+            {
+                yield return new WaitForSeconds(refreshLobbiesTime);
+                LobbyManager.RefreshLobbies();
+            }
         }
 
-        IEnumerator UpdateButtonCooldown()
+        void GetAllLobbies()
         {
-            onCD = true;
-            yield return new WaitForSeconds(m_RefreshCooldownTime);
-            EnableRefresh();
-        }
+            if ((int)NetworkGameManager.CurrentConnectionState.Value < 2) return;
 
-        async void GetAllLobbies()
-        {
-            if (onCD || (int)NetworkGameManager.CurrentConnectionState.Value < 2) return;
-            if (m_CooldownFillRoutine != null) StopCoroutine(m_CooldownFillRoutine);
-            m_CooldownFillRoutine = StartCoroutine(UpdateButtonCooldown());
-
-            QueryResponse lobbies = await LobbyManager.GetLobbiesAsync();
+            DiscoveryResponseData[] lobbies = LobbyManager.GetLobbies();
 
             foreach (Transform t in m_LobbyListParent)
             {
                 Destroy(t.gameObject);
             }
 
-            if (lobbies.Results != null || lobbies.Results.Count > 0)
+            if (lobbies != null || lobbies.Length > 0)
             {
-                foreach (var lobby in lobbies.Results)
+                foreach (var lobby in lobbies)
                 {
-                    if (LobbyManager.CheckForLobbyFilter(lobby))
-                    {
-                        continue;
-                    }
-
-                    if (LobbyManager.CheckForIncompatibilityFilter(lobby))
-                    {
-                        LobbyListSlotUI newLobbyUI = Instantiate(m_LobbyListPrefab, m_LobbyListParent).GetComponent<LobbyListSlotUI>();
-                        newLobbyUI.CreateNonJoinableLobbyUI(lobby, this, "Version Conflict");
-                        continue;
-                    }
-
                     if (LobbyManager.CanJoinLobby(lobby))
                     {
                         LobbyListSlotUI newLobbyUI = Instantiate(m_LobbyListPrefab, m_LobbyListParent).GetComponent<LobbyListSlotUI>();

@@ -205,7 +205,7 @@ namespace Multiplayer
 
         public void QuickJoin()
         {
-            NetworkGameManager.Instance.QuickJoinLobby();
+            NetworkGameManager.Instance.CreateLobby();
         }
 
         public void SetVolumeLevel(float sliderValue)
