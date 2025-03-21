@@ -525,7 +525,7 @@ GameObject:
   - component: {fileID: 767109367}
   - component: {fileID: 767109366}
   m_Layer: 0
-  m_Name: CalibrationManager
+  m_Name: HMDCalibrationManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1155,6 +1155,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2611566317944248850, guid: 6a3a80b84761e7f46b0710303600cdc4,
+        type: 3}
+      propertyPath: m_Name
+      value: VirtualTrackingCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 3675988287524684941, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -1163,7 +1168,12 @@ PrefabInstance:
     - target: {fileID: 4226099292723712351, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
       propertyPath: m_Name
-      value: HMDCalibrationManager
+      value: HMDCalibrationContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610157513624027335, guid: 6a3a80b84761e7f46b0710303600cdc4,
+        type: 3}
+      propertyPath: m_Name
+      value: Marker
       objectReference: {fileID: 0}
     - target: {fileID: 5217361941438328433, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
@@ -1233,6 +1243,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4932148418923866471, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
+    - {fileID: 7207981976385658809, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
+    - {fileID: 382418051581230540, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
+    - {fileID: 6729562655902203827, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
