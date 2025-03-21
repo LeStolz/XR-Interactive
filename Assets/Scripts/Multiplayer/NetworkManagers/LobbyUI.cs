@@ -9,8 +9,8 @@ namespace Multiplayer
         [Header("Lobby List")]
         [SerializeField] Transform m_LobbyListParent;
         [SerializeField] GameObject m_LobbyListPrefab;
-        [SerializeField] float getLobbiesTime = 5.0f;
-        [SerializeField] float refreshLobbiesTime = .5f;
+        [SerializeField] float getLobbiesTime = 1.0f;
+        [SerializeField] float refreshLobbiesTime = 1.5f;
 
         [Header("Connection Texts")]
         [SerializeField] TMP_Text m_ConnectionUpdatedText;
@@ -97,8 +97,7 @@ namespace Multiplayer
                 m_ConnectionSubPanels[i].SetActive(i == panelId);
             }
 
-
-            if (panelId == 1)
+            if (panelId == 0)
             {
                 ShowLobbies();
             }
@@ -139,6 +138,7 @@ namespace Multiplayer
         public void ShowLobbies()
         {
             GetAllLobbies();
+
             if (GetLobbiesRoutine != null) StopCoroutine(GetLobbiesRoutine);
             GetLobbiesRoutine = StartCoroutine(GetAvailableLobbies());
 

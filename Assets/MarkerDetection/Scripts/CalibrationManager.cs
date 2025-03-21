@@ -14,10 +14,14 @@ public class CalibrationManager : MonoBehaviour
     float trackMarkerDuration = 3f;
     public GameObject OpenCVMarkerTrackingModule;
     public GameObject OpenCVMarker;
+    public GameObject MarkerSettings;
     float trackMarkerCountDown = 0f;
     public bool HMDMarkerTracking { get; set; } = false;
     public bool MarkerTracked { get; private set; }
     public GameObject CloneMarker { get; private set; }
+
+    [SerializeField]
+    GameObject canvas;
 
     void Awake()
     {
@@ -38,6 +42,8 @@ public class CalibrationManager : MonoBehaviour
             Destroy(gameObject);
             Instance = null;
             return;
+        } else {
+            canvas.SetActive(true);
         }
 
         if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
@@ -55,11 +61,12 @@ public class CalibrationManager : MonoBehaviour
     {
         if (trackMarkerCountDown >= trackMarkerDuration && !MarkerTracked)
         {
-            if (!calibrating) {
+            if (!calibrating)
+            {
                 calibrating = true;
                 calibrator.StartCalibration();
             }
-            
+
             calibrator.Calibrate(
             new Vector3[] { OpenCVMarker.transform.position, OpenCVMarker.transform.rotation.eulerAngles },
             (averages) =>
@@ -76,7 +83,7 @@ public class CalibrationManager : MonoBehaviour
                 {
                     trackedPoseDriver.enabled = true;
                 }
-                
+
                 TurnOffMarkerTrackingModule();
 
                 XRCamera.GetComponent<Camera>().fieldOfView = VirtualTrackingCamera.GetComponent<Camera>().fieldOfView;
@@ -140,7 +147,7 @@ public class CalibrationManager : MonoBehaviour
         XRPlaySpace.transform.SetParent(CloneMarker.transform);
         CloneMarker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90f, 180f, 0f)));
         XRPlaySpace.transform.SetParent(null);
-        Destroy(VirtualTrackingCamera);
+        VirtualTrackingCamera.SetActive(false);
     }
 
     IEnumerator IE_WaitForCondition(Func<bool> condition, Action action)
@@ -148,4 +155,30 @@ public class CalibrationManager : MonoBehaviour
         yield return new WaitUntil(condition);
         action.Invoke();
     }
+
+    public void Recalibrate()
+    {
+        MarkerTracked = false;
+        calibrated = false;
+        calibrating = false;
+        trackMarkerCountDown = 0f;
+
+        OpenCVMarkerTrackingModule.SetActive(true);
+        OpenCVMarker.transform.SetParent(MarkerSettings.transform);
+        OpenCVMarker.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        
+        Destroy(CloneMarker);
+        VirtualTrackingCamera.transform.SetParent(OpenCVMarkerTrackingModule.transform);
+
+        XRPlaySpace.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        
+        if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
+        {
+            trackedPoseDriver.enabled = false;
+        }
+
+        XRCamera.transform.localPosition = Vector3.zero;
+        VirtualTrackingCamera.SetActive(true);
+    }
+
 }

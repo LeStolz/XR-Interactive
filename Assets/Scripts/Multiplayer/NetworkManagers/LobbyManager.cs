@@ -11,12 +11,6 @@ namespace Multiplayer
 {
     public class LobbyManager : MonoBehaviour
     {
-        static bool s_HideEditorInLobbies;
-
-
-        [Tooltip("This will hide editor created rooms from external builds.\nNOTE: This will not hide editor created rooms from other editors.")]
-        public bool hideEditorFromLobby = false;
-
         // Action that gets invoked when you fail to connect to a lobby. Primarily used for noting failure messages.
         public Action<string> OnLobbyFailed;
 
@@ -36,24 +30,14 @@ namespace Multiplayer
         const string k_DebugPrepend = "<color=#EC0CFA>[Lobby Manager]</color> ";
 
 
-        void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
+        public void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
         {
             discoveredServers[sender.Address] = response;
         }
 
-
-        private void Awake()
-        {
-
-            if (!Application.isEditor)
-            {
-                hideEditorFromLobby = false;
-            }
-            s_HideEditorInLobbies = hideEditorFromLobby;
-        }
-
         void Start()
         {
+            discovery = FindFirstObjectByType<ExampleNetworkDiscovery>();
             discovery.StartClient();
             discovery.ClientBroadcast(new DiscoveryBroadcastData());
         }
@@ -71,6 +55,7 @@ namespace Multiplayer
 
                 string lobbyName = $"{NetworkGameManager.LocalPlayerName.Value}'s Table";
                 discovery.ServerName = lobbyName;
+                NetworkManager.Singleton.StartHost();
 
                 m_Status.Value = "Connected To Lobby";
             }
