@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using TMPro;
-using Unity.Netcode;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
@@ -11,7 +10,7 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 namespace Multiplayer
 {
     [DefaultExecutionOrder(100)]
-    public class PlayerMenu : MonoBehaviour
+    public class PlayerMenuUI : MonoBehaviour
     {
         [SerializeField]
         XRInputButtonReader m_MenuButtonInput = new XRInputButtonReader("Menu Button");

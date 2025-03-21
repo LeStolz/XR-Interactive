@@ -67,7 +67,7 @@ namespace Multiplayer
 
 
         [SerializeField]
-        RoleButton[] roleButtons;
+        RoleUI[] roleButtons;
         public Role localRole;
 
         bool isShuttingDown = false;

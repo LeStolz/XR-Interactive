@@ -32,21 +32,17 @@ namespace Multiplayer
 
         public void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
         {
+            Debug.Log("ASDSD");
             discoveredServers[sender.Address] = response;
         }
 
         void Start()
         {
             discovery = FindFirstObjectByType<ExampleNetworkDiscovery>();
-            discovery.StartClient();
-            discovery.ClientBroadcast(new DiscoveryBroadcastData());
+            // discovery.StartClient();
+            // discovery.ClientBroadcast(new DiscoveryBroadcastData());
         }
 
-        /// <summary>
-        /// Quick Join Function will try and find any lobbies via QuickJoinLobbyAsync().
-        /// If no lobbies are found then a new lobby is created.
-        /// </summary>
-        /// <returns></returns>
         public void CreateLobby()
         {
             try
