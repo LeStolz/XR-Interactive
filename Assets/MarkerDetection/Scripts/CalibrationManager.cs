@@ -6,12 +6,12 @@ using Multiplayer;
 
 public class CalibrationManager : MonoBehaviour
 {
-    readonly Calibrator calibrator = new(2, new float[] { 7770.5f, 720f });
+    readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
     public static CalibrationManager Instance = null;
     public Transform XRPlaySpace;
     public GameObject XRCamera;
     public GameObject VirtualTrackingCamera;
-    private float trackMarkerDuration = 2f;
+    float trackMarkerDuration = 3f;
     public GameObject OpenCVMarkerTrackingModule;
     public GameObject OpenCVMarker;
     float trackMarkerCountDown = 0f;
@@ -50,11 +50,16 @@ public class CalibrationManager : MonoBehaviour
         VirtualTrackingCamera.SetActive(true);
     }
 
+    bool calibrating = false;
     void Update()
     {
         if (trackMarkerCountDown >= trackMarkerDuration && !MarkerTracked)
         {
-            calibrator.StartCalibration();
+            if (!calibrating) {
+                calibrating = true;
+                calibrator.StartCalibration();
+            }
+            
             calibrator.Calibrate(
             new Vector3[] { OpenCVMarker.transform.position, OpenCVMarker.transform.rotation.eulerAngles },
             (averages) =>
@@ -62,12 +67,9 @@ public class CalibrationManager : MonoBehaviour
                 var markerPositionAverage = averages[0];
                 var markerRotationAverage = averages[1];
 
-                Debug.Log(markerPositionAverage);
-                Debug.Log(markerRotationAverage);
-
                 OpenCVMarker.transform.SetPositionAndRotation(
-                            markerPositionAverage,
-                            Quaternion.Euler(markerRotationAverage)
+                    markerPositionAverage,
+                    Quaternion.Euler(markerRotationAverage)
                 );
 
                 if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
@@ -81,7 +83,6 @@ public class CalibrationManager : MonoBehaviour
 
                 MarkerTracked = true;
             });
-
         }
         else
         {
@@ -107,7 +108,7 @@ public class CalibrationManager : MonoBehaviour
 
     void TurnOffMarkerTrackingModule()
     {
-        PlayerHudNotification.Instance.ShowText("Marker tracked");
+        VirtualTrackingCamera.transform.position += new Vector3(0, -0.06f, 0);
 
         CloneMarker = Instantiate(OpenCVMarker, parent: OpenCVMarker.transform);
         CloneMarker.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
