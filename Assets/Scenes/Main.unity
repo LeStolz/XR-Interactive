@@ -906,6 +906,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Toy_Ball_Networked
       objectReference: {fileID: 0}
+    - target: {fileID: 2114642830811189264, guid: ab1b130fc34b0404cb10ad8f5892be88,
+        type: 3}
+      propertyPath: m_InteractionManager
+      value: 
+      objectReference: {fileID: 1996598797}
+    - target: {fileID: 3453687593931915612, guid: ab1b130fc34b0404cb10ad8f5892be88,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6459090689008647935, guid: ab1b130fc34b0404cb10ad8f5892be88,
         type: 3}
       propertyPath: m_Renderer
@@ -1031,7 +1041,7 @@ GameObject:
   - component: {fileID: 767109367}
   - component: {fileID: 767109366}
   m_Layer: 0
-  m_Name: CalibrationManager
+  m_Name: HMDCalibrationManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1899,6 +1909,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2611566317944248850, guid: 6a3a80b84761e7f46b0710303600cdc4,
+        type: 3}
+      propertyPath: m_Name
+      value: VirtualTrackingCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 3675988287524684941, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -1907,7 +1922,12 @@ PrefabInstance:
     - target: {fileID: 4226099292723712351, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
       propertyPath: m_Name
-      value: HMDCalibrationManager
+      value: HMDCalibrationContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610157513624027335, guid: 6a3a80b84761e7f46b0710303600cdc4,
+        type: 3}
+      propertyPath: m_Name
+      value: Marker
       objectReference: {fileID: 0}
     - target: {fileID: 5217361941438328433, guid: 6a3a80b84761e7f46b0710303600cdc4,
         type: 3}
@@ -1977,6 +1997,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4932148418923866471, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
+    - {fileID: 7207981976385658809, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
+    - {fileID: 382418051581230540, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
+    - {fileID: 6729562655902203827, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a3a80b84761e7f46b0710303600cdc4, type: 3}
@@ -2518,6 +2541,18 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1996598795}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1996598797 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1228200670664215197, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1996598795}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e4e6cca11330d4088d729ab4fc9d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1996598800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6484816944661230505, guid: 7d554cf076fc46143bcaf9a54fc2204d,

@@ -158,8 +158,6 @@ public class CalibrationManager : MonoBehaviour
 
     public void Recalibrate()
     {
-        Debug.Log("Recalibrating...");
-
         MarkerTracked = false;
         calibrated = false;
         calibrating = false;

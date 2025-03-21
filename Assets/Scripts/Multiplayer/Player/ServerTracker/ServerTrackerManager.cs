@@ -36,6 +36,8 @@ namespace Multiplayer
                         PlayerPrefs.GetFloat("ServerTrackerManagerRotationZ", 0)
                     ))
                 );
+
+                CalibrateRpc(transform.position, transform.rotation.eulerAngles);
             }
         }
 
