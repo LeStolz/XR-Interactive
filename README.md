@@ -9,14 +9,14 @@
 
 - Download OpenCVForUnity.
 
-## Implementation
-
-### Measurements
+## Measurements
 
 - Center of marker to side: 41.5cm.
 - Side length of tile: 45.5cm.
 - Side length of floor marker: 43.3cm.
 - Side length of portal marker: 34cm.
+
+## Implementation
 
 The following calibration steps do not need to be in order.
 

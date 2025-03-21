@@ -390,6 +390,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Toy_Ball_Networked
       objectReference: {fileID: 0}
+    - target: {fileID: 2114642830811189264, guid: ab1b130fc34b0404cb10ad8f5892be88,
+        type: 3}
+      propertyPath: m_InteractionManager
+      value: 
+      objectReference: {fileID: 1996598797}
+    - target: {fileID: 3453687593931915612, guid: ab1b130fc34b0404cb10ad8f5892be88,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6459090689008647935, guid: ab1b130fc34b0404cb10ad8f5892be88,
         type: 3}
       propertyPath: m_Renderer
@@ -536,7 +546,6 @@ MonoBehaviour:
   XRPlaySpace: {fileID: 698738287}
   XRCamera: {fileID: 1654893734}
   VirtualTrackingCamera: {fileID: 926644231}
-  trackMarkerDuration: 1000
   OpenCVMarkerTrackingModule: {fileID: 1498878456}
   OpenCVMarker: {fileID: 792238647}
 --- !u!4 &767109367
@@ -1653,6 +1662,18 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1996598795}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1996598797 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1228200670664215197, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1996598795}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83e4e6cca11330d4088d729ab4fc9d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1996598800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6484816944661230505, guid: 7d554cf076fc46143bcaf9a54fc2204d,
