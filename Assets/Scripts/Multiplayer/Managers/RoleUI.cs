@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Multiplayer
 {
-    class RoleButton : MonoBehaviour
+    class RoleUI : MonoBehaviour
     {
         public Color[] RoleColors => m_RoleColors;
 

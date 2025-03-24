@@ -2,7 +2,7 @@
 
 ## Todo
 
-- Local + auto connect.
+- connect, reconnect. LobbyManager, ExampleNetworkDiscovery, LobbyUI, NetworkGameManager, LobbyListSlotUI, Utils, ZEDModelManager, Portal
 - Fix trackers, Hololens, display and origin error in calibration.
 
 ## Setup

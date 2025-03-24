@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
-using Unity.Services.Lobbies.Models;
 using Unity.XR.CoreUtils.Bindings.Variables;
 using UnityEngine;
-using Unity.Services.Lobbies;
 using UnityEditor;
 using System.Collections;
 using UnityEngine.XR.Management;
@@ -19,23 +17,18 @@ namespace Multiplayer
     }
 #endif
 
-    [RequireComponent(typeof(LobbyManager)), RequireComponent(typeof(AuthenticationManager))]
+    [RequireComponent(typeof(LobbyManager))]
     public class NetworkGameManager : NetworkBehaviour
     {
         public enum ConnectionState
         {
-            None,
-            Authenticating,
-            Authenticated,
+            Offline,
             Connecting,
             Connected
         }
 
-        public const int maxPlayers = 6;
-
         public static NetworkGameManager Instance { get; private set; }
         public static ulong LocalId;
-        public static string AuthenicationId;
 
         public static BindableVariable<string> LocalPlayerName = new("");
         public static IReadOnlyBindableVariable<bool> Connected
@@ -48,15 +41,13 @@ namespace Multiplayer
         {
             get => connectionState;
         }
-        static BindableEnum<ConnectionState> connectionState = new BindableEnum<ConnectionState>(ConnectionState.None);
+        static BindableEnum<ConnectionState> connectionState = new BindableEnum<ConnectionState>(ConnectionState.Offline);
 
         public Action<ulong, bool> playerStateChanged;
         public Action<string> connectionUpdated;
         public Action<string> connectionFailedAction;
 
         public LobbyManager LobbyManager { get; private set; }
-
-        public AuthenticationManager AuthenticationManager { get; private set; }
 
 
 
@@ -76,13 +67,13 @@ namespace Multiplayer
 
 
         [SerializeField]
-        RoleButton[] roleButtons;
+        RoleUI[] roleButtons;
         public Role localRole;
 
         bool isShuttingDown = false;
         const string debugPrepend = "<color=#FAC00C>[Network Game Manager]</color> ";
 
-        protected virtual async void Awake()
+        protected virtual void Awake()
         {
             if (Instance != null)
             {
@@ -95,10 +86,9 @@ namespace Multiplayer
 
             LocalPlayerName.Value = "";
 
-            if (TryGetComponent(out LobbyManager lobbyManager) && TryGetComponent(out AuthenticationManager authenticationManager))
+            if (TryGetComponent(out LobbyManager lobbyManager))
             {
                 LobbyManager = lobbyManager;
-                AuthenticationManager = authenticationManager;
                 LobbyManager.OnLobbyFailed += ConnectionFailed;
             }
             else
@@ -116,19 +106,8 @@ namespace Multiplayer
 #endif
 
             connected.Value = false;
-            connectionState.Value = ConnectionState.Authenticating;
 
-            bool signedIn = await Authenticate();
-            if (!signedIn)
-            {
-                Utils.Log($"{debugPrepend}Failed to Authenticate.", 1);
-                ConnectionFailed("Failed to Authenticate.");
-                PlayerHudNotification.Instance.ShowText($"Failed to Authenticate.");
-            }
-            else
-            {
-                connectionState.Value = ConnectionState.Authenticated;
-            }
+            connectionState.Value = ConnectionState.Offline;
         }
 
         protected virtual void Start()
@@ -179,7 +158,7 @@ namespace Multiplayer
             ShutDown();
         }
 
-        async void ShutDown()
+        void ShutDown()
         {
             if (isShuttingDown) return;
             isShuttingDown = true;
@@ -188,17 +167,6 @@ namespace Multiplayer
             {
                 NetworkManager.Singleton.OnClientStopped -= OnLocalClientStopped;
             }
-
-            await LobbyManager.RemovePlayerFromLobby(AuthenicationId);
-        }
-
-        public async Task<bool> Authenticate()
-        {
-            return await AuthenticationManager.Authenticate();
-        }
-        public bool IsAuthenticated()
-        {
-            return AuthenticationManager.IsAuthenticated();
         }
 
         /// <summary>
@@ -217,14 +185,7 @@ namespace Multiplayer
             currentPlayerIDs.Clear();
             PlayerHudNotification.Instance.ShowText($"<b>Status:</b> Disconnected");
 
-            if (IsAuthenticated())
-            {
-                connectionState.Value = ConnectionState.Authenticated;
-            }
-            else
-            {
-                connectionState.Value = ConnectionState.None;
-            }
+            connectionState.Value = ConnectionState.Offline;
         }
 
         public virtual bool TryGetPlayerByID(ulong id, out NetworkPlayer player)
@@ -309,7 +270,7 @@ namespace Multiplayer
         public virtual void ConnectionFailed(string reason)
         {
             connectionFailedAction?.Invoke(reason);
-            connectionState.Value = Multiplayer.AuthenticationManager.IsAuthenticated() ? ConnectionState.Authenticated : ConnectionState.None;
+            connectionState.Value = ConnectionState.Offline;
         }
 
         public virtual void ConnectionUpdated(string update)
@@ -317,27 +278,30 @@ namespace Multiplayer
             connectionUpdated?.Invoke(update);
         }
 
-        public virtual async void QuickJoinLobby()
+        public virtual async void CreateLobby()
         {
             if (await AbleToConnect())
             {
-                ConnectToLobby(await LobbyManager.QuickJoinLobby());
+                LobbyManager.CreateLobby();
+                ConnectToLobby();
             }
         }
 
-        public virtual async void JoinLobbySpecific(Lobby lobby)
+        public virtual async void JoinLobbySpecific(DiscoveryResponseData lobby)
         {
             if (await AbleToConnect())
             {
-                ConnectToLobby(await LobbyManager.JoinLobby(lobby: lobby));
+                LobbyManager.JoinLobby(lobby: lobby);
+                ConnectToLobby();
             }
         }
 
-        public virtual async void CreateNewLobby(string roomName = null, bool isPrivate = false, int playerCount = maxPlayers)
+        public virtual async void CreateNewLobby()
         {
             if (await AbleToConnect())
             {
-                ConnectToLobby(await LobbyManager.CreateLobby(roomName, isPrivate, playerCount));
+                LobbyManager.CreateLobby();
+                ConnectToLobby();
             }
         }
 
@@ -354,7 +318,7 @@ namespace Multiplayer
             if (Connected.Value || connectionState.Value == ConnectionState.Connected)
             {
                 Utils.Log($"{debugPrepend}Already Connected to a Lobby. Disconnecting.", 0);
-                await DisconnectAsync();
+                Disconnect();
 
                 // Small wait while everything finishes disconnecting.
                 await Task.Delay(100);
@@ -364,9 +328,9 @@ namespace Multiplayer
             return true;
         }
 
-        protected virtual void ConnectToLobby(Lobby lobby)
+        protected virtual void ConnectToLobby()
         {
-            if (lobby == null || !ConnectedToLobby())
+            if (!ConnectedToLobby())
             {
                 FailedToConnect();
             }
@@ -374,72 +338,19 @@ namespace Multiplayer
 
         protected virtual bool ConnectedToLobby()
         {
-            bool connected;
-
-            if (LobbyManager.connectedLobby.HostId == AuthenicationId)
-            {
-                connected = NetworkManager.Singleton.StartHost();
-            }
-            else
-            {
-                connected = NetworkManager.Singleton.StartClient();
-            }
-
-            if (connected)
-            {
-                connectionState.Value = ConnectionState.Connected;
-                SubscribeToLobbyEvents();
-            }
-            else
-            {
-                Utils.Log($"{debugPrepend}Failed to connect to lobby {LobbyManager.connectedLobby.Name}.");
-                LobbyManager.OnLobbyFailed?.Invoke($"Failed to connect to lobby {LobbyManager.connectedLobby.Name}.");
-            }
-
-            return connected;
-        }
-
-        protected virtual async void SubscribeToLobbyEvents()
-        {
-            var callbacks = new LobbyEventCallbacks();
-            callbacks.LobbyChanged += OnLobbyChanged;
-            callbacks.LobbyEventConnectionStateChanged += OnLobbyEventConnectionStateChanged;
             try
             {
-                await LobbyService.Instance.SubscribeToLobbyEventsAsync(LobbyManager.connectedLobby.Id, callbacks);
-            }
-            catch (LobbyServiceException ex)
-            {
-                switch (ex.Reason)
-                {
-                    case LobbyExceptionReason.AlreadySubscribedToLobby: Utils.Log($"{debugPrepend}Already subscribed to lobby[{LobbyManager.connectedLobby.Id}]. We did not need to try and subscribe again. Exception Message: {ex.Message}", 1); break;
-                    case LobbyExceptionReason.SubscriptionToLobbyLostWhileBusy: Utils.Log($"{debugPrepend}Subscription to lobby events was lost while it was busy trying to subscribe. Exception Message: {ex.Message}", 2); throw;
-                    case LobbyExceptionReason.LobbyEventServiceConnectionError: Utils.Log($"{debugPrepend}Failed to connect to lobby events. Exception Message: {ex.Message}", 2); throw;
-                    default: throw;
-                }
-            }
-        }
+                connectionState.Value = ConnectionState.Connected;
+                Utils.Log($"{debugPrepend}Connected to lobby.");
 
-        private void OnLobbyEventConnectionStateChanged(LobbyEventConnectionState state)
-        {
-            switch (state)
-            {
-                case LobbyEventConnectionState.Unsubscribed: Utils.Log($"{debugPrepend}Lobby event now Unsubscribed"); break;
-                case LobbyEventConnectionState.Subscribing: Utils.Log($"{debugPrepend}Attempting to subscribe to lobby events"); break;
-                case LobbyEventConnectionState.Subscribed: Utils.Log($"{debugPrepend}Subscribing to lobby events now"); break;
-                case LobbyEventConnectionState.Unsynced:
-                    LobbyManager.ReconnectToLobby();
-                    Utils.Log($"{debugPrepend}Lobby Events now unsynced.\n\n{state}", 1);
-                    break;
-                case LobbyEventConnectionState.Error: Utils.Log($"{debugPrepend}Lobby event error.\n\n{state}", 2); break;
+                return true;
             }
-        }
-
-        protected virtual void OnLobbyChanged(ILobbyChanges changes)
-        {
-            if (!changes.LobbyDeleted)
+            catch (Exception)
             {
-                changes.ApplyToLobby(LobbyManager.connectedLobby);
+                Utils.Log($"{debugPrepend}Failed to connect to lobby.");
+                LobbyManager.OnLobbyFailed?.Invoke($"Failed to connect to lobby.");
+
+                return false;
             }
         }
 
@@ -453,34 +364,11 @@ namespace Multiplayer
             Utils.Log($"{debugPrepend}{failureMessage}", 1);
         }
 
-        public virtual async void CancelMatchmaking()
+        public virtual void Disconnect()
         {
-            if (IsAuthenticated())
-            {
-                connectionState.Value = ConnectionState.Authenticated;
-            }
-            await LobbyManager.RemovePlayerFromLobby(AuthenicationId);
-        }
-
-        public virtual async void Disconnect()
-        {
-            await DisconnectAsync();
-        }
-
-        public virtual async Task<bool> DisconnectAsync()
-        {
-            bool fullyDisconnected = await LobbyManager.RemovePlayerFromLobby(AuthenicationId);
             connected.Value = false;
             NetworkManager.Shutdown();
-            if (IsAuthenticated())
-            {
-                connectionState.Value = ConnectionState.Authenticated;
-            }
-            else
-            {
-                connectionState.Value = ConnectionState.None;
-            }
-            return fullyDisconnected;
+            connectionState.Value = ConnectionState.Offline;
         }
 
         public override void OnNetworkSpawn()
