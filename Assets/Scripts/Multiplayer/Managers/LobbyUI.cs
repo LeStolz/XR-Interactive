@@ -152,7 +152,6 @@ namespace Multiplayer
             {
                 yield return new WaitForSeconds(refreshLobbiesTime);
                 LobbyManager.Instance.RefreshLobbies();
-                yield return new WaitForSeconds(getLobbiesTime);
                 GetAllLobbies();
             }
         }

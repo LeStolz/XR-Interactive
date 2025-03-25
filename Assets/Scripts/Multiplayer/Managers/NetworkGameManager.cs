@@ -37,11 +37,6 @@ namespace Multiplayer
             get => connected;
         }
         static BindableVariable<bool> connected = new BindableVariable<bool>(false);
-
-        public static IReadOnlyBindableVariable<ConnectionState> CurrentConnectionState
-        {
-            get => connectionState;
-        }
         static BindableEnum<ConnectionState> connectionState = new BindableEnum<ConnectionState>(ConnectionState.Offline);
 
         public Action<ulong, bool> playerStateChanged;
@@ -64,7 +59,6 @@ namespace Multiplayer
         public GameObject TableUI { get; private set; }
         [SerializeField]
         int tableScale;
-
 
 
         [SerializeField]
@@ -98,7 +92,6 @@ namespace Multiplayer
             }
 
             connected.Value = false;
-
             connectionState.Value = ConnectionState.Offline;
         }
 
@@ -166,7 +159,6 @@ namespace Multiplayer
             connected.Value = false;
             currentPlayers.Clear();
             PlayerHudNotification.Instance.ShowText($"<b>Status:</b> Disconnected");
-
             connectionState.Value = ConnectionState.Offline;
         }
 
@@ -238,6 +230,16 @@ namespace Multiplayer
             }
         }
 
+        void UpdateNetworkedRoleVisuals()
+        {
+            roleButtons.ForEach(roleButton => roleButton.SetOccupied(false));
+
+            foreach (var player in currentPlayers)
+            {
+                roleButtons[(int)player.role].AssignPlayerToRole(player.player);
+            }
+        }
+
         Role GetRoleFromPlayer(NetworkPlayer player)
         {
             if (player is ZEDModelManager)
@@ -254,16 +256,6 @@ namespace Multiplayer
             }
 
             return Role.HMD;
-        }
-
-        void UpdateNetworkedRoleVisuals()
-        {
-            roleButtons.ForEach(roleButton => roleButton.SetOccupied(false));
-
-            foreach (var player in currentPlayers)
-            {
-                roleButtons[(int)player.role].AssignPlayerToRole(player.player);
-            }
         }
 
         public T FindPlayerByRole<T>(Role role)
@@ -368,9 +360,8 @@ namespace Multiplayer
             connected.Value = false;
 
             LobbyManager.Discovery.StopDiscovery();
-            LobbyManager.Discovery.StartClient();
-
             NetworkManager.Shutdown();
+            LobbyManager.Discovery.StartClient();
 
             connectionState.Value = ConnectionState.Offline;
         }

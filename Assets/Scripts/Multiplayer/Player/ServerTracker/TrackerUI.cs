@@ -14,9 +14,11 @@ namespace Multiplayer
 
 			for (var i = 0; i < trackerButtons.Length; i++)
 			{
+				var j = i;
+
 				trackerButtons[i].onValueChanged.AddListener((_) =>
 				{
-					serverTrackerManager.Calibrate(i);
+					serverTrackerManager.Calibrate(j);
 				});
 			}
 		}
