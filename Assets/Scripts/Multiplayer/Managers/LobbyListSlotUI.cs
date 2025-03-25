@@ -7,7 +7,6 @@ namespace Multiplayer
     public class LobbyListSlotUI : MonoBehaviour
     {
         [SerializeField] TMP_Text m_RoomNameText;
-        [SerializeField] TMP_Text m_PlayerCountText;
         [SerializeField] Button m_JoinButton;
         [SerializeField] GameObject m_FullImage;
         [SerializeField] TMP_Text m_StatusText;
@@ -16,8 +15,6 @@ namespace Multiplayer
         LobbyUI m_LobbyListUI;
         DiscoveryResponseData m_Lobby;
 
-        bool m_NonJoinable = false;
-
         void OnDisable()
         {
             ToggleHover(false);
@@ -25,12 +22,10 @@ namespace Multiplayer
 
         public void CreateLobbyUI(DiscoveryResponseData lobby, LobbyUI lobbyListUI)
         {
-            m_NonJoinable = false;
             m_Lobby = lobby;
             m_LobbyListUI = lobbyListUI;
             m_JoinButton.onClick.AddListener(JoinRoom);
             m_RoomNameText.text = lobby.ServerName;
-            m_PlayerCountText.text = "";
             m_JoinButton.interactable = true;
             m_FullImage.SetActive(false);
             m_JoinImage.SetActive(false);
@@ -38,7 +33,6 @@ namespace Multiplayer
 
         public void ToggleHover(bool toggle)
         {
-            if (m_NonJoinable) return;
             if (toggle)
             {
                 SetLobbyAvailable(true);

@@ -11,36 +11,43 @@ namespace Multiplayer
 {
     public class LobbyManager : MonoBehaviour
     {
-        // Action that gets invoked when you fail to connect to a lobby. Primarily used for noting failure messages.
+        public static LobbyManager Instance { get; private set; }
+
         public Action<string> OnLobbyFailed;
 
-        /// <summary>
-        /// Subscribe to this bindable string for status updates from this class
-        /// </summary>
-        public static IReadOnlyBindableVariable<string> status
+        public IReadOnlyBindableVariable<string> Status
         {
             get => m_Status;
         }
-        readonly static BindableVariable<string> m_Status = new("");
+        readonly BindableVariable<string> m_Status = new("");
 
-        [SerializeField]
-        static ExampleNetworkDiscovery discovery;
-        static Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new();
+        [field: SerializeField]
+        public ExampleNetworkDiscovery Discovery { get; private set; }
+
+        readonly Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new();
 
         const string k_DebugPrepend = "<color=#EC0CFA>[Lobby Manager]</color> ";
 
-
-        public void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
+        void Awake()
         {
-            Debug.Log("ASDSD");
-            discoveredServers[sender.Address] = response;
+            if (Instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
         }
 
         void Start()
         {
-            discovery = FindFirstObjectByType<ExampleNetworkDiscovery>();
-            // discovery.StartClient();
-            // discovery.ClientBroadcast(new DiscoveryBroadcastData());
+            Discovery.StartClient();
+            Discovery.ClientBroadcast(new DiscoveryBroadcastData());
+        }
+
+        public void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
+        {
+            discoveredServers[sender.Address] = response;
         }
 
         public void CreateLobby()
@@ -50,8 +57,11 @@ namespace Multiplayer
                 m_Status.Value = "Creating Lobby";
 
                 string lobbyName = $"{NetworkGameManager.LocalPlayerName.Value}'s Table";
-                discovery.ServerName = lobbyName;
+                Discovery.ServerName = lobbyName;
+
+                Discovery.StopDiscovery();
                 NetworkManager.Singleton.StartHost();
+                Discovery.StartServer();
 
                 m_Status.Value = "Connected To Lobby";
             }
@@ -86,25 +96,18 @@ namespace Multiplayer
             }
         }
 
-        public void ReconnectToLobby()
-        {
-            if (Application.isPlaying)
-            {
-            }
-        }
-
-        public static void RefreshLobbies()
+        public void RefreshLobbies()
         {
             discoveredServers.Clear();
-            discovery.ClientBroadcast(new DiscoveryBroadcastData());
+            Discovery.ClientBroadcast(new DiscoveryBroadcastData());
         }
 
-        public static DiscoveryResponseData[] GetLobbies()
+        public DiscoveryResponseData[] GetLobbies()
         {
             return discoveredServers.Values.ToArray();
         }
 
-        public static bool CanJoinLobby(DiscoveryResponseData lobby)
+        public bool CanJoinLobby()
         {
             return !NetworkManager.Singleton.IsConnectedClient && !NetworkManager.Singleton.IsHost;
         }

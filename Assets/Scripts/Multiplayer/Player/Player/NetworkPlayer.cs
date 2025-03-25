@@ -99,19 +99,14 @@ namespace Multiplayer
         /// </summary>
         IEnumerator CompleteSetup()
         {
-            NetworkGameManager.Instance.PlayerJoined(NetworkObject.OwnerClientId);
+            NetworkGameManager.Instance.PlayerJoined(
+                NetworkObject.OwnerClientId, this
+            );
 
             UpdatePlayerName(new FixedString128Bytes(""), m_PlayerName.Value);
 
             yield return new WaitUntil(() => NetworkGameManager.Instance.IsSpawned);
 
-            if (IsOwner)
-            {
-                NetworkGameManager.Instance.RequestRoleServerRpc(
-                    (int)NetworkGameManager.Instance.localRole,
-                    NetworkManager.Singleton.LocalClientId
-                );
-            }
             onSpawnedAll?.Invoke();
         }
 

@@ -9,8 +9,8 @@ namespace Multiplayer
         [Header("Lobby List")]
         [SerializeField] Transform m_LobbyListParent;
         [SerializeField] GameObject m_LobbyListPrefab;
-        [SerializeField] float getLobbiesTime = 1.0f;
-        [SerializeField] float refreshLobbiesTime = 1.5f;
+        [SerializeField] float refreshLobbiesTime = 1f;
+        [SerializeField] float getLobbiesTime = 1f;
 
         [Header("Connection Texts")]
         [SerializeField] TMP_Text m_ConnectionUpdatedText;
@@ -19,12 +19,18 @@ namespace Multiplayer
 
         [SerializeField] GameObject[] m_ConnectionSubPanels;
 
-        Coroutine GetLobbiesRoutine;
         Coroutine RefreshLobbiesRoutine;
 
         private void Awake()
         {
-            LobbyManager.status.Subscribe(ConnectedUpdated);
+            StartCoroutine(Init());
+        }
+
+        IEnumerator Init()
+        {
+            yield return new WaitUntil(() => NetworkGameManager.Instance != null);
+
+            LobbyManager.Instance.Status.Subscribe(ConnectedUpdated);
         }
 
         private void Start()
@@ -53,7 +59,7 @@ namespace Multiplayer
             NetworkGameManager.Instance.connectionFailedAction -= FailedToConnect;
             NetworkGameManager.Instance.connectionUpdated -= ConnectedUpdated;
 
-            LobbyManager.status.Unsubscribe(ConnectedUpdated);
+            LobbyManager.Instance.Status.Unsubscribe(ConnectedUpdated);
         }
         public void CheckInternetAsync()
         {
@@ -131,7 +137,6 @@ namespace Multiplayer
 
         public void HideLobbies()
         {
-            if (GetLobbiesRoutine != null) StopCoroutine(GetLobbiesRoutine);
             if (RefreshLobbiesRoutine != null) StopCoroutine(RefreshLobbiesRoutine);
         }
 
@@ -139,20 +144,8 @@ namespace Multiplayer
         {
             GetAllLobbies();
 
-            if (GetLobbiesRoutine != null) StopCoroutine(GetLobbiesRoutine);
-            GetLobbiesRoutine = StartCoroutine(GetAvailableLobbies());
-
             if (RefreshLobbiesRoutine != null) StopCoroutine(RefreshLobbiesRoutine);
             RefreshLobbiesRoutine = StartCoroutine(RefreshAvailableLobbies());
-        }
-
-        IEnumerator GetAvailableLobbies()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(getLobbiesTime);
-                GetAllLobbies();
-            }
         }
 
         IEnumerator RefreshAvailableLobbies()
@@ -160,15 +153,15 @@ namespace Multiplayer
             while (true)
             {
                 yield return new WaitForSeconds(refreshLobbiesTime);
-                LobbyManager.RefreshLobbies();
+                LobbyManager.Instance.RefreshLobbies();
+                yield return new WaitForSeconds(getLobbiesTime);
+                GetAllLobbies();
             }
         }
 
         void GetAllLobbies()
         {
-            if ((int)NetworkGameManager.CurrentConnectionState.Value < 2) return;
-
-            DiscoveryResponseData[] lobbies = LobbyManager.GetLobbies();
+            DiscoveryResponseData[] lobbies = LobbyManager.Instance.GetLobbies();
 
             foreach (Transform t in m_LobbyListParent)
             {
@@ -179,7 +172,7 @@ namespace Multiplayer
             {
                 foreach (var lobby in lobbies)
                 {
-                    if (LobbyManager.CanJoinLobby(lobby))
+                    if (LobbyManager.Instance.CanJoinLobby())
                     {
                         LobbyListSlotUI newLobbyUI = Instantiate(m_LobbyListPrefab, m_LobbyListParent).GetComponent<LobbyListSlotUI>();
                         newLobbyUI.CreateLobbyUI(lobby, this);

@@ -20,9 +20,6 @@ public class CalibrationManager : MonoBehaviour
     public bool MarkerTracked { get; private set; }
     public GameObject CloneMarker { get; private set; }
 
-    [SerializeField]
-    GameObject canvas;
-
     void Awake()
     {
         if (Instance == null)
@@ -42,8 +39,6 @@ public class CalibrationManager : MonoBehaviour
             Destroy(gameObject);
             Instance = null;
             return;
-        } else {
-            canvas.SetActive(true);
         }
 
         if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
@@ -166,12 +161,12 @@ public class CalibrationManager : MonoBehaviour
         OpenCVMarkerTrackingModule.SetActive(true);
         OpenCVMarker.transform.SetParent(MarkerSettings.transform);
         OpenCVMarker.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        
+
         Destroy(CloneMarker);
         VirtualTrackingCamera.transform.SetParent(OpenCVMarkerTrackingModule.transform);
 
         XRPlaySpace.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-        
+
         if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
         {
             trackedPoseDriver.enabled = false;
