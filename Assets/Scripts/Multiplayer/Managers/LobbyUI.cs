@@ -142,8 +142,6 @@ namespace Multiplayer
 
         public void ShowLobbies()
         {
-            GetAllLobbies();
-
             if (RefreshLobbiesRoutine != null) StopCoroutine(RefreshLobbiesRoutine);
             RefreshLobbiesRoutine = StartCoroutine(RefreshAvailableLobbies());
         }

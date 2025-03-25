@@ -8,7 +8,6 @@ using System.Collections;
 using UnityEngine.XR.Management;
 using System.Linq;
 using Valve.VR.InteractionSystem;
-using System.Data.Common;
 
 namespace Multiplayer
 {
@@ -162,16 +161,6 @@ namespace Multiplayer
             }
         }
 
-        /// <summary>
-        /// Called from XRINetworkPlayer once they have spawned.
-        /// </summary>
-        public virtual void LocalPlayerConnected(ulong localPlayerId)
-        {
-            LocalId = localPlayerId;
-            connected.Value = true;
-            PlayerHudNotification.Instance.ShowText($"<b>Status:</b> Connected");
-        }
-
         protected virtual void OnLocalClientStopped(bool id)
         {
             connected.Value = false;
@@ -209,6 +198,13 @@ namespace Multiplayer
             else
             {
                 Utils.Log($"{debugPrepend}Trying to Add a player ID [{id}] that already exists", 1);
+            }
+
+            if (id == NetworkManager.Singleton.LocalClientId)
+            {
+                LocalId = id;
+                connected.Value = true;
+                PlayerHudNotification.Instance.ShowText($"<b>Status:</b> Connected");
             }
         }
 

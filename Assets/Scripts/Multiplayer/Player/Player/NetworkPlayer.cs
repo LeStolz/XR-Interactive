@@ -55,7 +55,6 @@ namespace Multiplayer
             if (IsOwner)
             {
                 LocalPlayer = this;
-                NetworkGameManager.Instance.LocalPlayerConnected(NetworkObject.OwnerClientId);
 
                 SetupLocalPlayer();
             }

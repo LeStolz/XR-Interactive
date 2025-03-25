@@ -205,7 +205,11 @@ namespace Multiplayer
             yield return new WaitForFixedUpdate();
             m_Rigidbody.interpolation = (RigidbodyInterpolation)interpolation;
             m_Rigidbody.isKinematic = wasKinematic;
-            if (IsOwner && NetworkManager.IsConnectedClient & !NetworkManager.Singleton.ShutdownInProgress)
+            if (
+                IsOwner &&
+                NetworkManager.Singleton != null &&
+                NetworkManager.IsConnectedClient & !NetworkManager.Singleton.ShutdownInProgress
+            )
                 m_ResettingObject.Value = false;
         }
 
