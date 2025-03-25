@@ -1070,6 +1070,11 @@ PrefabInstance:
       propertyPath: m_ProtocolType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3661330808356654741, guid: 3967f87296c892e40b57e37bc8601550,
+        type: 3}
+      propertyPath: ConnectionData.Port
+      value: 37777
+      objectReference: {fileID: 0}
     - target: {fileID: 4145292139985048678, guid: 3967f87296c892e40b57e37bc8601550,
         type: 3}
       propertyPath: m_LocalPosition.x

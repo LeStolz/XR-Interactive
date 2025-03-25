@@ -19,7 +19,7 @@ namespace Multiplayer
 #endif
 
     [RequireComponent(typeof(LobbyManager))]
-    public class NetworkGameManager : NetworkBehaviour
+    public class NetworkGameManager : MonoBehaviour
     {
         public enum ConnectionState
         {
@@ -132,9 +132,8 @@ namespace Multiplayer
             }
         }
 
-        public override void OnDestroy()
+        void OnDestroy()
         {
-            base.OnDestroy();
             ShutDown();
         }
 
@@ -360,8 +359,8 @@ namespace Multiplayer
             connected.Value = false;
 
             LobbyManager.Discovery.StopDiscovery();
-            NetworkManager.Shutdown();
             LobbyManager.Discovery.StartClient();
+            NetworkManager.Singleton.Shutdown();
 
             connectionState.Value = ConnectionState.Offline;
         }
