@@ -10,7 +10,6 @@ namespace Multiplayer
         [SerializeField] Transform m_LobbyListParent;
         [SerializeField] GameObject m_LobbyListPrefab;
         [SerializeField] float refreshLobbiesTime = 1f;
-        [SerializeField] float getLobbiesTime = 1f;
 
         [Header("Connection Texts")]
         [SerializeField] TMP_Text m_ConnectionUpdatedText;
@@ -138,12 +137,16 @@ namespace Multiplayer
         public void HideLobbies()
         {
             if (RefreshLobbiesRoutine != null) StopCoroutine(RefreshLobbiesRoutine);
+
+            LobbyManager.Instance.OnServerFound -= GetAllLobbies;
         }
 
         public void ShowLobbies()
         {
             if (RefreshLobbiesRoutine != null) StopCoroutine(RefreshLobbiesRoutine);
             RefreshLobbiesRoutine = StartCoroutine(RefreshAvailableLobbies());
+
+            LobbyManager.Instance.OnServerFound += GetAllLobbies;
         }
 
         IEnumerator RefreshAvailableLobbies()
@@ -152,11 +155,10 @@ namespace Multiplayer
             {
                 yield return new WaitForSeconds(refreshLobbiesTime);
                 LobbyManager.Instance.RefreshLobbies();
-                GetAllLobbies();
             }
         }
 
-        void GetAllLobbies()
+        void GetAllLobbies(DiscoveryResponseData _)
         {
             DiscoveryResponseData[] lobbies = LobbyManager.Instance.GetLobbies();
 

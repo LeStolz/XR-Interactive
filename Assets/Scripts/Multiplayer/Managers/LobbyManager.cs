@@ -12,6 +12,7 @@ namespace Multiplayer
     public class LobbyManager : MonoBehaviour
     {
         public static LobbyManager Instance { get; private set; }
+        public Action<DiscoveryResponseData> OnServerFound;
 
         public Action<string> OnLobbyFailed;
 
@@ -45,9 +46,10 @@ namespace Multiplayer
             Discovery.ClientBroadcast(new DiscoveryBroadcastData());
         }
 
-        public void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
+        public void MyOnServerFound(IPEndPoint sender, DiscoveryResponseData response)
         {
             discoveredServers[sender.Address] = response;
+            OnServerFound?.Invoke(response);
         }
 
         public void CreateLobby()

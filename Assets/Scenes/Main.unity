@@ -1167,7 +1167,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1421188172}
         m_TargetAssemblyTypeName: Multiplayer.LobbyManager, XRMP
-        m_MethodName: OnServerFound
+        m_MethodName: MyOnServerFound
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
