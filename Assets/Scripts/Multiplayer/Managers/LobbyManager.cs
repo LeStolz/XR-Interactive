@@ -6,6 +6,7 @@ using System.Net;
 using System.Linq;
 using Unity.Netcode.Transports.UTP;
 using Unity.Netcode;
+using Codice.CM.WorkspaceServer.DataStore;
 
 namespace Multiplayer
 {
@@ -22,12 +23,15 @@ namespace Multiplayer
         }
         readonly BindableVariable<string> m_Status = new("");
 
-        [field: SerializeField]
-        public ExampleNetworkDiscovery Discovery { get; private set; }
+        [SerializeField]
+        ExampleNetworkDiscovery discovery;
 
         readonly Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new();
 
         const string k_DebugPrepend = "<color=#EC0CFA>[Lobby Manager]</color> ";
+
+        ushort defaultPort;
+        string defaultIP;
 
         void Awake()
         {
@@ -42,8 +46,18 @@ namespace Multiplayer
 
         void Start()
         {
-            Discovery.StartClient();
-            Discovery.ClientBroadcast(new DiscoveryBroadcastData());
+            discovery.StartClient();
+            discovery.ClientBroadcast(new DiscoveryBroadcastData());
+
+            UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
+            defaultPort = transport.ConnectionData.Port;
+            defaultIP = transport.ConnectionData.Address;
+        }
+
+        void SetDefaultConnectionData()
+        {
+            UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
+            transport.SetConnectionData(defaultIP, defaultPort);
         }
 
         public void MyOnServerFound(IPEndPoint sender, DiscoveryResponseData response)
@@ -54,16 +68,18 @@ namespace Multiplayer
 
         public void CreateLobby()
         {
+            SetDefaultConnectionData();
+
             try
             {
                 m_Status.Value = "Creating Lobby";
 
                 string lobbyName = $"{NetworkGameManager.LocalPlayerName.Value}'s Table";
-                Discovery.ServerName = lobbyName;
+                discovery.ServerName = lobbyName;
 
-                Discovery.StopDiscovery();
+                discovery.StopDiscovery();
                 NetworkManager.Singleton.StartHost();
-                Discovery.StartServer();
+                discovery.StartServer();
 
                 m_Status.Value = "Connected To Lobby";
             }
@@ -77,6 +93,8 @@ namespace Multiplayer
 
         public void JoinLobby(DiscoveryResponseData lobby)
         {
+            SetDefaultConnectionData();
+
             try
             {
                 UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
@@ -101,7 +119,13 @@ namespace Multiplayer
         public void RefreshLobbies()
         {
             discoveredServers.Clear();
-            Discovery.ClientBroadcast(new DiscoveryBroadcastData());
+            discovery.ClientBroadcast(new DiscoveryBroadcastData());
+        }
+
+        public void StartLobbyDiscovery()
+        {
+            discovery.StopDiscovery();
+            discovery.StartClient();
         }
 
         public DiscoveryResponseData[] GetLobbies()

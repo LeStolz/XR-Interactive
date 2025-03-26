@@ -19,7 +19,7 @@ namespace Multiplayer
 #endif
 
     [RequireComponent(typeof(LobbyManager))]
-    public class NetworkGameManager : MonoBehaviour
+    public class NetworkGameManager : NetworkBehaviour
     {
         public enum ConnectionState
         {
@@ -132,8 +132,9 @@ namespace Multiplayer
             }
         }
 
-        void OnDestroy()
+        public override void OnDestroy()
         {
+            base.OnDestroy();
             ShutDown();
         }
 
@@ -358,28 +359,8 @@ namespace Multiplayer
         {
             connected.Value = false;
 
-            LobbyManager.Discovery.StopDiscovery();
-            LobbyManager.Discovery.StartClient();
+            LobbyManager.Instance.StartLobbyDiscovery();
 
-            ServerDisconnectRpc();
-        }
-
-        [Rpc(SendTo.Server)]
-        void ServerDisconnectRpc(RpcParams rpcParams = default)
-        {
-            NetworkManager.Singleton.DisconnectClient(rpcParams.Receive.SenderClientId);
-
-            var newRpcParams = NetworkManager.Singleton.RpcTarget.Single(
-                rpcParams.Receive.SenderClientId,
-                RpcTargetUse.Temp
-            );
-
-            ClientDisconnectRpc(newRpcParams);
-        }
-
-        [Rpc(SendTo.SpecifiedInParams)]
-        void ClientDisconnectRpc(RpcParams rpcParams = default)
-        {
             NetworkManager.Singleton.Shutdown();
             connectionState.Value = ConnectionState.Offline;
         }
