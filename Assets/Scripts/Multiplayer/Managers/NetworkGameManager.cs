@@ -360,8 +360,27 @@ namespace Multiplayer
 
             LobbyManager.Discovery.StopDiscovery();
             LobbyManager.Discovery.StartClient();
-            NetworkManager.Singleton.Shutdown();
 
+            ServerDisconnectRpc();
+        }
+
+        [Rpc(SendTo.Server)]
+        void ServerDisconnectRpc(RpcParams rpcParams = default)
+        {
+            NetworkManager.Singleton.DisconnectClient(rpcParams.Receive.SenderClientId);
+
+            var newRpcParams = NetworkManager.Singleton.RpcTarget.Single(
+                rpcParams.Receive.SenderClientId,
+                RpcTargetUse.Temp
+            );
+
+            ClientDisconnectRpc(newRpcParams);
+        }
+
+        [Rpc(SendTo.SpecifiedInParams)]
+        void ClientDisconnectRpc(RpcParams rpcParams = default)
+        {
+            NetworkManager.Singleton.Shutdown();
             connectionState.Value = ConnectionState.Offline;
         }
     }

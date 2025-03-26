@@ -146,6 +146,13 @@ namespace Multiplayer
             if (RefreshLobbiesRoutine != null) StopCoroutine(RefreshLobbiesRoutine);
             RefreshLobbiesRoutine = StartCoroutine(RefreshAvailableLobbies());
 
+            StartCoroutine(SubscribeToLobbyEvents());
+        }
+
+        IEnumerator SubscribeToLobbyEvents()
+        {
+            yield return new WaitUntil(() => LobbyManager.Instance != null);
+
             LobbyManager.Instance.OnServerFound += GetAllLobbies;
         }
 
