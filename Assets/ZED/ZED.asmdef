@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "SteamVR",
-        "SteamVR_Actions"
+        "SteamVR_Actions",
+        "Oculus.VR"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

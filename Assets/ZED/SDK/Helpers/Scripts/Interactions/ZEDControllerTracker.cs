@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.XR;
 using System.Collections.Generic;
-#if ZED_STEAM_VR
-using Valve.VR;
-#endif
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

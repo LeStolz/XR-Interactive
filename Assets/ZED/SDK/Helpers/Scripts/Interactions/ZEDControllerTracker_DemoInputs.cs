@@ -7,9 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.XR;
 #endif
 
-#if ZED_STEAM_VR
-using Valve.VR;
-#endif
+
 
 /// <summary>
 /// Extended version of ZEDControllerTracker that also checks for several inputs in a generic way.
@@ -21,34 +19,8 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
 {
     //#if ZED_STEAM_VR
 #if ZED_SVR_2_0_INPUT
-    /// !! On v2.0, Steam VR action bindings must be done in the inspector ro once steam.initialize(true) has been called !!
-    /// <summary>
-    /// SteamVR action to cause a Fire event when checked or subscribed to.
-    /// </summary>
-    [Header("SteamVR Plugin 2.0 Bindings")]
-    [Tooltip("SteamVR action to cause a Fire event when checked or subscribed to.")]
-    public SteamVR_Action_Boolean fireBinding;// = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("Fire");
-    /// <summary>
-    /// SteamVR action to cause a Click event when checked or subscribed to.
-    /// </summary>
-    [Tooltip("SteamVR action to cause a Click event when checked or subscribed to.")]
-    public SteamVR_Action_Boolean clickBinding;// = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("Click");
-    /// <summary>
-    /// SteamVR action to cause a Back event when checked or subscribed to.
-    /// </summary>
-    [Tooltip("SteamVR action to cause a Back event when checked or subscribed to.")]
-    public SteamVR_Action_Boolean backBinding;// = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("Back");
-    /// <summary>
-    /// SteamVR action to cause a Grab event when checked or subscribed to.
-    /// </summary>
-    [Tooltip("SteamVR action to cause a Grab event when checked or subscribed to.")]
-    public SteamVR_Action_Boolean grabBinding;// = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("Grab");
-    /// <summary>
-    /// SteamVR action to cause a Vector2 UI navigation event when checked or subscribed to.
-    /// </summary>
-    [Tooltip("SteamVR action to cause a UI navigation event when checked or subscribed to.")]
-    public SteamVR_Action_Vector2 navigateUIBinding;// = SteamVR_Input.GetAction<SteamVR_Action_Vector2>("NavigateUI");
 
+   
 
 #elif ZED_STEAM_VR
     /// <summary>
@@ -193,11 +165,7 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
     /// <param name="state">Whether to check if the button/action is just pressed, just released, or is being held down.</param>
     public bool CheckFireButton(ControllerButtonState state)
     {
-#if ZED_SVR_2_0_INPUT
-        return CheckSteamVRBoolActionState(fireBinding, state);
-#elif ZED_STEAM_VR
-        return CheckSteamVRButtonState_Legacy(fireBinding_Legacy, state);
-#endif
+
 
 #if ZED_OCULUS
 #if UNITY_2019_3_OR_NEWER
@@ -215,11 +183,7 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
     /// <param name="state">Whether to check if the button/action is just pressed, just released, or is being held down.</param>
     public bool CheckClickButton(ControllerButtonState state)
     {
-#if ZED_SVR_2_0_INPUT
-        return CheckSteamVRBoolActionState(clickBinding, state);
-#elif ZED_STEAM_VR
-        return CheckSteamVRButtonState_Legacy(clickBinding_Legacy, state);
-#endif
+
 #if ZED_OCULUS
 #if UNITY_2019_3_OR_NEWER
         return CheckButtonState(clickButton, state, clickActive);
@@ -236,11 +200,7 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
     /// <param name="state">Whether to check if the button/action is just pressed, just released, or is being held down.</param>
     public bool CheckBackButton(ControllerButtonState state)
     {
-#if ZED_SVR_2_0_INPUT
-        return CheckSteamVRBoolActionState(backBinding, state);
-#elif ZED_STEAM_VR
-        return CheckSteamVRButtonState_Legacy(backBinding_Legacy, state);
-#endif
+
 #if ZED_OCULUS
 #if UNITY_2019_3_OR_NEWER
         return CheckButtonState(backButton, state, backActive);
@@ -257,11 +217,7 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
     /// <param name="state">Whether to check if the button/action is just pressed, just released, or is being held down.</param>
     public bool CheckGrabButton(ControllerButtonState state)
     {
-#if ZED_SVR_2_0_INPUT
-        return CheckSteamVRBoolActionState(grabBinding, state);
-#elif ZED_STEAM_VR
-        return CheckSteamVRButtonState_Legacy(grabBinding_Legacy, state);
-#endif
+
 #if ZED_OCULUS
 #if UNITY_2019_3_OR_NEWER
         return CheckButtonState(grabButton, state, grabActive);
@@ -277,11 +233,7 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
     /// </summary>
     public Vector2 CheckNavigateUIAxis()
     {
-#if ZED_SVR_2_0_INPUT
-        return CheckSteamVR2DAxis(navigateUIBinding);
-#elif ZED_STEAM_VR
-        return CheckSteamVRAxis_Legacy(navigateUIBinding_Legacy);
-#endif
+
 #if ZED_OCULUS
 #if UNITY_2019_3_OR_NEWER
         return Check2DAxisState(navigateUIAxis);
@@ -467,125 +419,7 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
 
 
     //#if ZED_STEAM_VR
-#if ZED_SVR_2_0_INPUT
-    /// <summary>
-    /// Checks the button state of a given SteamVR boolean action.
-    /// </summary>
-    /// <param name="state">Whether to check if the button/action is just pressed, just released, or is being held down.</param>
-    protected bool CheckSteamVRBoolActionState(SteamVR_Action_Boolean action, ControllerButtonState buttonstate)
-    {
-        switch (buttonstate)
-        {
-            case ControllerButtonState.Down:
-                return action.GetLastStateDown(GetSteamVRInputSource());
-            case ControllerButtonState.Held:
-                return action.GetLastState(GetSteamVRInputSource());
-            case ControllerButtonState.Up:
-                return action.GetLastStateUp(GetSteamVRInputSource());
-            default:
-                return false;
-        }
-    }
 
-    /// <summary>
-    /// Returns the axis of a given SteamVR 2D action.
-    /// </summary>
-    protected Vector2 CheckSteamVR2DAxis(SteamVR_Action_Vector2 action)
-    {
-        return action.GetAxis(GetSteamVRInputSource());
-    }
-
-    public SteamVR_Input_Sources GetSteamVRInputSource()
-    {
-        if (deviceToTrack == Devices.LeftController) return SteamVR_Input_Sources.LeftHand;
-        else if (deviceToTrack == Devices.RightController) return SteamVR_Input_Sources.RightHand;
-        else return SteamVR_Input_Sources.Any;
-    }
-#elif ZED_STEAM_VR
-        public bool CheckSteamVRButtonState_Legacy(EVRButtonId button, ControllerButtonState state)
-    {
-        switch(state)
-        {
-            case ControllerButtonState.Down:
-                return GetVRButtonDown_Legacy(button);
-            case ControllerButtonState.Held:
-            default:
-                return GetVRButtonHeld_Legacy(button);
-            case ControllerButtonState.Up:
-                return GetVRButtonReleased_Legacy(button);
-        }
-    }
-
-    /// <summary>
-    /// Returns if the VR controller button with the given ID was pressed for the first time this frame.
-    /// </summary>
-    /// <param name="buttonid">EVR ID of the button as listed in OpenVR.</param>
-    public bool GetVRButtonDown_Legacy(EVRButtonId buttonid)
-    {
-        if (openvrsystem == null) return false; //If VR isn't running, we can't check.
-
-        bool washeldlastupdate = (lastcontrollerstate.ulButtonPressed & (1UL << (int)buttonid)) > 0L;
-        if (washeldlastupdate == true) return false; //If the key was held last check, it can't be pressed for the first time now.
-
-        bool isheld = (controllerstate.ulButtonPressed & (1UL << (int)buttonid)) > 0L;
-        return isheld; //If we got here, we know it was not down last frame.
-
-    }
-
-    /// <summary>
-    /// Returns if the VR controller button with the given ID is currently held.
-    /// </summary>
-    /// <param name="buttonid">EVR ID of the button as listed in OpenVR.</param>
-    public bool GetVRButtonHeld_Legacy(EVRButtonId buttonid)
-    {
-        if (openvrsystem == null) return false; //If VR isn't running, we can't check.
-
-        bool isheld = (controllerstate.ulButtonPressed & (1UL << (int)buttonid)) > 0L;
-        return isheld;
-    }
-
-    /// <summary>
-    /// Returns if the VR controller button with the given ID was held last frame, but released this frame.
-    /// </summary>
-    /// <param name="buttonid">EVR ID of the button as listed in OpenVR.</param>
-    public bool GetVRButtonReleased_Legacy(EVRButtonId buttonid)
-    {
-        if (openvrsystem == null) return false; //If VR isn't running, we can't check.
-
-        bool washeldlastupdate = (lastcontrollerstate.ulButtonPressed & (1UL << (int)buttonid)) > 0L;
-        if (washeldlastupdate == false) return false; //If the key was held last check, it can't be released now.
-
-        bool isheld = (controllerstate.ulButtonPressed & (1UL << (int)buttonid)) > 0L;
-        return !isheld; //If we got here, we know it was not up last frame.
-    }
-
-    /// <summary>
-    /// Returns the value of an axis with the provided ID.
-    /// Note that for single-value axes, the relevant value will be the X in the returned Vector2 (the Y is unused).
-    /// </summary>
-    /// <param name="buttonid"></param>
-    public Vector2 CheckSteamVRAxis_Legacy(EVRButtonId buttonid)
-    {
-        //Convert the EVRButtonID enum to the axis number and check if it's not an axis.
-        uint axis = (uint)buttonid - (uint)EVRButtonId.k_EButton_Axis0;
-        if (axis < 0 || axis > 4)
-        {
-            Debug.LogError("Called GetAxis with " + buttonid + ", which is not an axis.");
-            return Vector2.zero;
-        }
-
-        switch (axis)
-        {
-            case 0: return new Vector2(controllerstate.rAxis0.x, controllerstate.rAxis0.y);
-            case 1: return new Vector2(controllerstate.rAxis1.x, controllerstate.rAxis1.y);
-            case 2: return new Vector2(controllerstate.rAxis2.x, controllerstate.rAxis2.y);
-            case 3: return new Vector2(controllerstate.rAxis3.x, controllerstate.rAxis3.y);
-            case 4: return new Vector2(controllerstate.rAxis4.x, controllerstate.rAxis4.y);
-            default: return Vector2.zero;
-        }
-    }
-
-#endif
 }
 
 /// <summary>

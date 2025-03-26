@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-#if ZED_STEAM_VR
-using Valve.VR;
-#endif
 
 /// <summary>
 /// Lets the user choose the tracked object that the ZED is anchored to, for the MR calibration scene.
@@ -119,11 +116,7 @@ public class ChooseTrackedObjectMenu : MonoBehaviour
         FindTrackedObjects(); //TODO: Make this happen in Update() at regular intervals, and clean up existing devices.
         MessageDisplay.DisplayMessageAll("Which object is holding the ZED?");
 
-#if ZED_STEAM_VR
-        //Subscribe to controllers being connected/disconnected so we can update the available devices.
-        deviceConnectedAction = (x, y) => FindTrackedObjects();
-        SteamVR_Events.DeviceConnected.AddListener(deviceConnectedAction);
-#endif
+
     }
 
 
@@ -212,9 +205,7 @@ public class ChooseTrackedObjectMenu : MonoBehaviour
 
     private void OnDestroy()
     {
-#if ZED_STEAM_VR
-        SteamVR_Events.DeviceConnected.RemoveListener(deviceConnectedAction);
-#endif
+
     }
 
     /// <summary>

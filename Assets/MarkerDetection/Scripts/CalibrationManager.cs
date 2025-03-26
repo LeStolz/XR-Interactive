@@ -20,6 +20,14 @@ public class CalibrationManager : MonoBehaviour
     public bool MarkerTracked { get; private set; }
     public GameObject CloneMarker { get; private set; }
 
+    enum HeadSet {
+        Hololens,
+        Quest
+    };
+
+    [SerializeField]
+    HeadSet headset;
+
     [SerializeField]
     GameObject canvas;
 
@@ -98,7 +106,12 @@ public class CalibrationManager : MonoBehaviour
             if (!MarkerTracked)
             {
                 VirtualTrackingCamera.transform.SetParent(XRCamera.transform);
-                VirtualTrackingCamera.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                VirtualTrackingCamera.transform.SetLocalPositionAndRotation(
+                    headset == HeadSet.Hololens 
+                        ? new Vector3(0, -0.06f, 0)
+                        : new Vector3(0, -0.15f, 0),
+                    Quaternion.identity
+                );
                 OpenCVMarker.transform.SetParent(VirtualTrackingCamera.transform);
             }
             if (HMDMarkerTracking)
@@ -115,8 +128,6 @@ public class CalibrationManager : MonoBehaviour
 
     void TurnOffMarkerTrackingModule()
     {
-        VirtualTrackingCamera.transform.position += new Vector3(0, -0.06f, 0);
-
         CloneMarker = Instantiate(OpenCVMarker, parent: OpenCVMarker.transform);
         CloneMarker.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
         CloneMarker.transform.localScale = Vector3.one;

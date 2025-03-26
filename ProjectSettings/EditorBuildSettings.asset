@@ -12,6 +12,8 @@ EditorBuildSettings:
     path: Assets/MRTabletopAssets/Games/Chess/Scenes/SlicesChess.unity
     guid: 7b10018d527adf74a93f47002beec580
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 26ed30d2dd6f99b458d74fee7a8e4875,
+      type: 2}
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 1f0311133900a654abcf8a4973589b7e,
       type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 3b77b58f9a2274241a1ec223936429b8,

@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-#if ZED_STEAM_VR
-using Valve.VR;
-#endif
 
 /// <summary>
 /// Creates a model to match whatever tracked object it's assigned to. Used alongsize ZEDControllerTracker.
@@ -50,20 +47,10 @@ public class SetControllerSkin : MonoBehaviour
     }
 
 
-#if ZED_STEAM_VR
-    private SteamVR_RenderModel renderModel;
-#endif
-
     void Start()
     {
         //controllerTracker = GetComponent<ZEDControllerTracker>();
-#if ZED_STEAM_VR
-        renderModel = GetComponent<SteamVR_RenderModel>();
-        if (!renderModel)
-        {
-            renderModel = gameObject.AddComponent<SteamVR_RenderModel>();
-        }
-#endif
+
 
     }
 
@@ -99,14 +86,8 @@ public class SetControllerSkin : MonoBehaviour
     /// </summary>
     public void SetRenderModelIndex(int newindex)
     {
-#if ZED_STEAM_VR
-        if (!renderModel)
-        {
-            renderModel = gameObject.AddComponent<SteamVR_RenderModel>();
-        }
 
-        renderModel.SetDeviceIndex(newindex);
-#elif ZED_OCULUS
+#if ZED_OCULUS
         if (newindex == ChooseTrackedObjectMenu.TOUCH_INDEX_LEFT)
         {
             //if(controllerModel != null && controllerModel.name != "TouchControl_L")
