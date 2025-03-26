@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Handles automatic calibration mode in the ZED MR calibration scene. 
+/// Handles automatic calibration mode in the ZED MR calibration scene.
 /// When set up, it places clickable balls in front of the ZED in positions listed in spherePositions.
 /// When you click on the balls and re-align the controllers as prompted, it'll call a sl.ZEDCamera function
-/// to calculate a new camera position. 
+/// to calculate a new camera position.
 /// </summary>
 public class AutoCalibrationManager : MonoBehaviour
 {
@@ -17,7 +17,7 @@ public class AutoCalibrationManager : MonoBehaviour
     public GameObject autoCalibBallPrefab;
 
     /// <summary>
-    /// CameraAnchor in the scene that's holding the ZED camera. 
+    /// CameraAnchor in the scene that's holding the ZED camera.
     /// </summary>
     [Tooltip("CameraAnchor in the scene that's holding the ZED camera. ")]
     public CameraAnchor camAnchor;
@@ -27,7 +27,7 @@ public class AutoCalibrationManager : MonoBehaviour
 
     /// <summary>
     /// The positions used to calibrate the ZED. Should all be visible from the ZED,
-    /// and vary on all three axes to make it easy to calibrate. 
+    /// and vary on all three axes to make it easy to calibrate.
     /// </summary>
     [Tooltip("The positions used to calibrate the ZED. Should all be visible from the ZED, " +
         "and vary on all three axes to make it easy to calibrate. ")]
@@ -38,7 +38,7 @@ public class AutoCalibrationManager : MonoBehaviour
                                          new Vector3(0.4f, -0.2f, -0.1f)};
 
     /// <summary>
-    /// The scene's ZEDManager. Will be assigned to ZEDManager of camera index 1 if not set. 
+    /// The scene's ZEDManager. Will be assigned to ZEDManager of camera index 1 if not set.
     /// </summary>
     [Tooltip("The scene's ZEDManager. Will be assigned to ZEDManager of camera index 1 if not set. ")]
     [Space(5)]
@@ -58,9 +58,9 @@ public class AutoCalibrationManager : MonoBehaviour
             zedManager = ZEDManager.GetInstance(sl.ZED_CAMERA_ID.CAMERA_ID_01);
         }
 
-        if(!camAnchor)
+        if (!camAnchor)
         {
-            camAnchor = FindObjectOfType<CameraAnchor>();
+            camAnchor = FindFirstObjectByType<CameraAnchor>();
         }
 
         SetUpBalls(false);
@@ -71,13 +71,13 @@ public class AutoCalibrationManager : MonoBehaviour
 
     /// <summary>
     /// Creates the ball objects and other minor setup. "ForceReset" will clear existing balls if
-    /// they were aleady set up, otherwise nothing will happen. 
+    /// they were aleady set up, otherwise nothing will happen.
     /// </summary>
     public void SetUpBalls(bool forcereset = true)
     {
-        if(isSetup)
+        if (isSetup)
         {
-            if(forcereset) //If we're resetting, clear all existing balls and positions. 
+            if (forcereset) //If we're resetting, clear all existing balls and positions.
             {
                 CleanUpBalls();
 
@@ -90,7 +90,7 @@ public class AutoCalibrationManager : MonoBehaviour
         }
 
         Transform zedtrans = zedManager.transform; //Shorthand
-        //Create the balls. 
+        //Create the balls.
 
         for (int i = 0; i < spherePositions.Length; i++)
         {
@@ -120,7 +120,7 @@ public class AutoCalibrationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Destroys all existing balls. Use when switching out of Automatic mode. 
+    /// Destroys all existing balls. Use when switching out of Automatic mode.
     /// </summary>
     public void CleanUpBalls()
     {
@@ -133,7 +133,7 @@ public class AutoCalibrationManager : MonoBehaviour
 
     /// <summary>
     /// Registers a new combination of real and virtual positions to be used to calculate the camera position.
-    /// This is called after a single ball has been used and set. 
+    /// This is called after a single ball has been used and set.
     /// </summary>
     /// <param name="index">Index of the ball within this class, used in both virtualPositions and realPositions.</param>
     /// <param name="virtualpos">Position of the controller when the ball was first activated.</param>
@@ -158,16 +158,16 @@ public class AutoCalibrationManager : MonoBehaviour
     /// <summary>
     /// Prepare the current virtual and real positions (provided by AddNewPositions after using the balls) into
     /// data to be used by ZEDCamera.ComputeOffset, and call it. This will update the camera's position based on
-    /// the inputs the user provided. 
+    /// the inputs the user provided.
     /// </summary>
-    private void UpdateZEDPosition() 
+    private void UpdateZEDPosition()
     {
         List<Vector3> validvirtposes = new List<Vector3>();
         List<Vector3> validrealposes = new List<Vector3>();
 
         for (int i = 0; i < virtualPositions.Length; i++)
         {
-            if (virtualPositions[i] != null && realPositions[i] != null) //Don't add either unless both are valid. 
+            if (virtualPositions[i] != null && realPositions[i] != null) //Don't add either unless both are valid.
             {
                 validvirtposes.Add(virtualPositions[i]);
                 validrealposes.Add(realPositions[i]);
@@ -178,7 +178,7 @@ public class AutoCalibrationManager : MonoBehaviour
 
         int posecount = validvirtposes.Count; //Shorthand.
 
-        //Make array of floats used to call ZEDCamera.ComputeOffset. We use arrays because it's turned into a matrix internally. 
+        //Make array of floats used to call ZEDCamera.ComputeOffset. We use arrays because it's turned into a matrix internally.
         float[] inputA = new float[posecount * 4];
         float[] inputB = new float[posecount * 4];
 
@@ -187,12 +187,12 @@ public class AutoCalibrationManager : MonoBehaviour
             inputA[i * 4 + 0] = validvirtposes[i].x;
             inputA[i * 4 + 1] = validvirtposes[i].y;
             inputA[i * 4 + 2] = validvirtposes[i].z;
-            inputA[i * 4 + 3] = 1; //Will be W in the matrix. 
+            inputA[i * 4 + 3] = 1; //Will be W in the matrix.
 
             inputB[i * 4 + 0] = validrealposes[i].x;
             inputB[i * 4 + 1] = validrealposes[i].y;
             inputB[i * 4 + 2] = validrealposes[i].z;
-            inputB[i * 4 + 3] = 1; //Will be W in the matrix. 
+            inputB[i * 4 + 3] = 1; //Will be W in the matrix.
         }
 
         Vector3 newtranslation = new Vector3();
@@ -201,15 +201,15 @@ public class AutoCalibrationManager : MonoBehaviour
 
         if (IsInsideRangeAngle(newrotation))
         {
-            /* //This was in original calibration app but I suspect it caused issues. 
+            /* //This was in original calibration app but I suspect it caused issues.
             for (int j = 0; j < (calibrationStage + 1) * 0.5; j++)
             {
                 realPositions[j] = Quaternion.Inverse(rotation) * (realPositions[j] - translation);
-            }*/ //Okay nevermind let's try it. 
+            }*/ //Okay nevermind let's try it.
 
-            for(int i = 0; i < realPositions.Length; i++)
+            for (int i = 0; i < realPositions.Length; i++)
             {
-                if(realPositions[i] != null && realPositions[i] != Vector3.zero) //May not need that second half. We'll see. 
+                if (realPositions[i] != null && realPositions[i] != Vector3.zero) //May not need that second half. We'll see.
                 {
                     realPositions[i] = Quaternion.Inverse(newrotation) * (realPositions[i] - newtranslation);
                 }
@@ -233,7 +233,7 @@ public class AutoCalibrationManager : MonoBehaviour
 
 
     /// <summary>
-    /// Checks whether or not the current alignment is reasonably accurate. 
+    /// Checks whether or not the current alignment is reasonably accurate.
     /// </summary>
     /// <param name="rotation"></param>
     /// <returns></returns>

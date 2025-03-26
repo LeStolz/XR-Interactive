@@ -55,11 +55,10 @@ namespace Multiplayer
             if (IsOwner)
             {
                 LocalPlayer = this;
-                NetworkGameManager.Instance.LocalPlayerConnected(NetworkObject.OwnerClientId);
 
                 SetupLocalPlayer();
             }
-            StartCoroutine(CompleteSetup());
+            CompleteSetup();
         }
 
         public override void OnNetworkDespawn()
@@ -97,21 +96,14 @@ namespace Multiplayer
         /// <summary>
         /// Called when the player object is finished being setup.
         /// </summary>
-        IEnumerator CompleteSetup()
+        void CompleteSetup()
         {
-            NetworkGameManager.Instance.PlayerJoined(NetworkObject.OwnerClientId);
+            NetworkGameManager.Instance.PlayerJoined(
+                NetworkObject.OwnerClientId, this
+            );
 
             UpdatePlayerName(new FixedString128Bytes(""), m_PlayerName.Value);
 
-            yield return new WaitUntil(() => NetworkGameManager.Instance.IsSpawned);
-
-            if (IsOwner)
-            {
-                NetworkGameManager.Instance.RequestRoleServerRpc(
-                    (int)NetworkGameManager.Instance.localRole,
-                    NetworkManager.Singleton.LocalClientId
-                );
-            }
             onSpawnedAll?.Invoke();
         }
 

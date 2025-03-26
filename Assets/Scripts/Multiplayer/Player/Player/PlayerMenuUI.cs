@@ -42,6 +42,10 @@ namespace Multiplayer
         [SerializeField] Vector2 m_MinMaxTurnAmount = new Vector2(15.0f, 180.0f);
         [SerializeField] float m_SnapTurnUpdateAmount = 15.0f;
 
+        [SerializeField] GameObject recalibrationCanvas;
+        [SerializeField] GameObject worldCanvas;
+        [SerializeField] GameObject trackerCanvas;
+
         int m_CurrentPanel = 0;
         DynamicMoveProvider m_MoveProvider;
         SnapTurnProvider m_TurnProvider;
@@ -84,12 +88,6 @@ namespace Multiplayer
                     ToggleMenu();
                 }
             }
-            if (NetworkGameManager.Connected.Value)
-            {
-            }
-            else
-            {
-            }
         }
 
         void HideCurrentUI()
@@ -109,6 +107,44 @@ namespace Multiplayer
 
         void ConnectOnline(bool connected)
         {
+            if (connected)
+            {
+                switch (NetworkGameManager.Instance.localRole)
+                {
+                    case Role.HMD:
+                        recalibrationCanvas.SetActive(false);
+                        worldCanvas.SetActive(true);
+                        break;
+                    case Role.ServerTracker:
+                        trackerCanvas.SetActive(true);
+                        trackerCanvas.GetComponent<TrackerUI>().SetTrackers();
+                        break;
+                    case Role.ZED:
+                        worldCanvas.SetActive(true);
+                        break;
+                    case Role.Tablet:
+                        break;
+                }
+            }
+            else
+            {
+                switch (NetworkGameManager.Instance.localRole)
+                {
+                    case Role.HMD:
+                        recalibrationCanvas.SetActive(true);
+                        worldCanvas.SetActive(false);
+                        break;
+                    case Role.ServerTracker:
+                        trackerCanvas.SetActive(false);
+                        break;
+                    case Role.ZED:
+                        worldCanvas.SetActive(true);
+                        break;
+                    case Role.Tablet:
+                        break;
+                }
+            }
+
             foreach (var go in m_OfflineWarningPanels)
             {
                 go.SetActive(!connected);

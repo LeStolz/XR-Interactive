@@ -117,7 +117,7 @@ namespace Multiplayer
 				return true;
 			}
 
-			var ZedModelManager = FindFirstObjectByType<ZEDModelManager>();
+			var ZedModelManager = NetworkGameManager.Instance.FindPlayerByRole<ZEDModelManager>(Role.ZED);
 
 			if (ZedModelManager == null)
 			{

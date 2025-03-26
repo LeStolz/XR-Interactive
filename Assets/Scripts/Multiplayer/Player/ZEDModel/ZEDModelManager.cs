@@ -80,7 +80,7 @@ namespace Multiplayer
                 }
                 else
                 {
-                    serverTrackerManager = FindFirstObjectByType<ServerTrackerManager>();
+                    serverTrackerManager = NetworkGameManager.Instance.FindPlayerByRole<ServerTrackerManager>(Role.ServerTracker);
                 }
             }
         }

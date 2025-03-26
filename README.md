@@ -2,8 +2,14 @@
 
 ## Todo
 
-- connect, reconnect. LobbyManager, ExampleNetworkDiscovery, LobbyUI, NetworkGameManager, LobbyListSlotUI, Utils, ZEDModelManager, Portal
+- connect.
 - Fix trackers, Hololens, display and origin error in calibration.
+
+- Fishing rod pointing.
+- Hybrid curve ray.
+- VR, VR view for ZED.
+- 2 ZED.
+- Move cube.
 
 ## Setup
 
