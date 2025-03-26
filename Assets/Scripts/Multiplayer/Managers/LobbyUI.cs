@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
 
 namespace Multiplayer
 {
@@ -173,6 +175,14 @@ namespace Multiplayer
             {
                 Destroy(t.gameObject);
             }
+
+            LobbyListSlotUI defaultLobbyUI = Instantiate(m_LobbyListPrefab, m_LobbyListParent).GetComponent<LobbyListSlotUI>();
+            var defaultLobby = new DiscoveryResponseData
+            {
+                Port = (NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport).ConnectionData.Port,
+                ServerName = "Default",
+            };
+            defaultLobbyUI.CreateLobbyUI(defaultLobby, this);
 
             if (lobbies != null || lobbies.Length > 0)
             {

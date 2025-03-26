@@ -6,7 +6,6 @@ using System.Net;
 using System.Linq;
 using Unity.Netcode.Transports.UTP;
 using Unity.Netcode;
-using Codice.CM.WorkspaceServer.DataStore;
 
 namespace Multiplayer
 {
@@ -99,9 +98,17 @@ namespace Multiplayer
             {
                 UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
 
-                var ip = discoveredServers.FirstOrDefault(
-                    x => x.Value.Port == lobby.Port && x.Value.ServerName == lobby.ServerName
-                ).Key;
+                IPAddress ip = IPAddress.Any;
+                if (lobby.ServerName == "Default")
+                {
+                    ip = IPAddress.Parse("192.168.159.129");
+                }
+                else
+                {
+                    ip = discoveredServers.FirstOrDefault(
+                        x => x.Value.Port == lobby.Port && x.Value.ServerName == lobby.ServerName
+                    ).Key;
+                }
 
                 transport.SetConnectionData(ip.ToString(), lobby.Port);
                 NetworkManager.Singleton.StartClient();
