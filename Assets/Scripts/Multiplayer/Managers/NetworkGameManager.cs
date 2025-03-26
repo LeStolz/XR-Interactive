@@ -7,7 +7,6 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.XR.Management;
 using System.Linq;
-using Valve.VR.InteractionSystem;
 
 namespace Multiplayer
 {
@@ -232,7 +231,10 @@ namespace Multiplayer
 
         void UpdateNetworkedRoleVisuals()
         {
-            roleButtons.ForEach(roleButton => roleButton.SetOccupied(false));
+            foreach (var roleButton in roleButtons)
+            {
+                roleButton.SetOccupied(false);
+            }
 
             foreach (var player in currentPlayers)
             {

@@ -909,6 +909,8 @@ MonoBehaviour:
   OpenCVMarkerTrackingModule: {fileID: 1498878456}
   OpenCVMarker: {fileID: 792238647}
   MarkerSettings: {fileID: 1412147846}
+  headset: 0
+  canvas: {fileID: 0}
 --- !u!4 &767109367
 Transform:
   m_ObjectHideFlags: 0
@@ -1629,7 +1631,7 @@ PrefabInstance:
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
       propertyPath: localRole
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
@@ -2458,7 +2460,7 @@ PrefabInstance:
     - target: {fileID: 6484816944661230508, guid: 7d554cf076fc46143bcaf9a54fc2204d,
         type: 3}
       propertyPath: m_ClearFlags
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6484816944661230508, guid: 7d554cf076fc46143bcaf9a54fc2204d,
         type: 3}
