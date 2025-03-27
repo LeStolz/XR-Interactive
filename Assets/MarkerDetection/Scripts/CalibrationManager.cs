@@ -28,9 +28,6 @@ public class CalibrationManager : MonoBehaviour
     [SerializeField]
     HeadSet headset;
 
-    [SerializeField]
-    GameObject canvas;
-
     void Awake()
     {
         if (Instance == null)
@@ -107,7 +104,7 @@ public class CalibrationManager : MonoBehaviour
                 VirtualTrackingCamera.transform.SetLocalPositionAndRotation(
                     headset == HeadSet.Hololens 
                         ? new Vector3(0, -0.06f, 0)
-                        : new Vector3(0, -0.15f, 0),
+                        : new Vector3(0, -0.12f, 0),
                     Quaternion.identity
                 );
                 OpenCVMarker.transform.SetParent(VirtualTrackingCamera.transform);
