@@ -48,14 +48,14 @@ namespace Multiplayer
             discovery.StartClient();
             discovery.ClientBroadcast(new DiscoveryBroadcastData());
 
-            UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
+            UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
             defaultPort = transport.ConnectionData.Port;
-            defaultIP = transport.ConnectionData.Address;
+            defaultIP = "0.0.0.0";
         }
 
         void SetDefaultConnectionData()
         {
-            UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
+            UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
             transport.SetConnectionData(defaultIP, defaultPort);
         }
 
@@ -96,7 +96,7 @@ namespace Multiplayer
 
             try
             {
-                UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
+                UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
 
                 IPAddress ip = IPAddress.Any;
                 if (lobby.ServerName == "Default")

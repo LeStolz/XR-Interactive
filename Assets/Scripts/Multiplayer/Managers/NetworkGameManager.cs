@@ -231,7 +231,7 @@ namespace Multiplayer
 
         void UpdateNetworkedRoleVisuals()
         {
-            foreach(var roleButton in roleButtons)
+            foreach (var roleButton in roleButtons)
             {
                 roleButton.SetOccupied(false);
             }

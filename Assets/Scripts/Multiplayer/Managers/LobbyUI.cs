@@ -172,6 +172,8 @@ namespace Multiplayer
         {
             DiscoveryResponseData[] lobbies = LobbyManager.Instance.GetLobbies();
 
+            Debug.Log(lobbies.Length);
+
             foreach (Transform t in m_LobbyListParent)
             {
                 Destroy(t.gameObject);
@@ -180,7 +182,7 @@ namespace Multiplayer
             LobbyListSlotUI defaultLobbyUI = Instantiate(m_LobbyListPrefab, m_LobbyListParent).GetComponent<LobbyListSlotUI>();
             var defaultLobby = new DiscoveryResponseData
             {
-                Port = (NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport).ConnectionData.Port,
+                Port = NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Port,
                 ServerName = "Default",
             };
             defaultLobbyUI.CreateLobbyUI(defaultLobby, this);
