@@ -2,7 +2,6 @@
 
 ## Todo
 
-- connect.
 - Fix trackers, Hololens, display and origin error in calibration.
 
 - Fishing rod pointing.
