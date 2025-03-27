@@ -48,14 +48,14 @@ namespace Multiplayer
             discovery.StartClient();
             discovery.ClientBroadcast(new DiscoveryBroadcastData());
 
-            UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
+            UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
             defaultPort = transport.ConnectionData.Port;
-            defaultIP = transport.ConnectionData.Address;
+            defaultIP = "0.0.0.0";
         }
 
         void SetDefaultConnectionData()
         {
-            UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
+            UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
             transport.SetConnectionData(defaultIP, defaultPort);
         }
 
@@ -92,25 +92,25 @@ namespace Multiplayer
 
         public void JoinLobby(DiscoveryResponseData lobby)
         {
-            // SetDefaultConnectionData();
+            SetDefaultConnectionData();
 
             try
             {
-                // UnityTransport transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
+                UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
 
-                // IPAddress ip = IPAddress.Any;
-                // if (lobby.ServerName == "Default")
-                // {
-                //     ip = IPAddress.Parse("192.168.159.129");
-                // }
-                // else
-                // {
-                //     ip = discoveredServers.FirstOrDefault(
-                //         x => x.Value.Port == lobby.Port && x.Value.ServerName == lobby.ServerName
-                //     ).Key;
-                // }
+                IPAddress ip = IPAddress.Any;
+                if (lobby.ServerName == "Default")
+                {
+                    ip = IPAddress.Parse("192.168.159.129");
+                }
+                else
+                {
+                    ip = discoveredServers.FirstOrDefault(
+                        x => x.Value.Port == lobby.Port && x.Value.ServerName == lobby.ServerName
+                    ).Key;
+                }
 
-                // transport.SetConnectionData(ip.ToString(), lobby.Port);
+                transport.SetConnectionData(ip.ToString(), lobby.Port);
                 NetworkManager.Singleton.StartClient();
 
                 m_Status.Value = "Connected To Lobby";
