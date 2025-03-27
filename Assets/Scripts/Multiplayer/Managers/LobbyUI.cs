@@ -156,7 +156,6 @@ namespace Multiplayer
             yield return new WaitUntil(() => LobbyManager.Instance != null);
 
             LobbyManager.Instance.OnServerFound += GetAllLobbies;
-            GetAllLobbies(default);
         }
 
         IEnumerator RefreshAvailableLobbies()
@@ -165,6 +164,7 @@ namespace Multiplayer
             {
                 yield return new WaitForSeconds(refreshLobbiesTime);
                 LobbyManager.Instance.RefreshLobbies();
+                GetAllLobbies(default);
             }
         }
 
