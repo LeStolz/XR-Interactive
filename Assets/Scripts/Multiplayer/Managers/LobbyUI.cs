@@ -172,6 +172,8 @@ namespace Multiplayer
         {
             DiscoveryResponseData[] lobbies = LobbyManager.Instance.GetLobbies();
 
+            Debug.Log(lobbies.Length);
+
             foreach (Transform t in m_LobbyListParent)
             {
                 Destroy(t.gameObject);
