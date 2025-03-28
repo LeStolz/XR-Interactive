@@ -357,6 +357,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Toy_Dice_Networked
       objectReference: {fileID: 0}
+    - target: {fileID: 1509817648934562759, guid: 2c241dbdf9c14834eba77ecc58615956,
+        type: 3}
+      propertyPath: 'm_Colliders.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3509482113241393313, guid: 2c241dbdf9c14834eba77ecc58615956,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -1366,7 +1371,7 @@ PrefabInstance:
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
       propertyPath: localRole
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
