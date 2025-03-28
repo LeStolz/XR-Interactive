@@ -6,6 +6,8 @@ namespace Multiplayer
     class ZEDModelManager : NetworkPlayer
     {
         [SerializeField]
+        float ORIGIN_MARKER_HEIGHT_OFFSET = 0.06f;
+        [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
         GameObject ZEDModel;
@@ -19,7 +21,7 @@ namespace Multiplayer
         Transform leftEye;
         [SerializeField]
         ZEDArUcoDetectionManager originDetectionManager;
-        readonly Calibrator calibrator = new(3, new float[] { 0.5f, 0.5f, 0.5f });
+        readonly Calibrator calibrator = new(3, new float[] { 0.2f, 0.2f, 0.2f });
 
         ServerTrackerManager serverTrackerManager;
         [field: SerializeField]
@@ -114,7 +116,9 @@ namespace Multiplayer
                         cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
 
                         cameraEyes.transform.SetParent(marker.transform);
-                        marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90, 0, 0)));
+                        marker.transform.SetPositionAndRotation(
+                            new(0, ORIGIN_MARKER_HEIGHT_OFFSET, 0), Quaternion.Euler(new(-90, 0, 0))
+                        );
                         cameraEyes.transform.SetParent(parent);
 
                         leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);

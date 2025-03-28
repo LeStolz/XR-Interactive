@@ -75,7 +75,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Fix trackers, Hololens, display and origin error in calibration.
+- Fix trackers, Hololens, display error.
 - Write intro & video, add image to direct pointing and portaled pointing, french, cooler interactions.
 
 - Fishing rod pointing.
