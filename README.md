@@ -14,7 +14,7 @@ The system requires:
 - **Large display** A large display large enough to fit 3 34cm x 34cm ARUCO markers at any of its 3 corners (preferrably with buffer space between the markers). All 3 markers (thus corners) must be seen by ZED during calibration.
 - **Headset:** Any headset (preferrably the Hololens or the Quest 3) with camera feed access to scan the origin marker.
 
-### Communication protocol
+### Communication Protocol
 
 Devices are connected through a LAN network (preferrably with firewall disabled). **Any device can start hosting a server and the rest can join.** The order of connection of devices does not matter and devices send data to eachothers directly (not mediated by a server/host).
 
@@ -64,12 +64,14 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## Extension Interactions
 
-TODO
-
 ## Measurements
 
 - Center of marker to side: 41.5cm.
 - Side length of tile: 45.5cm.
+
+## Setup
+
+- Download OpenCVForUnity.
 
 ## TODO
 
@@ -81,7 +83,3 @@ TODO
 - VR, VR view for ZED.
 - 2 ZED.
 - Move cube.
-
-## Setup
-
-- Download OpenCVForUnity.
