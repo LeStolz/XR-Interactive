@@ -870,6 +870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  ORIGIN_MARKER_HEIGHT_OFFSET: 0
   objectsToEnableOnSpawn:
   - {fileID: 9081795389872405544}
   - {fileID: 1681358979142847779}

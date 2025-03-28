@@ -12,6 +12,8 @@ namespace Multiplayer
         [SerializeField] Transform m_LobbyListParent;
         [SerializeField] GameObject m_LobbyListPrefab;
         [SerializeField] float refreshLobbiesTime = 1f;
+        [SerializeField] float getAllLobbiesTimeout = 1f;
+        bool gotAllLobbies = false;
 
         [Header("Connection Texts")]
         [SerializeField] TMP_Text m_ConnectionUpdatedText;
@@ -62,6 +64,7 @@ namespace Multiplayer
 
             LobbyManager.Instance.Status.Unsubscribe(ConnectedUpdated);
         }
+
         public void CheckInternetAsync()
         {
             if (NetworkGameManager.Instance == null)
@@ -164,15 +167,21 @@ namespace Multiplayer
             {
                 yield return new WaitForSeconds(refreshLobbiesTime);
                 LobbyManager.Instance.RefreshLobbies();
-                GetAllLobbies(default);
+                yield return new WaitForSeconds(getAllLobbiesTimeout);
+
+                if (!gotAllLobbies)
+                {
+                    GetAllLobbies(default);
+                }
+
+                gotAllLobbies = false;
             }
         }
 
         void GetAllLobbies(DiscoveryResponseData _)
         {
             DiscoveryResponseData[] lobbies = LobbyManager.Instance.GetLobbies();
-
-            Debug.Log(lobbies.Length);
+            gotAllLobbies = true;
 
             foreach (Transform t in m_LobbyListParent)
             {

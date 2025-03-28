@@ -20,7 +20,7 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
     //#if ZED_STEAM_VR
 #if ZED_SVR_2_0_INPUT
 
-   
+
 
 #elif ZED_STEAM_VR
     /// <summary>
@@ -298,124 +298,124 @@ public class ZEDControllerTracker_DemoInputs : ZEDControllerTracker
     //     }
     // #endif
 
-#if ZED_OCULUS
-    /// <summary>
-    /// Checks the button state of a given Oculus button.
-    /// </summary>
-    /// <param name="state">Whether to check if the button/action is just pressed, just released, or is being held down.</param>
-    public bool CheckOculusButtonState(OVRInput.Button button, ControllerButtonState state)
-    {
-        if (!ovrUpdateCalledThisFrame)
-        {
-            OVRInput.Update();
-            ovrUpdateCalledThisFrame = true;
-        }
-        bool result = false;
-        switch (state)
-        {
-            case ControllerButtonState.Down:
-                result = OVRInput.GetDown(button, GetOculusController());
-                break;
-            case ControllerButtonState.Held:
-                result = OVRInput.Get(button, GetOculusController());
-                break;
-            case ControllerButtonState.Up:
-                result = OVRInput.GetUp(button, GetOculusController());
-                break;
-        }
-        return result;
-    }
+    // #if ZED_OCULUS
+    //     /// <summary>
+    //     /// Checks the button state of a given Oculus button.
+    //     /// </summary>
+    //     /// <param name="state">Whether to check if the button/action is just pressed, just released, or is being held down.</param>
+    //     public bool CheckOculusButtonState(OVRInput.Button button, ControllerButtonState state)
+    //     {
+    //         if (!ovrUpdateCalledThisFrame)
+    //         {
+    //             OVRInput.Update();
+    //             ovrUpdateCalledThisFrame = true;
+    //         }
+    //         bool result = false;
+    //         switch (state)
+    //         {
+    //             case ControllerButtonState.Down:
+    //                 result = OVRInput.GetDown(button, GetOculusController());
+    //                 break;
+    //             case ControllerButtonState.Held:
+    //                 result = OVRInput.Get(button, GetOculusController());
+    //                 break;
+    //             case ControllerButtonState.Up:
+    //                 result = OVRInput.GetUp(button, GetOculusController());
+    //                 break;
+    //         }
+    //         return result;
+    //     }
 
-#if UNITY_2019_3_OR_NEWER
-    public bool CheckButtonState(InputFeatureUsage<bool> button, ControllerButtonState state, bool isActive){
+    // #if UNITY_2019_3_OR_NEWER
+    //     public bool CheckButtonState(InputFeatureUsage<bool> button, ControllerButtonState state, bool isActive){
 
-        bool down = false;
-        bool up = false;
-        InputDevice device = new InputDevice();
+    //         bool down = false;
+    //         bool up = false;
+    //         InputDevice device = new InputDevice();
 
-        if (deviceToTrack == Devices.LeftController)
-            device = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
-        else device = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+    //         if (deviceToTrack == Devices.LeftController)
+    //             device = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+    //         else device = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
 
-        ProcessInputDeviceButton(device, button, ref isActive,
-            () => // On Button Down
-            {
-                down = true;
-            },
-            () => // On Button Up
-            {
-                up =  true;
-        });
+    //         ProcessInputDeviceButton(device, button, ref isActive,
+    //             () => // On Button Down
+    //             {
+    //                 down = true;
+    //             },
+    //             () => // On Button Up
+    //             {
+    //                 up =  true;
+    //         });
 
-        if (state == ControllerButtonState.Down) return down;
-        if (state == ControllerButtonState.Up) return up;
-        else return false;
-    }
+    //         if (state == ControllerButtonState.Down) return down;
+    //         if (state == ControllerButtonState.Up) return up;
+    //         else return false;
+    //     }
 
-    public Vector2 Check2DAxisState(InputFeatureUsage<Vector2> navigateUIAxis){
+    //     public Vector2 Check2DAxisState(InputFeatureUsage<Vector2> navigateUIAxis){
 
-        InputDevice device = new InputDevice();
+    //         InputDevice device = new InputDevice();
 
-        if (deviceToTrack == Devices.LeftController)
-            device = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
-        else device = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
+    //         if (deviceToTrack == Devices.LeftController)
+    //             device = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
+    //         else device = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
 
-        Vector2 result = Vector2.zero;
-        if (device.TryGetFeatureValue(navigateUIAxis, out Vector2 value))
-            result = value;
+    //         Vector2 result = Vector2.zero;
+    //         if (device.TryGetFeatureValue(navigateUIAxis, out Vector2 value))
+    //             result = value;
 
-        return result;
-    }
+    //         return result;
+    //     }
 
-    private void ProcessInputDeviceButton(InputDevice inputDevice, InputFeatureUsage<bool> button, ref bool _wasPressedDownPreviousFrame, Action onButtonDown = null, Action onButtonUp = null, Action onButtonHeld = null)
-    {
-        if (inputDevice.TryGetFeatureValue(button, out bool isPressed) && isPressed)
-        {
-            if (!_wasPressedDownPreviousFrame) // // this is button down
-            {
-                onButtonDown?.Invoke();
-            }
+    //     private void ProcessInputDeviceButton(InputDevice inputDevice, InputFeatureUsage<bool> button, ref bool _wasPressedDownPreviousFrame, Action onButtonDown = null, Action onButtonUp = null, Action onButtonHeld = null)
+    //     {
+    //         if (inputDevice.TryGetFeatureValue(button, out bool isPressed) && isPressed)
+    //         {
+    //             if (!_wasPressedDownPreviousFrame) // // this is button down
+    //             {
+    //                 onButtonDown?.Invoke();
+    //             }
 
-            _wasPressedDownPreviousFrame = true;
-            onButtonHeld?.Invoke();
-        }
-        else
-        {
-            if (_wasPressedDownPreviousFrame) // this is button up
-            {
-                onButtonUp?.Invoke();
-            }
+    //             _wasPressedDownPreviousFrame = true;
+    //             onButtonHeld?.Invoke();
+    //         }
+    //         else
+    //         {
+    //             if (_wasPressedDownPreviousFrame) // this is button up
+    //             {
+    //                 onButtonUp?.Invoke();
+    //             }
 
-            _wasPressedDownPreviousFrame = false;
-        }
-    }
-#endif
+    //             _wasPressedDownPreviousFrame = false;
+    //         }
+    //     }
+    // #endif
 
-    /// <summary>
-    /// Returns the axis of a given Oculus axis button/joystick.
-    /// </summary>
-    public Vector3 CheckOculus2DAxisState(OVRInput.Axis2D axis)
-    {
-        if (!ovrUpdateCalledThisFrame)
-        {
-            OVRInput.Update();
-            ovrUpdateCalledThisFrame = true;
-        }
+    //     /// <summary>
+    //     /// Returns the axis of a given Oculus axis button/joystick.
+    //     /// </summary>
+    //     public Vector3 CheckOculus2DAxisState(OVRInput.Axis2D axis)
+    //     {
+    //         if (!ovrUpdateCalledThisFrame)
+    //         {
+    //             OVRInput.Update();
+    //             ovrUpdateCalledThisFrame = true;
+    //         }
 
-        return OVRInput.Get(axis, GetOculusController());
-    }
+    //         return OVRInput.Get(axis, GetOculusController());
+    //     }
 
-    /// <summary>
-    /// Returns the Oculus controller script of the controller currently attached to this object.
-    /// </summary>
-    public OVRInput.Controller GetOculusController()
-    {
-        if (deviceToTrack == Devices.LeftController) return OVRInput.Controller.LTouch;
-        else if (deviceToTrack == Devices.RightController) return OVRInput.Controller.RTouch;
-        else return OVRInput.Controller.None;
-    }
+    //     /// <summary>
+    //     /// Returns the Oculus controller script of the controller currently attached to this object.
+    //     /// </summary>
+    //     public OVRInput.Controller GetOculusController()
+    //     {
+    //         if (deviceToTrack == Devices.LeftController) return OVRInput.Controller.LTouch;
+    //         else if (deviceToTrack == Devices.RightController) return OVRInput.Controller.RTouch;
+    //         else return OVRInput.Controller.None;
+    //     }
 
-#endif
+    // #endif
 
 
     //#if ZED_STEAM_VR
