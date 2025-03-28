@@ -42,19 +42,19 @@ Their virtual transforms are then synced with other devices.
 
 _Note:_ As long as the base stations and the Vive headset do not move, the virtual Vive headset's transform remains the same. Thus, we can just save the calibration information from the previous session for use in the current session if the conditions are met.
 
-### Calibrate HMD(s)
+### HMD(s) Calibration
 
 Uses a similar algorithm to ZED's calibration. Can press the recalibration button to recalibrate if necessary.
 
-## Base interactions
+## Base Interactions
 
 As we have already mapped everything into the virtual world, we will now only to virtual objects unless stated otherwise.
 
-### Direct pointing
+### Direct Pointing
 
 With the trackers strapped to the spectators' hand, we can do a simple raycast from the tracker forward to simulate pointing at something. A crosshair will appear at the spot the user is pointing at on the virtual object (or the virtual floor). As the user points **directly** at the virtual object's position in the real world, this is called **direct pointing**. The crosshair is synced across devices so the headset users can see it.
 
-### Indirect pointing
+### Indirect Pointing
 
 Spectators can point at a virtual object shown on the large display and a crosshair will be shown at the spot on that virtual object itself (not on the virtual object shown on the display) that the spectator points at (you can imagine the large display as a portal connecting the real world and the virtual world allowing the spectator to point into the virtual world from the real world).
 
@@ -62,7 +62,7 @@ As what is shown on the large display is the ZED's camera feed, a screen point (
 
 Thus, by calculating the 2D coordinates of the crosshair on the virtual display relative to its origin, we can deduce the coordinates of the screen point on the virtual camera feed. Then, we just need to call the virtual ZED camera's `ScreenPointToRay` function to cast a ray from the camera to the virtual point that corresponds to the screen point on the ZED camera. This point is the virtual point that the spectator is pointing at through the large display.
 
-## Extension interactions
+## Extension Interactions
 
 TODO
 
@@ -71,7 +71,7 @@ TODO
 - Center of marker to side: 41.5cm.
 - Side length of tile: 45.5cm.
 
-## Todo
+## TODO
 
 - Fix trackers, Hololens, display and origin error in calibration.
 - Write intro & video, add image to direct pointing and portaled pointing, french, cooler interactions.
