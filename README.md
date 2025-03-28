@@ -2,7 +2,7 @@
 
 ## Architecture
 
-### Devices
+### Components
 
 The system requires:
 
@@ -24,7 +24,7 @@ To do this, we use Unity's Netcode for Game Object thus all the code must be in 
 
 As different devices start with different origins and different relative transforms (position and rotation) to their own origins in the game scene, devices do not know where eachothers are.
 
-To do this, each device must figure out the relative transform between it and the origin marker in the game scene, then move and rotate the virtual (virtual = in the game scene) origin marker to Unity's origin all the while preserving said relative transform.
+To fix this, each device must figure out the relative transform between it and the origin marker in the game scene, then move and rotate the virtual (virtual = in the game scene) origin marker to Unity's origin all the while preserving said relative transform.
 
 ### ZED Calibration
 
@@ -48,7 +48,7 @@ Uses a similar algorithm to ZED's calibration. Can press the recalibration butto
 
 ## Base Interactions
 
-As we have already mapped everything into the virtual world, we will now only to virtual objects unless stated otherwise.
+As we have already mapped everything into the virtual world, we will now only refer to virtual objects unless stated otherwise.
 
 ### Direct Pointing
 
@@ -60,7 +60,7 @@ Spectators can point at a virtual object shown on the large display and a crossh
 
 As what is shown on the large display is the ZED's camera feed, a screen point (think of it as a pixel) on the large display should corresponds to the screen point on the ZED's feed of the camera with the same coordinates (assuming the origin is at the bottom left of each screen). The same argument can be made for the virtual large display and the ZED virtual camera (provided by the Unity ZED SDK which has the same parameters as the real camera).
 
-Thus, by calculating the 2D coordinates of the crosshair on the virtual display relative to its origin, we can deduce the coordinates of the screen point on the virtual camera feed. Then, we just need to call the virtual ZED camera's `ScreenPointToRay` function to cast a ray from the camera to the virtual point that corresponds to the screen point on the ZED camera. This point is the virtual point that the spectator is pointing at through the large display.
+Thus, by calculating the 2D coordinates of the crosshair on the virtual display relative to the display's origin, we can deduce the coordinates of the screen point on the virtual camera feed. Then, we just need to call the virtual ZED camera's `ScreenPointToRay` function to cast a ray from the camera to the virtual point that corresponds to the screen point on the ZED camera. This point is the virtual point that the spectator is pointing at through the large display.
 
 ## Extension Interactions
 
