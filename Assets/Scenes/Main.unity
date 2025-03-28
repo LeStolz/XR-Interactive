@@ -741,6 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add52739c882141438ef3604677f314e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HOLOLENS_CAMERA_OFFSET: -0.06
   XRPlaySpace: {fileID: 698738287}
   XRCamera: {fileID: 1654893734}
   VirtualTrackingCamera: {fileID: 926644231}
@@ -1366,7 +1367,7 @@ PrefabInstance:
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
       propertyPath: localRole
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}

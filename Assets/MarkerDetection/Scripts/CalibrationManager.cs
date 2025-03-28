@@ -6,6 +6,9 @@ using Multiplayer;
 
 public class CalibrationManager : MonoBehaviour
 {
+    [SerializeField]
+    float HOLOLENS_CAMERA_OFFSET = -0.06f;
+
     readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
     public static CalibrationManager Instance = null;
     public Transform XRPlaySpace;
@@ -103,7 +106,7 @@ public class CalibrationManager : MonoBehaviour
                 VirtualTrackingCamera.transform.SetParent(XRCamera.transform);
                 VirtualTrackingCamera.transform.SetLocalPositionAndRotation(
                     headset == HeadSet.Hololens 
-                        ? new Vector3(0, -0.06f, 0)
+                        ? new Vector3(0, HOLOLENS_CAMERA_OFFSET, 0)
                         : new Vector3(0, -0.12f, 0),
                     Quaternion.identity
                 );
