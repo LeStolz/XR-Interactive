@@ -11,7 +11,7 @@ The system requires:
   - **Trackers:** The other interfaces with the Vive headset, its trackers, and its base stations. As we do not render anything on the Vive headset, a display port to HDMI adapter is good enough to connect the headset to the laptop.
   - _Note:_ We cannot have 1 laptop to do both as the Vive headset and the projector are both treated as external monitors thus confusing the headset's drivers.
 - **Origin marker:** A 43.3cm x 43.3cm ARUCO marker placed on the floor used as the common origin between devices and for detecting the floor. Marker must be seen by ZED during calibration and can be scanned by headset users.
-- **Large display** A large display large enough to fit 3 34cm x 34cm ARUCO markers at any of its 3 corners (preferrably with buffer space between the markers). All 3 markers (thus corners) must be seen by ZED during calibration.
+- **Large display:** A large display large enough to fit 3 34cm x 34cm ARUCO markers at any of its 3 corners (preferrably with buffer space between the markers). All 3 markers (thus corners) must be seen by ZED during calibration.
 - **Headset:** Any headset (preferrably the Hololens or the Quest 3) with camera feed access to scan the origin marker.
 
 ### Communication Protocol
@@ -54,6 +54,8 @@ As we have already mapped everything into the virtual world, we will now only re
 
 With the trackers strapped to the spectators' hand, we can do a simple raycast from the tracker forward to simulate pointing at something. A crosshair will appear at the spot the user is pointing at on the virtual object (or the virtual floor). As the user points **directly** at the virtual object's position in the real world, this is called **direct pointing**. The crosshair is synced across devices so the headset users can see it.
 
+![Direct pointing](https://github.com/LeStolz/XR-Interactive/blob/main/Docs/direct.png)
+
 ### Indirect Pointing
 
 Spectators can point at a virtual object shown on the large display and a crosshair will be shown at the spot on that virtual object itself (not on the virtual object shown on the display) that the spectator points at (you can imagine the large display as a portal connecting the real world and the virtual world allowing the spectator to point into the virtual world from the real world).
@@ -61,6 +63,8 @@ Spectators can point at a virtual object shown on the large display and a crossh
 As what is shown on the large display is the ZED's camera feed, a screen point (think of it as a pixel) on the large display should corresponds to the screen point on the ZED's feed of the camera with the same coordinates (assuming the origin is at the bottom left of each screen). The same argument can be made for the virtual large display and the ZED virtual camera (provided by the Unity ZED SDK which has the same parameters as the real camera).
 
 Thus, by calculating the 2D coordinates of the crosshair on the virtual display relative to the display's origin, we can deduce the coordinates of the screen point on the virtual camera feed. Then, we just need to call the virtual ZED camera's `ScreenPointToRay` function to cast a ray from the camera to the virtual point that corresponds to the screen point on the ZED camera. This point is the virtual point that the spectator is pointing at through the large display.
+
+![Indirect pointing](https://github.com/LeStolz/XR-Interactive/blob/main/Docs/indirect.png)
 
 ## Extension Interactions
 
@@ -76,7 +80,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 ## TODO
 
 - Fix trackers, Hololens, display error.
-- Write intro & video, add image to direct pointing and portaled pointing, french, cooler interactions.
+- intro, direct, indirect for video, french, cooler interactions.
 
 - Fishing rod pointing.
 - Hybrid curve ray.
