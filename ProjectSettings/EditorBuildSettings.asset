@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/MRTabletopAssets/Games/Chess/Scenes/SlicesChess.unity
     guid: 7b10018d527adf74a93f47002beec580
+  - enabled: 0
+    path: Assets/Samples/XR Interaction Toolkit/3.0.7/Hands Interaction Demo/HandsDemoScene.unity
+    guid: 3ff35cecbcc52cc42945cf531638a60a
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 26ed30d2dd6f99b458d74fee7a8e4875,
       type: 2}
