@@ -904,7 +904,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   objectsToEnableOnSpawn:
   - {fileID: 9081795389872405544}
-  - {fileID: 0}
+  - {fileID: 1339853681118605315}
   - {fileID: 3804549816324993645}
   - {fileID: 8053742614054498156}
   - {fileID: 7790811099120680775}
@@ -1855,6 +1855,12 @@ Transform:
 --- !u!4 &1338635965805324125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4476058232863476, guid: 76db3eb81fd21ae45bab5204e324ae42,
+    type: 3}
+  m_PrefabInstance: {fileID: 1340995863573814697}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1339853681118605315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1180261165772202, guid: 76db3eb81fd21ae45bab5204e324ae42,
     type: 3}
   m_PrefabInstance: {fileID: 1340995863573814697}
   m_PrefabAsset: {fileID: 0}
