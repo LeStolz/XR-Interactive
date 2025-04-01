@@ -47,6 +47,7 @@ namespace Multiplayer
         [SerializeField] GameObject trackerCanvas;
 
         [SerializeField] GameObject calibrationPrefab;
+        [SerializeField] Button recalibrationButton;
 
         int m_CurrentPanel = 0;
         DynamicMoveProvider m_MoveProvider;
@@ -59,7 +60,6 @@ namespace Multiplayer
 
             NetworkGameManager.Connected.Subscribe(ConnectOnline);
 
-            // ConnectOnline(false);
             HideCurrentUI();
 
             ToggleControlPanel(false);
@@ -137,7 +137,12 @@ namespace Multiplayer
                     case Role.HMD:
                         if (calibrationPrefab != null)
                         {
-                            Instantiate(calibrationPrefab, Vector3.zero, Quaternion.identity);
+                            var recalibration = Instantiate(calibrationPrefab, Vector3.zero, Quaternion.identity);
+
+                            recalibrationButton.onClick.AddListener(() =>
+                                recalibration.GetComponent<CalibrationManager>().Recalibrate()
+                            );
+
                             calibrationPrefab = null;
                         }
 

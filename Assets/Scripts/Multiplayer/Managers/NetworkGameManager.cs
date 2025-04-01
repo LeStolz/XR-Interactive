@@ -50,6 +50,8 @@ namespace Multiplayer
 
         [field: SerializeField]
         public GameObject MRInteractionSetup { get; private set; }
+        [field: SerializeField]
+        public GameObject Environment { get; private set; }
         [SerializeField]
         Canvas WorldSpaceCanvas;
         [SerializeField]
@@ -103,6 +105,12 @@ namespace Multiplayer
                 TableUI.transform.SetParent(ScreenSpaceCanvas.transform, false);
                 TableUI.transform.localScale = new Vector3(tableScale, tableScale, tableScale);
                 TableUI.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            }
+
+            if (localRole == Role.ZED)
+            {
+                Environment.transform.localScale /=
+                    GlobalMarkerConfigs.VIRTUAL_MARKER_TO_REAL_MARKER_RATIO;
             }
 
             if (localRole == Role.HMD || localRole == Role.ServerTracker)
