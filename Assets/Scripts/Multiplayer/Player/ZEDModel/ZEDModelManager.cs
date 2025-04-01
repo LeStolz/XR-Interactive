@@ -31,6 +31,7 @@ namespace Multiplayer
         void Start()
         {
             originDetectionManager.OnMarkersDetected += OnMarkersDetected;
+            originDetectionManager.markerWidthMeters = GlobalMarkerConfigs.VIRTUAL_ORIGIN_MAKRER;
         }
 
         public override void OnNetworkSpawn()

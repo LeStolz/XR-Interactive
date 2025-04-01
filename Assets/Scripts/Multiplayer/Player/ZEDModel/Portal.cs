@@ -14,14 +14,15 @@ public class Portal : NetworkBehaviour
     [SerializeField]
     GameObject ZEDCanvas;
     [SerializeField]
-    ZEDArUcoDetectionManager PortalCornersDetectionManager;
+    ZEDArUcoDetectionManager portalCornersDetectionManager;
 
     Vector3[] portalCorners = new Vector3[3];
     readonly Calibrator calibrator = new(3, new float[] { 0.2f, 0.2f, 0.2f });
 
     void Start()
     {
-        PortalCornersDetectionManager.OnMarkersDetected += OnMarkersDetected;
+        portalCornersDetectionManager.OnMarkersDetected += OnMarkersDetected;
+        portalCornersDetectionManager.markerWidthMeters = GlobalMarkerConfigs.VIRTUAL_PORTAL_MARKER;
     }
 
     public override void OnNetworkSpawn()

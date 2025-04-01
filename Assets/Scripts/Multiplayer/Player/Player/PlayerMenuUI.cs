@@ -46,6 +46,8 @@ namespace Multiplayer
         [SerializeField] GameObject worldCanvas;
         [SerializeField] GameObject trackerCanvas;
 
+        [SerializeField] GameObject calibrationPrefab;
+
         int m_CurrentPanel = 0;
         DynamicMoveProvider m_MoveProvider;
         SnapTurnProvider m_TurnProvider;
@@ -59,6 +61,8 @@ namespace Multiplayer
 
             // ConnectOnline(false);
             HideCurrentUI();
+
+            ToggleControlPanel(false);
         }
 
         void OnEnable()
@@ -105,7 +109,7 @@ namespace Multiplayer
             // m_AppearanceConfirmButton.SetActive(false);
         }
 
-        void ConnectOnline(bool connected)
+        void ToggleControlPanel(bool connected)
         {
             if (connected)
             {
@@ -131,6 +135,12 @@ namespace Multiplayer
                 switch (NetworkGameManager.Instance.localRole)
                 {
                     case Role.HMD:
+                        if (calibrationPrefab != null)
+                        {
+                            Instantiate(calibrationPrefab, Vector3.zero, Quaternion.identity);
+                            calibrationPrefab = null;
+                        }
+
                         recalibrationCanvas.SetActive(true);
                         worldCanvas.SetActive(false);
                         break;
@@ -144,6 +154,11 @@ namespace Multiplayer
                         break;
                 }
             }
+        }
+
+        void ConnectOnline(bool connected)
+        {
+            ToggleControlPanel(connected);
 
             foreach (var go in m_OfflineWarningPanels)
             {

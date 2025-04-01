@@ -5,7 +5,6 @@
         "Unity.Netcode.Components",
         "Unity.Netcode.Runtime",
         "Unity.Collections",
-        "Unity.Services.Core",
         "Unity.XR.Management",
         "Unity.XR.Hands",
         "Unity.XR.Interaction.Toolkit",
@@ -20,7 +19,9 @@
         "ZED",
         "SteamVR",
         "Netcode for GameObjects Community Extensions",
-        "Unity.Networking.Transport"
+        "Unity.Networking.Transport",
+        "MarkerDetection",
+        "UnityEngine.SpatialTracking"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

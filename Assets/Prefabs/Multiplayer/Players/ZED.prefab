@@ -1769,6 +1769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZED_Rig_Mono
       objectReference: {fileID: 0}
+    - target: {fileID: 1215292335019620, guid: 76db3eb81fd21ae45bab5204e324ae42, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4329734432191940, guid: 76db3eb81fd21ae45bab5204e324ae42, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
