@@ -7,7 +7,7 @@ using UnityEngine;
 public class Portal : NetworkBehaviour
 {
     readonly float cornerOffset = 0.24f;
-    readonly float portalPlaneOffset = 0.1f;
+    readonly float portalPlaneOffset = 0f;
 
     [SerializeField]
     GameObject[] markers;
@@ -17,7 +17,7 @@ public class Portal : NetworkBehaviour
     ZEDArUcoDetectionManager PortalCornersDetectionManager;
 
     Vector3[] portalCorners = new Vector3[3];
-    readonly Calibrator calibrator = new(3, new float[] { 0.5f, 0.5f, 0.5f });
+    readonly Calibrator calibrator = new(3, new float[] { 0.2f, 0.2f, 0.2f });
 
     void Start()
     {

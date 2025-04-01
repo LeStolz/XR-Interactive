@@ -80,7 +80,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 ## TODO
 
 - Fix trackers, Hololens, display error.
-- intro, direct, indirect for video, french, cooler interactions.
+- intro, direct, indirect for video, french, cooler interactions also for video.
 
 - Fishing rod pointing.
 - Hybrid curve ray.
