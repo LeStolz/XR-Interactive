@@ -7,11 +7,11 @@ using UnityEditor;
 #endif
 
 /// <summary>
-/// Saves and loads the pose of this object relative to its parent.
-/// Used primarily when mounting the ZED to a tracked object (like a VR controller) for 3rd person mixed reality.
-/// This way, you can calibrate its position/rotation to line up the real/virtual worlds, and hit Save.
+/// Saves and loads the pose of this object relative to its parent. 
+/// Used primarily when mounting the ZED to a tracked object (like a VR controller) for 3rd person mixed reality. 
+/// This way, you can calibrate its position/rotation to line up the real/virtual worlds, and hit Save. 
 /// It will automatically load a calibration in the future if it's found.
-/// Note that if you used our beta tool for SteamVR calibration, this script will load that calibration automatically.
+/// Note that if you used our beta tool for SteamVR calibration, this script will load that calibration automatically. 
 /// </summary>
 public class ZEDOffsetController : MonoBehaviour
 {
@@ -22,24 +22,24 @@ public class ZEDOffsetController : MonoBehaviour
     public static string ZEDOffsetFile = "ZED_Position_Offset.conf";
 
     /// <summary>
-    /// Where to save the ZED offset file.
+    /// Where to save the ZED offset file. 
     /// </summary>
     private string path = @"Stereolabs\steamvr";
 
     /// <summary>
-    /// The ZEDControllerTracker object in the scene from which we're offset.
+    /// The ZEDControllerTracker object in the scene from which we're offset. 
     /// This script checks this object, its parents and its children (in that order) for such a component.
     /// </summary>
 	public ZEDControllerTracker controllerTracker;
 
     /// <summary>
-    /// If the object is instantiated and ready to save/load an offset file.
-    /// Used by the custom Inspector editor to know if the Save/Load buttons should be pressable.
+    /// If the object is instantiated and ready to save/load an offset file. 
+    /// Used by the custom Inspector editor to know if the Save/Load buttons should be pressable. 
     /// </summary>
 	public bool isReady = false;
 
     /// <summary>
-    /// Save the local position/rotation of the ZED into an offset file.
+    /// Save the local position/rotation of the ZED into an offset file. 
     /// </summary>
     public void SaveZEDPos()
     {
@@ -52,7 +52,7 @@ public class ZEDOffsetController : MonoBehaviour
             string ry = "ry=" + transform.localRotation.eulerAngles.y.ToString() + " //Rotation y";
             string rz = "rz=" + transform.localRotation.eulerAngles.z.ToString() + " //Rotation z";
 
-            //Write those values into the file.
+            //Write those values into the file. 
             file.WriteLine(tx);
             file.WriteLine(ty);
             file.WriteLine(tz);
@@ -61,33 +61,33 @@ public class ZEDOffsetController : MonoBehaviour
             file.WriteLine(rz);
 
 
-            // #if ZED_STEAM_VR
-            //             if (TrackerComponentExist())
-            //             {
-            //                 //If using SteamVR, get the serial number of the tracked device, or write "NONE" to indicate we checked but couldn't find it.
-            //                 string result = "indexController = ";
-            //                 if (controllerTracker.index > 0)
-            //                 {
-            //                     var snerror = Valve.VR.ETrackedPropertyError.TrackedProp_Success;
-            //                     var snresult = new System.Text.StringBuilder((int)64);
-            //                     result += Valve.VR.OpenVR.System.GetStringTrackedDeviceProperty((uint)controllerTracker.index, Valve.VR.ETrackedDeviceProperty.Prop_SerialNumber_String, snresult, 64, ref snerror);
-            //                     //OpenVR.System.GetStringTrackedDeviceProperty((uint)index, ETrackedDeviceProperty.Prop_SerialNumber_String, snresult, 64, ref snerror);
+#if ZED_STEAM_VR
+            if (TrackerComponentExist())
+            {
+                //If using SteamVR, get the serial number of the tracked device, or write "NONE" to indicate we checked but couldn't find it. 
+                string result = "indexController = ";
+                if (controllerTracker.index > 0)
+                {
+                    var snerror = Valve.VR.ETrackedPropertyError.TrackedProp_Success;
+                    var snresult = new System.Text.StringBuilder((int)64);
+                    result += Valve.VR.OpenVR.System.GetStringTrackedDeviceProperty((uint)controllerTracker.index, Valve.VR.ETrackedDeviceProperty.Prop_SerialNumber_String, snresult, 64, ref snerror);
+                    //OpenVR.System.GetStringTrackedDeviceProperty((uint)index, ETrackedDeviceProperty.Prop_SerialNumber_String, snresult, 64, ref snerror);
 
-            //                 }
-            //                 else
-            //                 {
-            //                     result += "NONE";
-            //                 }
-            //                 file.WriteLine(result);
-            //             }
-            // #endif
+                }
+                else
+                {
+                    result += "NONE";
+                }
+                file.WriteLine(result);
+            }
+#endif
 
-            file.Close(); //Finalize the new file.
+            file.Close(); //Finalize the new file. 
         }
     }
 
     /// <summary>
-    /// Whether there is a referenced ZEDControllerTracker object in this object, a parent, or a child.
+    /// Whether there is a referenced ZEDControllerTracker object in this object, a parent, or a child. 
     /// </summary>
     /// <returns>True if such a component exists and is used to handle the offset.</returns>
     public bool TrackerComponentExist()
@@ -105,7 +105,7 @@ public class ZEDOffsetController : MonoBehaviour
 
     /// <summary>
     /// Searched for a ZEDControllerTracker component in this object, its parents, and its children.
-    /// Sets the controllerTracker value to the first one it finds.
+    /// Sets the controllerTracker value to the first one it finds. 
     /// </summary>
     private void LoadTrackerComponent()
     {
@@ -120,7 +120,7 @@ public class ZEDOffsetController : MonoBehaviour
 
     /// <summary>
     /// Tries to find the relevant ZEDControllerTracker object, and loads the existing
-    /// offset file if there is one.
+    /// offset file if there is one. 
     /// </summary>
     void Awake()
     {
@@ -220,7 +220,7 @@ public class ZEDOffsetController : MonoBehaviour
 
     /// <summary>
     /// Creates a FileSystemWatcher that keeps track of the offset file, in case it
-    /// changes or moves.
+    /// changes or moves. 
     /// </summary>
     /// <param name="path"></param>
     public void CreateFileWatcher(string path)
@@ -228,7 +228,7 @@ public class ZEDOffsetController : MonoBehaviour
         // Create a new FileSystemWatcher and set its properties.
         FileSystemWatcher watcher = new FileSystemWatcher();
         watcher.Path = path;
-        /* Watch for changes in LastAccess and LastWrite times, and
+        /* Watch for changes in LastAccess and LastWrite times, and 
            the renaming of files or directories. */
         watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
            | NotifyFilters.FileName | NotifyFilters.DirectoryName;
@@ -243,8 +243,8 @@ public class ZEDOffsetController : MonoBehaviour
     }
 
     /// <summary>
-    /// Event handler for when the offset file changes or moves.
-    /// Called by the FileSystemWatcher created in CreateFileWatcher().
+    /// Event handler for when the offset file changes or moves. 
+    /// Called by the FileSystemWatcher created in CreateFileWatcher(). 
     /// </summary>
     /// <param name="source"></param>
     /// <param name="e"></param>
@@ -263,7 +263,7 @@ public class ZEDOffsetController : MonoBehaviour
 /// <summary>
 /// Custom editor for ZEDOffsetController, to define its Inspector layout.
 /// Specifically, it doesn't draw public fields like normal but instead places Save/Load buttons
-/// for the offset file that are only pressable during runtime.
+/// for the offset file that are only pressable during runtime. 
 /// </summary>
 [CustomEditor(typeof(ZEDOffsetController))]
 public class ZEDPositionEditor : Editor
@@ -276,7 +276,7 @@ public class ZEDPositionEditor : Editor
 
     }
 
-    public override void OnInspectorGUI() //Called when the Inspector GUI becomes visible, or changes at all.
+    public override void OnInspectorGUI() //Called when the Inspector GUI becomes visible, or changes at all. 
     {
         GUILayout.Space(5);
         EditorGUILayout.BeginHorizontal();

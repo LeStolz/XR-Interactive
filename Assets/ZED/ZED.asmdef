@@ -4,7 +4,11 @@
     "references": [
         "SteamVR",
         "SteamVR_Actions",
-        "Oculus.VR"
+        "SteamVR_Editor",
+        "SteamVR_Input_Editor",
+        "SteamVR_Windows_EditorHelper",
+        "EnoxSoftware.OpenCVForUnity",
+        "Unity.XR.OpenVR"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

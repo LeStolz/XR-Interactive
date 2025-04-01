@@ -1,7 +1,6 @@
 ﻿//======= Copyright (c) Stereolabs Corporation, All rights reserved. ===============
 
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
 using System.Collections;
 
@@ -547,5 +546,3 @@ public class ZEDPluginInspector : EditorWindow
         GUILayout.EndHorizontal();
     }
 }
-
-#endif

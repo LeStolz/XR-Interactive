@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+#if ZED_STEAM_VR
+using Valve.VR;
+#endif
 
 /// <summary>
-/// Creates a model to match whatever tracked object it's assigned to. Used alongsize ZEDControllerTracker.
-/// In SteamVR, uses SteamVR_RenderModel to handle the model. In Oculus, it loads a prefab from Resources.
+/// Creates a model to match whatever tracked object it's assigned to. Used alongsize ZEDControllerTracker. 
+/// In SteamVR, uses SteamVR_RenderModel to handle the model. In Oculus, it loads a prefab from Resources. 
 /// </summary>
 public class SetControllerSkin : MonoBehaviour
 {
     /// <summary>
     /// Associated ZEDControllerTracker with this object. If checkDeviceIndexEachUpdate is true, this is
-    /// where we check the index.
+    /// where we check the index. 
     /// </summary>
     [Tooltip("Associated ZEDControllerTracker with this object. If checkDeviceIndexEachUpdate is true, this is " +
         "where we check the index. ")]
     public ZEDControllerTracker controllerTracker;
     /// <summary>
-    /// Whether to regularly check the ZEDControllerTracker to see if its tracked index has changed.
+    /// Whether to regularly check the ZEDControllerTracker to see if its tracked index has changed. 
     /// </summary>
     [Tooltip("Whether to regularly check the ZEDControllerTracker to see if its tracked index has changed.")]
     public bool checkDeviceIndexEachUpdate = true;
@@ -28,7 +31,7 @@ public class SetControllerSkin : MonoBehaviour
 #endif
 
     /// <summary>
-    /// Returns the first MeshFilter attached to or parented to this object.
+    /// Returns the first MeshFilter attached to or parented to this object. 
     /// Used when other scripts want to draw copies of it with Graphics.DrawMesh.
     /// </summary>
     public Mesh GetFirstControllerMesh()
@@ -39,7 +42,7 @@ public class SetControllerSkin : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the Meshes of all MeshFilters attached to or parented to this object.
+    /// Returns the Meshes of all MeshFilters attached to or parented to this object. 
     /// </summary>
     public Mesh[] GetControllerMeshes()
     {
@@ -47,25 +50,35 @@ public class SetControllerSkin : MonoBehaviour
     }
 
 
-    void Start()
+#if ZED_STEAM_VR
+    private SteamVR_RenderModel renderModel;
+#endif
+
+    void Start ()
     {
         //controllerTracker = GetComponent<ZEDControllerTracker>();
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
+#if ZED_STEAM_VR
+        renderModel = GetComponent<SteamVR_RenderModel>();
+        if(!renderModel)
+        {
+            renderModel = gameObject.AddComponent<SteamVR_RenderModel>();
+        }
+#endif
+        
+	}
+	
+	// Update is called once per frame
+	void Update ()
     {
         if (checkDeviceIndexEachUpdate)
         {
-            // #if ZED_STEAM_VR
-            //             if ((int)controllerTracker.index != (int)renderModel.index)
-            //             {
-            //                 //renderModel.SetDeviceIndex((int)controllerTracker.index);
-            //                 SetRenderModelIndex((int)controllerTracker.index);
-            //             }
-            // #endif
+#if ZED_STEAM_VR
+            if ((int)controllerTracker.index != (int)renderModel.index)
+            {
+                //renderModel.SetDeviceIndex((int)controllerTracker.index);
+                SetRenderModelIndex((int)controllerTracker.index);
+            }
+#endif
 #if ZED_OCULUS
             if(controllerTracker.deviceToTrack == ZEDControllerTracker.Devices.LeftController)
             {
@@ -77,17 +90,23 @@ public class SetControllerSkin : MonoBehaviour
             }
 #endif
         }
-    }
+	}
 
     /// <summary>
-    /// Makes the controller update its model based on the specified controller index.
+    /// Makes the controller update its model based on the specified controller index. 
     /// This index is the actual tracked object index in SteamVR, and in Oculus, corresponds to
     /// ChooseTrackedObjectMenu.TOUCH_INDEX_LEFT and _RIGHT.
     /// </summary>
     public void SetRenderModelIndex(int newindex)
     {
+#if ZED_STEAM_VR
+        if (!renderModel)
+        {
+            renderModel = gameObject.AddComponent<SteamVR_RenderModel>();
+        }
 
-#if ZED_OCULUS
+        renderModel.SetDeviceIndex(newindex);
+#elif ZED_OCULUS
         if (newindex == ChooseTrackedObjectMenu.TOUCH_INDEX_LEFT)
         {
             //if(controllerModel != null && controllerModel.name != "TouchControl_L")

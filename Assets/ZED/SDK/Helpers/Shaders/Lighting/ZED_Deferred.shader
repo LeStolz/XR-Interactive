@@ -117,8 +117,6 @@ Properties
 				outColor = saturate(tex2D (_MainTex, i.depthUV).bgra);
 				outColor *= _ZEDFactorAffectReal;
 
-				outDepth = saturate(d);
-
 				#ifdef NO_DEPTH_OCC
 					#if SHADER_API_D3D11
 									outDepth = 0;

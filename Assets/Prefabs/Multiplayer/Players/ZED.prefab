@@ -191,11 +191,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1166800405096649113}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 319541d5ad6a1b742b91a56820dd2eac, type: 3}
+  m_Script: {fileID: 11500000, guid: b47812071ab81a14d99aec42fb1888c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   markerID: 3
-  HideWhenNotSeen: 1
 --- !u!1 &1625152255636171161
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,11 +365,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1961192933686539362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 319541d5ad6a1b742b91a56820dd2eac, type: 3}
+  m_Script: {fileID: 11500000, guid: b47812071ab81a14d99aec42fb1888c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   markerID: 2
-  HideWhenNotSeen: 1
 --- !u!1 &2655468012844763550
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,10 +442,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3804549816324993645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a18117b4396eb3c428b69a11e992cf92, type: 3}
+  m_Script: {fileID: 11500000, guid: 425dd24c89f40164d821044a530d772d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zedManager: {fileID: 0}
+  zedManager: {fileID: 1372170570850643971}
 --- !u!1 &3918547101245055794
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,11 +734,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7019160230572938505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 319541d5ad6a1b742b91a56820dd2eac, type: 3}
+  m_Script: {fileID: 11500000, guid: b47812071ab81a14d99aec42fb1888c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   markerID: 1
-  HideWhenNotSeen: 1
 --- !u!1 &7196536466101573368
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,11 +959,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7790811099120680775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f2a61619bcda847b1d7214d177821b, type: 3}
+  m_Script: {fileID: 11500000, guid: 136584bd9739dc1489de5c07458ed4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   imageRetriever: {fileID: 5588430175930192676}
-  markerWidthMeters: 0.433
+  markerWidthMeters: 0.43
   markerDictionary: 0
 --- !u!1 &7819493227129665547
 GameObject:
@@ -1160,7 +1157,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8053742614054498156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f2a61619bcda847b1d7214d177821b, type: 3}
+  m_Script: {fileID: 11500000, guid: 136584bd9739dc1489de5c07458ed4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   imageRetriever: {fileID: 5588430175930192676}
@@ -1208,11 +1205,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8325605581026384357}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 319541d5ad6a1b742b91a56820dd2eac, type: 3}
+  m_Script: {fileID: 11500000, guid: b47812071ab81a14d99aec42fb1888c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   markerID: 0
-  HideWhenNotSeen: 1
 --- !u!1 &8930847827351072159
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,10 +1769,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ZED_Rig_Mono
       objectReference: {fileID: 0}
-    - target: {fileID: 1180261165772202, guid: 76db3eb81fd21ae45bab5204e324ae42, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4329734432191940, guid: 76db3eb81fd21ae45bab5204e324ae42, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1821,21 +1813,11 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: ef1a21d25d23a3f4690512c2d75a67a1, type: 2}
+      objectReference: {fileID: 2100000, guid: 518aa434c37e3134e807bbcd0cb6a11e, type: 2}
     - target: {fileID: 114491592745282986, guid: 76db3eb81fd21ae45bab5204e324ae42,
         type: 3}
       propertyPath: depthMode
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114491592745282986, guid: 76db3eb81fd21ae45bab5204e324ae42,
-        type: 3}
-      propertyPath: isMappingTextured
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114491592745282986, guid: 76db3eb81fd21ae45bab5204e324ae42,
-        type: 3}
-      propertyPath: spatialMappingFoldoutOpen
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1844,7 +1826,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1795562263255876, guid: 76db3eb81fd21ae45bab5204e324ae42,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1036883136502517789}
+      addedObject: {fileID: 101231748307564614}
   m_SourcePrefab: {fileID: 100100000, guid: 76db3eb81fd21ae45bab5204e324ae42, type: 3}
 --- !u!4 &1338498712843364461 stripped
 Transform:
@@ -1876,7 +1858,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1340995863573814697}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1036883136502517789
+--- !u!114 &101231748307564614
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1920,6 +1902,18 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1372170570850643971 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114491592745282986, guid: 76db3eb81fd21ae45bab5204e324ae42,
+    type: 3}
+  m_PrefabInstance: {fileID: 1340995863573814697}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339853681118605315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75b2a3ff7b847ca4490808f4c0432cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5058598138479169532
 PrefabInstance:
   m_ObjectHideFlags: 0
