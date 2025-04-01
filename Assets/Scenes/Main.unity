@@ -359,8 +359,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1509817648934562759, guid: 2c241dbdf9c14834eba77ecc58615956,
         type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1509817648934562759, guid: 2c241dbdf9c14834eba77ecc58615956,
+        type: 3}
+      propertyPath: m_RetainTransformParent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1509817648934562759, guid: 2c241dbdf9c14834eba77ecc58615956,
+        type: 3}
       propertyPath: 'm_Colliders.Array.data[0]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2641816982268599093, guid: 2c241dbdf9c14834eba77ecc58615956,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3509482113241393313, guid: 2c241dbdf9c14834eba77ecc58615956,
         type: 3}
@@ -536,10 +551,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1458032940409393488, guid: 57c12bb85c1ad49d1bd88abb77d0c03a,
+        type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458032940409393488, guid: 57c12bb85c1ad49d1bd88abb77d0c03a,
+        type: 3}
+      propertyPath: m_RetainTransformParent
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2155385166140769253, guid: 57c12bb85c1ad49d1bd88abb77d0c03a,
         type: 3}
       propertyPath: m_Name
       value: Toy_HalfPipe_Networked
+      objectReference: {fileID: 0}
+    - target: {fileID: 3266991885923645739, guid: 57c12bb85c1ad49d1bd88abb77d0c03a,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5424403032194494712, guid: 57c12bb85c1ad49d1bd88abb77d0c03a,
         type: 3}
@@ -619,6 +649,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Toy_Ball_Networked
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114642830811189264, guid: ab1b130fc34b0404cb10ad8f5892be88,
+        type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114642830811189264, guid: ab1b130fc34b0404cb10ad8f5892be88,
+        type: 3}
+      propertyPath: m_RetainTransformParent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3453687593931915612, guid: ab1b130fc34b0404cb10ad8f5892be88,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7414196600266558234, guid: ab1b130fc34b0404cb10ad8f5892be88,
         type: 3}
@@ -746,6 +791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add52739c882141438ef3604677f314e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HOLOLENS_CAMERA_OFFSET: -0.06
   XRPlaySpace: {fileID: 698738287}
   XRCamera: {fileID: 1654893734}
   VirtualTrackingCamera: {fileID: 926644231}
@@ -924,6 +970,21 @@ PrefabInstance:
         type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2419340814
+      objectReference: {fileID: 0}
+    - target: {fileID: 6359519414005053820, guid: 07da2f623706a0b4c8cb5777420d84b3,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6968065381693599105, guid: 07da2f623706a0b4c8cb5777420d84b3,
+        type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6968065381693599105, guid: 07da2f623706a0b4c8cb5777420d84b3,
+        type: 3}
+      propertyPath: m_RetainTransformParent
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1371,7 +1432,7 @@ PrefabInstance:
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
       propertyPath: localRole
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
@@ -1567,6 +1628,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1157338193}
     m_Modifications:
+    - target: {fileID: 2280009540855916496, guid: 66fac9334de5aef4c886b43e47584cf8,
+        type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280009540855916496, guid: 66fac9334de5aef4c886b43e47584cf8,
+        type: 3}
+      propertyPath: m_RetainTransformParent
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2945158408676606781, guid: 66fac9334de5aef4c886b43e47584cf8,
         type: 3}
       propertyPath: m_Name
@@ -1651,6 +1722,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 1576618907
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203642034854622731, guid: 66fac9334de5aef4c886b43e47584cf8,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2080,6 +2156,21 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4426396369222496082, guid: 6a0fdb464714ecf45b9c22f283e78d35,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6477548043438192239, guid: 6a0fdb464714ecf45b9c22f283e78d35,
+        type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6477548043438192239, guid: 6a0fdb464714ecf45b9c22f283e78d35,
+        type: 3}
+      propertyPath: m_RetainTransformParent
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7850978447653964615, guid: 6a0fdb464714ecf45b9c22f283e78d35,
         type: 3}
       propertyPath: m_Name
@@ -2328,10 +2419,42 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1996598806}
+    - targetCorrespondingSourceObject: {fileID: 635916902467548043, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1996598803}
+    - targetCorrespondingSourceObject: {fileID: 5196325794450283334, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+        type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1996598802}
   m_SourcePrefab: {fileID: 100100000, guid: 7d554cf076fc46143bcaf9a54fc2204d, type: 3}
 --- !u!20 &1996598796 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 6484816944661230508, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1996598795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1996598797 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5196325794450283334, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1996598795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1996598798 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8661785788637795077, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1996598795}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a07ef133a37d140a87cdf1f1c75fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1996598799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 635916902467548043, guid: 7d554cf076fc46143bcaf9a54fc2204d,
     type: 3}
   m_PrefabInstance: {fileID: 1996598795}
   m_PrefabAsset: {fileID: 0}
@@ -2341,6 +2464,108 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1996598795}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1996598801 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1909793087215654123, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1996598795}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a07ef133a37d140a87cdf1f1c75fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1996598802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996598797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbac611a2982409ab5f5e604f53bcad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Handedness: 2
+  m_PokeGestureStarted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1996598798}
+        m_TargetAssemblyTypeName: UnityEngine.XR.Interaction.Toolkit.Interactors.NearFarInteractor,
+          Unity.XR.Interaction.Toolkit
+        m_MethodName: set_enableFarCasting
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_PokeGestureEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1996598798}
+        m_TargetAssemblyTypeName: UnityEngine.XR.Interaction.Toolkit.Interactors.NearFarInteractor,
+          Unity.XR.Interaction.Toolkit
+        m_MethodName: set_enableFarCasting
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1996598803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996598799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbac611a2982409ab5f5e604f53bcad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Handedness: 1
+  m_PokeGestureStarted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1996598801}
+        m_TargetAssemblyTypeName: UnityEngine.XR.Interaction.Toolkit.Interactors.NearFarInteractor,
+          Unity.XR.Interaction.Toolkit
+        m_MethodName: set_enableFarCasting
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_PokeGestureEnded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1996598801}
+        m_TargetAssemblyTypeName: UnityEngine.XR.Interaction.Toolkit.Interactors.NearFarInteractor,
+          Unity.XR.Interaction.Toolkit
+        m_MethodName: set_enableFarCasting
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1996598806
 MonoBehaviour:
   m_ObjectHideFlags: 0
