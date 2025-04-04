@@ -183,7 +183,7 @@ public class ZEDControllerTracker : MonoBehaviour
                     "value wasn't set, but there are multiple ZEDManagers in the scene. Assign a reference directly to ensure no unexpected behavior.");
             }
         }
-        if (zedManager) zedRigRoot = zedManager.GetZedRootTansform();
+        if (zedManager) zedRigRoot = zedManager.GetZedRootTransform();
     }
 
     /// <summary>
@@ -206,8 +206,16 @@ public class ZEDControllerTracker : MonoBehaviour
                     RegisterPosition(1, OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch), OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch));
 
                 if (deviceToTrack == Devices.Hmd) //Track the Oculus Hmd.
+                {
+#if UNITY_2019_3_OR_NEWER
+                    InputDevice head = InputDevices.GetDeviceAtXRNode(XRNode.CenterEye);
+                    head.TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 headPosition);
+                    head.TryGetFeatureValue(CommonUsages.deviceRotation, out Quaternion headRotation);
+                    RegisterPosition(1, headPosition, headRotation);
+#else
                     RegisterPosition(1, InputTracking.GetLocalPosition(XRNode.CenterEye), InputTracking.GetLocalRotation(XRNode.CenterEye));
-
+#endif
+                }
                 //Use our saved positions to apply a delay before assigning it to this object's Transform.
                 if (poseData.Count > 0)
                 {
@@ -330,7 +338,7 @@ public class ZEDControllerTracker : MonoBehaviour
             index = EIndex.None;
 
 #endif
-    }
+                }
 
 #if ZED_STEAM_VR
     /// <summary>
@@ -485,13 +493,13 @@ public class ZEDControllerTracker : MonoBehaviour
     }
 
 #endif
-    /// <summary>
-    /// Compute the delayed position and rotation from the history stored in the poseData dictionary.
-    /// </summary>
-    /// <param name="keyindex"></param>
-    /// <param name="timeDelay"></param>
-    /// <returns></returns>
-    private sl.Pose GetValuePosition(int keyindex, float timeDelay)
+                /// <summary>
+                /// Compute the delayed position and rotation from the history stored in the poseData dictionary.
+                /// </summary>
+                /// <param name="keyindex"></param>
+                /// <param name="timeDelay"></param>
+                /// <returns></returns>
+                private sl.Pose GetValuePosition(int keyindex, float timeDelay)
     {
         sl.Pose p = new sl.Pose();
         if (poseData.ContainsKey(keyindex))
@@ -527,7 +535,7 @@ public class ZEDControllerTracker : MonoBehaviour
                             (deviceToTrack == Devices.LeftController || deviceToTrack == Devices.RightController || deviceToTrack == Devices.ViveTracker) &&
                             (zedManager != null && zedManager.IsStereoRig == true && !zedManager.transform.IsChildOf(transform)))
                         {
-                            //Compensate for positional drift by measuring the distance between HMD and ZED rig root (the head's center).
+                            //Compensate for positional drift by measuring the distance between HMD and ZED rig root (the head's center). 
 #if UNITY_2019_3_OR_NEWER
                             InputDevice head = InputDevices.GetDeviceAtXRNode(XRNode.Head);
                             head.TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 headPosition);
@@ -588,121 +596,3 @@ public class ZEDControllerTracker : MonoBehaviour
         public Vector3 position;
     }
 }
-
-#if UNITY_EDITOR
-/// <summary>
-/// Custom editor for ZEDControllerTracker.
-/// If no VR Unity plugin (Oculus Integration or SteamVR plugin) has been loaded by the ZED plugin but one is found,
-/// presents a button to create project defines that tell ZED scripts that this plugin is loaded.
-/// These defines (ZED_STEAM_VR and ZED_OCULUS) are used to allow compiling parts of ZED scripts that depend on scripts in these VR plugins.
-/// Note that this detection will also be attempted any time an asset has been imported. See nested class AssetPostProcessZEDVR.
-/// </summary>
-[CustomEditor(typeof(ZEDControllerTracker)), CanEditMultipleObjects]
-public class ZEDVRDependencies : Editor
-{
-    [SerializeField]
-    static string defineName;
-    static string packageName;
-
-    public override void OnInspectorGUI() //Called when the Inspector is visible.
-    {
-        //if (CheckPackageExists("OpenVR"))
-        if (CheckPackageExists("SteamVR_Camera.cs"))
-        {
-            defineName = "ZED_STEAM_VR";
-            packageName = "SteamVR";
-        }
-        //else if (CheckPackageExists("Oculus") || CheckPackageExists("OVR"))
-        else if (CheckPackageExists("OVRManager"))
-        {
-            defineName = "ZED_OCULUS";
-            packageName = "Oculus";
-        }
-
-        if (EditorPrefs.GetBool(packageName)) //Has it been set?
-        {
-            DrawDefaultInspector();
-        }
-        else //No package loaded, but one has been detected. Present a button to load it.
-        {
-            GUILayout.Space(20);
-            if (GUILayout.Button("Load " + packageName + " data"))
-            {
-                if (CheckPackageExists(packageName))
-                {
-                    ActivateDefine();
-                }
-            }
-            if (packageName == "SteamVR")
-                EditorGUILayout.HelpBox(ZEDLogMessage.Error2Str(ZEDLogMessage.ERROR.STEAMVR_NOT_INSTALLED), MessageType.Warning);
-            else if (packageName == "Oculus")
-                EditorGUILayout.HelpBox(ZEDLogMessage.Error2Str(ZEDLogMessage.ERROR.OVR_NOT_INSTALLED), MessageType.Warning);
-        }
-    }
-
-    /// <summary>
-    /// Finds if a folder in the project exists with the specified name.
-    /// Used to check if a plugin has been imported, as the relevant plugins are placed
-    /// in a folder named after the package. Example: "Assets/Oculus".
-    /// </summary>
-    /// <param name="name">Package name.</param>
-    /// <returns></returns>
-    public static bool CheckPackageExists(string name)
-    {
-        string[] packages = AssetDatabase.FindAssets(name);
-        return packages.Length != 0;
-    }
-
-
-    /// <summary>
-    /// Activates a define tag in the project. Used to enable compiling sections of scripts with that tag enabled.
-    /// For instance, parts of this script under a #if ZED_STEAM_VR statement will be ignored by the compiler unless ZED_STEAM_VR is enabled.
-    /// </summary>
-    public static void ActivateDefine()
-    {
-        EditorPrefs.SetBool(packageName, true);
-        string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
-        if (defines.Length != 0)
-        {
-            if (!defines.Contains(defineName))
-            {
-                defines += ";" + defineName;
-            }
-        }
-        else
-        {
-            if (!defines.Contains(defineName))
-            {
-                defines += defineName;
-            }
-        }
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
-    }
-
-    /// <summary>
-    /// Removes a define tag from the project.
-    /// Called whenever a package is checked for but not found.
-    /// Removing the define tags will prevent compilation of code marked with that tag, like #if ZED_OCULUS.
-    /// </summary>
-    public static void DeactivateDefine(string packagename)
-    {
-        EditorPrefs.SetBool(packagename, false);
-        string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
-        if (defines.Length != 0)
-        {
-            if (defineName != null && defines.Contains(defineName))
-            {
-                defines = defines.Remove(defines.IndexOf(defineName), defineName.Length);
-
-                if (defines.LastIndexOf(";") == defines.Length - 1 && defines.Length != 0)
-                {
-                    defines.Remove(defines.LastIndexOf(";"), 1);
-                }
-            }
-        }
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
-    }
-}
-
-
-#endif

@@ -16,12 +16,12 @@
         "ParrelSync",
         "Unity.Multiplayer.Playmode",
         "EnoxSoftware.OpenCVForUnity",
-        "ZED",
         "SteamVR",
         "Netcode for GameObjects Community Extensions",
         "Unity.Networking.Transport",
         "MarkerDetection",
-        "UnityEngine.SpatialTracking"
+        "UnityEngine.SpatialTracking",
+        "Stereolabs.Zed"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

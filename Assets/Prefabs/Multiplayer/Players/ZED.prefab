@@ -442,7 +442,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3804549816324993645}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 425dd24c89f40164d821044a530d772d, type: 3}
+  m_Script: {fileID: 11500000, guid: a18117b4396eb3c428b69a11e992cf92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   zedManager: {fileID: 1372170570850643971}
@@ -857,11 +857,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7790811099120680775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 136584bd9739dc1489de5c07458ed4dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 53f2a61619bcda847b1d7214d177821b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   imageRetriever: {fileID: 5588430175930192676}
-  markerWidthMeters: 0.43
+  markerWidthMeters: 0.433
   markerDictionary: 0
 --- !u!1 &7847932608680450869
 GameObject:
@@ -980,7 +980,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8053742614054498156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 136584bd9739dc1489de5c07458ed4dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 53f2a61619bcda847b1d7214d177821b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   imageRetriever: {fileID: 5588430175930192676}
@@ -1639,11 +1639,16 @@ PrefabInstance:
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 518aa434c37e3134e807bbcd0cb6a11e, type: 2}
+      objectReference: {fileID: 2100000, guid: 27e47bd369171664d8041076064c4862, type: 2}
     - target: {fileID: 114491592745282986, guid: 76db3eb81fd21ae45bab5204e324ae42,
         type: 3}
       propertyPath: depthMode
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114491592745282986, guid: 76db3eb81fd21ae45bab5204e324ae42,
+        type: 3}
+      propertyPath: resolution
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

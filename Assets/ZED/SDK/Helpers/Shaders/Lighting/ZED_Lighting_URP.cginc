@@ -1,4 +1,4 @@
-﻿//Copied from LitInput.hlsl then modified.
+﻿//Copied from LitInput.hlsl then modified. 
 
 #ifndef UNIVERSAL_LIT_INPUT_INCLUDED
 #define UNIVERSAL_LIT_INPUT_INCLUDED
@@ -102,7 +102,7 @@ half4 computeLightingLWRP(float3 albedo, float3 normals, float3 worldPos, float 
 	o.alpha = 1;
 
 
-	float3 specularTint = lerp(unity_ColorSpaceDielectricSpec.rgb, o.albedo, o.metallic); //Don't think this is needed.
+	float3 specularTint = lerp(unity_ColorSpaceDielectricSpec.rgb, o.albedo, o.metallic); //Don't think this is needed. 
 	float oneMinusReflectivity = unity_ColorSpaceDielectricSpec.a - o.metallic * unity_ColorSpaceDielectricSpec.a;
 	o.albedo.rgb *= oneMinusReflectivity;
 
@@ -130,7 +130,7 @@ half4 computeLightingLWRP(float3 albedo, float3 normals, float3 worldPos, float 
 #else
 	float3 modws = float3(worldPos.x, worldPos.y, worldPos.z);
 	float4 newshadcoords = TransformWorldToShadowCoord(modws);
-
+  
 	Light mainLight = GetMainLight(newshadcoords);
 
 #endif
@@ -139,7 +139,7 @@ half4 computeLightingLWRP(float3 albedo, float3 normals, float3 worldPos, float 
 	Light mainLight = GetMainLight();
 #endif
 
-	//Only apply directional shadows if it's not opposite of the normal, so that we don't draw shadows from objects onto walls that they're behind.
+	//Only apply directional shadows if it's not opposite of the normal, so that we don't draw shadows from objects onto walls that they're behind. 
 	float dirlightnormdot = dot(normals, mainLight.direction);
 	if (!Unity_IsNan_float3(normals)) c.rgb = lerp(c.rgb, c.rgb *=mainLight.shadowAttenuation, step(0, dirlightnormdot));
 	//c.rgb *= clamp(dirlightnormdot, 0, 1);

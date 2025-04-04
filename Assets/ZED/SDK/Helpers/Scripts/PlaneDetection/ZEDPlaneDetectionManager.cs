@@ -374,8 +374,10 @@ public class ZEDPlaneDetectionManager : MonoBehaviour
         sl.ZEDCamera zedcam = manager.zedCamera;
         Camera cam = manager.GetMainCamera();
 
+        sl.PlaneDetectionParameters planeParameters = new sl.PlaneDetectionParameters(manager.planeDetectionMaxDistanceThreshold, manager.planeDetectioNormalSimilarityThreshold);
+
         ZEDPlaneGameObject.PlaneData plane = new ZEDPlaneGameObject.PlaneData();
-        if (zedcam.findPlaneAtHit(ref plane, screenPos) == sl.ERROR_CODE.SUCCESS) //We found a plane. 
+        if (zedcam.findPlaneAtHit(ref plane, screenPos, ref planeParameters) == sl.ERROR_CODE.SUCCESS) //We found a plane. 
         {
             int numVertices, numTriangles = 0;
             zedcam.convertHitPlaneToMesh(planeMeshVertices, planeMeshTriangles, out numVertices, out numTriangles);
@@ -619,21 +621,6 @@ public class ZEDPlaneDetectionEditor : Editor
         GUIContent visiblescenelabel = new GUIContent("Visible in Scene", "Whether the planes are drawn in Unity's Scene view.");
         GUIContent visiblegamelabel = new GUIContent("Visible in Game", "Whether the planes are drawn in Unity's Game view.");
         isVisibleInSceneOption.boolValue = EditorGUILayout.Toggle(visiblescenelabel, isVisibleInSceneOption.boolValue);
-
-#if !UNITY_2018_1_OR_NEWER
-        if (!isVisibleInSceneOption.boolValue)
-        {
-            //Older Unity versions have a bug that will spam errors if Visible In Scene is disabled. Warn the user. 
-            GUIStyle warningmessagestyle = new GUIStyle(EditorStyles.label);
-            warningmessagestyle.normal.textColor = Color.gray;
-            warningmessagestyle.wordWrap = true;
-            warningmessagestyle.fontSize = 9;
-
-            string warningtext = "Warning: Disabling Visible in Scene causes Unity versions 2017 and lower to spam error messages. This is due to a Unity bug and does not effect the scene.";
-            Rect labelrect = GUILayoutUtility.GetRect(new GUIContent(warningtext, ""), warningmessagestyle);
-            EditorGUI.LabelField(labelrect, warningtext, warningmessagestyle);
-        }
-#endif
 
         isVisibleInGameOption.boolValue = EditorGUILayout.Toggle(visiblegamelabel, isVisibleInGameOption.boolValue);
 

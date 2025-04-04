@@ -8,13 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mat_ZED_Forward_Lighting
-  m_Shader: {fileID: 4800000, guid: 9a7011437ca03a24c8c5d45ccdf91e30, type: 3}
+  m_Shader: {fileID: 4800000, guid: 2809325ac48130642a19c357ce7d5200, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _EMISSION
   m_InvalidKeywords:
   - DIRECTIONALLIGHTEFFECT_ON
-  - _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
