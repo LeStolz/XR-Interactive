@@ -59,5 +59,6 @@
     "dotnet.defaultSolution": "XR-Interactive.sln",
     "cSpell.words": [
         "Behaviour"
-    ]
+    ],
+    "cSpell.enabled": false
 }
