@@ -104,7 +104,7 @@ Shader "ZED/ZED Forward Lighting URP"
 		void frag(Varyings input, out float4 outColor: SV_Target, out float outDepth : SV_Depth)
 		{
 
-			float zed_z = tex2D(_DepthXYZTex, input.uv.zw).x;
+			float zed_z = tex2D(_DepthXYZTex, input.uv.zw).x * 0.7;
 			//Filter out depth values beyond the max value.
 			if (_MaxDepth < 20.0) //Avoid clipping out FAR values when not using feature.
 			{
@@ -120,7 +120,7 @@ Shader "ZED/ZED Forward Lighting URP"
 						outDepth = 0;
 			#endif
 			#else
-						outDepth = computeDepthXYZ(zed_z) + 1;
+						outDepth = computeDepthXYZ(zed_z);
 			#endif
 
 
@@ -136,7 +136,8 @@ Shader "ZED/ZED Forward Lighting URP"
 
 			//Compute world normals.
 			//normals = float4(normals.x, 0 - normals.y, normals.z, 0);
-			float4 worldnormals = mul(unity_ObjectToWorld, normals); //TODO: This erroneously applies object scale to the normals. The canvas object is scaled to fill the frame. Fix.
+			// float4 worldnormals = mul(unity_ObjectToWorld, normals); //TODO: This erroneously applies object scale to the normals. The canvas object is scaled to fill the frame. Fix.
+			float3 worldnormals = normalize(mul((float3x3)unity_WorldToObject, normals.xyz));
 
 			//Compute world position of the pixel.
 			float xfovpartial = (input.uv.x - _cx) * _ZEDHFoVRad;
