@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GlobalMarkerConfigs : MonoBehaviour
 {
-    public static readonly float VIRTUAL_MARKER_TO_REAL_MARKER_RATIO = 0.6f;
+    public static readonly float VIRTUAL_MARKER_TO_REAL_MARKER_RATIO = 1f;
 
     static readonly float REAL_ORIGIN_MARKER = 0.433f;
     static readonly float REAL_PORTAL_MARKER = 0.34f;
