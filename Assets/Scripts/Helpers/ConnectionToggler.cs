@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Multiplayer
+namespace Main
 {
     /// <summary>
     /// A very simple script that will enable or disable objects based on the Network Connection State.

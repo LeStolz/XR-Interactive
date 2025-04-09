@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Multiplayer
+namespace Main
 {
     [ExecuteInEditMode]
     public class SnapToPlayerHeight : MonoBehaviour

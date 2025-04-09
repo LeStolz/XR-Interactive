@@ -25,7 +25,7 @@ public class DotProductToggle : MonoBehaviour
             return;
 
         bool wasLookingAt = isLookingAt;
-        isLookingAt = Multiplayer.Utils.IsPlayerLookingTowards(playerCameraTransform, m_LookAtTransform, dotProductThreshold);
+        isLookingAt = Main.Utils.IsPlayerLookingTowards(playerCameraTransform, m_LookAtTransform, dotProductThreshold);
         if (wasLookingAt != isLookingAt)
         {
             onToggle.Invoke(isLookingAt);

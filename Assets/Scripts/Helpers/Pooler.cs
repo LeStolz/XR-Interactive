@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Multiplayer
+namespace Main
 {
     public class Pooler : MonoBehaviour
     {

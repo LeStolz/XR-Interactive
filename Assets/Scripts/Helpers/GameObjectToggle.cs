@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Multiplayer
+namespace Main
 {
     public class GameObjectToggle : MonoBehaviour
     {

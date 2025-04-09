@@ -81,7 +81,6 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 - Hybrid curve ray.
 - Move cube.
-- Fix ZED.
 - Fix trackers, Hololens, display error.
 - 2 ZED.
 - VR, VR view for ZED.
