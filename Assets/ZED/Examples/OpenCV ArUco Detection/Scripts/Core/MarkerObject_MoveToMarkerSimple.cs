@@ -1,5 +1,4 @@
-﻿#if ZED_OPENCV_FOR_UNITY
-
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using sl;
@@ -26,5 +25,3 @@ public class MarkerObject_MoveToMarkerSimple : MarkerObject
         gameObject.SetActive(false);
     }
 }
-
-#endif

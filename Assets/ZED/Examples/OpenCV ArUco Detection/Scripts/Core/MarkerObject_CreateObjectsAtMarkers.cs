@@ -1,5 +1,4 @@
-﻿#if ZED_OPENCV_FOR_UNITY
-
+﻿
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -371,5 +370,3 @@ public class MarkerObject_CreateObjectsAtMarkers : MarkerObject
         }
     }
 }
-
-#endif
