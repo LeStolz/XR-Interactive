@@ -1,9 +1,7 @@
 using System;
-using Codice.CM.Common.Tree.Partial;
 using Main;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class BoardGameManager : NetworkBehaviour
 {

@@ -1,4 +1,5 @@
 using System;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -298,5 +299,4 @@ public class UpgradePluginToSRP
         }
     }*/
 }
-
-
+#endif

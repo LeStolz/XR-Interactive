@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -123,3 +124,4 @@ public class RenderingPipelineDefines
         PlayerSettings.SetScriptingDefineSymbolsForGroup(buildTargetGroup, defines);
     }
 }
+#endif
