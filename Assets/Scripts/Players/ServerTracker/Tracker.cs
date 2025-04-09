@@ -58,7 +58,7 @@ namespace Main
 				return;
 			}
 
-			if (Physics.Raycast(ray, out RaycastHit hit, 100))
+			if (Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Default")))
 			{
 				hitMarkers[depth].transform.position = hit.point;
 				hitMarkers[depth].transform.forward = hit.normal;

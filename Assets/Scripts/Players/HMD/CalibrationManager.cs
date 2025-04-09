@@ -9,9 +9,9 @@ public class CalibrationManager : MonoBehaviour
     [SerializeField]
     float HOLOLENS_CAMERA_OFFSET = -0.06f;
 
-    readonly Calibrator calibrator = new(2, new float[] { 0.5f, 720f });
+    readonly Calibrator calibrator = new(3, new float[] { 0.2f, 0.2f, 0.2f });
     public static CalibrationManager Instance = null;
-    public Transform XRPlaySpace;
+    public GameObject XRPlaySpace;
     public GameObject XRCamera;
     public GameObject VirtualTrackingCamera;
     float trackMarkerDuration = 3f;
@@ -53,6 +53,9 @@ public class CalibrationManager : MonoBehaviour
             return;
         }
 
+        XRPlaySpace = NetworkGameManager.Instance.XRPlaySpace;
+        XRCamera = NetworkGameManager.Instance.XRCamera;
+
         if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))
         {
             trackedPoseDriver.enabled = false;
@@ -75,15 +78,23 @@ public class CalibrationManager : MonoBehaviour
             }
 
             calibrator.Calibrate(
-            new Vector3[] { OpenCVMarker.transform.position, OpenCVMarker.transform.rotation.eulerAngles },
+            new Vector3[] {
+                OpenCVMarker.transform.position,
+                OpenCVMarker.transform.position + OpenCVMarker.transform.forward,
+                OpenCVMarker.transform.position + OpenCVMarker.transform.up,
+            },
             (averages) =>
             {
                 var markerPositionAverage = averages[0];
-                var markerRotationAverage = averages[1];
+                var markerForwardAverage = averages[1];
+                var markerUpAverage = averages[2];
 
                 OpenCVMarker.transform.SetPositionAndRotation(
                     markerPositionAverage,
-                    Quaternion.Euler(markerRotationAverage)
+                    Quaternion.LookRotation(
+                        markerForwardAverage - markerPositionAverage,
+                        markerUpAverage - markerPositionAverage
+                    )
                 );
 
                 if (XRCamera.TryGetComponent(out TrackedPoseDriver trackedPoseDriver))

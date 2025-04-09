@@ -1,55 +1,59 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class Socket : MonoBehaviour
+namespace Main
 {
-    GameObject socket;
-
-    void Awake()
+    class Socket : NetworkBehaviour
     {
-        transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
-    }
+        GameObject socket;
 
-    public void OnSelectEntered(SelectEnterEventArgs args)
-    {
-        if (args.interactableObject == null)
+        void Awake()
         {
-            return;
+            transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
         }
 
-        AttachObjectToSocket(args.interactableObject);
-
-        socket = Instantiate(
-            gameObject, transform.position + Vector3.up * transform.localScale.x, Quaternion.identity
-        );
-    }
-
-    public void OnSelectExited(SelectExitEventArgs args)
-    {
-        if (args.interactableObject == null)
+        public void OnSelectEntered(SelectEnterEventArgs args)
         {
-            return;
+            if (args.interactableObject == null)
+            {
+                return;
+            }
+
+            AttachObjectToSocket(args.interactableObject);
+
+            socket = Instantiate(
+                gameObject, transform.position + Vector3.up * transform.localScale.x, Quaternion.identity
+            );
         }
 
-        if (socket != null)
+        public void OnSelectExited(SelectExitEventArgs args)
         {
-            Destroy(socket);
-            socket = null;
+            if (args.interactableObject == null)
+            {
+                return;
+            }
+
+            if (socket != null)
+            {
+                Destroy(socket);
+                socket = null;
+            }
+
+            transform.localRotation = Quaternion.identity;
         }
 
-        transform.localRotation = Quaternion.identity;
-    }
+        private void AttachObjectToSocket(IXRSelectInteractable interactableObject)
+        {
+            Vector3 eulerAngles = interactableObject.transform.eulerAngles;
 
-    private void AttachObjectToSocket(IXRSelectInteractable interactableObject)
-    {
-        Vector3 eulerAngles = interactableObject.transform.eulerAngles;
+            eulerAngles.x = Mathf.Round(eulerAngles.x / 90f) * 90f;
+            eulerAngles.y = Mathf.Round(eulerAngles.y / 90f) * 90f;
+            eulerAngles.z = Mathf.Round(eulerAngles.z / 90f) * 90f;
 
-        eulerAngles.x = Mathf.Round(eulerAngles.x / 90f) * 90f;
-        eulerAngles.y = Mathf.Round(eulerAngles.y / 90f) * 90f;
-        eulerAngles.z = Mathf.Round(eulerAngles.z / 90f) * 90f;
-
-        Quaternion normalizedRotation = Quaternion.Euler(eulerAngles);
-        transform.localRotation = normalizedRotation;
+            Quaternion normalizedRotation = Quaternion.Euler(eulerAngles);
+            transform.localRotation = normalizedRotation;
+        }
     }
 }
