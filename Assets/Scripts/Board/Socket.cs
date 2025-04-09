@@ -2,10 +2,14 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class SocketManager : MonoBehaviour
+public class Socket : MonoBehaviour
 {
-    public BoardGameManager boardManager;
     GameObject socket;
+
+    void Awake()
+    {
+        transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
+    }
 
     public void OnSelectEntered(SelectEnterEventArgs args)
     {
@@ -16,8 +20,8 @@ public class SocketManager : MonoBehaviour
 
         AttachObjectToSocket(args.interactableObject);
 
-        socket = boardManager.InstantiateSocket(
-            transform.position + Vector3.up * (BoardGameManager.socketGap + socket.transform.localScale.x / 2f)
+        socket = Instantiate(
+            gameObject, transform.position + Vector3.up * transform.localScale.x, Quaternion.identity
         );
     }
 
@@ -33,6 +37,8 @@ public class SocketManager : MonoBehaviour
             Destroy(socket);
             socket = null;
         }
+
+        transform.localRotation = Quaternion.identity;
     }
 
     private void AttachObjectToSocket(IXRSelectInteractable interactableObject)

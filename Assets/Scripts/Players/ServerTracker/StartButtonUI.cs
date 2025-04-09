@@ -23,13 +23,13 @@ namespace Main
             {
                 if (BoardGameManager.Instance.IsPlaying)
                 {
-                    BoardGameManager.Instance.StopGame();
+                    BoardGameManager.Instance.StopGameRpc();
                     text.text = "\n\nStart";
                     image.sprite = startSprite;
                 }
                 else
                 {
-                    BoardGameManager.Instance.StartGame();
+                    BoardGameManager.Instance.StartGameRpc();
                     text.text = "\n\nStop";
                     image.sprite = stopSprite;
                 }

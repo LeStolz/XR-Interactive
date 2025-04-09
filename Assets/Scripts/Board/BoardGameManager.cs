@@ -1,22 +1,29 @@
 using System;
+using Codice.CM.Common.Tree.Partial;
 using Main;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class BoardGameManager : NetworkBehaviour
 {
     [SerializeField]
-    GameObject[] tilePrefabs;
+    bool isTesting = false;
+
+    [SerializeField]
+    int numTiles = 8;
+
+    [field: SerializeField]
+    public GameObject[] TilePrefabs { get; private set; }
     [SerializeField]
     GameObject socketPrefab;
     [field: SerializeField]
     public GameObject AnswerBoardOrigin { get; private set; }
 
     public static BoardGameManager Instance { get; private set; }
-    public static float socketGap = 0.01f;
 
-    public int rows = 4;
-    public int columns = 4;
+    public int numRows = 4;
+    public int numCols = 4;
 
     public bool IsPlaying { get; private set; } = false;
 
@@ -35,7 +42,10 @@ public class BoardGameManager : NetworkBehaviour
 
     void Start()
     {
-        SpawnBoard();
+        if (IsServer)
+        {
+            SpawnBoard();
+        }
     }
 
     void Update()
@@ -49,57 +59,102 @@ public class BoardGameManager : NetworkBehaviour
         {
             SaveBoard();
         }
-        else if (Input.GetKeyDown(KeyCode.L))
+    }
+
+    [Rpc(SendTo.Server)]
+    public void StartGameRpc()
+    {
+        if (isTesting)
+        {
+            int currentNumTiles = 0;
+            while (currentNumTiles < numTiles)
+            {
+                for (var tileID = 0; tileID < TilePrefabs.Length; tileID++)
+                {
+                    var tile = TilePrefabs[tileID];
+
+                    if (currentNumTiles >= numTiles)
+                    {
+                        break;
+                    }
+
+                    var signX = UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
+                    var signZ = UnityEngine.Random.Range(0, 2) == 0 ? -1 : 1;
+                    var posX = UnityEngine.Random.Range(numCols, 1.5f * numCols) * signX * tile.transform.localScale.x;
+                    var posZ = UnityEngine.Random.Range(numRows, 1.5f * numRows) * signZ * tile.transform.localScale.z;
+                    var posY = 2f;
+                    var pos = new Vector3(posX, posY, posZ);
+                    var rot = Quaternion.Euler(
+                        UnityEngine.Random.Range(0, 360),
+                        UnityEngine.Random.Range(0, 360),
+                        UnityEngine.Random.Range(0, 360)
+                    );
+
+                    GameObject tileInstance = Instantiate(tile, pos, rot, transform);
+                    tileInstance.GetComponent<NetworkObject>().Spawn(true);
+                    tileInstance.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
+                    currentNumTiles++;
+                }
+            }
+        }
+        else
         {
             LoadBoard();
         }
+
+        StartGameClientRpc();
     }
 
-    public void StartGame()
+    [Rpc(SendTo.Everyone)]
+    void StartGameClientRpc()
     {
         IsPlaying = true;
     }
 
-    public void StopGame()
+    [Rpc(SendTo.Server)]
+    public void StopGameRpc()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        StopGameClientRpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void StopGameClientRpc()
     {
         IsPlaying = false;
     }
 
-
     void SpawnBoard()
     {
-        if (socketPrefab == null || tilePrefabs == null)
+        if (socketPrefab == null || TilePrefabs == null)
         {
             return;
         }
 
-        float socketHeightOffset = tilePrefabs[0].transform.localScale.y / 2f;
-        Vector3 socketScale = tilePrefabs[0].transform.localScale;
+        float socketHeightOffset = TilePrefabs[0].transform.localScale.y / 2f;
+        Vector3 socketScale = TilePrefabs[0].transform.localScale;
 
-        for (int row = 0; row < rows; row++)
+        for (int row = 0; row < numRows; row++)
         {
-            for (int col = 0; col < columns; col++)
+            for (int col = 0; col < numCols; col++)
             {
-                float xSpacing = socketScale.x + socketGap;
-                float ySpacing = socketScale.z + socketGap; // Z-axis vì Unity dùng x-z cho mặt phẳng
+                float xSpacing = socketScale.x;
+                float ySpacing = socketScale.z;
 
                 Vector3 spawnPosition =
                     transform.position
                     + new Vector3(col * xSpacing, socketHeightOffset, row * ySpacing)
-                    - new Vector3(columns * xSpacing / 2f, 0, rows * ySpacing / 2f)
+                    - new Vector3(numCols * xSpacing / 2f, 0, numRows * ySpacing / 2f)
                 ;
 
-                InstantiateSocket(spawnPosition);
+                var socketInstance = Instantiate(socketPrefab, spawnPosition, Quaternion.identity, transform);
+                socketInstance.GetComponent<NetworkObject>().Spawn(true);
             }
         }
-    }
-
-    public GameObject InstantiateSocket(Vector3 spawnPosition)
-    {
-        GameObject socket = Instantiate(socketPrefab, spawnPosition, Quaternion.identity, transform);
-        socket.GetComponent<SocketManager>().boardManager = this;
-        socket.transform.localScale = tilePrefabs[0].transform.localScale;
-        return socket;
     }
 
     void SaveBoard()
@@ -109,7 +164,7 @@ public class BoardGameManager : NetworkBehaviour
         foreach (Transform child in transform)
         {
             TileData tileData = new(
-                child.position, child.eulerAngles, child.localScale, int.Parse(child.name)
+                child.position, child.eulerAngles, int.Parse(child.name)
             );
             tiles[child.GetSiblingIndex()] = tileData;
         }
@@ -140,12 +195,12 @@ public class BoardGameManager : NetworkBehaviour
 
         foreach (TileData tileData in boardData.tiles)
         {
-            GameObject prefab = tilePrefabs[tileData.prefabID];
+            GameObject prefab = TilePrefabs[tileData.prefabID];
             if (prefab != null)
             {
                 GameObject tile = Instantiate(prefab, tileData.position, Quaternion.Euler(tileData.eulerAngles), transform);
-                tile.name = tileData.prefabID.ToString();
-                tile.transform.localScale = tileData.scale;
+                tile.GetComponent<NetworkObject>().Spawn(true);
+                tile.GetComponent<Tile>().SetTileIDRpc(tileData.prefabID.ToString());
             }
         }
 
@@ -169,15 +224,13 @@ public struct TileData
 {
     public Vector3 position;
     public Vector3 eulerAngles;
-    public Vector3 scale;
 
     public int prefabID;
 
-    public TileData(Vector3 position, Vector3 eulerAngles, Vector3 scale, int prefabID)
+    public TileData(Vector3 position, Vector3 eulerAngles, int prefabID)
     {
         this.position = position;
         this.eulerAngles = eulerAngles;
-        this.scale = scale;
         this.prefabID = prefabID;
     }
 }

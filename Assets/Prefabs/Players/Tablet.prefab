@@ -150,8 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958ed55a9d2fa51478c1c0fd0c1cb18b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   mainCamera: {fileID: 3873587129131913605}
+  distance: 2
   mouseRotateSpeed: 5
   touchRotateSpeed: 20
   slerpValue: 0.5

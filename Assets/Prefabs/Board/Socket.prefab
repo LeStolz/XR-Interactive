@@ -157,7 +157,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 0.2, y: 0.2, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4708364390555070904
 MonoBehaviour:
@@ -171,4 +171,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c953e7419c1c04c9fda203fcd7a562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketPrefab: {fileID: 8607837737028053987}
+  boardManager: {fileID: 0}

@@ -6,6 +6,9 @@ public class CameraDrag : MonoBehaviour
 	[SerializeField]
 	Camera mainCamera;
 
+	[SerializeField]
+	float distance;
+
 	[Range(0.1f, 5f)]
 	[Tooltip("How sensitive the mouse drag to camera rotation")]
 	public float mouseRotateSpeed = 5f;
@@ -43,7 +46,7 @@ public class CameraDrag : MonoBehaviour
 	void Start()
 	{
 		targetPos = BoardGameManager.Instance.AnswerBoardOrigin.transform.position;
-		distanceBetweenCameraAndTarget = 2;
+		distanceBetweenCameraAndTarget = distance;
 	}
 
 	void Update()

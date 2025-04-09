@@ -536,6 +536,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
         type: 3}
+      propertyPath: numTiles
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: isTesting
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
       propertyPath: tilePrefabs.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -544,6 +554,41 @@ PrefabInstance:
       propertyPath: 'tilePrefabs.Array.data[0]'
       value: 
       objectReference: {fileID: 863254829954826748, guid: d54f8dfd3b699bf4b9a873224a5028af,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: <TilePrefabs>k__BackingField.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: '<TilePrefabs>k__BackingField.Array.data[0]'
+      value: 
+      objectReference: {fileID: 863254829954826748, guid: d54f8dfd3b699bf4b9a873224a5028af,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: '<TilePrefabs>k__BackingField.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7274871732816691402, guid: f14ae3f43d99d214db75e890cfeec94c,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: '<TilePrefabs>k__BackingField.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7274871732816691402, guid: d687dfe350a3ef44bbed6f51003785cb,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: '<TilePrefabs>k__BackingField.Array.data[3]'
+      value: 
+      objectReference: {fileID: 7274871732816691402, guid: faef55b6da8980245aa4ae47040ccd08,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: '<TilePrefabs>k__BackingField.Array.data[4]'
+      value: 
+      objectReference: {fileID: 7274871732816691402, guid: 752a7790d82c9634b89773cb487131b9,
         type: 3}
     - target: {fileID: 7237255006691908244, guid: 610310af7958b064489d29cf51559332,
         type: 3}
@@ -608,7 +653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1157338193}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -805,7 +850,7 @@ GameObject:
   - component: {fileID: 1268459688}
   - component: {fileID: 1268459687}
   - component: {fileID: 1268459689}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1055,7 +1100,7 @@ PrefabInstance:
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
       propertyPath: localRole
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
@@ -1322,7 +1367,7 @@ GameObject:
   - component: {fileID: 1935973377}
   - component: {fileID: 1935973376}
   - component: {fileID: 1935973375}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
