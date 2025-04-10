@@ -21,6 +21,13 @@ namespace Main
         public GameObject AnswerBoardOrigin { get; private set; }
 
         [SerializeField]
+        Vector2 borderXMinMax = new(-2.5f, 1.5f);
+        [SerializeField]
+        Vector2 borderZMinMax = new(-2.5f, 2.5f);
+        [SerializeField]
+        GameObject[] wallsClockwise;
+
+        [SerializeField]
         int numRows = 4;
         [SerializeField]
         int numCols = 4;
@@ -60,6 +67,11 @@ namespace Main
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             AnswerBoardOrigin.transform.eulerAngles = new Vector3(0, 0, 0);
+
+            wallsClockwise[0].transform.localPosition = new(borderXMinMax.x, 0, 0);
+            wallsClockwise[1].transform.localPosition = new(0, 0, borderZMinMax.y);
+            wallsClockwise[2].transform.localPosition = new(borderXMinMax.y, 0, 0);
+            wallsClockwise[3].transform.localPosition = new(0, 0, borderZMinMax.x);
         }
 
         void Update()
@@ -254,14 +266,25 @@ namespace Main
             foreach (var tileID in tileIDsToSpawn)
             {
                 var tilePrefab = TilePrefabs[tileID];
+                var borderZMinMaxOffset = new Vector2(
+                    borderZMinMax.x + tilePrefab.transform.localScale.z / 2f,
+                    borderZMinMax.y - tilePrefab.transform.localScale.z / 2f
+                );
+                var borderXMinMaxOffset = new Vector2(
+                    borderXMinMax.x + tilePrefab.transform.localScale.x / 2f,
+                    borderXMinMax.y - tilePrefab.transform.localScale.x / 2f
+                );
 
                 var distanceFromCenter = UnityEngine.Random.Range(
-                    1f, 2f
-                ) + numRows * tilePrefab.transform.localScale.z / 2f;
+                    (numRows / 2f + 1f) * tilePrefab.transform.localScale.z,
+                    borderZMinMaxOffset.y
+                );
                 var angleFromCenter = UnityEngine.Random.Range(0f, 360f);
 
                 var x = distanceFromCenter * Mathf.Cos(angleFromCenter * Mathf.Deg2Rad);
+                x = Mathf.Clamp(x, borderXMinMaxOffset.x, borderXMinMaxOffset.y);
                 var z = distanceFromCenter * Mathf.Sin(angleFromCenter * Mathf.Deg2Rad);
+                z = Mathf.Clamp(z, borderZMinMaxOffset.x, borderZMinMaxOffset.y);
                 var y = tilePrefab.transform.localScale.y / 1.5f;
 
                 var pos = new Vector3(x, y, z) + transform.position;
