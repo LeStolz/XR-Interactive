@@ -613,6 +613,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3540119466899448529, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
         type: 3}
       propertyPath: <SocketPrefab>k__BackingField
