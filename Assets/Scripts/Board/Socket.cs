@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -14,6 +16,17 @@ namespace Main
             transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            if (socket != null)
+            {
+                socket.GetComponent<NetworkObject>().Despawn(true);
+                socket = null;
+            }
+        }
+
         public void OnSelectEntered(SelectEnterEventArgs args)
         {
             if (args.interactableObject == null)
@@ -21,11 +34,29 @@ namespace Main
                 return;
             }
 
-            AttachObjectToSocket(args.interactableObject);
+            AttachTileToSocket(args.interactableObject);
 
-            socket = Instantiate(
-                gameObject, transform.position + Vector3.up * transform.localScale.x, Quaternion.identity
+            if (IsServer)
+            {
+                socket = Instantiate(
+                    BoardGameManager.Instance.SocketPrefab,
+                    transform.position + Vector3.up * transform.localScale.x,
+                    Quaternion.identity
+                );
+                socket.GetComponent<NetworkObject>().Spawn(true);
+
+                StartCoroutine(AttachTileToSocketIE(args.interactableObject.transform.gameObject));
+            }
+        }
+
+        IEnumerator AttachTileToSocketIE(GameObject tile)
+        {
+            yield return new WaitUntil(
+                () => Vector3.Distance(transform.position, tile.transform.position) < 0.1f,
+                new TimeSpan(0, 0, 1), () => Debug.Log("Timed out")
             );
+
+            BoardGameManager.Instance.AttachTileToSocket(tile);
         }
 
         public void OnSelectExited(SelectExitEventArgs args)
@@ -35,16 +66,21 @@ namespace Main
                 return;
             }
 
-            if (socket != null)
-            {
-                Destroy(socket);
-                socket = null;
-            }
-
             transform.localRotation = Quaternion.identity;
+
+            if (IsServer)
+            {
+                if (socket != null)
+                {
+                    socket.GetComponent<NetworkObject>().Despawn(true);
+                    socket = null;
+                }
+
+                BoardGameManager.Instance.DetachTileFromSocket(args.interactableObject.transform.gameObject);
+            }
         }
 
-        private void AttachObjectToSocket(IXRSelectInteractable interactableObject)
+        private void AttachTileToSocket(IXRSelectInteractable interactableObject)
         {
             Vector3 eulerAngles = interactableObject.transform.eulerAngles;
 

@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,28 +9,39 @@ namespace Main
 {
     class BoardGameManager : NetworkBehaviour
     {
-        [SerializeField]
-        bool isTesting = false;
-
-        [SerializeField]
-        int numTiles = 8;
+        public static BoardGameManager Instance { get; private set; }
 
         [field: SerializeField]
         public GameObject[] TilePrefabs { get; private set; }
+        [field: SerializeField]
+        public GameObject SocketPrefab { get; private set; }
         [SerializeField]
-        GameObject socketPrefab;
+        GameObject confettiPrefab;
         [field: SerializeField]
         public GameObject AnswerBoardOrigin { get; private set; }
 
-        public static BoardGameManager Instance { get; private set; }
+        [SerializeField]
+        int numRows = 4;
+        [SerializeField]
+        int numCols = 4;
 
-        public int numRows = 4;
-        public int numCols = 4;
+        [SerializeField]
+        bool isTesting = false;
 
-        public bool IsPlaying { get; private set; } = false;
+        public enum GameStatus
+        {
+            Started,
+            Stopped,
+            Won,
+        }
+        GameStatus gameStatus = GameStatus.Stopped;
+        public Action<GameStatus> OnGameStatusChanged;
 
         readonly List<GameObject> tiles = new();
+        readonly List<GameObject> tilesInSockets = new();
+        readonly List<GameObject> answerTiles = new();
         readonly List<GameObject> sockets = new();
+        BoardData boardData = default;
 
         void Awake()
         {
@@ -43,6 +56,12 @@ namespace Main
             DontDestroyOnLoad(gameObject);
         }
 
+        void Start()
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+            AnswerBoardOrigin.transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+
         void Update()
         {
             if (NetworkGameManager.Instance.localRole != Role.ServerTracker)
@@ -52,55 +71,31 @@ namespace Main
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                SaveBoard();
+                SaveBoardData();
+            }
+            else if (Input.GetKeyDown(KeyCode.T))
+            {
+                isTesting = !isTesting;
             }
         }
 
         [Rpc(SendTo.Server)]
         public void StartGameRpc()
         {
+            if (gameStatus == GameStatus.Won)
+            {
+                return;
+            }
+
+            if (gameStatus == GameStatus.Started)
+            {
+                StopGameRpc();
+            }
+
             SpawnBoard();
-
-            if (isTesting)
-            {
-                int currentNumTiles = 0;
-                while (currentNumTiles < numTiles)
-                {
-                    for (var tileID = 0; tileID < TilePrefabs.Length; tileID++)
-                    {
-                        var tile = TilePrefabs[tileID];
-
-                        if (currentNumTiles >= numTiles)
-                        {
-                            break;
-                        }
-
-                        var distanceFromCenter = UnityEngine.Random.Range(
-                            1f, 2f
-                        ) + numRows * tile.transform.localScale.z / 2f;
-                        var angleFromCenter = UnityEngine.Random.Range(0f, 360f);
-                        var x = distanceFromCenter * Mathf.Cos(angleFromCenter * Mathf.Deg2Rad);
-                        var z = distanceFromCenter * Mathf.Sin(angleFromCenter * Mathf.Deg2Rad);
-                        var y = tile.transform.localScale.y / 1.9f;
-                        var pos = new Vector3(x, y, z) + transform.position;
-                        var rot = Quaternion.Euler(
-                            UnityEngine.Random.Range(0, 360),
-                            UnityEngine.Random.Range(0, 360),
-                            UnityEngine.Random.Range(0, 360)
-                        );
-
-                        GameObject tileInstance = Instantiate(tile, pos, rot);
-                        tileInstance.GetComponent<NetworkObject>().Spawn(true);
-                        tileInstance.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
-                        tiles.Add(tileInstance);
-                        currentNumTiles++;
-                    }
-                }
-            }
-            else
-            {
-                LoadBoard();
-            }
+            LoadBoardData();
+            SpawnAnswerTiles();
+            SpawnTiles();
 
             StartGameClientRpc();
         }
@@ -108,7 +103,8 @@ namespace Main
         [Rpc(SendTo.Everyone)]
         void StartGameClientRpc()
         {
-            IsPlaying = true;
+            gameStatus = GameStatus.Started;
+            OnGameStatusChanged?.Invoke(gameStatus);
         }
 
         [Rpc(SendTo.Server)]
@@ -124,8 +120,15 @@ namespace Main
                 socket.GetComponent<NetworkObject>().Despawn(true);
             }
 
+            foreach (GameObject answerTile in answerTiles)
+            {
+                answerTile.GetComponent<NetworkObject>().Despawn(true);
+            }
+
             tiles.Clear();
             sockets.Clear();
+            answerTiles.Clear();
+            boardData = default;
 
             StopGameClientRpc();
         }
@@ -133,17 +136,12 @@ namespace Main
         [Rpc(SendTo.Everyone)]
         void StopGameClientRpc()
         {
-            IsPlaying = false;
+            gameStatus = GameStatus.Stopped;
+            OnGameStatusChanged?.Invoke(gameStatus);
         }
 
         void SpawnBoard()
         {
-            if (socketPrefab == null || TilePrefabs == null)
-            {
-                return;
-            }
-
-            float socketHeightOffset = TilePrefabs[0].transform.localScale.y / 2f;
             Vector3 socketScale = TilePrefabs[0].transform.localScale;
 
             for (int row = 0; row < numRows; row++)
@@ -151,42 +149,50 @@ namespace Main
                 for (int col = 0; col < numCols; col++)
                 {
                     float xSpacing = socketScale.x;
-                    float ySpacing = socketScale.z;
+                    float zSpacing = socketScale.z;
 
                     Vector3 spawnPosition =
                         transform.position
-                        + new Vector3(col * xSpacing, socketHeightOffset, row * ySpacing)
-                        - new Vector3(numCols * xSpacing / 2f, 0, numRows * ySpacing / 2f)
+                        + new Vector3(col * xSpacing, socketScale.y / 2f, row * zSpacing)
+                        - new Vector3((numCols / 2f - 0.5f) * xSpacing, 0, (numRows / 2f - 0.5f) * zSpacing)
                     ;
-                    spawnPosition += transform.position;
 
-                    var socketInstance = Instantiate(socketPrefab, spawnPosition, Quaternion.identity);
+                    var socketInstance = Instantiate(SocketPrefab, spawnPosition, Quaternion.identity);
                     socketInstance.GetComponent<NetworkObject>().Spawn(true);
                     sockets.Add(socketInstance);
                 }
             }
         }
 
-        void SaveBoard()
+        void SaveBoardData()
         {
-            TileData[] tiles = new TileData[transform.childCount];
+            TileData[] tileDatas = new TileData[tilesInSockets.Count];
 
-            foreach (Transform child in transform)
+            for (var i = 0; i < tilesInSockets.Count; i++)
             {
+                var tile = tilesInSockets[i];
+
                 TileData tileData = new(
-                    child.position, child.eulerAngles, int.Parse(child.name)
+                    tile.transform.position - transform.position,
+                    tile.transform.eulerAngles,
+                    int.Parse(tile.name)
                 );
-                tiles[child.GetSiblingIndex()] = tileData;
+                tileDatas[i] = tileData;
             }
 
-            BoardData boardData = new(tiles);
+            BoardData boardData = new(tileDatas);
             string json = JsonUtility.ToJson(boardData, true);
             System.IO.File.WriteAllText(Application.persistentDataPath + "/board.json", json);
             Debug.Log("Board saved to " + Application.persistentDataPath + "/board.json");
         }
 
-        void LoadBoard()
+        void LoadBoardData()
         {
+            if (isTesting)
+            {
+                return;
+            }
+
             string path = Application.persistentDataPath + "/board.json";
 
             if (!System.IO.File.Exists(path))
@@ -196,11 +202,16 @@ namespace Main
             }
 
             string json = System.IO.File.ReadAllText(path);
-            BoardData boardData = JsonUtility.FromJson<BoardData>(json);
+            boardData = JsonUtility.FromJson<BoardData>(json);
 
-            foreach (Transform child in transform)
+            Debug.Log("Board loaded from " + path);
+        }
+
+        void SpawnAnswerTiles()
+        {
+            if (isTesting)
             {
-                Destroy(child.gameObject);
+                return;
             }
 
             foreach (TileData tileData in boardData.tiles)
@@ -208,18 +219,172 @@ namespace Main
                 GameObject prefab = TilePrefabs[tileData.prefabID];
                 if (prefab != null)
                 {
-                    GameObject tile = Instantiate(prefab, tileData.position, Quaternion.Euler(tileData.eulerAngles), transform);
+                    GameObject tile = Instantiate(
+                        prefab,
+                        AnswerBoardOrigin.transform.position + tileData.position,
+                        Quaternion.Euler(tileData.eulerAngles)
+                    );
                     tile.GetComponent<NetworkObject>().Spawn(true);
+                    tile.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     tile.GetComponent<Tile>().SetTileIDRpc(tileData.prefabID.ToString());
+                    answerTiles.Add(tile);
                 }
             }
 
-            Debug.Log("Board loaded from " + path);
+            answerTiles.Sort((a, b) => a.name.CompareTo(b.name));
+        }
+
+        void SpawnTiles()
+        {
+            List<int> tileIDsToSpawn;
+
+            if (isTesting)
+            {
+                tileIDsToSpawn = new List<int>();
+                for (int i = 0; i < TilePrefabs.Length * 2; i++)
+                {
+                    tileIDsToSpawn.Add(i % TilePrefabs.Length);
+                }
+            }
+            else
+            {
+                tileIDsToSpawn = boardData.tiles.Select(t => t.prefabID).ToList();
+            }
+
+            foreach (var tileID in tileIDsToSpawn)
+            {
+                var tilePrefab = TilePrefabs[tileID];
+
+                var distanceFromCenter = UnityEngine.Random.Range(
+                    1f, 2f
+                ) + numRows * tilePrefab.transform.localScale.z / 2f;
+                var angleFromCenter = UnityEngine.Random.Range(0f, 360f);
+
+                var x = distanceFromCenter * Mathf.Cos(angleFromCenter * Mathf.Deg2Rad);
+                var z = distanceFromCenter * Mathf.Sin(angleFromCenter * Mathf.Deg2Rad);
+                var y = tilePrefab.transform.localScale.y / 1.5f;
+
+                var pos = new Vector3(x, y, z) + transform.position;
+                var rot = Quaternion.Euler(
+                    UnityEngine.Random.Range(0, 360),
+                    UnityEngine.Random.Range(0, 360),
+                    UnityEngine.Random.Range(0, 360)
+                );
+
+                GameObject tile = Instantiate(tilePrefab, pos, rot);
+                tile.GetComponent<NetworkObject>().Spawn(true);
+                tile.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                tile.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
+                tiles.Add(tile);
+            }
+        }
+
+        public void AttachTileToSocket(GameObject tile)
+        {
+            if (tilesInSockets.Contains(tile))
+            {
+                return;
+            }
+
+            tilesInSockets.Add(tile);
+
+            StartCoroutine(CheckWinCondition(tile.transform.position - transform.position));
+        }
+
+        public void DetachTileFromSocket(GameObject tile)
+        {
+            if (!tilesInSockets.Contains(tile))
+            {
+                return;
+            }
+
+            tilesInSockets.Remove(tile);
+        }
+
+        IEnumerator CheckWinCondition(Vector3 lastAttachedPosition)
+        {
+            if (!IsWon())
+            {
+                yield break;
+            }
+
+            WonRpc(lastAttachedPosition);
+
+            yield return new WaitForSeconds(2 * confettiPrefab.GetComponent<ParticleSystem>().main.duration);
+
+            StopGameRpc();
+        }
+
+        IEnumerator SpawnConfetti(Vector3 lastAttachedPosition)
+        {
+            GameObject answerConfetti = null;
+            var localRole = NetworkGameManager.Instance.localRole;
+            if (localRole == Role.Tablet || localRole == Role.ServerTracker)
+            {
+                answerConfetti = Instantiate(
+                    confettiPrefab,
+                    AnswerBoardOrigin.transform.position + lastAttachedPosition,
+                    Quaternion.identity
+                );
+            }
+            var confetti = Instantiate(
+                confettiPrefab,
+                transform.position + lastAttachedPosition,
+                Quaternion.identity
+            );
+
+            yield return new WaitForSeconds(2 * confettiPrefab.GetComponent<ParticleSystem>().main.duration);
+
+            if (answerConfetti != null) Destroy(answerConfetti);
+            Destroy(confetti);
+        }
+
+        [Rpc(SendTo.Everyone)]
+        void WonRpc(Vector3 lastAttachedPosition)
+        {
+            StartCoroutine(SpawnConfetti(lastAttachedPosition));
+
+            gameStatus = GameStatus.Won;
+            OnGameStatusChanged?.Invoke(gameStatus);
+        }
+
+        bool IsWon()
+        {
+            if (tilesInSockets.Count != answerTiles.Count)
+            {
+                return false;
+            }
+
+            tilesInSockets.Sort((a, b) => a.name.CompareTo(b.name));
+
+            for (int i = 0; i < tilesInSockets.Count; i++)
+            {
+                if (tilesInSockets[i].name != answerTiles[i].name)
+                {
+                    return false;
+                }
+
+                var ansPos = answerTiles[i].transform.position - AnswerBoardOrigin.transform.position;
+                var tilePos = tilesInSockets[i].transform.position - transform.position;
+                var ansRot = answerTiles[i].transform.rotation;
+                var tileRot = tilesInSockets[i].transform.rotation;
+
+                Debug.Log(
+                    $"ansPos: {ansPos}, tilePos: {tilePos}, ansRot: {ansRot}, tileRot: {tileRot}"
+                );
+
+                if (Vector3.Distance(ansPos, tilePos) > 0.1f || Quaternion.Angle(ansRot, tileRot) > 10f)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 
     [Serializable]
-    public struct BoardData
+    struct BoardData
     {
         public TileData[] tiles;
 
@@ -230,7 +395,7 @@ namespace Main
     }
 
     [Serializable]
-    public struct TileData
+    struct TileData
     {
         public Vector3 position;
         public Vector3 eulerAngles;
