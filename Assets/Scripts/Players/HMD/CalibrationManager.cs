@@ -9,6 +9,8 @@ public class CalibrationManager : MonoBehaviour
     [SerializeField]
     float HOLOLENS_CAMERA_OFFSET = 0f;
     [SerializeField]
+    Vector3 HOLOLENS_GROUND_OFFSET = new(0, -0.013f, 0.03f);
+    [SerializeField]
     float OCCULUS_CAMERA_OFFSET = -0.12f;
 
     readonly Calibrator calibrator = new(3, new float[] { 0.1f, 0.1f, 0.1f });
@@ -124,6 +126,7 @@ public class CalibrationManager : MonoBehaviour
                         : new Vector3(0, OCCULUS_CAMERA_OFFSET, 0),
                     Quaternion.identity
                 );
+                VirtualTrackingCamera.transform.position += HOLOLENS_GROUND_OFFSET;
                 OpenCVMarker.transform.SetParent(VirtualTrackingCamera.transform);
             }
             if (HMDMarkerTracking)

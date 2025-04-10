@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HOLOLENS_CAMERA_OFFSET: -0.06
+  HOLOLENS_GROUND_OFFSET: {x: 0, y: 0.1, z: 0}
+  OCCULUS_CAMERA_OFFSET: -0.12
   XRPlaySpace: {fileID: 0}
   XRCamera: {fileID: 0}
   VirtualTrackingCamera: {fileID: 6463116251479871078}
