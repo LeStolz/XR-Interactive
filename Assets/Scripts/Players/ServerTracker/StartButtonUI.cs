@@ -17,23 +17,46 @@ namespace Main
         [SerializeField]
         Sprite stopSprite;
 
+        bool isPlaying = false;
+
         void Start()
         {
+            BoardGameManager.Instance.OnGameStatusChanged += UpdateIsPlaying;
+
             button.onClick.AddListener(() =>
             {
-                if (BoardGameManager.Instance.IsPlaying)
+                if (isPlaying)
                 {
                     BoardGameManager.Instance.StopGameRpc();
-                    text.text = "\n\nStart";
-                    image.sprite = startSprite;
                 }
                 else
                 {
                     BoardGameManager.Instance.StartGameRpc();
-                    text.text = "\n\nStop";
-                    image.sprite = stopSprite;
                 }
             });
+        }
+
+        void OnDestroy()
+        {
+            if (BoardGameManager.Instance != null)
+            {
+                BoardGameManager.Instance.OnGameStatusChanged -= UpdateIsPlaying;
+            }
+        }
+
+        void UpdateIsPlaying(BoardGameManager.GameStatus status)
+        {
+            isPlaying = status == BoardGameManager.GameStatus.Started;
+            if (isPlaying)
+            {
+                text.text = "\n\nStop";
+                image.sprite = stopSprite;
+            }
+            else
+            {
+                text.text = "\n\nStart";
+                image.sprite = startSprite;
+            }
         }
     }
 }
