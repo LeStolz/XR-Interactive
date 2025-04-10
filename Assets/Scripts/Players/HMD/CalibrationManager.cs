@@ -7,9 +7,11 @@ using Main;
 public class CalibrationManager : MonoBehaviour
 {
     [SerializeField]
-    float HOLOLENS_CAMERA_OFFSET = -0.06f;
+    float HOLOLENS_CAMERA_OFFSET = 0f;
+    [SerializeField]
+    float OCCULUS_CAMERA_OFFSET = -0.12f;
 
-    readonly Calibrator calibrator = new(3, new float[] { 0.2f, 0.2f, 0.2f });
+    readonly Calibrator calibrator = new(3, new float[] { 0.1f, 0.1f, 0.1f });
     public static CalibrationManager Instance = null;
     public GameObject XRPlaySpace;
     public GameObject XRCamera;
@@ -119,7 +121,7 @@ public class CalibrationManager : MonoBehaviour
                 VirtualTrackingCamera.transform.SetLocalPositionAndRotation(
                     headset == HeadSet.Hololens
                         ? new Vector3(0, HOLOLENS_CAMERA_OFFSET, 0)
-                        : new Vector3(0, -0.12f, 0),
+                        : new Vector3(0, OCCULUS_CAMERA_OFFSET, 0),
                     Quaternion.identity
                 );
                 OpenCVMarker.transform.SetParent(VirtualTrackingCamera.transform);
@@ -168,7 +170,17 @@ public class CalibrationManager : MonoBehaviour
         XRPlaySpace.transform.SetParent(CloneMarker.transform);
         CloneMarker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90f, 180f, 0f)));
         XRPlaySpace.transform.SetParent(null);
+        XRPlaySpace.transform.eulerAngles = new(
+                                               SnapToMutiplyOf(XRPlaySpace.transform.eulerAngles.x, 360f),
+                                               XRPlaySpace.transform.eulerAngles.y,
+                                               SnapToMutiplyOf(XRPlaySpace.transform.eulerAngles.z, 360f)
+                                           );
         VirtualTrackingCamera.SetActive(false);
+    }
+
+    public float SnapToMutiplyOf(float value, float baseVal)
+    {
+        return (float)Math.Round(value / baseVal) * baseVal;
     }
 
     IEnumerator IE_WaitForCondition(Func<bool> condition, Action action)
