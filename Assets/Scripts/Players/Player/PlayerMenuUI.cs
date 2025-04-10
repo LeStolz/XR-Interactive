@@ -159,10 +159,10 @@ namespace Main
                         {
                             var recalibration = Instantiate(calibrationPrefab, Vector3.zero, Quaternion.identity);
 
-                            if (offlineHMDUIs[0].TryGetComponent(out Toggle toggle))
+                            if (offlineHMDUIs[0].TryGetComponent(out Toggle toggle)) {
                                 toggle.onValueChanged.AddListener((_) =>
-                                    recalibration.GetComponent<CalibrationManager>().Recalibrate()
-                                );
+                                    recalibration.GetComponentInChildren<CalibrationManager>().Recalibrate()
+                                ); }
 
                             calibrationPrefab = null;
                         }
