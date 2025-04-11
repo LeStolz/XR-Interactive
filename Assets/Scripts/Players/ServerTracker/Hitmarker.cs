@@ -9,6 +9,10 @@ namespace Main
 		GameObject child;
 		[SerializeField]
 		LineRenderer lineRenderer;
+		[SerializeField]
+		Material dashMaterial;
+		[SerializeField]
+		Material solidMaterial;
 		float initialVelocity;
 		const int MAX_CURVE_ITERATIONS = 40;
 		int curveIterations = 0;
@@ -41,6 +45,12 @@ namespace Main
 		{
 			curveIterations = bounceTimes < maxBounceTimes ? 1 : MAX_CURVE_ITERATIONS;
 			lineRenderer.positionCount = curveIterations + 1;
+
+			var newMaterial = bounceTimes < maxBounceTimes ? dashMaterial : solidMaterial;
+			if (lineRenderer.material != newMaterial)
+			{
+				lineRenderer.material = newMaterial;
+			}
 
 			var positions = new List<Vector3>();
 
