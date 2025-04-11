@@ -1272,7 +1272,7 @@ PrefabInstance:
     - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0
+      value: 0.029999925
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
@@ -1399,7 +1399,7 @@ PrefabInstance:
     - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0
+      value: 0.02999878
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
@@ -1517,6 +1517,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Positions.Array.data[1].y
       value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.029999923
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
@@ -1849,6 +1859,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Parameters.colorGradient.key1.r
       value: 0.2627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427044663153835051, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.029999925
       objectReference: {fileID: 0}
     - target: {fileID: 6002852058713876385, guid: b02ad60e8a5a3324f99c7a2a4897ba62,
         type: 3}
