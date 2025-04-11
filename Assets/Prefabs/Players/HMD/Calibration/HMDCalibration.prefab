@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add52739c882141438ef3604677f314e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HOLOLENS_CAMERA_OFFSET: 0.01
+  HOLOLENS_CAMERA_OFFSET: 0
   OCCULUS_CAMERA_OFFSET: -0.12
   XRPlaySpace: {fileID: 0}
   XRCamera: {fileID: 0}
