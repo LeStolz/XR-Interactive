@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 7963156399533443085}
   - component: {fileID: 8598610756496633134}
   - component: {fileID: 1789519295153248951}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: InputPortal
   m_TagString: InputPortal
   m_Icon: {fileID: 0}
