@@ -43,6 +43,7 @@ namespace Main
 
 		public void DrawLine(int bounceTimes, int maxBounceTimes, Vector3 start, Vector3 end)
 		{
+			bounceTimes = maxBounceTimes - bounceTimes;
 			curveIterations = bounceTimes < maxBounceTimes ? 1 : MAX_CURVE_ITERATIONS;
 			lineRenderer.positionCount = curveIterations + 1;
 
