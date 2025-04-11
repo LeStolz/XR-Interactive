@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  OFFSET: {x: -1.79, y: 0, z: -1.385}
+  OFFSET: {x: 1.79, y: 0, z: -1.385}
   <Trackers>k__BackingField:
   - {fileID: 4390638607340976808}
   - {fileID: 5006859864287978664}
