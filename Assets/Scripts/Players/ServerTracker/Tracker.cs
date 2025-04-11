@@ -35,19 +35,23 @@ namespace Main
 				return;
 			}
 
+			int maxBounceTimes = hitMarkers.Count(hm => hm.transform.position.y >= -5) - 1;
+
 			for (int i = 0; i < hitMarkers.Length; i++)
 			{
 				if (hitMarkers[i].transform.position.y < -5)
 				{
-					DrawLine(
-						i,
-						arrow.transform.position,
-						arrow.transform.position + arrow.transform.forward * 10
-					);
+
+					hitMarkers[i].DrawLine(
+							i,
+							maxBounceTimes,
+							arrow.transform.position,
+							arrow.transform.position + arrow.transform.forward * 10
+						);
 					continue;
 				}
 
-				DrawLine(i, arrow.transform.position, hitMarkers[i].transform.position);
+				hitMarkers[i].DrawLine(i, maxBounceTimes, arrow.transform.position, hitMarkers[i].transform.position);
 			}
 		}
 
@@ -84,26 +88,6 @@ namespace Main
 					depth--;
 				}
 			}
-		}
-
-		void DrawLine(int hitMarkerId, Vector3 start, Vector3 end)
-		{
-			if (!UpdateHitmarkers())
-			{
-				return;
-			}
-
-			var lineRenderer = hitMarkers[hitMarkerId].GetComponent<LineRenderer>();
-
-			if (start == end)
-			{
-				lineRenderer.enabled = false;
-				return;
-			}
-
-			lineRenderer.enabled = true;
-			lineRenderer.SetPosition(0, start);
-			lineRenderer.SetPosition(1, end);
 		}
 
 		bool UpdateHitmarkers()
