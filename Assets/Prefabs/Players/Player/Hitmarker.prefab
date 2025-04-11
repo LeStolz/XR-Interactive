@@ -202,6 +202,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 3318219152428046295}
+  lineRenderer: {fileID: 2427044663153835051}
+  dashMaterial: {fileID: 2100000, guid: 1fd3ef54aa67e05429e4255d176611c2, type: 2}
+  solidMaterial: {fileID: 2100000, guid: da2a09186fc8dfa4c9f1c2933159f94f, type: 2}
 --- !u!120 &2427044663153835051
 LineRenderer:
   serializedVersion: 2
@@ -226,7 +229,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: da2a09186fc8dfa4c9f1c2933159f94f, type: 2}
+  - {fileID: 2100000, guid: 1fd3ef54aa67e05429e4255d176611c2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

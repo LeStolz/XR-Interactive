@@ -1593,6 +1593,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6003041810334399895, guid: 7d554cf076fc46143bcaf9a54fc2204d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6391579207171690961, guid: 7d554cf076fc46143bcaf9a54fc2204d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1907,7 +1912,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1996598806
 MonoBehaviour:

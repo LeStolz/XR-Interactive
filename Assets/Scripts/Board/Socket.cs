@@ -22,7 +22,14 @@ namespace Main
 
             if (socket != null)
             {
-                socket.GetComponent<NetworkObject>().Despawn(true);
+                if (socket.GetComponent<NetworkObject>().IsSpawned)
+                {
+                    socket.GetComponent<NetworkObject>().Despawn(true);
+                }
+                else
+                {
+                    Destroy(socket);
+                }
                 socket = null;
             }
         }
