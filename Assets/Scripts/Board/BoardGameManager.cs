@@ -89,6 +89,7 @@ namespace Main
             else if (Input.GetKeyDown(KeyCode.T))
             {
                 isTesting = !isTesting;
+                Debug.Log(isTesting);
                 PlayerHudNotification.Instance.ShowText("Testing mode: " + (isTesting ? "ON" : "OFF"));
             }
         }
@@ -198,6 +199,8 @@ namespace Main
             {
                 var tile = tilesInSockets[i];
 
+                Debug.Log(tile.name);
+
                 TileData tileData = new(
                     tile.transform.position - transform.position,
                     tile.transform.eulerAngles,
@@ -269,7 +272,7 @@ namespace Main
             if (isTesting)
             {
                 tileIDsToSpawn = new List<int>();
-                for (int i = 0; i < TilePrefabs.Length * 2; i++)
+                for (int i = 0; i < TilePrefabs.Length; i++)
                 {
                     tileIDsToSpawn.Add(i % TilePrefabs.Length);
                 }
