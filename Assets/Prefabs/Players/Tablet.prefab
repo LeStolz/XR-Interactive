@@ -155,7 +155,7 @@ MonoBehaviour:
   mouseRotateSpeed: 5
   touchRotateSpeed: 20
   slerpValue: 0.5
-  rotateMethod: 0
+  rotateMethod: 1
 --- !u!1 &7571252980315550928
 GameObject:
   m_ObjectHideFlags: 0

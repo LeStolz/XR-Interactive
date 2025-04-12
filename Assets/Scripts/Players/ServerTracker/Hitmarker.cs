@@ -53,12 +53,12 @@ namespace Main
 			lineRenderer.positionCount = 0;
 		}
 
-		public void Show(int bounceTimes, int maxBounceTimes, Vector3 start, Vector3 forward, Vector3 end)
+		public void Show(int bounceTimes, int numBounce, Vector3 start, Vector3 forward, Vector3 end)
 		{
-			curveIterations = bounceTimes < maxBounceTimes && maxBounceTimes > 1 ? 1 : MAX_CURVE_ITERATIONS;
+			curveIterations = bounceTimes > 0 ? 1 : MAX_CURVE_ITERATIONS;
 			lineRenderer.positionCount = curveIterations + 1;
 
-			var newMaterial = bounceTimes < maxBounceTimes ? dashMaterial : solidMaterial;
+			var newMaterial = bounceTimes > 0 && numBounce > 0 ? dashMaterial : solidMaterial;
 			if (lineRenderer.material != newMaterial)
 			{
 				lineRenderer.material = newMaterial;
