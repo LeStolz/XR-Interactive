@@ -142,6 +142,7 @@ namespace Main
             }
 
             tiles.Clear();
+            tilesInSockets.Clear();
             answerTiles.Clear();
             boardData = default;
 
