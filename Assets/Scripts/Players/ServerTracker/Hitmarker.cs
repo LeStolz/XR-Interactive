@@ -5,6 +5,9 @@ namespace Main
 {
 	class HitMarker : MonoBehaviour
 	{
+		const int MAX_CURVE_ITERATIONS = 40;
+		const float ROTATE_SPEED = 30f;
+		const float NOT_SHOWING_DEPTH = 10f;
 		[SerializeField]
 		GameObject child;
 		[SerializeField]
@@ -14,9 +17,7 @@ namespace Main
 		[SerializeField]
 		Material solidMaterial;
 		float initialVelocity;
-		const int MAX_CURVE_ITERATIONS = 40;
 		int curveIterations = 0;
-		const float ROTATE_SPEED = 30f;
 		float currentRotation = 0;
 
 		void Start()
@@ -41,12 +42,23 @@ namespace Main
 			child.transform.localRotation = Quaternion.Euler(0, 0, currentRotation);
 		}
 
-		public void DrawLine(int bounceTimes, int maxBounceTimes, Vector3 start, Vector3 end)
+		public bool IsShowing()
 		{
-			curveIterations = bounceTimes < maxBounceTimes && maxBounceTimes > 1 ? 1 : MAX_CURVE_ITERATIONS;
+			return transform.position.y > NOT_SHOWING_DEPTH;
+		}
+
+		public void Hide()
+		{
+			transform.position = -Vector3.up * NOT_SHOWING_DEPTH;
+			lineRenderer.positionCount = 0;
+		}
+
+		public void Show(int bounceTimes, int maxBounceTimes, Vector3 start, Vector3 forward, Vector3 end)
+		{
+			curveIterations = bounceTimes < maxBounceTimes ? 1 : MAX_CURVE_ITERATIONS;
 			lineRenderer.positionCount = curveIterations + 1;
 
-			var newMaterial = bounceTimes < maxBounceTimes && maxBounceTimes > 1 ? dashMaterial : solidMaterial;
+			var newMaterial = bounceTimes < maxBounceTimes ? dashMaterial : solidMaterial;
 			if (lineRenderer.material != newMaterial)
 			{
 				lineRenderer.material = newMaterial;
@@ -57,22 +69,22 @@ namespace Main
 			initialVelocity = Vector3.Distance(start, end) / 2;
 			for (float ratio = 0; ratio <= 1; ratio += 1f / curveIterations)
 			{
-				positions.Add(Lerp(ratio, start, end));
+				positions.Add(Lerp(ratio, start, forward, end));
 			}
 			positions.Add(end);
 
 			lineRenderer.SetPositions(positions.ToArray());
 		}
 
-		Vector3 Lerp(float ratio, Vector3 start, Vector3 end)
+		Vector3 Lerp(float ratio, Vector3 start, Vector3 forward, Vector3 end)
 		{
 			var tangent1 = Vector3.Lerp(
 				start,
-				start + transform.forward * initialVelocity,
+				start + forward * initialVelocity,
 				ratio
 			);
 			var tangent2 = Vector3.Lerp(
-				start + transform.forward * initialVelocity,
+				start + forward * initialVelocity,
 				end,
 				ratio
 			);

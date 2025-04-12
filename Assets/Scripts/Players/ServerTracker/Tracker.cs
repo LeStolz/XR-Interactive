@@ -35,23 +35,25 @@ namespace Main
 				return;
 			}
 
-			int maxBounceTimes = hitMarkers.Count(hm => hm.transform.position.y >= -5) - 1;
+			int maxBounceTimes = hitMarkers.Count(hm => hm.IsShowing());
 
 			for (int i = 0; i < hitMarkers.Length; i++)
 			{
-				if (hitMarkers[i].transform.position.y < -5)
+				if (!hitMarkers[i].IsShowing())
 				{
-
-					hitMarkers[i].DrawLine(
-							i,
+					hitMarkers[i].Show(
+							i + 1,
 							maxBounceTimes,
 							arrow.transform.position,
+							arrow.transform.forward,
 							arrow.transform.position + arrow.transform.forward * 10
 						);
 					continue;
 				}
 
-				hitMarkers[i].DrawLine(i, maxBounceTimes, arrow.transform.position, hitMarkers[i].transform.position);
+				hitMarkers[i].Show(
+					i + 1, maxBounceTimes, arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
+				);
 			}
 		}
 
@@ -84,7 +86,7 @@ namespace Main
 			{
 				while (depth >= 0)
 				{
-					hitMarkers[depth].transform.position = new(0, -10, 0);
+					hitMarkers[depth].Hide();
 					depth--;
 				}
 			}
