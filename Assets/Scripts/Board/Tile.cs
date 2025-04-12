@@ -9,7 +9,7 @@ public class Tile : NetworkBehaviour
         gameObject.name = tileID;
     }
 
-    [Rpc(SendTo.Owner)]
+    [Rpc(SendTo.Everyone)]
     public void SetTileConstraintsRpc(bool freeze)
     {
         if (freeze)
