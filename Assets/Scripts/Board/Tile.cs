@@ -4,21 +4,11 @@ using UnityEngine;
 public class Tile : NetworkBehaviour
 {
     [Rpc(SendTo.Everyone)]
-    public void SetTileIDRpc(string tileID)
+    public void SetupRpc(Vector3 pos, Vector3 rot, string tileID, bool freeze)
     {
+        transform.position = pos;
+        transform.rotation = Quaternion.Euler(rot);
         gameObject.name = tileID;
-    }
-
-    [Rpc(SendTo.Everyone)]
-    public void SetTileConstraintsRpc(bool freeze)
-    {
-        if (freeze)
-        {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        }
-        else
-        {
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        }
+        gameObject.GetComponent<Rigidbody>().constraints = freeze ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
     }
 }

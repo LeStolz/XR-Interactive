@@ -251,8 +251,10 @@ namespace Main
                         Quaternion.Euler(tileData.eulerAngles)
                     );
                     tile.GetComponent<NetworkObject>().Spawn(true);
-                    tile.GetComponent<Tile>().SetTileConstraintsRpc(true);
-                    tile.GetComponent<Tile>().SetTileIDRpc(tileData.prefabID.ToString());
+                    tile.GetComponent<Tile>().SetupRpc(
+                        AnswerBoardOrigin.transform.position + tileData.position,
+                        tileData.eulerAngles, tileData.prefabID.ToString(), true
+                    );
                     answerTiles.Add(tile);
                 }
             }
@@ -310,9 +312,9 @@ namespace Main
 
                 GameObject tile = Instantiate(tilePrefab, pos, rot);
                 tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
-                tile.GetComponent<Tile>().SetTileConstraintsRpc(false);
-                tile.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
-                // tile.GetComponent<NetworkObject>().ChangeOwnership(hmdPlayerId);
+                tile.GetComponent<Tile>().SetupRpc(
+                    pos, rot.eulerAngles, tileID.ToString(), false
+                );
                 tiles.Add(tile);
             }
         }
