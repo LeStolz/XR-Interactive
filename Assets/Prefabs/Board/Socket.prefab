@@ -127,9 +127,9 @@ MonoBehaviour:
   m_StartingHoverFilters: []
   m_StartingSelectFilters: []
   m_ShowInteractableHoverMeshes: 1
-  m_InteractableHoverMeshMaterial: {fileID: 2100000, guid: 46e25a993b7d4244192f64f205492535,
+  m_InteractableHoverMeshMaterial: {fileID: 2100000, guid: d6c13524626562541adc98ba82be74be,
     type: 2}
-  m_InteractableCantHoverMeshMaterial: {fileID: 2100000, guid: f6603349ef7bbb84599f398bb8bcbb51,
+  m_InteractableCantHoverMeshMaterial: {fileID: 2100000, guid: 1ca1f7d5e526a2945ad4e54465d9ebcb,
     type: 2}
   m_SocketActive: 1
   m_InteractableHoverScale: 1
@@ -158,7 +158,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.2, y: 0.2, z: 0.2}
+  m_Size: {x: 0.1, y: 0.5, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1845384403286920319
 MonoBehaviour:

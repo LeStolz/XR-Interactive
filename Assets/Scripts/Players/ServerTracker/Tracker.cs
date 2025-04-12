@@ -35,24 +35,40 @@ namespace Main
 				return;
 			}
 
+			int maxBounceTimes = hitMarkers.Count(hm => hm.IsShowing());
+
 			for (int i = 0; i < hitMarkers.Length; i++)
 			{
-				if (hitMarkers[i].transform.position.y < -5)
+				if (!hitMarkers[i].IsShowing())
 				{
-					DrawLine(
-						i,
-						arrow.transform.position,
-						arrow.transform.position + arrow.transform.forward * 10
-					);
+					hitMarkers[i].Show(
+							maxBounceTimes - i,
+							maxBounceTimes,
+							arrow.transform.position,
+							arrow.transform.forward,
+							arrow.transform.position + arrow.transform.forward * 10
+						);
 					continue;
 				}
 
-				DrawLine(i, arrow.transform.position, hitMarkers[i].transform.position);
+				hitMarkers[i].Show(
+					maxBounceTimes - i, maxBounceTimes,
+					arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
+				);
 			}
 		}
 
 		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
 		{
+			void HideAllFromDepth(int depth)
+			{
+				while (depth >= 0)
+				{
+					hitMarkers[depth].Hide();
+					depth--;
+				}
+			}
+
 			if (depth < 0)
 			{
 				return;
@@ -65,6 +81,7 @@ namespace Main
 
 				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
+					HideAllFromDepth(depth - 1);
 					return;
 				}
 
@@ -78,32 +95,8 @@ namespace Main
 			}
 			else
 			{
-				while (depth >= 0)
-				{
-					hitMarkers[depth].transform.position = new(0, -10, 0);
-					depth--;
-				}
+				HideAllFromDepth(depth);
 			}
-		}
-
-		void DrawLine(int hitMarkerId, Vector3 start, Vector3 end)
-		{
-			if (!UpdateHitmarkers())
-			{
-				return;
-			}
-
-			var lineRenderer = hitMarkers[hitMarkerId].GetComponent<LineRenderer>();
-
-			if (start == end)
-			{
-				lineRenderer.enabled = false;
-				return;
-			}
-
-			lineRenderer.enabled = true;
-			lineRenderer.SetPosition(0, start);
-			lineRenderer.SetPosition(1, end);
 		}
 
 		bool UpdateHitmarkers()

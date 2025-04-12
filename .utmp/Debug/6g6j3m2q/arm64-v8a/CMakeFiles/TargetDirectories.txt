@@ -1,0 +1,5 @@
+D:/Studies/XR-Interactive/.utmp/Debug/6g6j3m2q/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/Studies/XR-Interactive/.utmp/Debug/6g6j3m2q/arm64-v8a/CMakeFiles/rebuild_cache.dir
+D:/Studies/XR-Interactive/.utmp/Debug/6g6j3m2q/arm64-v8a/GameActivity/CMakeFiles/game.dir
+D:/Studies/XR-Interactive/.utmp/Debug/6g6j3m2q/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+D:/Studies/XR-Interactive/.utmp/Debug/6g6j3m2q/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
