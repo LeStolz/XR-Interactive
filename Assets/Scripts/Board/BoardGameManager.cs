@@ -309,10 +309,10 @@ namespace Main
                 );
 
                 GameObject tile = Instantiate(tilePrefab, pos, rot);
-                tile.GetComponent<NetworkObject>().Spawn(true);
+                tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
                 tile.GetComponent<Tile>().SetTileConstraintsRpc(false);
                 tile.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
-                tile.GetComponent<NetworkObject>().ChangeOwnership(hmdPlayerId);
+                // tile.GetComponent<NetworkObject>().ChangeOwnership(hmdPlayerId);
                 tiles.Add(tile);
             }
         }
