@@ -4,23 +4,29 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace Main
 {
-    class Socket : NetworkBehaviour
+    class NetworkSocket : XRSocketInteractor
     {
         GameObject socket;
 
-        void Awake()
+        protected override void Awake()
         {
-            transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
+            base.Awake();
+
+            if (NetworkManager.Singleton.IsServer)
+            {
+                transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
+            }
         }
 
-        public override void OnDestroy()
+        protected override void OnDestroy()
         {
             base.OnDestroy();
 
-            if (socket != null)
+            if (NetworkManager.Singleton.IsServer && socket != null)
             {
                 if (socket.GetComponent<NetworkObject>().IsSpawned)
                 {
@@ -34,16 +40,20 @@ namespace Main
             }
         }
 
-        public void OnSelectEntered(SelectEnterEventArgs args)
+        protected override void OnSelectEntered(SelectEnterEventArgs args)
         {
             if (args.interactableObject == null)
             {
                 return;
             }
 
-            AttachTileToSocket(args.interactableObject);
+            if (args.interactableObject.transform.gameObject.GetComponent<NetworkObject>().IsOwner)
+            {
+                base.OnSelectEntered(args);
+                AttachTileToSocket(args.interactableObject);
+            }
 
-            if (IsServer)
+            if (NetworkManager.Singleton.IsServer)
             {
                 socket = Instantiate(
                     BoardGameManager.Instance.SocketPrefab,
@@ -66,20 +76,32 @@ namespace Main
             BoardGameManager.Instance.AttachTileToSocket(tile);
         }
 
-        public void OnSelectExited(SelectExitEventArgs args)
+        protected override void OnSelectExited(SelectExitEventArgs args)
         {
             if (args.interactableObject == null)
             {
                 return;
             }
 
+            if (args.interactableObject.transform.gameObject.GetComponent<NetworkObject>().IsOwner)
+            {
+                base.OnSelectExited(args);
+            }
+
             transform.localRotation = Quaternion.identity;
 
-            if (IsServer)
+            if (NetworkManager.Singleton.IsServer)
             {
                 if (socket != null)
                 {
-                    socket.GetComponent<NetworkObject>().Despawn(true);
+                    if (socket.GetComponent<NetworkObject>().IsSpawned)
+                    {
+                        socket.GetComponent<NetworkObject>().Despawn(true);
+                    }
+                    else
+                    {
+                        Destroy(socket);
+                    }
                     socket = null;
                 }
 
@@ -87,7 +109,7 @@ namespace Main
             }
         }
 
-        private void AttachTileToSocket(IXRSelectInteractable interactableObject)
+        void AttachTileToSocket(IXRSelectInteractable interactableObject)
         {
             Vector3 eulerAngles = interactableObject.transform.eulerAngles;
 

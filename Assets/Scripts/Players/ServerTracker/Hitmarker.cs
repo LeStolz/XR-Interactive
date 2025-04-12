@@ -7,7 +7,7 @@ namespace Main
 	{
 		const int MAX_CURVE_ITERATIONS = 40;
 		const float ROTATE_SPEED = 30f;
-		const float NOT_SHOWING_DEPTH = 10f;
+		const float NOT_SHOWING_DEPTH = -10f;
 		[SerializeField]
 		GameObject child;
 		[SerializeField]
@@ -28,7 +28,7 @@ namespace Main
 
 		void Update()
 		{
-			if (transform.position.y <= -5)
+			if (transform.position.y <= NOT_SHOWING_DEPTH)
 			{
 				child.SetActive(false);
 				return;
@@ -49,13 +49,13 @@ namespace Main
 
 		public void Hide()
 		{
-			transform.position = -Vector3.up * NOT_SHOWING_DEPTH;
+			transform.position = Vector3.up * NOT_SHOWING_DEPTH;
 			lineRenderer.positionCount = 0;
 		}
 
 		public void Show(int bounceTimes, int maxBounceTimes, Vector3 start, Vector3 forward, Vector3 end)
 		{
-			curveIterations = bounceTimes < maxBounceTimes ? 1 : MAX_CURVE_ITERATIONS;
+			curveIterations = bounceTimes < maxBounceTimes && maxBounceTimes > 1 ? 1 : MAX_CURVE_ITERATIONS;
 			lineRenderer.positionCount = curveIterations + 1;
 
 			var newMaterial = bounceTimes < maxBounceTimes ? dashMaterial : solidMaterial;
