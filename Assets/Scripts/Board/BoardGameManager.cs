@@ -323,7 +323,7 @@ namespace Main
         }
 
         [Rpc(SendTo.Server)]
-        public void AttachTileToSocketRpc(string tileName)
+        public void AttachTileToSocketRpc(string tileName, Vector3 socketPos)
         {
             var tile = tiles.Find(t => t.name == tileName);
 
@@ -339,7 +339,9 @@ namespace Main
 
             tilesInSockets.Add(tile);
 
-            StartCoroutine(CheckWinCondition(tile.transform.position - transform.position));
+            StartCoroutine(CheckWinCondition(
+                tile, socketPos
+            ));
         }
 
         [Rpc(SendTo.Server)]
@@ -360,14 +362,19 @@ namespace Main
             tilesInSockets.Remove(tile);
         }
 
-        IEnumerator CheckWinCondition(Vector3 lastAttachedPosition)
+        IEnumerator CheckWinCondition(GameObject tile, Vector3 socketPos)
         {
+            yield return new WaitUntil(
+                () => Vector3.Distance(tile.transform.position, socketPos) < 0.1f,
+                new TimeSpan(0, 0, 10), () => Debug.Log("Timed out")
+            );
+
             if (!IsWon())
             {
                 yield break;
             }
 
-            WonRpc(lastAttachedPosition);
+            WonRpc(tile.transform.position - transform.position);
 
             yield return new WaitForSeconds(2 * confettiPrefab.GetComponent<ParticleSystem>().main.duration);
 

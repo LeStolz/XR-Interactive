@@ -44,17 +44,10 @@ namespace Main
                 Quaternion.identity
             );
 
-            StartCoroutine(AttachTileToSocketIE(args.interactableObject.transform.gameObject));
-        }
-
-        IEnumerator AttachTileToSocketIE(GameObject tile)
-        {
-            yield return new WaitUntil(
-                () => Vector3.Distance(transform.position, tile.transform.position) < 0.1f,
-                new TimeSpan(0, 0, 1), () => Debug.Log("Timed out")
+            BoardGameManager.Instance.AttachTileToSocketRpc(
+                args.interactableObject.transform.gameObject.name,
+                transform.position
             );
-
-            BoardGameManager.Instance.AttachTileToSocketRpc(tile.name);
         }
 
         protected override void OnSelectExited(SelectExitEventArgs args)
