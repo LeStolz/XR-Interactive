@@ -41,7 +41,7 @@ namespace Main
 			{
 				if (!hitMarkers[i].IsShowing())
 				{
-					return;
+					continue;
 				}
 
 				hitMarkers[i].Show(
