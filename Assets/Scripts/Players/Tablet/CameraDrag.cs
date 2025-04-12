@@ -112,7 +112,7 @@ namespace Main
 			}
 			else
 			{
-				newQ = Quaternion.Euler(swipeDirection.y, -swipeDirection.x, 0);
+				newQ = Quaternion.Euler(swipeDirection.y, swipeDirection.x, 0);
 			}
 
 			cameraRot = Quaternion.Slerp(cameraRot, newQ, slerpValue);  //let cameraRot value gradually reach newQ which corresponds to our touch

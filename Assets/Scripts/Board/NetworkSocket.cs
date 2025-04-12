@@ -15,18 +15,14 @@ namespace Main
         protected override void Awake()
         {
             base.Awake();
-
-            if (NetworkManager.Singleton.IsServer)
-            {
-                transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
-            }
+            transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
 
-            if (NetworkManager.Singleton.IsServer && socket != null)
+            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer && socket != null)
             {
                 if (socket.GetComponent<NetworkObject>().IsSpawned)
                 {
@@ -47,7 +43,7 @@ namespace Main
                 return;
             }
 
-            if (args.interactableObject.transform.gameObject.GetComponent<NetworkObject>().IsOwner)
+            if (true || args.interactableObject.transform.gameObject.GetComponent<NetworkObject>().IsOwner)
             {
                 base.OnSelectEntered(args);
                 AttachTileToSocket(args.interactableObject);
@@ -83,7 +79,7 @@ namespace Main
                 return;
             }
 
-            if (args.interactableObject.transform.gameObject.GetComponent<NetworkObject>().IsOwner)
+            if (true || args.interactableObject.transform.gameObject.GetComponent<NetworkObject>().IsOwner)
             {
                 base.OnSelectExited(args);
             }
