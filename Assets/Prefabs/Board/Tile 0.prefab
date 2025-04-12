@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3611104011749071017}
   - component: {fileID: -6859294775329615094}
   - component: {fileID: 2543290640734674980}
+  - component: {fileID: -8239692772077039569}
   m_Layer: 0
   m_Name: Tile 0
   m_TagString: Untagged
@@ -360,6 +361,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &-8239692772077039569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863254829954826748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!1 &6748837260580536604
 GameObject:
   m_ObjectHideFlags: 0
