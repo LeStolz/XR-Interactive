@@ -102,11 +102,11 @@ namespace Main
             }
 
             var hmdPlayer = NetworkGameManager.Instance.FindPlayerByRole<NetworkPlayer>(Role.HMD);
-            var hmdPlayerId = 0ul;
-            if (hmdPlayer != null)
+            if (hmdPlayer == null)
             {
-                hmdPlayerId = hmdPlayer.OwnerClientId;
+                return;
             }
+            ulong hmdPlayerId = hmdPlayer.OwnerClientId;
 
             if (gameStatus == GameStatus.Started)
             {
@@ -250,7 +250,7 @@ namespace Main
                         Quaternion.Euler(tileData.eulerAngles)
                     );
                     tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
-                    tile.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+                    tile.GetComponent<Tile>().SetTileConstraintsRpc(true);
                     tile.GetComponent<Tile>().SetTileIDRpc(tileData.prefabID.ToString());
                     answerTiles.Add(tile);
                 }
@@ -309,7 +309,7 @@ namespace Main
 
                 GameObject tile = Instantiate(tilePrefab, pos, rot);
                 tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
-                tile.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                tile.GetComponent<Tile>().SetTileConstraintsRpc(false);
                 tile.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
                 tiles.Add(tile);
             }

@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using UnityEngine;
 
 public class Tile : NetworkBehaviour
 {
@@ -6,5 +7,18 @@ public class Tile : NetworkBehaviour
     public void SetTileIDRpc(string tileID)
     {
         gameObject.name = tileID;
+    }
+
+    [Rpc(SendTo.Everyone)]
+    public void SetTileConstraintsRpc(bool freeze)
+    {
+        if (freeze)
+        {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        }
+        else
+        {
+            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        }
     }
 }
