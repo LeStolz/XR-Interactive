@@ -74,7 +74,7 @@ namespace Main
                 socket = null;
             }
 
-            BoardGameManager.Instance.DetachTileFromSocket(args.interactableObject.transform.gameObject.name);
+            BoardGameManager.Instance.DetachTileFromSocketRpc(args.interactableObject.transform.gameObject.name);
         }
 
         void AttachTileToSocket(IXRSelectInteractable interactableObject)

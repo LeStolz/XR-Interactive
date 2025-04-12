@@ -115,7 +115,7 @@ namespace Main
 
             SpawnBoardRpc(RpcTarget.Single(hmdPlayerId, RpcTargetUse.Temp));
             LoadBoardData();
-            SpawnAnswerTiles(hmdPlayerId);
+            SpawnAnswerTiles();
             SpawnTiles(hmdPlayerId);
 
             StartGameClientRpc();
@@ -232,7 +232,7 @@ namespace Main
             Debug.Log("Board loaded from " + path);
         }
 
-        void SpawnAnswerTiles(ulong hmdPlayerId)
+        void SpawnAnswerTiles()
         {
             if (isTesting)
             {
@@ -249,7 +249,7 @@ namespace Main
                         AnswerBoardOrigin.transform.position + tileData.position,
                         Quaternion.Euler(tileData.eulerAngles)
                     );
-                    tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
+                    tile.GetComponent<NetworkObject>().Spawn(true);
                     tile.GetComponent<Tile>().SetTileConstraintsRpc(true);
                     tile.GetComponent<Tile>().SetTileIDRpc(tileData.prefabID.ToString());
                     answerTiles.Add(tile);
@@ -308,13 +308,15 @@ namespace Main
                 );
 
                 GameObject tile = Instantiate(tilePrefab, pos, rot);
-                tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
+                tile.GetComponent<NetworkObject>().Spawn(true);
                 tile.GetComponent<Tile>().SetTileConstraintsRpc(false);
                 tile.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
+                tile.GetComponent<NetworkObject>().ChangeOwnership(hmdPlayerId);
                 tiles.Add(tile);
             }
         }
 
+        [Rpc(SendTo.Server)]
         public void AttachTileToSocketRpc(string tileName)
         {
             var tile = tiles.Find(t => t.name == tileName);
@@ -334,7 +336,8 @@ namespace Main
             StartCoroutine(CheckWinCondition(tile.transform.position - transform.position));
         }
 
-        public void DetachTileFromSocket(string tileName)
+        [Rpc(SendTo.Server)]
+        public void DetachTileFromSocketRpc(string tileName)
         {
             var tile = tiles.Find(t => t.name == tileName);
 
