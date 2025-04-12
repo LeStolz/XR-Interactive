@@ -79,7 +79,6 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Hybrid curve ray.
 - Move cube.
 - Fix trackers, display error.
 - 2 ZED.

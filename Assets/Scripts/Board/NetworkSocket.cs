@@ -22,16 +22,9 @@ namespace Main
         {
             base.OnDestroy();
 
-            if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsServer && socket != null)
+            if (socket != null)
             {
-                if (socket.GetComponent<NetworkObject>().IsSpawned)
-                {
-                    socket.GetComponent<NetworkObject>().Despawn(true);
-                }
-                else
-                {
-                    Destroy(socket);
-                }
+                Destroy(socket);
                 socket = null;
             }
         }
@@ -43,23 +36,16 @@ namespace Main
                 return;
             }
 
-            if (true || args.interactableObject.transform.gameObject.GetComponent<NetworkObject>().IsOwner)
-            {
-                base.OnSelectEntered(args);
-                AttachTileToSocket(args.interactableObject);
-            }
+            base.OnSelectEntered(args);
+            AttachTileToSocket(args.interactableObject);
 
-            if (NetworkManager.Singleton.IsServer)
-            {
-                socket = Instantiate(
-                    BoardGameManager.Instance.SocketPrefab,
-                    transform.position + Vector3.up * transform.localScale.x,
-                    Quaternion.identity
-                );
-                socket.GetComponent<NetworkObject>().Spawn(true);
+            socket = Instantiate(
+                BoardGameManager.Instance.SocketPrefab,
+                transform.position + Vector3.up * transform.localScale.x,
+                Quaternion.identity
+            );
 
-                StartCoroutine(AttachTileToSocketIE(args.interactableObject.transform.gameObject));
-            }
+            StartCoroutine(AttachTileToSocketIE(args.interactableObject.transform.gameObject));
         }
 
         IEnumerator AttachTileToSocketIE(GameObject tile)
@@ -69,7 +55,7 @@ namespace Main
                 new TimeSpan(0, 0, 1), () => Debug.Log("Timed out")
             );
 
-            BoardGameManager.Instance.AttachTileToSocket(tile);
+            BoardGameManager.Instance.AttachTileToSocketRpc(tile.name);
         }
 
         protected override void OnSelectExited(SelectExitEventArgs args)
@@ -79,30 +65,17 @@ namespace Main
                 return;
             }
 
-            if (true || args.interactableObject.transform.gameObject.GetComponent<NetworkObject>().IsOwner)
-            {
-                base.OnSelectExited(args);
-            }
+            base.OnSelectExited(args);
 
             transform.localRotation = Quaternion.identity;
 
-            if (NetworkManager.Singleton.IsServer)
+            if (socket != null)
             {
-                if (socket != null)
-                {
-                    if (socket.GetComponent<NetworkObject>().IsSpawned)
-                    {
-                        socket.GetComponent<NetworkObject>().Despawn(true);
-                    }
-                    else
-                    {
-                        Destroy(socket);
-                    }
-                    socket = null;
-                }
-
-                BoardGameManager.Instance.DetachTileFromSocket(args.interactableObject.transform.gameObject);
+                Destroy(socket);
+                socket = null;
             }
+
+            BoardGameManager.Instance.DetachTileFromSocket(args.interactableObject.transform.gameObject.name);
         }
 
         void AttachTileToSocket(IXRSelectInteractable interactableObject)

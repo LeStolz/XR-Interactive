@@ -84,10 +84,12 @@ namespace Main
             if (Input.GetKeyDown(KeyCode.S))
             {
                 SaveBoardData();
+                PlayerHudNotification.Instance.ShowText("Board saved");
             }
             else if (Input.GetKeyDown(KeyCode.T))
             {
                 isTesting = !isTesting;
+                PlayerHudNotification.Instance.ShowText("Testing mode: " + (isTesting ? "ON" : "OFF"));
             }
         }
 
@@ -99,15 +101,22 @@ namespace Main
                 return;
             }
 
+            var hmdPlayer = NetworkGameManager.Instance.FindPlayerByRole<NetworkPlayer>(Role.HMD);
+            var hmdPlayerId = 0ul;
+            if (hmdPlayer != null)
+            {
+                hmdPlayerId = hmdPlayer.OwnerClientId;
+            }
+
             if (gameStatus == GameStatus.Started)
             {
                 StopGameRpc();
             }
 
-            SpawnBoard();
+            SpawnBoardRpc(RpcTarget.Single(hmdPlayerId, RpcTargetUse.Temp));
             LoadBoardData();
-            SpawnAnswerTiles();
-            SpawnTiles();
+            SpawnAnswerTiles(hmdPlayerId);
+            SpawnTiles(hmdPlayerId);
 
             StartGameClientRpc();
         }
@@ -127,18 +136,12 @@ namespace Main
                 tile.GetComponent<NetworkObject>().Despawn(true);
             }
 
-            foreach (GameObject socket in sockets)
-            {
-                socket.GetComponent<NetworkObject>().Despawn(true);
-            }
-
             foreach (GameObject answerTile in answerTiles)
             {
                 answerTile.GetComponent<NetworkObject>().Despawn(true);
             }
 
             tiles.Clear();
-            sockets.Clear();
             answerTiles.Clear();
             boardData = default;
 
@@ -150,9 +153,20 @@ namespace Main
         {
             gameStatus = GameStatus.Stopped;
             OnGameStatusChanged?.Invoke(gameStatus);
+
+            if (NetworkGameManager.Instance.localRole == Role.HMD)
+            {
+                foreach (GameObject socket in sockets)
+                {
+                    Destroy(socket);
+                }
+            }
+
+            sockets.Clear();
         }
 
-        void SpawnBoard()
+        [Rpc(SendTo.SpecifiedInParams)]
+        void SpawnBoardRpc(RpcParams rpcParams = default)
         {
             Vector3 socketScale = TilePrefabs[0].transform.localScale;
 
@@ -169,9 +183,8 @@ namespace Main
                         - new Vector3((numCols / 2f - 0.5f) * xSpacing, 0, (numRows / 2f - 0.5f) * zSpacing)
                     ;
 
-                    var socketInstance = Instantiate(SocketPrefab, spawnPosition, Quaternion.identity);
-                    socketInstance.GetComponent<NetworkObject>().Spawn(true);
-                    sockets.Add(socketInstance);
+                    var socket = Instantiate(SocketPrefab, spawnPosition, Quaternion.identity);
+                    sockets.Add(socket);
                 }
             }
         }
@@ -219,7 +232,7 @@ namespace Main
             Debug.Log("Board loaded from " + path);
         }
 
-        void SpawnAnswerTiles()
+        void SpawnAnswerTiles(ulong hmdPlayerId)
         {
             if (isTesting)
             {
@@ -236,7 +249,7 @@ namespace Main
                         AnswerBoardOrigin.transform.position + tileData.position,
                         Quaternion.Euler(tileData.eulerAngles)
                     );
-                    tile.GetComponent<NetworkObject>().Spawn(true);
+                    tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
                     tile.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
                     tile.GetComponent<Tile>().SetTileIDRpc(tileData.prefabID.ToString());
                     answerTiles.Add(tile);
@@ -246,7 +259,7 @@ namespace Main
             answerTiles.Sort((a, b) => a.name.CompareTo(b.name));
         }
 
-        void SpawnTiles()
+        void SpawnTiles(ulong hmdPlayerId)
         {
             List<int> tileIDsToSpawn;
 
@@ -295,15 +308,22 @@ namespace Main
                 );
 
                 GameObject tile = Instantiate(tilePrefab, pos, rot);
-                tile.GetComponent<NetworkObject>().Spawn(true);
+                tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
                 tile.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 tile.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
                 tiles.Add(tile);
             }
         }
 
-        public void AttachTileToSocket(GameObject tile)
+        public void AttachTileToSocketRpc(string tileName)
         {
+            var tile = tiles.Find(t => t.name == tileName);
+
+            if (tile == null)
+            {
+                return;
+            }
+
             if (tilesInSockets.Contains(tile))
             {
                 return;
@@ -314,8 +334,15 @@ namespace Main
             StartCoroutine(CheckWinCondition(tile.transform.position - transform.position));
         }
 
-        public void DetachTileFromSocket(GameObject tile)
+        public void DetachTileFromSocket(string tileName)
         {
+            var tile = tiles.Find(t => t.name == tileName);
+
+            if (tile == null)
+            {
+                return;
+            }
+
             if (!tilesInSockets.Contains(tile))
             {
                 return;
