@@ -42,7 +42,7 @@ namespace Main
 				if (!hitMarkers[i].IsShowing())
 				{
 					hitMarkers[i].Show(
-							i + 1,
+							maxBounceTimes - i,
 							maxBounceTimes,
 							arrow.transform.position,
 							arrow.transform.forward,
@@ -52,13 +52,23 @@ namespace Main
 				}
 
 				hitMarkers[i].Show(
-					i + 1, maxBounceTimes, arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
+					maxBounceTimes - i, maxBounceTimes,
+					arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
 				);
 			}
 		}
 
 		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
 		{
+			void HideAllFromDepth(int depth)
+			{
+				while (depth >= 0)
+				{
+					hitMarkers[depth].Hide();
+					depth--;
+				}
+			}
+
 			if (depth < 0)
 			{
 				return;
@@ -71,6 +81,7 @@ namespace Main
 
 				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
+					HideAllFromDepth(depth - 1);
 					return;
 				}
 
@@ -84,11 +95,7 @@ namespace Main
 			}
 			else
 			{
-				while (depth >= 0)
-				{
-					hitMarkers[depth].Hide();
-					depth--;
-				}
+				HideAllFromDepth(depth);
 			}
 		}
 
