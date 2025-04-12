@@ -103,11 +103,7 @@ namespace Main
             }
 
             var hmdPlayer = NetworkGameManager.Instance.FindPlayerByRole<NetworkPlayer>(Role.HMD);
-            if (hmdPlayer == null)
-            {
-                return;
-            }
-            ulong hmdPlayerId = hmdPlayer.OwnerClientId;
+            ulong hmdPlayerId = hmdPlayer == null ? 0 : hmdPlayer.OwnerClientId;
 
             if (gameStatus == GameStatus.Started)
             {
@@ -332,16 +328,12 @@ namespace Main
                 return;
             }
 
-            if (tilesInSockets.Contains(tile))
+            if (!tilesInSockets.Contains(tile))
             {
-                return;
+                tilesInSockets.Add(tile);
             }
 
-            tilesInSockets.Add(tile);
-
-            StartCoroutine(CheckWinCondition(
-                tile, socketPos
-            ));
+            StartCoroutine(CheckWinCondition(tile, socketPos));
         }
 
         [Rpc(SendTo.Server)]
@@ -416,6 +408,8 @@ namespace Main
 
         bool IsWon()
         {
+            Debug.Log(tilesInSockets.Count + " == " + answerTiles.Count);
+
             if (tilesInSockets.Count != answerTiles.Count)
             {
                 return false;
@@ -425,6 +419,8 @@ namespace Main
 
             for (int i = 0; i < tilesInSockets.Count; i++)
             {
+                Debug.Log(tilesInSockets[i].name + " == " + answerTiles[i].name);
+
                 if (tilesInSockets[i].name != answerTiles[i].name)
                 {
                     return false;
