@@ -79,7 +79,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Move cube, fix cube spawn.
+- Move cube, fix not winning.
 - Fix trackers, display error.
 - 2 ZED.
 - VR, VR view for ZED.
