@@ -412,7 +412,7 @@ namespace Main
         {
             Debug.Log(tilesInSockets.Count + " == " + answerTiles.Count);
 
-            if (tilesInSockets.Count != answerTiles.Count)
+            if (isTesting || tilesInSockets.Count != answerTiles.Count)
             {
                 return false;
             }

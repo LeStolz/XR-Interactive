@@ -7,8 +7,8 @@ public class GlobalMarkerConfigs : MonoBehaviour
     static readonly float REAL_PORTAL_MARKER = 0.33f;
 
     public static float VIRTUAL_HOLOLENS_MARKER => REAL_ORIGIN_MARKER * 0.8f;
-    public static float VIRTUAL_ORIGIN_MAKRER => REAL_ORIGIN_MARKER * 0.95f;
-    public static float VIRTUAL_PORTAL_MARKER => REAL_PORTAL_MARKER;
+    public static float VIRTUAL_ORIGIN_MAKRER => REAL_ORIGIN_MARKER * 0.958f;
+    public static float VIRTUAL_PORTAL_MARKER => REAL_PORTAL_MARKER * 0.955f;
 
 
     public GameObject WebcamTextureMarkerTracking;
