@@ -41,6 +41,7 @@ namespace Main
 			{
 				if (!hitMarkers[i].IsShowing())
 				{
+					hitMarkers[i].Hide();
 					continue;
 				}
 

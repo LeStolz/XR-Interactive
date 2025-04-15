@@ -83,6 +83,5 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 - Fix trackers.
 - 2 ZED.
 - VR, VR view for ZED.
-
 - Fishing rod pointing.
 - intro, direct, indirect, cooler interactions for video.
