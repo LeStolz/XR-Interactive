@@ -4,7 +4,7 @@ using UnityEngine;
 public class GlobalMarkerConfigs : MonoBehaviour
 {
     static readonly float REAL_ORIGIN_MARKER = 0.433f;
-    static readonly float REAL_PORTAL_MARKER = 0.336f;
+    static readonly float REAL_PORTAL_MARKER = 0.33f;
 
     public static float VIRTUAL_HOLOLENS_MARKER => REAL_ORIGIN_MARKER * 0.8f;
     public static float VIRTUAL_ORIGIN_MAKRER => REAL_ORIGIN_MARKER * 0.95f;

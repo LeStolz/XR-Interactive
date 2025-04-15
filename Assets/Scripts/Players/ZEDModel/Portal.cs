@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Portal : NetworkBehaviour
 {
-    readonly float cornerOffset = 0.24f;
+    readonly float cornerOffset = 0.22f;
     readonly float portalPlaneOffset = 0f;
 
     [SerializeField]
