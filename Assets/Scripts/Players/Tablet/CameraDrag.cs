@@ -11,9 +11,9 @@ namespace Main
 		[SerializeField]
 		float distance;
 
-		[Range(0.1f, 5f)]
+		[Range(0.1f, 10f)]
 		[Tooltip("How sensitive the mouse drag to camera rotation")]
-		public float mouseRotateSpeed = 5f;
+		public float mouseRotateSpeed = 10f;
 		[Range(0.01f, 100)]
 		[Tooltip("How sensitive the touch drag to camera rotation")]
 		public float touchRotateSpeed = 20f;
@@ -33,8 +33,8 @@ namespace Main
 		private float maxXRotAngle = 80; // max angle around x axis
 
 		//Mouse rotation related
-		private float rotX = 45; // around x
-		private float rotY = 45; // around y
+		private float rotX = 50; // around x
+		private float rotY = 50; // around y
 		private void Awake()
 		{
 			if (mainCamera == null)

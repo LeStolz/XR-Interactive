@@ -79,7 +79,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- portal, fix not winning.
+- Fix not winning.
 - Fix trackers.
 - 2 ZED.
 - VR, VR view for ZED.
