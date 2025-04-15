@@ -319,7 +319,7 @@ namespace Main
         }
 
         [Rpc(SendTo.Server)]
-        public void AttachTileToSocketRpc(string tileName, Vector3 socketPos)
+        public void AttachTileToSocketRpc(string tileName, Vector3 socketPos, Vector3 socketRot)
         {
             var tile = tiles.Find(t => t.name == tileName);
 
@@ -333,7 +333,7 @@ namespace Main
                 tilesInSockets.Add(tile);
             }
 
-            StartCoroutine(CheckWinCondition(tile, socketPos));
+            StartCoroutine(CheckWinCondition(tile, socketPos, socketRot));
         }
 
         [Rpc(SendTo.Server)]
@@ -354,10 +354,12 @@ namespace Main
             tilesInSockets.Remove(tile);
         }
 
-        IEnumerator CheckWinCondition(GameObject tile, Vector3 socketPos)
+        IEnumerator CheckWinCondition(GameObject tile, Vector3 socketPos, Vector3 socketRot)
         {
             yield return new WaitUntil(
-                () => Vector3.Distance(tile.transform.position, socketPos) < 0.1f,
+                () =>
+                    Vector3.Distance(tile.transform.position, socketPos) < 0.05f &&
+                    Quaternion.Angle(tile.transform.rotation, Quaternion.Euler(socketRot)) < 5f,
                 new TimeSpan(0, 0, 10), () => Debug.Log("Timed out")
             );
 

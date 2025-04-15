@@ -44,7 +44,7 @@ namespace Main
 
             BoardGameManager.Instance.AttachTileToSocketRpc(
                 args.interactableObject.transform.gameObject.name,
-                transform.position
+                transform.position, transform.eulerAngles
             );
         }
 
