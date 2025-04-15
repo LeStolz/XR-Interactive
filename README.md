@@ -11,7 +11,7 @@ The system requires:
   - **Trackers:** The other interfaces with the Vive headset, its trackers, and its base stations. As we do not render anything on the Vive headset, a display port to HDMI adapter is good enough to connect the headset to the laptop.
   - _Note:_ We cannot have 1 laptop to do both as the Vive headset and the projector are both treated as external monitors thus confusing the headset's drivers.
 - **Origin marker:** A 43.3cm x 43.3cm ARUCO marker placed on the floor used as the common origin between devices and for detecting the floor. Marker must be seen by ZED during calibration and can be scanned by headset users.
-- **Large display:** A large display large enough to fit 3 33cm x 33cm ARUCO markers at any of its 3 corners (preferrably with buffer space between the markers). All 3 markers (thus corners) must be seen by ZED during calibration.
+- **Large display:** A large display large enough to fit 3 33.6cm x 33.6cm ARUCO markers at any of its 3 corners (preferrably with buffer space between the markers). All 3 markers (thus corners) must be seen by ZED during calibration.
 - **Headset:** Any headset (preferrably the Hololens or the Quest 3) with camera feed access to scan the origin marker.
 
 ### Communication Protocol
@@ -79,7 +79,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Move cube, fix not winning.
+- portal, fix not winning.
 - Fix trackers.
 - 2 ZED.
 - VR, VR view for ZED.

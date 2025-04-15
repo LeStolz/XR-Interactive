@@ -44,7 +44,7 @@ namespace Main
 
 		public bool IsShowing()
 		{
-			return transform.position.y > NOT_SHOWING_DEPTH;
+			return transform.position.y > NOT_SHOWING_DEPTH / 2;
 		}
 
 		public void Hide()

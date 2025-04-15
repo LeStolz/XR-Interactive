@@ -1,3 +1,4 @@
+using Main;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -33,28 +34,39 @@ public class GrabDetector : MonoBehaviour
 
 	void OnGrabbed(SelectEnterEventArgs args)
 	{
+		if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
+		{
+			return;
+		}
+
 		grabbedObject = transform;
 	}
 
 	void OnReleased(SelectExitEventArgs args)
 	{
+		if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
+		{
+			return;
+		}
+
 		grabbedObject = null;
 	}
 
 	void Update()
 	{
-		if (grabbedObject != null)
+		if (grabbedObject == null)
 		{
-			Vector3 viewportPoint = mainCamera.WorldToViewportPoint(grabbedObject.position);
+			return;
+		}
+		Vector3 viewportPoint = mainCamera.WorldToViewportPoint(grabbedObject.position);
 
-			bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
-						   viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
-						   viewportPoint.z < 0;
+		bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
+					   viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
+					   viewportPoint.z < 0;
 
-			if (isOutOfView)
-			{
-				ForceReleaseGrabbedObject();
-			}
+		if (isOutOfView)
+		{
+			ForceReleaseGrabbedObject();
 		}
 	}
 
