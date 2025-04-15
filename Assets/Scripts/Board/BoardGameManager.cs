@@ -195,8 +195,6 @@ namespace Main
             {
                 var tile = tilesInSockets[i];
 
-                Debug.Log(tile.name);
-
                 TileData tileData = new(
                     tile.transform.position - transform.position,
                     tile.transform.eulerAngles,
@@ -421,8 +419,6 @@ namespace Main
 
             for (int i = 0; i < tilesInSockets.Count; i++)
             {
-                Debug.Log(tilesInSockets[i].name + " == " + answerTiles[i].name);
-
                 if (tilesInSockets[i].name != answerTiles[i].name)
                 {
                     return false;
@@ -432,10 +428,6 @@ namespace Main
                 var tilePos = tilesInSockets[i].transform.position - transform.position;
                 var ansRot = answerTiles[i].transform.rotation;
                 var tileRot = tilesInSockets[i].transform.rotation;
-
-                Debug.Log(
-                    $"ansPos: {ansPos}, tilePos: {tilePos}, ansRot: {ansRot}, tileRot: {tileRot}"
-                );
 
                 if (Vector3.Distance(ansPos, tilePos) > 0.1f || Quaternion.Angle(ansRot, tileRot) > 10f)
                 {

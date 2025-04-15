@@ -57,7 +57,7 @@ namespace Main
 			{
 				if (Input.GetMouseButton(0))
 				{
-					rotX += -Input.GetAxis("Mouse Y") * mouseRotateSpeed; // around X
+					rotX += Input.GetAxis("Mouse Y") * mouseRotateSpeed; // around X
 					rotY += Input.GetAxis("Mouse X") * mouseRotateSpeed;
 				}
 
