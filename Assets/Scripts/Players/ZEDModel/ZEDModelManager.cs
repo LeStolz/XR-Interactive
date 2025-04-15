@@ -6,6 +6,8 @@ namespace Main
 {
     class ZEDModelManager : NetworkPlayer
     {
+        const float HEIGHT_OFFSET = 0.05f;
+
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
@@ -134,6 +136,11 @@ namespace Main
                         marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90, 0, 0)));
                         cameraEyes.transform.SetParent(parent);
 
+                        cameraEyes.transform.position = new(
+                            cameraEyes.transform.position.x,
+                            cameraEyes.transform.position.y + HEIGHT_OFFSET,
+                            cameraEyes.transform.position.z
+                        );
                         leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
 
                         inputPortal.Calibrate();
