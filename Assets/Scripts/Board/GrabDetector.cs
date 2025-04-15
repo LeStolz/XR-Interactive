@@ -4,7 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class GrabDetector : MonoBehaviour
 {
-	[SerializeField] private float marginX = 0.2f;
+	[SerializeField] private float marginX = 0.5f;
 	[SerializeField] private float marginY = 0.6f;
 	public Camera mainCamera;
 	private Transform grabbedObject;
@@ -16,10 +16,6 @@ public class GrabDetector : MonoBehaviour
 		grabInteractable = GetComponent<XRGrabInteractable>();
 
 		if (grabInteractable != null && mainCamera != null)
-		{
-			grabInteractable.selectEntered.AddListener(OnGrabbed);
-			grabInteractable.selectExited.AddListener(OnReleased);
-		}
 		{
 			grabInteractable.selectEntered.AddListener(OnGrabbed);
 			grabInteractable.selectExited.AddListener(OnReleased);
