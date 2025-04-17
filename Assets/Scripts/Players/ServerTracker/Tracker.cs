@@ -18,12 +18,15 @@ namespace Main
 				return;
 			}
 
+			if (BoardGameManager.Instance.rayTeleportDepth <= 0)
+			{
+				HideAllFromDepth(hitMarkers.Length - 1);
+				return;
+			}
+
 			RayCastAndTeleport(
 				outputPortal,
-				new Ray(
-					arrow.transform.position,
-					arrow.transform.forward
-				),
+				new Ray(arrow.transform.position, arrow.transform.forward),
 				BoardGameManager.Instance.rayTeleportDepth - 1
 			);
 		}
@@ -51,17 +54,17 @@ namespace Main
 			}
 		}
 
+		void HideAllFromDepth(int depth)
+		{
+			while (depth >= 0)
+			{
+				hitMarkers[depth].Hide();
+				depth--;
+			}
+		}
+
 		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
 		{
-			void HideAllFromDepth(int depth)
-			{
-				while (depth >= 0)
-				{
-					hitMarkers[depth].Hide();
-					depth--;
-				}
-			}
-
 			if (depth < 0)
 			{
 				return;

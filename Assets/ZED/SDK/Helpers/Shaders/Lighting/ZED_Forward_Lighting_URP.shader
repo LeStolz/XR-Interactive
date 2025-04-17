@@ -104,7 +104,7 @@ Shader "ZED/ZED Forward Lighting URP"
 		void frag(Varyings input, out float4 outColor: SV_Target, out float outDepth : SV_Depth)
 		{
 
-			float zed_z = tex2D(_DepthXYZTex, input.uv.zw).x * 1.05;
+			float zed_z = tex2D(_DepthXYZTex, input.uv.zw).x * 1.02;
 			//Filter out depth values beyond the max value.
 			if (_MaxDepth < 20.0) //Avoid clipping out FAR values when not using feature.
 			{
