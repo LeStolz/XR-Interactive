@@ -27,8 +27,6 @@ namespace Main
         Vector2 borderXMinMax = new(-1.5f, 1.5f);
         [SerializeField]
         Vector2 borderZMinMax = new(-2.5f, 2.5f);
-        [SerializeField]
-        GameObject[] wallsClockwise;
 
         public bool isTesting = false;
         public int rayTeleportDepth = 0;
@@ -48,7 +46,8 @@ namespace Main
         GameObject sockets;
         BoardData boardData = default;
 
-        public void SetRayTeleportDepth(int depth)
+        [Rpc(SendTo.Everyone)]
+        public void SetRayTeleportDepthRpc(int depth)
         {
             rayTeleportDepth = depth;
         }
@@ -70,11 +69,6 @@ namespace Main
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             AnswerBoardOrigin.transform.eulerAngles = new Vector3(0, 0, 0);
-
-            wallsClockwise[0].transform.localPosition = new(borderXMinMax.x, 0, 0);
-            wallsClockwise[1].transform.localPosition = new(0, 0, borderZMinMax.y);
-            wallsClockwise[2].transform.localPosition = new(borderXMinMax.y, 0, 0);
-            wallsClockwise[3].transform.localPosition = new(0, 0, borderZMinMax.x);
         }
 
         void Update()
