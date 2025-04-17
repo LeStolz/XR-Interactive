@@ -6,8 +6,6 @@ namespace Main
 {
     class ZEDModelManager : NetworkPlayer
     {
-        const float HEIGHT_OFFSET = 0f;
-
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
@@ -138,7 +136,7 @@ namespace Main
 
                         cameraEyes.transform.position = new(
                             cameraEyes.transform.position.x,
-                            cameraEyes.transform.position.y + HEIGHT_OFFSET,
+                            cameraEyes.transform.position.y,
                             cameraEyes.transform.position.z
                         );
                         leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);

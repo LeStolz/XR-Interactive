@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SFB;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -196,8 +197,12 @@ namespace Main
 
             BoardData boardData = new(tileDatas);
             string json = JsonUtility.ToJson(boardData, true);
-            System.IO.File.WriteAllText(Application.persistentDataPath + "/board.json", json);
-            Debug.Log("Board saved to " + Application.persistentDataPath + "/board.json");
+
+            var path = StandaloneFileBrowser.SaveFilePanel("Save board", "", "", "json");
+            path = path.Length == 0 ? Application.persistentDataPath + "/board.json" : path;
+
+            System.IO.File.WriteAllText(path, json);
+            Debug.Log("Board saved to " + path);
         }
 
         void LoadBoardData()
@@ -207,7 +212,8 @@ namespace Main
                 return;
             }
 
-            string path = Application.persistentDataPath + "/board.json";
+            var paths = StandaloneFileBrowser.OpenFilePanel("Load board", "", "json", false);
+            string path = paths.Length == 0 ? Application.persistentDataPath + "/board.json" : paths[0];
 
             if (!System.IO.File.Exists(path))
             {
