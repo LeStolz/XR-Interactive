@@ -31,6 +31,10 @@ public class Portal : NetworkBehaviour
         {
             RequestUpdatePortalRpc();
         }
+        else
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 
     public void Calibrate()
