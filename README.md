@@ -81,12 +81,12 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 - Fishing rod pointing x 2.
 - Each block had different patterns of shapes, corners and colors on each face, but any two blocks could have up to three faces in common. Each block was unique and could only be used for one shape. Tham khảo ![mirrortablet](https://www.researchgate.net/profile/Zhu-Kening/publication/321786381_Mirrortablet_exploring_a_low-cost_mobile_system_for_capturing_unmediated_hand_gestures_in_remote_collaboration/links/5cf370074585153c3dab77f4/Mirrortablet-exploring-a-low-cost-mobile-system-for-capturing-unmediated-hand-gestures-in-remote-collaboration.pdf). 12 \* 3 boxes
+- sessions? (3 cube per col (4))
+- socket preview
 - Screen/Real + Duration + Time to complete task.
-- 4 cols surrounding the initial position, 3 cube per col (12 in total)
 - Direct indirect toggle
 - save load
 - Fix trackers.
 - intro, direct, indirect, cooler interactions for video.
-
 - VR, VR view for ZED.
 - 2 ZED.

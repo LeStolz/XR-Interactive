@@ -14,6 +14,8 @@ namespace Main
         [field: SerializeField]
         public GameObject[] TilePrefabs { get; private set; }
         [field: SerializeField]
+        public GameObject SocketsPrefab { get; private set; }
+        [field: SerializeField]
         public GameObject SocketPrefab { get; private set; }
         [SerializeField]
         GameObject confettiPrefab;
@@ -21,19 +23,14 @@ namespace Main
         public GameObject AnswerBoardOrigin { get; private set; }
 
         [SerializeField]
-        Vector2 borderXMinMax = new(-2.5f, 1.5f);
+        Vector2 borderXMinMax = new(-1.5f, 1.5f);
         [SerializeField]
         Vector2 borderZMinMax = new(-2.5f, 2.5f);
         [SerializeField]
         GameObject[] wallsClockwise;
 
-        [SerializeField]
-        int numRows = 4;
-        [SerializeField]
-        int numCols = 4;
-
-        [SerializeField]
-        bool isTesting = false;
+        public bool isTesting = false;
+        public int rayTeleportDepth = 0;
 
         public enum GameStatus
         {
@@ -47,8 +44,13 @@ namespace Main
         readonly List<GameObject> tiles = new();
         readonly List<GameObject> tilesInSockets = new();
         readonly List<GameObject> answerTiles = new();
-        readonly List<GameObject> sockets = new();
+        GameObject sockets;
         BoardData boardData = default;
+
+        public void SetRayTeleportDepth(int depth)
+        {
+            rayTeleportDepth = depth;
+        }
 
         void Awake()
         {
@@ -154,37 +156,26 @@ namespace Main
 
             if (NetworkGameManager.Instance.localRole == Role.HMD)
             {
-                foreach (GameObject socket in sockets)
-                {
-                    Destroy(socket);
-                }
+                Destroy(sockets);
             }
-
-            sockets.Clear();
         }
 
         [Rpc(SendTo.SpecifiedInParams)]
         void SpawnBoardRpc(RpcParams rpcParams = default)
         {
             Vector3 socketScale = TilePrefabs[0].transform.localScale;
+            GameObject socketContainer = Instantiate(SocketsPrefab, transform.position, Quaternion.identity);
 
-            for (int row = 0; row < numRows; row++)
+            foreach (Transform socket in socketContainer.transform)
             {
-                for (int col = 0; col < numCols; col++)
-                {
-                    float xSpacing = socketScale.x;
-                    float zSpacing = socketScale.z;
-
-                    Vector3 spawnPosition =
-                        transform.position
-                        + new Vector3(col * xSpacing, socketScale.y / 2f, row * zSpacing)
-                        - new Vector3((numCols / 2f - 0.5f) * xSpacing, 0, (numRows / 2f - 0.5f) * zSpacing)
-                    ;
-
-                    var socket = Instantiate(SocketPrefab, spawnPosition, Quaternion.identity);
-                    sockets.Add(socket);
-                }
+                socket.position += new Vector3(
+                    Mathf.Abs(socket.localPosition.x) > 0.01f ? -Mathf.Sign(socket.localPosition.x) * socketScale.x / 2f : 0,
+                    socketScale.y / 2f,
+                    Mathf.Abs(socket.localPosition.z) > 0.01f ? -Mathf.Sign(socket.localPosition.z) * socketScale.z / 2f : 0
+                );
             }
+
+            sockets = socketContainer;
         }
 
         void SaveBoardData()
@@ -288,16 +279,8 @@ namespace Main
                     borderXMinMax.y - tilePrefab.transform.localScale.x / 2f
                 );
 
-                var distanceFromCenter = UnityEngine.Random.Range(
-                    (numRows / 2f + 1f) * tilePrefab.transform.localScale.z,
-                    borderZMinMaxOffset.y
-                );
-                var angleFromCenter = UnityEngine.Random.Range(0f, 360f);
-
-                var x = distanceFromCenter * Mathf.Cos(angleFromCenter * Mathf.Deg2Rad);
-                x = Mathf.Clamp(x, borderXMinMaxOffset.x, borderXMinMaxOffset.y);
-                var z = distanceFromCenter * Mathf.Sin(angleFromCenter * Mathf.Deg2Rad);
-                z = Mathf.Clamp(z, borderZMinMaxOffset.x, borderZMinMaxOffset.y);
+                var x = UnityEngine.Random.Range(borderXMinMaxOffset.x, borderXMinMaxOffset.y);
+                var z = UnityEngine.Random.Range(borderZMinMaxOffset.x, borderZMinMaxOffset.y);
                 var y = tilePrefab.transform.localScale.y / 1.5f;
 
                 var pos = new Vector3(x, y, z) + transform.position;

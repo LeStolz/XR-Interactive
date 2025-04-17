@@ -24,7 +24,7 @@ namespace Main
 					arrow.transform.position,
 					arrow.transform.forward
 				),
-				hitMarkers.Length - 1
+				BoardGameManager.Instance.rayTeleportDepth - 1
 			);
 		}
 
