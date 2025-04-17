@@ -45,8 +45,8 @@ namespace Main
             calibrator.Calibrate(
                 new[] {
                     Trackers[calibratingTrackerId].transform.position,
-                    Trackers[calibratingTrackerId].transform.forward,
-                    Trackers[calibratingTrackerId].transform.up
+                    Trackers[calibratingTrackerId].transform.position + Trackers[calibratingTrackerId].transform.forward,
+                    Trackers[calibratingTrackerId].transform.position + Trackers[calibratingTrackerId].transform.up
                 },
                 (averages) =>
                 {
@@ -65,9 +65,6 @@ namespace Main
                     var trackerId = calibratingTrackerId;
                     var trackerParent = Trackers[trackerId].transform.parent;
                     var thisParent = transform.parent;
-
-                    Trackers[trackerId].transform.position = averages[0];
-                    Trackers[trackerId].transform.rotation.SetLookRotation(averages[1], averages[2]);
 
                     Trackers[trackerId].transform.SetParent(null);
                     transform.SetParent(Trackers[trackerId].transform);
@@ -98,6 +95,7 @@ namespace Main
                 return;
             }
 
+            calibratingTrackerId = trackerId;
             calibrator.StartCalibration();
         }
 

@@ -48,7 +48,8 @@ namespace Main
         GameObject sockets;
         BoardData boardData = default;
 
-        public void SetRayTeleportDepth(int depth)
+        [Rpc(SendTo.Everyone)]
+        public void SetRayTeleportDepthRpc(int depth)
         {
             rayTeleportDepth = depth;
         }
