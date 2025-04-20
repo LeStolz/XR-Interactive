@@ -34,7 +34,7 @@ namespace Main
 
 		//Mouse rotation related
 		private float rotX = 50; // around x
-		private float rotY = 50; // around y
+		private float rotY = 0; // around y
 		private void Awake()
 		{
 			if (mainCamera == null)
@@ -57,7 +57,7 @@ namespace Main
 			{
 				if (Input.GetMouseButton(0))
 				{
-					rotX += Input.GetAxis("Mouse Y") * mouseRotateSpeed; // around X
+					rotX += -Input.GetAxis("Mouse Y") * mouseRotateSpeed; // around X
 					rotY += Input.GetAxis("Mouse X") * mouseRotateSpeed;
 				}
 
