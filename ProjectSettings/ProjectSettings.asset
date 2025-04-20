@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: XR-Interactive-1704-03
+  productName: XR-Interactive-1704-04
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -143,9 +143,6 @@ PlayerSettings:
   bundleVersion: 1
   preloadedAssets:
   - {fileID: 0}
-  - {fileID: 7060572072856162523, guid: e4092494f37fcd74c9e900c0aa72f3ef, type: 2}
-  - {fileID: 4506254433043326122, guid: 95390e03a10f8774d98cb17f6e3a51dd, type: 2}
-  - {fileID: 11400000, guid: bf7e823c1be0db345b05de1c9c9beb5e, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -758,14 +755,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: XR-Interactive-1704-03
+  metroPackageName: XR-Interactive-1704-04
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany
   metroCertificateIssuer: DefaultCompany
   metroCertificateNotAfter: 803506b597a5dc01
-  metroApplicationDescription: XR-Interactive-1704-03
+  metroApplicationDescription: XR-Interactive-1704-04
   wsaImages: {}
   metroTileShortName: XR-Interactive
   metroTileShowName: 0
