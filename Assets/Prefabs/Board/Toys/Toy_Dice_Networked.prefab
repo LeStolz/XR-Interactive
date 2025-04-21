@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 339186683614566307}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.154, y: 0.0199, z: 0}
+  m_LocalPosition: {x: -0.154, y: 0.0199, z: -0.000000004295627}
   m_LocalScale: {x: 0.175, y: 0.175, z: 0.175}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -777,11 +777,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8985157021010729247}
     m_Modifications:
-    - target: {fileID: -7511558181221131132, guid: a00e853e544744a118b077febe5b6751,
-        type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: b290a1383d13b4d9ebfa8c324d0cc432, type: 2}
     - target: {fileID: -8679921383154817045, guid: ddc0be3a4bbff694991dfb9776da8e15,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -837,6 +832,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Toy_Dice
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a00e853e544744a118b077febe5b6751,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b290a1383d13b4d9ebfa8c324d0cc432, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
