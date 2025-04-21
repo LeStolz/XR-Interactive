@@ -151,9 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 3873587129131913605}
-  distance: 2
+  distance: 2.5
   mouseRotateSpeed: 5
-  touchRotateSpeed: 20
+  touchRotateSpeed: 15
   slerpValue: 0.5
   rotateMethod: 0
 --- !u!1 &7571252980315550928

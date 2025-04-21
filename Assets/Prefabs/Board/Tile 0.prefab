@@ -16,7 +16,9 @@ GameObject:
   - component: {fileID: -2140247399993890469}
   - component: {fileID: 3611104011749071017}
   - component: {fileID: -6859294775329615094}
+  - component: {fileID: -8239692772077039569}
   - component: {fileID: 2543290640734674980}
+  - component: {fileID: 6673766919591150665}
   m_Layer: 0
   m_Name: Tile 0
   m_TagString: Untagged
@@ -272,8 +274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
-  AuthorityMode: 0
+  NetworkTransformExpanded: 1
+  AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -282,9 +284,9 @@ MonoBehaviour:
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
@@ -347,6 +349,23 @@ MonoBehaviour:
   m_AllowCollisionOwnershipExchange: 0
   m_MinExchangeVelocityMagitude: 0.025
   spawnLocked: 1
+--- !u!114 &-8239692772077039569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863254829954826748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 1
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!114 &2543290640734674980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +379,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &6673766919591150665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863254829954826748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93ba8a7ab440a534d8913a810bdc28ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marginX: 0.5
+  marginY: 0.6
+  mainCamera: {fileID: 0}
 --- !u!1 &6748837260580536604
 GameObject:
   m_ObjectHideFlags: 0

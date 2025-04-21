@@ -18,13 +18,16 @@ namespace Main
 				return;
 			}
 
+			if (BoardGameManager.Instance.rayTeleportDepth <= 0)
+			{
+				HideAllFromDepth(hitMarkers.Length - 1);
+				return;
+			}
+
 			RayCastAndTeleport(
 				outputPortal,
-				new Ray(
-					arrow.transform.position,
-					arrow.transform.forward
-				),
-				hitMarkers.Length - 1
+				new Ray(arrow.transform.position, arrow.transform.forward),
+				BoardGameManager.Instance.rayTeleportDepth - 1
 			);
 		}
 
@@ -35,46 +38,39 @@ namespace Main
 				return;
 			}
 
-			int maxBounceTimes = hitMarkers.Count(hm => hm.IsShowing());
+			var numBounce = hitMarkers.Count(hm => hm.IsShowing()) - 1;
 
 			for (int i = 0; i < hitMarkers.Length; i++)
 			{
 				if (!hitMarkers[i].IsShowing())
 				{
-					hitMarkers[i].Show(
-							maxBounceTimes - i,
-							maxBounceTimes,
-							arrow.transform.position,
-							arrow.transform.forward,
-							arrow.transform.position + arrow.transform.forward * 10
-						);
+					hitMarkers[i].Hide();
 					continue;
 				}
 
 				hitMarkers[i].Show(
-					maxBounceTimes - i, maxBounceTimes,
-					arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
+					i, numBounce, arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
 				);
+			}
+		}
+
+		void HideAllFromDepth(int depth)
+		{
+			while (depth >= 0)
+			{
+				hitMarkers[depth].Hide();
+				depth--;
 			}
 		}
 
 		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
 		{
-			void HideAllFromDepth(int depth)
-			{
-				while (depth >= 0)
-				{
-					hitMarkers[depth].Hide();
-					depth--;
-				}
-			}
-
 			if (depth < 0)
 			{
 				return;
 			}
 
-			if (Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Default")))
+			if (Physics.Raycast(ray, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
 			{
 				hitMarkers[depth].transform.position = hit.point;
 				hitMarkers[depth].transform.forward = hit.normal;

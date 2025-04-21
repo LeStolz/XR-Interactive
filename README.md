@@ -11,7 +11,7 @@ The system requires:
   - **Trackers:** The other interfaces with the Vive headset, its trackers, and its base stations. As we do not render anything on the Vive headset, a display port to HDMI adapter is good enough to connect the headset to the laptop.
   - _Note:_ We cannot have 1 laptop to do both as the Vive headset and the projector are both treated as external monitors thus confusing the headset's drivers.
 - **Origin marker:** A 43.3cm x 43.3cm ARUCO marker placed on the floor used as the common origin between devices and for detecting the floor. Marker must be seen by ZED during calibration and can be scanned by headset users.
-- **Large display:** A large display large enough to fit 3 34cm x 34cm ARUCO markers at any of its 3 corners (preferrably with buffer space between the markers). All 3 markers (thus corners) must be seen by ZED during calibration.
+- **Large display:** A large display large enough to fit 3 33.6cm x 33.6cm ARUCO markers at any of its 3 corners (preferrably with buffer space between the markers). All 3 markers (thus corners) must be seen by ZED during calibration.
 - **Headset:** Any headset (preferrably the Hololens or the Quest 3) with camera feed access to scan the origin marker.
 
 ### Communication Protocol
@@ -79,11 +79,13 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Hybrid curve ray.
-- Move cube.
-- Fix trackers, display error.
-- 2 ZED.
-- VR, VR view for ZED.
-
+- Reduce ZED FOV
 - Fishing rod pointing.
+- Screen/Real + Duration + Time to complete task.
+- sessions based on mode? (3 cube per col (4))
 - intro, direct, indirect, cooler interactions for video.
+
+- Each block had different patterns of shapes, corners and colors on each face, but any two blocks could have up to three faces in common. Each block was unique and could only be used for one shape. Tham khảo ![mirrortablet](https://www.researchgate.net/profile/Zhu-Kening/publication/321786381_Mirrortablet_exploring_a_low-cost_mobile_system_for_capturing_unmediated_hand_gestures_in_remote_collaboration/links/5cf370074585153c3dab77f4/Mirrortablet-exploring-a-low-cost-mobile-system-for-capturing-unmediated-hand-gestures-in-remote-collaboration.pdf). 12 \* 3 boxes
+- VR, VR view for ZED.
+- 2 ZED.
+- Delete pointing

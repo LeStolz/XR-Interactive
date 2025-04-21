@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SFB;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ namespace Main
         [field: SerializeField]
         public GameObject[] TilePrefabs { get; private set; }
         [field: SerializeField]
+        public GameObject SocketsPrefab { get; private set; }
+        [field: SerializeField]
         public GameObject SocketPrefab { get; private set; }
         [SerializeField]
         GameObject confettiPrefab;
@@ -21,19 +24,12 @@ namespace Main
         public GameObject AnswerBoardOrigin { get; private set; }
 
         [SerializeField]
-        Vector2 borderXMinMax = new(-2.5f, 1.5f);
+        Vector2 borderXMinMax = new(-1.5f, 1.5f);
         [SerializeField]
         Vector2 borderZMinMax = new(-2.5f, 2.5f);
-        [SerializeField]
-        GameObject[] wallsClockwise;
 
-        [SerializeField]
-        int numRows = 4;
-        [SerializeField]
-        int numCols = 4;
-
-        [SerializeField]
-        bool isTesting = false;
+        public bool isTesting = false;
+        public int rayTeleportDepth = 0;
 
         public enum GameStatus
         {
@@ -47,8 +43,14 @@ namespace Main
         readonly List<GameObject> tiles = new();
         readonly List<GameObject> tilesInSockets = new();
         readonly List<GameObject> answerTiles = new();
-        readonly List<GameObject> sockets = new();
+        GameObject sockets;
         BoardData boardData = default;
+
+        [Rpc(SendTo.Everyone)]
+        public void SetRayTeleportDepthRpc(int depth)
+        {
+            rayTeleportDepth = depth;
+        }
 
         void Awake()
         {
@@ -67,11 +69,6 @@ namespace Main
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             AnswerBoardOrigin.transform.eulerAngles = new Vector3(0, 0, 0);
-
-            wallsClockwise[0].transform.localPosition = new(borderXMinMax.x, 0, 0);
-            wallsClockwise[1].transform.localPosition = new(0, 0, borderZMinMax.y);
-            wallsClockwise[2].transform.localPosition = new(borderXMinMax.y, 0, 0);
-            wallsClockwise[3].transform.localPosition = new(0, 0, borderZMinMax.x);
         }
 
         void Update()
@@ -84,10 +81,13 @@ namespace Main
             if (Input.GetKeyDown(KeyCode.S))
             {
                 SaveBoardData();
+                PlayerHudNotification.Instance.ShowText("Board saved");
             }
             else if (Input.GetKeyDown(KeyCode.T))
             {
                 isTesting = !isTesting;
+                Debug.Log(isTesting);
+                PlayerHudNotification.Instance.ShowText("Testing mode: " + (isTesting ? "ON" : "OFF"));
             }
         }
 
@@ -99,15 +99,18 @@ namespace Main
                 return;
             }
 
+            var hmdPlayer = NetworkGameManager.Instance.FindPlayerByRole<NetworkPlayer>(Role.HMD);
+            ulong hmdPlayerId = hmdPlayer == null ? 0 : hmdPlayer.OwnerClientId;
+
             if (gameStatus == GameStatus.Started)
             {
                 StopGameRpc();
             }
 
-            SpawnBoard();
+            SpawnBoardRpc(RpcTarget.Single(hmdPlayerId, RpcTargetUse.Temp));
             LoadBoardData();
             SpawnAnswerTiles();
-            SpawnTiles();
+            SpawnTiles(hmdPlayerId);
 
             StartGameClientRpc();
         }
@@ -127,18 +130,13 @@ namespace Main
                 tile.GetComponent<NetworkObject>().Despawn(true);
             }
 
-            foreach (GameObject socket in sockets)
-            {
-                socket.GetComponent<NetworkObject>().Despawn(true);
-            }
-
             foreach (GameObject answerTile in answerTiles)
             {
                 answerTile.GetComponent<NetworkObject>().Despawn(true);
             }
 
             tiles.Clear();
-            sockets.Clear();
+            tilesInSockets.Clear();
             answerTiles.Clear();
             boardData = default;
 
@@ -150,30 +148,29 @@ namespace Main
         {
             gameStatus = GameStatus.Stopped;
             OnGameStatusChanged?.Invoke(gameStatus);
+
+            if (NetworkGameManager.Instance.localRole == Role.HMD)
+            {
+                Destroy(sockets);
+            }
         }
 
-        void SpawnBoard()
+        [Rpc(SendTo.SpecifiedInParams)]
+        void SpawnBoardRpc(RpcParams rpcParams = default)
         {
             Vector3 socketScale = TilePrefabs[0].transform.localScale;
+            GameObject socketContainer = Instantiate(SocketsPrefab, transform.position, Quaternion.identity);
 
-            for (int row = 0; row < numRows; row++)
+            foreach (Transform socket in socketContainer.transform)
             {
-                for (int col = 0; col < numCols; col++)
-                {
-                    float xSpacing = socketScale.x;
-                    float zSpacing = socketScale.z;
-
-                    Vector3 spawnPosition =
-                        transform.position
-                        + new Vector3(col * xSpacing, socketScale.y / 2f, row * zSpacing)
-                        - new Vector3((numCols / 2f - 0.5f) * xSpacing, 0, (numRows / 2f - 0.5f) * zSpacing)
-                    ;
-
-                    var socketInstance = Instantiate(SocketPrefab, spawnPosition, Quaternion.identity);
-                    socketInstance.GetComponent<NetworkObject>().Spawn(true);
-                    sockets.Add(socketInstance);
-                }
+                socket.position += new Vector3(
+                    Mathf.Abs(socket.localPosition.x) > 0.01f ? -Mathf.Sign(socket.localPosition.x) * socketScale.x / 2f : 0,
+                    socketScale.y / 2f,
+                    Mathf.Abs(socket.localPosition.z) > 0.01f ? -Mathf.Sign(socket.localPosition.z) * socketScale.z / 2f : 0
+                );
             }
+
+            sockets = socketContainer;
         }
 
         void SaveBoardData()
@@ -194,8 +191,12 @@ namespace Main
 
             BoardData boardData = new(tileDatas);
             string json = JsonUtility.ToJson(boardData, true);
-            System.IO.File.WriteAllText(Application.persistentDataPath + "/board.json", json);
-            Debug.Log("Board saved to " + Application.persistentDataPath + "/board.json");
+
+            var path = StandaloneFileBrowser.SaveFilePanel("Save board", "", "", "json");
+            path = path.Length == 0 ? Application.persistentDataPath + "/board.json" : path;
+
+            System.IO.File.WriteAllText(path, json);
+            Debug.Log("Board saved to " + path);
         }
 
         void LoadBoardData()
@@ -205,7 +206,8 @@ namespace Main
                 return;
             }
 
-            string path = Application.persistentDataPath + "/board.json";
+            var paths = StandaloneFileBrowser.OpenFilePanel("Load board", "", "json", false);
+            string path = paths.Length == 0 ? Application.persistentDataPath + "/board.json" : paths[0];
 
             if (!System.IO.File.Exists(path))
             {
@@ -237,8 +239,10 @@ namespace Main
                         Quaternion.Euler(tileData.eulerAngles)
                     );
                     tile.GetComponent<NetworkObject>().Spawn(true);
-                    tile.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-                    tile.GetComponent<Tile>().SetTileIDRpc(tileData.prefabID.ToString());
+                    tile.GetComponent<Tile>().SetupRpc(
+                        AnswerBoardOrigin.transform.position + tileData.position,
+                        tileData.eulerAngles, tileData.prefabID.ToString(), true
+                    );
                     answerTiles.Add(tile);
                 }
             }
@@ -246,14 +250,14 @@ namespace Main
             answerTiles.Sort((a, b) => a.name.CompareTo(b.name));
         }
 
-        void SpawnTiles()
+        void SpawnTiles(ulong hmdPlayerId)
         {
             List<int> tileIDsToSpawn;
 
             if (isTesting)
             {
                 tileIDsToSpawn = new List<int>();
-                for (int i = 0; i < TilePrefabs.Length * 2; i++)
+                for (int i = 0; i < TilePrefabs.Length; i++)
                 {
                     tileIDsToSpawn.Add(i % TilePrefabs.Length);
                 }
@@ -275,16 +279,8 @@ namespace Main
                     borderXMinMax.y - tilePrefab.transform.localScale.x / 2f
                 );
 
-                var distanceFromCenter = UnityEngine.Random.Range(
-                    (numRows / 2f + 1f) * tilePrefab.transform.localScale.z,
-                    borderZMinMaxOffset.y
-                );
-                var angleFromCenter = UnityEngine.Random.Range(0f, 360f);
-
-                var x = distanceFromCenter * Mathf.Cos(angleFromCenter * Mathf.Deg2Rad);
-                x = Mathf.Clamp(x, borderXMinMaxOffset.x, borderXMinMaxOffset.y);
-                var z = distanceFromCenter * Mathf.Sin(angleFromCenter * Mathf.Deg2Rad);
-                z = Mathf.Clamp(z, borderZMinMaxOffset.x, borderZMinMaxOffset.y);
+                var x = UnityEngine.Random.Range(borderXMinMaxOffset.x, borderXMinMaxOffset.y);
+                var z = UnityEngine.Random.Range(borderZMinMaxOffset.x, borderZMinMaxOffset.y);
                 var y = tilePrefab.transform.localScale.y / 1.5f;
 
                 var pos = new Vector3(x, y, z) + transform.position;
@@ -295,27 +291,42 @@ namespace Main
                 );
 
                 GameObject tile = Instantiate(tilePrefab, pos, rot);
-                tile.GetComponent<NetworkObject>().Spawn(true);
-                tile.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-                tile.GetComponent<Tile>().SetTileIDRpc(tileID.ToString());
+                tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
+                tile.GetComponent<Tile>().SetupRpc(
+                    pos, rot.eulerAngles, tileID.ToString(), false
+                );
                 tiles.Add(tile);
             }
         }
 
-        public void AttachTileToSocket(GameObject tile)
+        [Rpc(SendTo.Server)]
+        public void AttachTileToSocketRpc(string tileName, Vector3 socketPos, Vector3 socketRot)
         {
-            if (tilesInSockets.Contains(tile))
+            var tile = tiles.Find(t => t.name == tileName);
+
+            if (tile == null)
             {
                 return;
             }
 
-            tilesInSockets.Add(tile);
+            if (!tilesInSockets.Contains(tile))
+            {
+                tilesInSockets.Add(tile);
+            }
 
-            StartCoroutine(CheckWinCondition(tile.transform.position - transform.position));
+            StartCoroutine(CheckWinCondition(tile, socketPos, socketRot));
         }
 
-        public void DetachTileFromSocket(GameObject tile)
+        [Rpc(SendTo.Server)]
+        public void DetachTileFromSocketRpc(string tileName)
         {
+            var tile = tiles.Find(t => t.name == tileName);
+
+            if (tile == null)
+            {
+                return;
+            }
+
             if (!tilesInSockets.Contains(tile))
             {
                 return;
@@ -324,16 +335,23 @@ namespace Main
             tilesInSockets.Remove(tile);
         }
 
-        IEnumerator CheckWinCondition(Vector3 lastAttachedPosition)
+        IEnumerator CheckWinCondition(GameObject tile, Vector3 socketPos, Vector3 socketRot)
         {
+            yield return new WaitUntil(
+                () =>
+                    Vector3.Distance(tile.transform.position, socketPos) < 0.05f &&
+                    Quaternion.Angle(tile.transform.rotation, Quaternion.Euler(socketRot)) < 5f,
+                new TimeSpan(0, 0, 10), () => Debug.Log("Timed out")
+            );
+
             if (!IsWon())
             {
                 yield break;
             }
 
-            WonRpc(lastAttachedPosition);
+            WonRpc(tile.transform.position - transform.position);
 
-            yield return new WaitForSeconds(2 * confettiPrefab.GetComponent<ParticleSystem>().main.duration);
+            yield return new WaitForSeconds(2 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
 
             StopGameRpc();
         }
@@ -356,7 +374,7 @@ namespace Main
                 Quaternion.identity
             );
 
-            yield return new WaitForSeconds(2 * confettiPrefab.GetComponent<ParticleSystem>().main.duration);
+            yield return new WaitForSeconds(2 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
 
             if (answerConfetti != null) Destroy(answerConfetti);
             Destroy(confetti);
@@ -373,7 +391,9 @@ namespace Main
 
         bool IsWon()
         {
-            if (tilesInSockets.Count != answerTiles.Count)
+            Debug.Log(tilesInSockets.Count + " == " + answerTiles.Count);
+
+            if (isTesting || tilesInSockets.Count != answerTiles.Count)
             {
                 return false;
             }
@@ -391,10 +411,6 @@ namespace Main
                 var tilePos = tilesInSockets[i].transform.position - transform.position;
                 var ansRot = answerTiles[i].transform.rotation;
                 var tileRot = tilesInSockets[i].transform.rotation;
-
-                Debug.Log(
-                    $"ansPos: {ansPos}, tilePos: {tilePos}, ansRot: {ansRot}, tileRot: {tileRot}"
-                );
 
                 if (Vector3.Distance(ansPos, tilePos) > 0.1f || Quaternion.Angle(ansRot, tileRot) > 10f)
                 {
