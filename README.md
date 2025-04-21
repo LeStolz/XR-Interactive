@@ -79,6 +79,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
+- Reduce ZED FOV
 - Fishing rod pointing.
 - Screen/Real + Duration + Time to complete task.
 - sessions based on mode? (3 cube per col (4))
