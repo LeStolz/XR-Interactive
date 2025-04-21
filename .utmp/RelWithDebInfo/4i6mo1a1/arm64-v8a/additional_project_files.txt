@@ -1,0 +1,17 @@
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\GAToUnityCallbacks.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\MacroEnd.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\MacroHeaderBegin.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\MacroSourceBegin.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAApplication.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAConfiguration.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGADebug.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAEvents.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAInput.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGASoftKeyboard.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGASoftKeyboardCallbacks.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGATypes.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UGAVersion.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGACallbacks.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAConfigurationCallbacks.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAKeyEventCallbacks.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAMotionEventCallbacks.h
