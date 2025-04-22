@@ -82,7 +82,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 - Sessions based on mode? (3 cube per col (4))
 - Video.
 
-- Each block had different patterns of shapes, corners and colors on each face, but any two blocks could have up to three faces in common. Each block was unique and could only be used for one shape. Tham khảo [mirrortablet](https://www.researchgate.net/profile/Zhu-Kening/publication/321786381_Mirrortablet_exploring_a_low-cost_mobile_system_for_capturing_unmediated_hand_gestures_in_remote_collaboration/links/5cf370074585153c3dab77f4/Mirrortablet-exploring-a-low-cost-mobile-system-for-capturing-unmediated-hand-gestures-in-remote-collaboration.pdf). 12 \* 3 boxes
+- Mỗi khối khác nhau. Mỗi mặt khác nhau, mỗi 2 khối có thể trùng 2 mặt: 12 \* 3 boxes
 - Fishing rod pointing.
 - VR, VR view for ZED.
 - 2 ZED.
