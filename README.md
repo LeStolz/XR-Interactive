@@ -66,8 +66,6 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ![Indirect pointing](https://github.com/LeStolz/XR-Interactive/blob/main/Docs/indirect.png)
 
-## Extension Interactions
-
 ## Measurements
 
 - Center of marker to side: 41.5cm.
@@ -80,12 +78,11 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 ## TODO
 
 - Reduce ZED FOV
-- Fishing rod pointing.
 - Screen/Real + Duration + Time to complete task.
-- sessions based on mode? (3 cube per col (4))
-- intro, direct, indirect, cooler interactions for video.
+- Sessions based on mode? (3 cube per col (4))
+- Video.
 
-- Each block had different patterns of shapes, corners and colors on each face, but any two blocks could have up to three faces in common. Each block was unique and could only be used for one shape. Tham khảo ![mirrortablet](https://www.researchgate.net/profile/Zhu-Kening/publication/321786381_Mirrortablet_exploring_a_low-cost_mobile_system_for_capturing_unmediated_hand_gestures_in_remote_collaboration/links/5cf370074585153c3dab77f4/Mirrortablet-exploring-a-low-cost-mobile-system-for-capturing-unmediated-hand-gestures-in-remote-collaboration.pdf). 12 \* 3 boxes
+- Each block had different patterns of shapes, corners and colors on each face, but any two blocks could have up to three faces in common. Each block was unique and could only be used for one shape. Tham khảo [mirrortablet](https://www.researchgate.net/profile/Zhu-Kening/publication/321786381_Mirrortablet_exploring_a_low-cost_mobile_system_for_capturing_unmediated_hand_gestures_in_remote_collaboration/links/5cf370074585153c3dab77f4/Mirrortablet-exploring-a-low-cost-mobile-system-for-capturing-unmediated-hand-gestures-in-remote-collaboration.pdf). 12 \* 3 boxes
+- Fishing rod pointing.
 - VR, VR view for ZED.
 - 2 ZED.
-- Delete pointing
