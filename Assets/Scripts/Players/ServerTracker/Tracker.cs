@@ -111,8 +111,11 @@ namespace Main
 
 			if (Physics.Raycast(ray, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
 			{
-				hitMarkers[depth].transform.position = hit.point;
-				hitMarkers[depth].transform.forward = hit.normal;
+				if (BoardGameManager.Instance.RayCastMode != RayCastMode.None)
+				{
+					hitMarkers[depth].transform.position = hit.point;
+					hitMarkers[depth].transform.forward = hit.normal;
+				}
 
 				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
