@@ -267,7 +267,7 @@ namespace Main
             }
 
             WonRpc(tile.transform.position - transform.position);
-            yield return new WaitForSeconds(2 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
+            yield return new WaitForSeconds(4 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
 
             StopGameRpc();
         }
@@ -290,7 +290,7 @@ namespace Main
                 Quaternion.identity
             );
 
-            yield return new WaitForSeconds(2 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
+            yield return new WaitForSeconds(4 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
 
             if (answerConfetti != null) Destroy(answerConfetti);
             Destroy(confetti);
