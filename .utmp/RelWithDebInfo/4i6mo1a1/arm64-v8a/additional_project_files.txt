@@ -15,3 +15,4 @@ D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\P
 D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAConfigurationCallbacks.h
 D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAKeyEventCallbacks.h
 D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\UnityToGAMotionEventCallbacks.h
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\UnitySwappyWrapper.h

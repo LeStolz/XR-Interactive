@@ -1,6 +1,7 @@
 {
   "buildFiles": [
     "D:\\UnityProjets\\Memoire_de_fin_detude\\Quest\\XR-Interactive\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\src\\main\\cpp\\CMakeLists.txt",
+    "D:\\UnityProjets\\Memoire_de_fin_detude\\Quest\\XR-Interactive\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\src\\main\\cpp\\FramePacing\\CMakeLists.txt",
     "D:\\UnityProjets\\Memoire_de_fin_detude\\Quest\\XR-Interactive\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\src\\main\\cpp\\GameActivity\\CMakeLists.txt"
   ],
   "cleanCommandsComponents": [
@@ -22,6 +23,12 @@
       "artifactName": "game",
       "abi": "arm64-v8a",
       "output": "D:\\UnityProjets\\Memoire_de_fin_detude\\Quest\\XR-Interactive\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\build\\intermediates\\cxx\\RelWithDebInfo\\4i6mo1a1\\obj\\arm64-v8a\\libgame.so",
+      "runtimeFiles": []
+    },
+    "swappywrapper::@7e25bd1f32ce224db4e9": {
+      "artifactName": "swappywrapper",
+      "abi": "arm64-v8a",
+      "output": "D:\\UnityProjets\\Memoire_de_fin_detude\\Quest\\XR-Interactive\\Library\\Bee\\Android\\Prj\\IL2CPP\\Gradle\\unityLibrary\\build\\intermediates\\cxx\\RelWithDebInfo\\4i6mo1a1\\obj\\arm64-v8a\\libswappywrapper.so",
       "runtimeFiles": []
     }
   }

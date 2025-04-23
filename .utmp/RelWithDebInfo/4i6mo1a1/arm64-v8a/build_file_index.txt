@@ -1,2 +1,3 @@
 D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt
 D:\UnityProjets\Memoire_de_fin_detude\Quest\XR-Interactive\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

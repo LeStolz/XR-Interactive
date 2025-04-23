@@ -223,8 +223,8 @@ CMAKE_SYSTEM_NAME:UNINITIALIZED=Android
 //No help, variable specified on the command line.
 CMAKE_SYSTEM_VERSION:UNINITIALIZED=31
 
-//No help, variable specified on the command line.
-CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=C:\Program Files\Unity\Hub\Editor\6000.0.32f1\Editor\Data\PlaybackEngines\AndroidPlayer\NDK\build\cmake\android.toolchain.cmake
+//The CMake toolchain file
+CMAKE_TOOLCHAIN_FILE:FILEPATH=C:/Program Files/Unity/Hub/Editor/6000.0.32f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/build/cmake/android.toolchain.cmake
 
 //If this value is on, makefiles will be generated without the
 // .SILENT directive, and all commands will be echoed to the console
@@ -255,6 +255,21 @@ game_LIB_DEPENDS:STATIC=general;android;general;game-activity::game-activity_sta
 
 //Value Computed by CMake
 game_SOURCE_DIR:STATIC=D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/GameActivity
+
+//The directory containing a CMake configuration file for games-frame-pacing.
+games-frame-pacing_DIR:PATH=D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/.utmp/RelWithDebInfo/4i6mo1a1/prefab/arm64-v8a/prefab/lib/aarch64-linux-android/cmake/games-frame-pacing
+
+//Value Computed by CMake
+swappywrapper_BINARY_DIR:STATIC=D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/.utmp/RelWithDebInfo/4i6mo1a1/arm64-v8a/FramePacing
+
+//Value Computed by CMake
+swappywrapper_IS_TOP_LEVEL:STATIC=OFF
+
+//Dependencies for the target
+swappywrapper_LIB_DEPENDS:STATIC=general;android;general;games-frame-pacing::swappy_static;general;log;
+
+//Value Computed by CMake
+swappywrapper_SOURCE_DIR:STATIC=D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/FramePacing
 
 
 ########################
@@ -351,7 +366,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

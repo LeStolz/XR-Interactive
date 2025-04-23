@@ -111,6 +111,7 @@ Shader "ZED/ZED Forward Lighting URP"
 				if (zed_z > _MaxDepth) discard;
 			}
 			//ZED Depth
+			outDepth = 0;
 			#ifdef NO_DEPTH
 			#if SHADER_API_D3D11
 						outDepth = 0;

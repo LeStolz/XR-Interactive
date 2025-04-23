@@ -1,4 +1,4 @@
-# Install script for directory: D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp
+# Install script for directory: D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/FramePacing
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -42,20 +42,3 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "C:/Program Files/Unity/Hub/Editor/6000.0.32f1/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-objdump.exe")
 endif()
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
-  include("D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/.utmp/RelWithDebInfo/4i6mo1a1/arm64-v8a/GameActivity/cmake_install.cmake")
-  include("D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/.utmp/RelWithDebInfo/4i6mo1a1/arm64-v8a/FramePacing/cmake_install.cmake")
-
-endif()
-
-if(CMAKE_INSTALL_COMPONENT)
-  set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
-else()
-  set(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
-endif()
-
-string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
-       "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/UnityProjets/Memoire_de_fin_detude/Quest/XR-Interactive/.utmp/RelWithDebInfo/4i6mo1a1/arm64-v8a/${CMAKE_INSTALL_MANIFEST}"
-     "${CMAKE_INSTALL_MANIFEST_CONTENT}")

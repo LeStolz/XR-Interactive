@@ -52,7 +52,7 @@ MonoBehaviour:
   OpenCVMarkerTrackingModule: {fileID: 4153050396980058549}
   OpenCVMarker: {fileID: 9174508323751132056}
   MarkerSettings: {fileID: 4995445794074828298}
-  headset: 0
+  headset: 1
 --- !u!1 &871659608909789196
 GameObject:
   m_ObjectHideFlags: 0
