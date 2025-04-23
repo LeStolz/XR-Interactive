@@ -101,7 +101,7 @@ namespace Main
                 StopGameRpc();
             }
 
-            SpawnBoardRpc(RpcTarget.Single(hmdPlayerId, RpcTargetUse.Temp));
+            SpawnBoardRpc();
             SpawnAnswerTiles();
             SpawnTiles(hmdPlayerId);
 
@@ -147,9 +147,14 @@ namespace Main
             }
         }
 
-        [Rpc(SendTo.SpecifiedInParams)]
-        void SpawnBoardRpc(RpcParams rpcParams = default)
+        [Rpc(SendTo.Everyone)]
+        void SpawnBoardRpc()
         {
+            if (NetworkGameManager.Instance.localRole != Role.HMD)
+            {
+                return;
+            }
+
             sockets = Instantiate(socketsPrefab, transform.position, Quaternion.identity);
         }
 
