@@ -117,7 +117,7 @@ namespace Main
 					hitMarkers[depth].transform.forward = hit.normal;
 				}
 
-				if (!hit.transform.gameObject.CompareTag("InputPortal"))
+				if (depth > 0 && !hit.transform.gameObject.CompareTag("InputPortal"))
 				{
 					if (BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
 					{
