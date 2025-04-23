@@ -36,12 +36,6 @@ namespace Main
 				return;
 			}
 
-			if (BoardGameManager.Instance.RayCastMode == RayCastMode.None)
-			{
-				HideAllFromDepth(hitMarkers.Length - 1);
-				return;
-			}
-
 			RayCastAndTeleport(
 				outputPortal,
 				new Ray(arrow.transform.position, arrow.transform.forward),
@@ -91,7 +85,12 @@ namespace Main
 				numBounce == -1 ? RaySpace.None :
 				numBounce == 0 ? RaySpace.PhysicalSpace :
 				RaySpace.ScreenSpace;
-			OnRaySpaceChanged?.Invoke(raySpace);
+
+			if (currentRaySpace != raySpace)
+			{
+				currentRaySpace = raySpace;
+				OnRaySpaceChanged?.Invoke(raySpace);
+			}
 		}
 
 		void HideAllFromDepth(int depth)

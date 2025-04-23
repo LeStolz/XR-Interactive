@@ -40,12 +40,20 @@ namespace Main
         readonly List<GameObject> answerTiles = new();
         GameObject sockets;
 
+        public int CurrentBoardID { get; private set; } = 0;
+
         public Tracker.RayCastMode RayCastMode { get; private set; } = Tracker.RayCastMode.None;
 
         [Rpc(SendTo.Everyone)]
         public void SetRayTeleportDepthRpc(int rayCastModeID)
         {
             RayCastMode = (Tracker.RayCastMode)rayCastModeID;
+        }
+
+        public void SetBoardLayoutID(int id)
+        {
+            CurrentBoardID = id;
+            PlayerHudNotification.Instance.ShowText("Current board ID: " + id);
         }
 
         void Awake()
@@ -73,13 +81,6 @@ namespace Main
             {
                 return;
             }
-
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                SkipBoard();
-            }
-#endif
         }
 
         [Rpc(SendTo.Server)]
@@ -150,20 +151,9 @@ namespace Main
             sockets = Instantiate(SocketsPrefab, transform.position, Quaternion.identity);
         }
 
-        void SkipBoard()
-        {
-            var nextBoardID = (PlayerPrefs.GetInt("CurrentBoardID", 0) + 1) % TilesPrefabs.Length;
-            PlayerPrefs.SetInt("CurrentBoardID", nextBoardID);
-            PlayerPrefs.Save();
-
-            PlayerHudNotification.Instance.ShowText("Current board ID: " + nextBoardID);
-            Debug.Log("Current board ID: " + nextBoardID);
-        }
-
         void SpawnAnswerTiles()
         {
-            var currentBoardID = PlayerPrefs.GetInt("CurrentBoardID", 0);
-            var tilesPrefab = TilesPrefabs[currentBoardID];
+            var tilesPrefab = TilesPrefabs[CurrentBoardID];
 
             foreach (Transform tilePrefabTransform in tilesPrefab.transform)
             {
@@ -186,8 +176,7 @@ namespace Main
 
         void SpawnTiles(ulong hmdPlayerId)
         {
-            var currentBoardID = PlayerPrefs.GetInt("CurrentBoardID", 0);
-            var tilesPrefab = TilesPrefabs[currentBoardID];
+            var tilesPrefab = TilesPrefabs[CurrentBoardID];
 
             foreach (Transform tilePrefab in tilesPrefab.transform)
             {
@@ -272,7 +261,6 @@ namespace Main
 
             WonRpc(tile.transform.position - transform.position);
             yield return new WaitForSeconds(2 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
-            SkipBoard();
 
             StopGameRpc();
         }

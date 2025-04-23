@@ -1,11 +1,17 @@
 using System;
 using System.Collections.Generic;
+using SFB;
 using Unity.Netcode;
 using UnityEngine;
 using static Main.BoardGameManager;
 
 namespace Main
 {
+	struct UserStudyData
+	{
+		public List<RaySpaceDataPoint> raySpaceDataPoints;
+	}
+
 	struct RaySpaceDataPoint
 	{
 		public long endTimeStamp;
@@ -22,7 +28,10 @@ namespace Main
 	{
 		public static StudyDataManager Instance { get; private set; }
 		long timeSinceStart = 0;
-		List<RaySpaceDataPoint> raySpaceDataPoints = new();
+		UserStudyData userStudyData = new UserStudyData
+		{
+			raySpaceDataPoints = new List<RaySpaceDataPoint>()
+		};
 		bool gameIsOngoing = false;
 		string currentCondition;
 
@@ -81,7 +90,7 @@ namespace Main
 		{
 			if (!gameIsOngoing) return;
 
-			raySpaceDataPoints.Add(new(
+			userStudyData.raySpaceDataPoints.Add(new(
 				endTimeStamp: timeSinceStart,
 				raySpace: raySpace
 			));
@@ -100,8 +109,24 @@ namespace Main
 				}
 			}
 
-			Debug.Log(currentCondition);
-			Debug.Log(timeSinceStart);
+			var tabletUserID = NetworkGameManager.Instance.FindPlayerByRole<TabletManager>(Role.Tablet).PlayerName;
+			var hmdUserID = NetworkGameManager.Instance.FindPlayerByRole<NetworkPlayer>(Role.HMD).PlayerName;
+			var layoutID = BoardGameManager.Instance.CurrentBoardID;
+			var fileName = $"HMD{hmdUserID}_Tablet{tabletUserID}_Layout{layoutID}_{currentCondition}";
+
+			var filePath = StandaloneFileBrowser.SaveFilePanel(
+				"Save User Study Data",
+				null,
+				fileName,
+				"json"
+			);
+			var json = JsonUtility.ToJson(userStudyData, true);
+			System.IO.File.WriteAllText(filePath, json);
+
+			userStudyData = new UserStudyData
+			{
+				raySpaceDataPoints = new List<RaySpaceDataPoint>()
+			};
 		}
 
 		void HandleGameStatusChanged(GameStatus gameStatus)

@@ -55,6 +55,12 @@ namespace Main
 
 		public void Show(int bounceTimes, int numBounce, Vector3 start, Vector3 forward, Vector3 end)
 		{
+			if (BoardGameManager.Instance.RayCastMode == Tracker.RayCastMode.None)
+			{
+				Hide();
+				return;
+			}
+
 			curveIterations = bounceTimes > 0 ? 1 : MAX_CURVE_ITERATIONS;
 			lineRenderer.positionCount = curveIterations + 1;
 
