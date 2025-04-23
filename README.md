@@ -78,7 +78,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- ID + Role + condition + layout, Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3.
+- ID, Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3.
 - Video.
 
 - Fishing rod pointing.

@@ -109,10 +109,13 @@ namespace Main
 				}
 			}
 
-			var tabletUserID = NetworkGameManager.Instance.FindPlayerByRole<TabletManager>(Role.Tablet).PlayerName;
-			var hmdUserID = NetworkGameManager.Instance.FindPlayerByRole<NetworkPlayer>(Role.HMD).PlayerName;
+			var tablet = NetworkGameManager.Instance.FindPlayerByRole<TabletManager>(Role.Tablet);
+			var tabletID = tablet == null ? "NULL" : tablet.PlayerName;
+			var HMD = NetworkGameManager.Instance.FindPlayerByRole<XRINetworkAvatar>(Role.HMD);
+			var HMDID = HMD == null ? "NULL" : HMD.PlayerName;
+
 			var layoutID = BoardGameManager.Instance.CurrentBoardID;
-			var fileName = $"HMD{hmdUserID}_Tablet{tabletUserID}_Layout{layoutID}_{currentCondition}";
+			var fileName = $"HMD{HMDID}_Tablet{tabletID}_Layout{layoutID}_{currentCondition}";
 
 			var filePath = StandaloneFileBrowser.SaveFilePanel(
 				"Save User Study Data",
@@ -136,7 +139,7 @@ namespace Main
 				case GameStatus.Started:
 					GameStarted();
 					break;
-				case GameStatus.Won:
+				case GameStatus.Stopped:
 					GameEnded();
 					break;
 				default:

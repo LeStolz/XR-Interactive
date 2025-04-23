@@ -47,7 +47,7 @@ namespace Main
         public Tracker.RayCastMode RayCastMode { get; private set; } = Tracker.RayCastMode.None;
 
         [Rpc(SendTo.Everyone)]
-        public void SetRayTeleportDepthRpc(int rayCastModeID)
+        public void SetRayCastModeRpc(int rayCastModeID)
         {
             RayCastMode = (Tracker.RayCastMode)rayCastModeID;
         }
@@ -75,14 +75,6 @@ namespace Main
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             AnswerBoardOrigin.transform.eulerAngles = new Vector3(0, 0, 0);
-        }
-
-        void Update()
-        {
-            if (NetworkGameManager.Instance.localRole != Role.ServerTracker)
-            {
-                return;
-            }
         }
 
         [Rpc(SendTo.Server)]
