@@ -604,9 +604,85 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
         type: 3}
+      propertyPath: socketsPrefab
+      value: 
+      objectReference: {fileID: 8443034360012462071, guid: c86d27eeb2663214f8a1c8d29a0264f5,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: tilePrefabs.Array.size
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
       propertyPath: TilesPrefabs.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: tilesPrefabs.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 863254829954826748, guid: d54f8dfd3b699bf4b9a873224a5028af,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 977019e0997a7934d9fc3154f0d6c24b,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: dfcc0ad1c875b564eb9f33d00282bd19,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 2fe17107cf4ee7f4faeee0f1b5dddeda,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[4]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 8e1e3178acdf97247a5d6b9f41f6e0af,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[5]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: e6bf9aaacb92ba440913ea6efba2d845,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[6]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 9b3ce76aebe6dbf4ca4f3dd3fcff147d,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[7]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 4c82ae036c27db84ea2063913e60350e,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[8]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 0392b1a171f414d4ba3aa59983344ab5,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[9]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 8e653f21514ae1b4e873cebbeaf2488e,
+        type: 3}
     - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
         type: 3}
       propertyPath: 'TilesPrefabs.Array.data[0]'
@@ -618,6 +694,126 @@ PrefabInstance:
       propertyPath: 'TilesPrefabs.Array.data[1]'
       value: 
       objectReference: {fileID: 8443034360012462071, guid: 605d83d0c2bba904298850127f87bc57,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[10]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 31adbc14173d76344a3c3356ba9d15f7,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[11]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 37fe7f61e35b0af439cfdb3166f47004,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[12]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 80e897d2893026147afac18b02740d2e,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[13]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 3924e4d1e3d7b504493b8d7795c2c2f1,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[14]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 8bca4ca9272ff1b41a5208b9f44ca807,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[15]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: b631feb9787d5214d9fb6a0a032e12f1,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[16]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: d3a0e21b980e89046866e3c54b550b94,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[17]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 4edba593fa4b4464d8df90c64a4fa67f,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[18]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: dd3e31e83c3837e4fa657f9d4f96ff4d,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[19]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 5ff0a5974d2cc024695f4487e90b89da,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[20]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 404e01c0afc06c041a3114fd5814af3f,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[21]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 1ac03f9647744c4499c0c36165b88245,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[22]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 6753fa4590f7baf4c90974c4b2f0d4ff,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilePrefabs.Array.data[23]'
+      value: 
+      objectReference: {fileID: 3962986030279312887, guid: 0141a7b5a6153054ebf523b008229c11,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilesPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8443034360012462071, guid: f1b46ad738c685349bcd5279a31307fa,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilesPrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8443034360012462071, guid: 91ae6b1b9f5fcdd42a86afd39c320fd7,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilesPrefabs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8443034360012462071, guid: 0561140d91c52e24d9b853375d0d1c34,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilesPrefabs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8443034360012462071, guid: f23e5cd960bf050438caa5616030ade0,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilesPrefabs.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8443034360012462071, guid: 93ca3f6127619774fb836a704de4b3a2,
+        type: 3}
+    - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
+        type: 3}
+      propertyPath: 'tilesPrefabs.Array.data[5]'
+      value: 
+      objectReference: {fileID: 8443034360012462071, guid: 6c66fdd7ed058b14cb340b40746891a0,
         type: 3}
     - target: {fileID: 7163603763126958231, guid: 610310af7958b064489d29cf51559332,
         type: 3}
@@ -1299,7 +1495,7 @@ PrefabInstance:
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}
       propertyPath: localRole
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1149903581173863409, guid: 0267a1d338db2bf4c9625e450bbaaad0,
         type: 3}

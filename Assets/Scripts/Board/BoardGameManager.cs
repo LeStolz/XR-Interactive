@@ -10,10 +10,12 @@ namespace Main
     {
         public static BoardGameManager Instance { get; private set; }
 
-        [field: SerializeField]
-        public GameObject[] TilesPrefabs { get; private set; }
-        [field: SerializeField]
-        public GameObject SocketsPrefab { get; private set; }
+        [SerializeField]
+        GameObject[] tilePrefabs;
+        [SerializeField]
+        GameObject[] tilesPrefabs;
+        [SerializeField]
+        GameObject socketsPrefab;
         [field: SerializeField]
         public GameObject SocketPrefab { get; private set; }
         [SerializeField]
@@ -148,25 +150,27 @@ namespace Main
         [Rpc(SendTo.SpecifiedInParams)]
         void SpawnBoardRpc(RpcParams rpcParams = default)
         {
-            sockets = Instantiate(SocketsPrefab, transform.position, Quaternion.identity);
+            sockets = Instantiate(socketsPrefab, transform.position, Quaternion.identity);
         }
 
         void SpawnAnswerTiles()
         {
-            var tilesPrefab = TilesPrefabs[CurrentBoardID];
+            var tilesPrefab = tilesPrefabs[CurrentBoardID];
 
             foreach (Transform tilePrefabTransform in tilesPrefab.transform)
             {
-                var tilePrefab = tilePrefabTransform.gameObject;
+                var tilePrefab = tilePrefabs[
+                    int.Parse(tilePrefabTransform.gameObject.name)
+                ];
                 GameObject tile = Instantiate(
                     tilePrefab,
-                    AnswerBoardOrigin.transform.position + tilePrefab.transform.position,
-                    Quaternion.Euler(tilePrefab.transform.eulerAngles)
+                    AnswerBoardOrigin.transform.position + tilePrefabTransform.position,
+                    Quaternion.Euler(tilePrefabTransform.eulerAngles)
                 );
                 tile.GetComponent<NetworkObject>().Spawn(true);
                 tile.GetComponent<Tile>().SetupRpc(
-                    AnswerBoardOrigin.transform.position + tilePrefab.transform.position,
-                    tilePrefab.transform.eulerAngles, tilePrefab.name.ToString(), true
+                    AnswerBoardOrigin.transform.position + tilePrefabTransform.position,
+                    tilePrefabTransform.eulerAngles, tilePrefab.name, true
                 );
                 answerTiles.Add(tile);
             }
@@ -176,22 +180,22 @@ namespace Main
 
         void SpawnTiles(ulong hmdPlayerId)
         {
-            var tilesPrefab = TilesPrefabs[CurrentBoardID];
+            var tilesPrefab = tilesPrefabs[CurrentBoardID];
 
-            foreach (Transform tilePrefab in tilesPrefab.transform)
+            foreach (Transform tilePrefabTransform in tilesPrefab.transform)
             {
                 var borderZMinMaxOffset = new Vector2(
-                    borderZMinMax.x + tilePrefab.transform.localScale.z / 2f,
-                    borderZMinMax.y - tilePrefab.transform.localScale.z / 2f
+                    borderZMinMax.x + tilePrefabTransform.localScale.z / 2f,
+                    borderZMinMax.y - tilePrefabTransform.localScale.z / 2f
                 );
                 var borderXMinMaxOffset = new Vector2(
-                    borderXMinMax.x + tilePrefab.transform.localScale.x / 2f,
-                    borderXMinMax.y - tilePrefab.transform.localScale.x / 2f
+                    borderXMinMax.x + tilePrefabTransform.localScale.x / 2f,
+                    borderXMinMax.y - tilePrefabTransform.localScale.x / 2f
                 );
 
                 var x = UnityEngine.Random.Range(borderXMinMaxOffset.x, borderXMinMaxOffset.y);
                 var z = UnityEngine.Random.Range(borderZMinMaxOffset.x, borderZMinMaxOffset.y);
-                var y = tilePrefab.transform.localScale.y / 1.5f;
+                var y = tilePrefabTransform.localScale.y / 1.5f;
 
                 var pos = new Vector3(x, y, z) + transform.position;
                 var rot = Quaternion.Euler(
@@ -200,10 +204,13 @@ namespace Main
                     UnityEngine.Random.Range(0, 360)
                 );
 
-                GameObject tile = Instantiate(tilePrefab.gameObject, pos, rot);
+                var tilePrefab = tilePrefabs[
+                    int.Parse(tilePrefabTransform.gameObject.name)
+                ];
+                GameObject tile = Instantiate(tilePrefab, pos, rot);
                 tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
                 tile.GetComponent<Tile>().SetupRpc(
-                    pos, rot.eulerAngles, tilePrefab.ToString(), false
+                    pos, rot.eulerAngles, tilePrefab.name, false
                 );
                 tiles.Add(tile);
             }
