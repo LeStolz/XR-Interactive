@@ -78,9 +78,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Indirect only.
 - ID + Role + condition + layout, Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3.
-- Reduce ZED FOV
 - Video.
 
 - Fishing rod pointing.

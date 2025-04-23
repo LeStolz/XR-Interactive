@@ -93,9 +93,6 @@ namespace Main
                 return;
             }
 
-            var hmdPlayer = NetworkGameManager.Instance.FindPlayerByRole<NetworkPlayer>(Role.HMD);
-            ulong hmdPlayerId = hmdPlayer == null ? 0 : hmdPlayer.OwnerClientId;
-
             if (gameStatus == GameStatus.Started)
             {
                 StopGameRpc();
@@ -103,7 +100,7 @@ namespace Main
 
             SpawnBoardRpc();
             SpawnAnswerTiles();
-            SpawnTiles(hmdPlayerId);
+            SpawnTiles();
 
             StartGameClientRpc();
         }
@@ -183,8 +180,11 @@ namespace Main
             answerTiles.Sort((a, b) => a.name.CompareTo(b.name));
         }
 
-        void SpawnTiles(ulong hmdPlayerId)
+        void SpawnTiles()
         {
+            var hmdPlayer = NetworkGameManager.Instance.FindPlayerByRole<XRINetworkAvatar>(Role.HMD);
+            ulong hmdPlayerId = hmdPlayer == null ? 0 : hmdPlayer.OwnerClientId;
+
             var tilesPrefab = tilesPrefabs[CurrentBoardID];
 
             foreach (Transform tilePrefabTransform in tilesPrefab.transform)
