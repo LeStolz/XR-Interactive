@@ -70,7 +70,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 - Center of marker to side: 41.5cm.
 - Side length of tile: 45.5cm.
-- Cubes: 3 \* 12 distinct cubes with distinct faces in each cube. Any cube can share at most 2 faces with another.
+- Cubes: 6 / 2 \* 8 distinct cubes with distinct faces in each cube. Any cube can share at most 2 faces with another.
 
 ## Setup
 
@@ -78,10 +78,11 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Video.
+- Indirect only.
+- ID + Role + condition + layout, Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for all stuff.
 - Reduce ZED FOV
-- Screen/Real + Duration + Time to complete task.
-- 12 boxes
+- boxes
+- Video.
 
 - Fishing rod pointing.
 - VR, VR view for ZED.

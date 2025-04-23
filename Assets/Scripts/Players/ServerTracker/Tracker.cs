@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -11,6 +12,23 @@ namespace Main
 		[SerializeField]
 		int id;
 
+		public enum RayCastMode
+		{
+			None,
+			Indirect,
+			Hybrid
+		}
+
+		public enum RaySpace
+		{
+			None,
+			PhysicalSpace,
+			ScreenSpace,
+		}
+
+		RaySpace currentRaySpace = RaySpace.None;
+		public Action<RaySpace> OnRaySpaceChanged;
+
 		public void StartRayCastAndTeleport(Camera outputPortal)
 		{
 			if (!UpdateHitmarkers())
@@ -18,7 +36,7 @@ namespace Main
 				return;
 			}
 
-			if (BoardGameManager.Instance.rayTeleportDepth <= 0)
+			if (BoardGameManager.Instance.RayCastMode == RayCastMode.None)
 			{
 				HideAllFromDepth(hitMarkers.Length - 1);
 				return;
@@ -27,8 +45,24 @@ namespace Main
 			RayCastAndTeleport(
 				outputPortal,
 				new Ray(arrow.transform.position, arrow.transform.forward),
-				BoardGameManager.Instance.rayTeleportDepth - 1
+				hitMarkers.Length - 1
 			);
+		}
+
+		void Start()
+		{
+			BoardGameManager.Instance.OnGameStatusChanged += OnGameStatusChanged;
+		}
+
+		void OnDestroy()
+		{
+			BoardGameManager.Instance.OnGameStatusChanged -= OnGameStatusChanged;
+		}
+
+		void OnGameStatusChanged(BoardGameManager.GameStatus gameStatus)
+		{
+			currentRaySpace = RaySpace.None;
+			OnRaySpaceChanged?.Invoke(currentRaySpace);
 		}
 
 		void Update()
@@ -52,6 +86,12 @@ namespace Main
 					i, numBounce, arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
 				);
 			}
+
+			var raySpace =
+				numBounce == -1 ? RaySpace.None :
+				numBounce == 0 ? RaySpace.PhysicalSpace :
+				RaySpace.ScreenSpace;
+			OnRaySpaceChanged?.Invoke(raySpace);
 		}
 
 		void HideAllFromDepth(int depth)
@@ -77,7 +117,14 @@ namespace Main
 
 				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
-					HideAllFromDepth(depth - 1);
+					if (BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
+					{
+						HideAllFromDepth(depth);
+					}
+					else
+					{
+						HideAllFromDepth(depth - 1);
+					}
 					return;
 				}
 

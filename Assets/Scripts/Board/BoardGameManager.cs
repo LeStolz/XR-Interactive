@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using SFB;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -28,8 +26,6 @@ namespace Main
         [SerializeField]
         Vector2 borderZMinMax = new(-2.5f, 2.5f);
 
-        public int rayTeleportDepth = 0;
-
         public enum GameStatus
         {
             Started,
@@ -44,10 +40,12 @@ namespace Main
         readonly List<GameObject> answerTiles = new();
         GameObject sockets;
 
+        public Tracker.RayCastMode RayCastMode { get; private set; } = Tracker.RayCastMode.None;
+
         [Rpc(SendTo.Everyone)]
-        public void SetRayTeleportDepthRpc(int depth)
+        public void SetRayTeleportDepthRpc(int rayCastModeID)
         {
-            rayTeleportDepth = depth;
+            RayCastMode = (Tracker.RayCastMode)rayCastModeID;
         }
 
         void Awake()
