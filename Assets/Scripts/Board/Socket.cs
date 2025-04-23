@@ -12,7 +12,6 @@ namespace Main
         protected override void Awake()
         {
             base.Awake();
-            transform.localScale = BoardGameManager.Instance.TilePrefabs[0].transform.localScale;
         }
 
         protected override void OnDestroy()
