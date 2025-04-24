@@ -1,5 +1,9 @@
 # XR Public Spectator Interactive
 
+## Introduction/Demo
+
+![Demo](https://www.youtube.com/watch?v=Wa2bSeFzSeg&list=PLG6UT0XWAmnTg6YH4z-yfRCFUisKAga5l)
+
 ## Architecture
 
 ### Components
@@ -78,8 +82,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- ID, Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3.
-- Video.
+- ID, Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3. Server only.
 
 - Fishing rod pointing.
 - VR, VR view for ZED.
