@@ -139,7 +139,7 @@ namespace Main
 				if (hit.transform.gameObject.CompareTag("Ceiling"))
 				{
 					RayCastAndTeleport(
-						new(hit.point, hit.normal),
+						new(hit.point, -hit.normal),
 						depth - 1
 					);
 
