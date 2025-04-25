@@ -16,12 +16,12 @@ namespace Main
 	struct RaySpaceDataPoint
 	{
 		public long endTimeStamp;
-		public Tracker.RaySpace raySpace;
+		public string raySpace;
 
 		public RaySpaceDataPoint(long endTimeStamp, Tracker.RaySpace raySpace)
 		{
 			this.endTimeStamp = endTimeStamp;
-			this.raySpace = raySpace;
+			this.raySpace = raySpace.ToString();
 		}
 	}
 
@@ -89,16 +89,18 @@ namespace Main
 			}
 		}
 
+		Tracker.RaySpace currentRaySpace = Tracker.RaySpace.None;
 		void HandleRaySpaceChanged(Tracker.RaySpace raySpace)
 		{
 			if (!gameIsOngoing) return;
 
-			Debug.Log("Ray space changed: " + raySpace.ToString());
+			Debug.Log($"{currentRaySpace}:{timeSinceStart}");
 
 			userStudyData.raySpaceDataPoints.Add(new(
 				endTimeStamp: timeSinceStart,
-				raySpace: raySpace
+				raySpace: currentRaySpace
 			));
+			currentRaySpace = raySpace;
 		}
 
 		void GameEnded()
@@ -115,6 +117,7 @@ namespace Main
 					tracker.OnRaySpaceChanged -= HandleRaySpaceChanged;
 				}
 			}
+			HandleRaySpaceChanged(Tracker.RaySpace.None);
 
 			var tablet = NetworkGameManager.Instance.FindPlayerByRole<TabletManager>(Role.Tablet);
 			var tabletID = tablet == null ? "NULL" : tablet.PlayerName;
@@ -137,6 +140,7 @@ namespace Main
 			{
 				raySpaceDataPoints = new List<RaySpaceDataPoint>()
 			};
+			currentRaySpace = Tracker.RaySpace.None;
 		}
 
 		void HandleGameStatusChanged(BoardGameManager.GameStatus gameStatus)

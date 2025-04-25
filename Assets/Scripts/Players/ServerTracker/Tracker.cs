@@ -23,10 +23,13 @@ namespace Main
 		{
 			None,
 			PhysicalSpace,
+			ObjectInPhysicalSpace,
 			ScreenSpace,
+			ObjectInScreenSpace
 		}
 
 		RaySpace currentRaySpace = RaySpace.None;
+		GameObject rayHit = null;
 		public Action<RaySpace> OnRaySpaceChanged;
 
 		public void StartRayCastAndTeleport(Camera outputPortal)
@@ -35,6 +38,8 @@ namespace Main
 			{
 				return;
 			}
+
+			rayHit = null;
 
 			RayCastAndTeleport(
 				outputPortal,
@@ -81,10 +86,20 @@ namespace Main
 				);
 			}
 
-			var raySpace =
-				numBounce == -1 ? RaySpace.None :
-				numBounce == 0 ? RaySpace.PhysicalSpace :
-				RaySpace.ScreenSpace;
+			var tag = rayHit != null ? rayHit.tag : "";
+			var raySpace = RaySpace.None;
+			if (numBounce == 0)
+			{
+				raySpace = tag == "StudyObject" ? RaySpace.ObjectInPhysicalSpace : RaySpace.PhysicalSpace;
+			}
+			else if (numBounce == 1)
+			{
+				raySpace = tag == "StudyObject" ? RaySpace.ObjectInScreenSpace : RaySpace.ScreenSpace;
+			}
+			else
+			{
+				raySpace = RaySpace.None;
+			}
 
 			if (currentRaySpace != raySpace)
 			{
@@ -111,6 +126,8 @@ namespace Main
 
 			if (Physics.Raycast(ray, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
 			{
+				rayHit = hit.transform.gameObject;
+
 				if (BoardGameManager.Instance.RayCastMode != RayCastMode.None)
 				{
 					hitMarkers[depth].transform.position = hit.point;
