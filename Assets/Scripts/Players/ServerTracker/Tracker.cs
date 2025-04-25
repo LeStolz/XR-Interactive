@@ -12,6 +12,8 @@ namespace Main
 		HitMarker[] hitMarkers;
 		[SerializeField]
 		int id;
+		[SerializeField]
+		ServerTrackerManager serverTrackerManager;
 
 		public enum RayCastMode
 		{
@@ -30,7 +32,7 @@ namespace Main
 		}
 
 		RaySpace currentRaySpace = RaySpace.None;
-		string rayHitTag = "";
+		public string rayHitTag = "";
 		public Action<RaySpace> OnRaySpaceChanged;
 
 		public void StartRayCastAndTeleport(Camera outputPortal)
@@ -116,12 +118,6 @@ namespace Main
 			}
 		}
 
-		[Rpc(SendTo.Server)]
-		void UpdateRayHitTagRpc(string tag)
-		{
-			rayHitTag = tag;
-		}
-
 		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
 		{
 			if (depth < 0)
@@ -131,7 +127,7 @@ namespace Main
 
 			if (Physics.Raycast(ray, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
 			{
-				UpdateRayHitTagRpc(hit.transform.gameObject.tag);
+				serverTrackerManager.UpdateRayHitTagRpc(id, hit.transform.gameObject.tag);
 
 				if (BoardGameManager.Instance.RayCastMode != RayCastMode.None)
 				{

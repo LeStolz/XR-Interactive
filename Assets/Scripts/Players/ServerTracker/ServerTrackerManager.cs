@@ -104,5 +104,11 @@ namespace Main
         {
             transform.SetPositionAndRotation(position, Quaternion.Euler(rotation));
         }
+
+        [Rpc(SendTo.Server)]
+        public void UpdateRayHitTagRpc(int trackerId, string tag)
+        {
+            Trackers[trackerId].rayHitTag = tag;
+        }
     }
 }

@@ -200,6 +200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 4553792172343494461}
   id: 0
+  serverTrackerManager: {fileID: 3230529017000498113}
+  rayHitTag: 
 --- !u!114 &706879981415831591
 MonoBehaviour:
   m_ObjectHideFlags: 0
