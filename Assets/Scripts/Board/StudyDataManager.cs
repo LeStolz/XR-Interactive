@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using SFB;
 using Unity.Netcode;
 using UnityEngine;
-using static Main.BoardGameManager;
 
 namespace Main
 {
+	[Serializable]
 	struct UserStudyData
 	{
 		public List<RaySpaceDataPoint> raySpaceDataPoints;
 	}
 
+	[Serializable]
 	struct RaySpaceDataPoint
 	{
 		public long endTimeStamp;
@@ -26,7 +27,7 @@ namespace Main
 
 	class StudyDataManager : NetworkBehaviour
 	{
-		public static StudyDataManager Instance { get; private set; }
+		static StudyDataManager instance;
 		long timeSinceStart = 0;
 		UserStudyData userStudyData = new UserStudyData
 		{
@@ -37,11 +38,17 @@ namespace Main
 
 		void Awake()
 		{
-			if (Instance == null)
+			if (!IsHost)
 			{
-				Instance = this;
+				Destroy(this);
+				return;
 			}
-			else if (Instance != this)
+
+			if (instance == null)
+			{
+				instance = this;
+			}
+			else if (instance != this)
 			{
 				Destroy(gameObject);
 			}
@@ -61,7 +68,7 @@ namespace Main
 
 		void Update()
 		{
-			if (!IsServer) return;
+			if (!IsHost) return;
 
 			if (gameIsOngoing)
 			{
@@ -89,6 +96,8 @@ namespace Main
 		void HandleRaySpaceChanged(Tracker.RaySpace raySpace)
 		{
 			if (!gameIsOngoing) return;
+
+			Debug.Log("Ray space changed: " + raySpace.ToString());
 
 			userStudyData.raySpaceDataPoints.Add(new(
 				endTimeStamp: timeSinceStart,
@@ -132,14 +141,14 @@ namespace Main
 			};
 		}
 
-		void HandleGameStatusChanged(GameStatus gameStatus)
+		void HandleGameStatusChanged(BoardGameManager.GameStatus gameStatus)
 		{
 			switch (gameStatus)
 			{
-				case GameStatus.Started:
+				case BoardGameManager.GameStatus.Started:
 					GameStarted();
 					break;
-				case GameStatus.Stopped:
+				case BoardGameManager.GameStatus.Stopped:
 					GameEnded();
 					break;
 				default:

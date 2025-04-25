@@ -55,7 +55,6 @@ namespace Main
         public void SetBoardLayoutID(int id)
         {
             CurrentBoardID = id;
-            PlayerHudNotification.Instance.ShowText("Current board ID: " + id);
         }
 
         void Awake()
