@@ -134,10 +134,15 @@ namespace Main
 				"Save User Study Data",
 				null,
 				fileName,
-				"json"
+				"csv"
 			);
-			var json = JsonUtility.ToJson(userStudyData, true);
-			System.IO.File.WriteAllText(filePath, json);
+
+			var csv = "sep=,\nEndTimeStamp,RaySpace\n";
+			foreach (var dataPoint in userStudyData.raySpaceDataPoints)
+			{
+				csv += $"{dataPoint.endTimeStamp},{dataPoint.raySpace}\n";
+			}
+			System.IO.File.WriteAllText(filePath, csv);
 
 			userStudyData = new UserStudyData
 			{

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Main
@@ -9,11 +8,12 @@ namespace Main
 	{
 		[SerializeField]
 		GameObject arrow;
-		HitMarker[] hitMarkers;
 		[SerializeField]
 		int id;
 		[SerializeField]
 		ServerTrackerManager serverTrackerManager;
+		HitMarker[] hitMarkers;
+		Camera outputPortal;
 
 		public enum RayCastMode
 		{
@@ -43,9 +43,9 @@ namespace Main
 			}
 
 			rayHitTag = "";
+			this.outputPortal = outputPortal;
 
 			RayCastAndTeleport(
-				outputPortal,
 				new Ray(arrow.transform.position, arrow.transform.forward),
 				hitMarkers.Length - 1
 			);
@@ -119,7 +119,7 @@ namespace Main
 			}
 		}
 
-		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
+		void RayCastAndTeleport(Ray ray, int depth)
 		{
 			if (depth < 0)
 			{
@@ -134,6 +134,16 @@ namespace Main
 				{
 					hitMarkers[depth].transform.position = hit.point;
 					hitMarkers[depth].transform.forward = hit.normal;
+				}
+
+				if (hit.transform.gameObject.CompareTag("Ceiling"))
+				{
+					RayCastAndTeleport(
+						new(hit.point, hit.normal),
+						depth - 1
+					);
+
+					return;
 				}
 
 				if (depth > 0 && !hit.transform.gameObject.CompareTag("InputPortal"))
@@ -152,7 +162,6 @@ namespace Main
 				var inputPortal = hit.transform.gameObject.GetComponent<Portal>();
 
 				RayCastAndTeleport(
-					outputPortal,
 					outputPortal.ScreenPointToRay(inputPortal.PortalSpaceToScreenSpace(hit.point, outputPortal)),
 					depth - 1
 				);

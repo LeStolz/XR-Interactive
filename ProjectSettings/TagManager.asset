@@ -12,6 +12,7 @@ TagManager:
   - Projectile
   - InputPortal
   - StudyObject
+  - Ceiling
   layers:
   - Default
   - TransparentFX
