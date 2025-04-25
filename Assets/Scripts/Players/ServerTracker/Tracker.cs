@@ -42,6 +42,8 @@ namespace Main
 				return;
 			}
 
+			rayHitTag = "";
+
 			RayCastAndTeleport(
 				outputPortal,
 				new Ray(arrow.transform.position, arrow.transform.forward),
@@ -100,7 +102,6 @@ namespace Main
 			{
 				raySpace = RaySpace.None;
 			}
-			rayHitTag = "";
 
 			if (currentRaySpace != raySpace)
 			{
