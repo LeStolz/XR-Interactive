@@ -38,12 +38,6 @@ namespace Main
 
 		void Awake()
 		{
-			if (!IsHost)
-			{
-				Destroy(this);
-				return;
-			}
-
 			if (instance == null)
 			{
 				instance = this;
@@ -78,6 +72,8 @@ namespace Main
 
 		void GameStarted()
 		{
+			if (!IsHost) return;
+
 			gameIsOngoing = true;
 
 			timeSinceStart = 0;
@@ -107,6 +103,8 @@ namespace Main
 
 		void GameEnded()
 		{
+			if (!IsHost) return;
+
 			gameIsOngoing = false;
 
 			var serverTracker = NetworkGameManager.Instance.FindPlayerByRole<ServerTrackerManager>(Role.ServerTracker);
