@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Main
@@ -29,7 +30,7 @@ namespace Main
 		}
 
 		RaySpace currentRaySpace = RaySpace.None;
-		GameObject rayHit = null;
+		string rayHitTag = "";
 		public Action<RaySpace> OnRaySpaceChanged;
 
 		public void StartRayCastAndTeleport(Camera outputPortal)
@@ -38,8 +39,6 @@ namespace Main
 			{
 				return;
 			}
-
-			rayHit = null;
 
 			RayCastAndTeleport(
 				outputPortal,
@@ -86,20 +85,20 @@ namespace Main
 				);
 			}
 
-			var tag = rayHit != null ? rayHit.tag : "";
 			var raySpace = RaySpace.None;
 			if (numBounce == 0)
 			{
-				raySpace = tag == "StudyObject" ? RaySpace.ObjectInPhysicalSpace : RaySpace.PhysicalSpace;
+				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInPhysicalSpace : RaySpace.PhysicalSpace;
 			}
 			else if (numBounce == 1)
 			{
-				raySpace = tag == "StudyObject" ? RaySpace.ObjectInScreenSpace : RaySpace.ScreenSpace;
+				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInScreenSpace : RaySpace.ScreenSpace;
 			}
 			else
 			{
 				raySpace = RaySpace.None;
 			}
+			rayHitTag = "";
 
 			if (currentRaySpace != raySpace)
 			{
@@ -117,6 +116,12 @@ namespace Main
 			}
 		}
 
+		[Rpc(SendTo.Server)]
+		void UpdateRayHitTagRpc(string tag)
+		{
+			rayHitTag = tag;
+		}
+
 		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
 		{
 			if (depth < 0)
@@ -126,7 +131,7 @@ namespace Main
 
 			if (Physics.Raycast(ray, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
 			{
-				rayHit = hit.transform.gameObject;
+				UpdateRayHitTagRpc(hit.transform.gameObject.tag);
 
 				if (BoardGameManager.Instance.RayCastMode != RayCastMode.None)
 				{

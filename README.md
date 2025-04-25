@@ -82,7 +82,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3. Server only.
+- Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3.
 - Halo
 
 - Fishing rod pointing.

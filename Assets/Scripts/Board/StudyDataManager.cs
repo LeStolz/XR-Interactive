@@ -92,9 +92,12 @@ namespace Main
 		Tracker.RaySpace currentRaySpace = Tracker.RaySpace.None;
 		void HandleRaySpaceChanged(Tracker.RaySpace raySpace)
 		{
-			if (!gameIsOngoing) return;
-
 			Debug.Log($"{currentRaySpace}:{timeSinceStart}");
+
+			if (timeSinceStart == 0)
+			{
+				return;
+			}
 
 			userStudyData.raySpaceDataPoints.Add(new(
 				endTimeStamp: timeSinceStart,
