@@ -24,14 +24,13 @@ namespace Main
 
 		public enum RaySpace
 		{
-			None,
 			PhysicalSpace,
 			ObjectInPhysicalSpace,
 			ScreenSpace,
 			ObjectInScreenSpace
 		}
 
-		RaySpace currentRaySpace = RaySpace.None;
+		RaySpace currentRaySpace = RaySpace.PhysicalSpace;
 		public string rayHitTag = "";
 		public Action<RaySpace> OnRaySpaceChanged;
 
@@ -63,7 +62,7 @@ namespace Main
 
 		void OnGameStatusChanged(BoardGameManager.GameStatus gameStatus)
 		{
-			currentRaySpace = RaySpace.None;
+			currentRaySpace = RaySpace.PhysicalSpace;
 			OnRaySpaceChanged?.Invoke(currentRaySpace);
 		}
 
@@ -89,7 +88,7 @@ namespace Main
 				);
 			}
 
-			var raySpace = RaySpace.None;
+			RaySpace raySpace = RaySpace.PhysicalSpace;
 			if (numBounce == 0)
 			{
 				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInPhysicalSpace : RaySpace.PhysicalSpace;
@@ -97,10 +96,6 @@ namespace Main
 			else if (numBounce == 1)
 			{
 				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInScreenSpace : RaySpace.ScreenSpace;
-			}
-			else
-			{
-				raySpace = RaySpace.None;
 			}
 
 			if (currentRaySpace != raySpace)
@@ -146,9 +141,9 @@ namespace Main
 					return;
 				}
 
-				if (depth > 0 && !hit.transform.gameObject.CompareTag("InputPortal"))
+				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
-					if (BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
+					if (depth > 0 && BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
 					{
 						HideAllFromDepth(depth);
 					}
