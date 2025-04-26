@@ -82,8 +82,9 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3.
-- Halo or other stuff, 3x2
+- zed, portal
+- Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3. file name
+- other stuff, 3x2
 - Fishing rod pointing.
 
 - VR, VR view for ZED.
