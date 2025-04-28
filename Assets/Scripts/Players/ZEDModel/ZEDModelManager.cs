@@ -6,7 +6,7 @@ namespace Main
 {
     class ZEDModelManager : NetworkPlayer
     {
-        const float HEIGHT_OFFSET = 0.063f;
+        const float HEIGHT_OFFSET = 0.052f;
 
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
