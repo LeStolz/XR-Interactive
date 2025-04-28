@@ -83,7 +83,6 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 ## TODO
 
 - Screen/Real/ObjScreen/ObjReal + Duration + Time to complete task for 3. file name
-- Fix zed, lighting.
 - Fishing rod pointing. 3x2
 
 - VR, VR view for ZED.
