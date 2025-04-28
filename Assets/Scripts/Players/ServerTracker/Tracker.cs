@@ -7,6 +7,8 @@ namespace Main
 	class Tracker : MonoBehaviour
 	{
 		[SerializeField]
+		bool enableFishingRodPointing = false;
+		[SerializeField]
 		GameObject arrow;
 		[SerializeField]
 		int id;
@@ -131,7 +133,7 @@ namespace Main
 					hitMarkers[depth].transform.forward = hit.normal;
 				}
 
-				if (hit.transform.gameObject.CompareTag("Ceiling"))
+				if (enableFishingRodPointing && hit.transform.gameObject.CompareTag("Ceiling"))
 				{
 					RayCastAndTeleport(
 						new(hit.point, hit.normal),
