@@ -21,7 +21,10 @@ namespace Main
         {
             SetPlayerName(NetworkGameManager.LocalPlayerName.Value);
 
-            if (NetworkGameManager.Instance.localRole != Role.Tablet)
+            if (
+                NetworkGameManager.Instance.localRole != Role.Tablet &&
+                NetworkGameManager.Instance.localRole != Role.HMD
+            )
             {
                 gameObject.SetActive(false);
                 confirmButton.onClick.Invoke();

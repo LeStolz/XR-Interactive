@@ -20,8 +20,8 @@ GameObject:
   - component: {fileID: 2543290640734674980}
   - component: {fileID: 6673766919591150665}
   m_Layer: 0
-  m_Name: Tile 1
-  m_TagString: Untagged
+  m_Name: 0
+  m_TagString: StudyObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -458,7 +458,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a1521ad33d72a184eb4dab720fda7819, type: 2}
+  - {fileID: 2100000, guid: 753202d9b503e2049812b40c012965e4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

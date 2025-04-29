@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -6,10 +7,34 @@ namespace Main
 	class Tracker : MonoBehaviour
 	{
 		[SerializeField]
+		bool enableFishingRodPointing = false;
+		[SerializeField]
 		GameObject arrow;
-		HitMarker[] hitMarkers;
 		[SerializeField]
 		int id;
+		[SerializeField]
+		ServerTrackerManager serverTrackerManager;
+		HitMarker[] hitMarkers;
+		Camera outputPortal;
+
+		public enum RayCastMode
+		{
+			None,
+			Indirect,
+			Hybrid
+		}
+
+		public enum RaySpace
+		{
+			PhysicalSpace,
+			ObjectInPhysicalSpace,
+			ScreenSpace,
+			ObjectInScreenSpace
+		}
+
+		RaySpace currentRaySpace = RaySpace.PhysicalSpace;
+		public string rayHitTag = "";
+		public Action<RaySpace> OnRaySpaceChanged;
 
 		public void StartRayCastAndTeleport(Camera outputPortal)
 		{
@@ -18,17 +43,29 @@ namespace Main
 				return;
 			}
 
-			if (BoardGameManager.Instance.rayTeleportDepth <= 0)
-			{
-				HideAllFromDepth(hitMarkers.Length - 1);
-				return;
-			}
+			rayHitTag = "";
+			this.outputPortal = outputPortal;
 
 			RayCastAndTeleport(
-				outputPortal,
 				new Ray(arrow.transform.position, arrow.transform.forward),
-				BoardGameManager.Instance.rayTeleportDepth - 1
+				hitMarkers.Length - 1
 			);
+		}
+
+		void Start()
+		{
+			BoardGameManager.Instance.OnGameStatusChanged += OnGameStatusChanged;
+		}
+
+		void OnDestroy()
+		{
+			BoardGameManager.Instance.OnGameStatusChanged -= OnGameStatusChanged;
+		}
+
+		void OnGameStatusChanged(BoardGameManager.GameStatus gameStatus)
+		{
+			currentRaySpace = RaySpace.PhysicalSpace;
+			OnRaySpaceChanged?.Invoke(currentRaySpace);
 		}
 
 		void Update()
@@ -52,6 +89,22 @@ namespace Main
 					i, numBounce, arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
 				);
 			}
+
+			RaySpace raySpace = RaySpace.PhysicalSpace;
+			if (numBounce == 0)
+			{
+				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInPhysicalSpace : RaySpace.PhysicalSpace;
+			}
+			else if (numBounce == 1)
+			{
+				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInScreenSpace : RaySpace.ScreenSpace;
+			}
+
+			if (currentRaySpace != raySpace)
+			{
+				currentRaySpace = raySpace;
+				OnRaySpaceChanged?.Invoke(raySpace);
+			}
 		}
 
 		void HideAllFromDepth(int depth)
@@ -63,7 +116,7 @@ namespace Main
 			}
 		}
 
-		void RayCastAndTeleport(Camera outputPortal, Ray ray, int depth)
+		void RayCastAndTeleport(Ray ray, int depth)
 		{
 			if (depth < 0)
 			{
@@ -72,19 +125,40 @@ namespace Main
 
 			if (Physics.Raycast(ray, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
 			{
-				hitMarkers[depth].transform.position = hit.point;
-				hitMarkers[depth].transform.forward = hit.normal;
+				serverTrackerManager.UpdateRayHitTagRpc(id, hit.transform.gameObject.tag);
+
+				if (BoardGameManager.Instance.RayCastMode != RayCastMode.None)
+				{
+					hitMarkers[depth].transform.position = hit.point;
+					hitMarkers[depth].transform.forward = hit.normal;
+				}
+
+				if (enableFishingRodPointing && hit.transform.gameObject.CompareTag("Ceiling"))
+				{
+					RayCastAndTeleport(
+						new(hit.point, hit.normal),
+						depth - 1
+					);
+
+					return;
+				}
 
 				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
-					HideAllFromDepth(depth - 1);
+					if (depth > 0 && BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
+					{
+						HideAllFromDepth(depth);
+					}
+					else
+					{
+						HideAllFromDepth(depth - 1);
+					}
 					return;
 				}
 
 				var inputPortal = hit.transform.gameObject.GetComponent<Portal>();
 
 				RayCastAndTeleport(
-					outputPortal,
 					outputPortal.ScreenPointToRay(inputPortal.PortalSpaceToScreenSpace(hit.point, outputPortal)),
 					depth - 1
 				);

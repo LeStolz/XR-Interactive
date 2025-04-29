@@ -33,6 +33,8 @@ namespace Main
 
             if (IsOwner)
             {
+                NetworkGameManager.Instance.TableUI.SetActive(false);
+
                 m_XROrigin = FindFirstObjectByType<XROrigin>();
                 if (m_XROrigin != null)
                 {
@@ -44,6 +46,16 @@ namespace Main
                 }
 
                 SetupLocalPlayer();
+            }
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+
+            if (IsOwner)
+            {
+                NetworkGameManager.Instance.TableUI.SetActive(true);
             }
         }
 

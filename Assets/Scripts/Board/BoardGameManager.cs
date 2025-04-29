@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using SFB;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,10 +10,12 @@ namespace Main
     {
         public static BoardGameManager Instance { get; private set; }
 
-        [field: SerializeField]
-        public GameObject[] TilesPrefabs { get; private set; }
-        [field: SerializeField]
-        public GameObject SocketsPrefab { get; private set; }
+        [SerializeField]
+        GameObject[] tilePrefabs;
+        [SerializeField]
+        GameObject[] tilesPrefabs;
+        [SerializeField]
+        GameObject socketsPrefab;
         [field: SerializeField]
         public GameObject SocketPrefab { get; private set; }
         [SerializeField]
@@ -27,8 +27,6 @@ namespace Main
         Vector2 borderXMinMax = new(-1.5f, 1.5f);
         [SerializeField]
         Vector2 borderZMinMax = new(-2.5f, 2.5f);
-
-        public int rayTeleportDepth = 0;
 
         public enum GameStatus
         {
@@ -44,10 +42,19 @@ namespace Main
         readonly List<GameObject> answerTiles = new();
         GameObject sockets;
 
+        public int CurrentBoardID { get; private set; } = 0;
+
+        public Tracker.RayCastMode RayCastMode { get; private set; } = Tracker.RayCastMode.None;
+
         [Rpc(SendTo.Everyone)]
-        public void SetRayTeleportDepthRpc(int depth)
+        public void SetRayCastModeRpc(int rayCastModeID)
         {
-            rayTeleportDepth = depth;
+            RayCastMode = (Tracker.RayCastMode)rayCastModeID;
+        }
+
+        public void SetBoardLayoutID(int id)
+        {
+            CurrentBoardID = id;
         }
 
         void Awake()
@@ -69,21 +76,6 @@ namespace Main
             AnswerBoardOrigin.transform.eulerAngles = new Vector3(0, 0, 0);
         }
 
-        void Update()
-        {
-            if (NetworkGameManager.Instance.localRole != Role.ServerTracker)
-            {
-                return;
-            }
-
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                SkipBoard();
-            }
-#endif
-        }
-
         [Rpc(SendTo.Server)]
         public void StartGameRpc()
         {
@@ -92,17 +84,14 @@ namespace Main
                 return;
             }
 
-            var hmdPlayer = NetworkGameManager.Instance.FindPlayerByRole<NetworkPlayer>(Role.HMD);
-            ulong hmdPlayerId = hmdPlayer == null ? 0 : hmdPlayer.OwnerClientId;
-
             if (gameStatus == GameStatus.Started)
             {
                 StopGameRpc();
             }
 
-            SpawnBoardRpc(RpcTarget.Single(hmdPlayerId, RpcTargetUse.Temp));
+            SpawnBoardRpc();
             SpawnAnswerTiles();
-            SpawnTiles(hmdPlayerId);
+            SpawnTiles();
 
             StartGameClientRpc();
         }
@@ -146,39 +135,35 @@ namespace Main
             }
         }
 
-        [Rpc(SendTo.SpecifiedInParams)]
-        void SpawnBoardRpc(RpcParams rpcParams = default)
+        [Rpc(SendTo.Everyone)]
+        void SpawnBoardRpc()
         {
-            sockets = Instantiate(SocketsPrefab, transform.position, Quaternion.identity);
-        }
+            if (NetworkGameManager.Instance.localRole != Role.HMD)
+            {
+                return;
+            }
 
-        void SkipBoard()
-        {
-            var nextBoardID = (PlayerPrefs.GetInt("CurrentBoardID", 0) + 1) % TilesPrefabs.Length;
-            PlayerPrefs.SetInt("CurrentBoardID", nextBoardID);
-            PlayerPrefs.Save();
-
-            PlayerHudNotification.Instance.ShowText("Current board ID: " + nextBoardID);
-            Debug.Log("Current board ID: " + nextBoardID);
+            sockets = Instantiate(socketsPrefab, transform.position, Quaternion.identity);
         }
 
         void SpawnAnswerTiles()
         {
-            var currentBoardID = PlayerPrefs.GetInt("CurrentBoardID", 0);
-            var tilesPrefab = TilesPrefabs[currentBoardID];
+            var tilesPrefab = tilesPrefabs[CurrentBoardID];
 
             foreach (Transform tilePrefabTransform in tilesPrefab.transform)
             {
-                var tilePrefab = tilePrefabTransform.gameObject;
+                var tilePrefab = tilePrefabs[
+                    int.Parse(tilePrefabTransform.gameObject.name)
+                ];
                 GameObject tile = Instantiate(
                     tilePrefab,
-                    AnswerBoardOrigin.transform.position + tilePrefab.transform.position,
-                    Quaternion.Euler(tilePrefab.transform.eulerAngles)
+                    AnswerBoardOrigin.transform.position + tilePrefabTransform.position,
+                    Quaternion.Euler(tilePrefabTransform.eulerAngles)
                 );
                 tile.GetComponent<NetworkObject>().Spawn(true);
                 tile.GetComponent<Tile>().SetupRpc(
-                    AnswerBoardOrigin.transform.position + tilePrefab.transform.position,
-                    tilePrefab.transform.eulerAngles, tilePrefab.name.ToString(), true
+                    AnswerBoardOrigin.transform.position + tilePrefabTransform.position,
+                    tilePrefabTransform.eulerAngles, tilePrefab.name, true
                 );
                 answerTiles.Add(tile);
             }
@@ -186,25 +171,27 @@ namespace Main
             answerTiles.Sort((a, b) => a.name.CompareTo(b.name));
         }
 
-        void SpawnTiles(ulong hmdPlayerId)
+        void SpawnTiles()
         {
-            var currentBoardID = PlayerPrefs.GetInt("CurrentBoardID", 0);
-            var tilesPrefab = TilesPrefabs[currentBoardID];
+            var hmdPlayer = NetworkGameManager.Instance.FindPlayerByRole<XRINetworkAvatar>(Role.HMD);
+            ulong hmdPlayerId = hmdPlayer == null ? 0 : hmdPlayer.OwnerClientId;
 
-            foreach (Transform tilePrefab in tilesPrefab.transform)
+            var tilesPrefab = tilesPrefabs[CurrentBoardID];
+
+            foreach (Transform tilePrefabTransform in tilesPrefab.transform)
             {
                 var borderZMinMaxOffset = new Vector2(
-                    borderZMinMax.x + tilePrefab.transform.localScale.z / 2f,
-                    borderZMinMax.y - tilePrefab.transform.localScale.z / 2f
+                    borderZMinMax.x + tilePrefabTransform.localScale.z / 2f,
+                    borderZMinMax.y - tilePrefabTransform.localScale.z / 2f
                 );
                 var borderXMinMaxOffset = new Vector2(
-                    borderXMinMax.x + tilePrefab.transform.localScale.x / 2f,
-                    borderXMinMax.y - tilePrefab.transform.localScale.x / 2f
+                    borderXMinMax.x + tilePrefabTransform.localScale.x / 2f,
+                    borderXMinMax.y - tilePrefabTransform.localScale.x / 2f
                 );
 
                 var x = UnityEngine.Random.Range(borderXMinMaxOffset.x, borderXMinMaxOffset.y);
                 var z = UnityEngine.Random.Range(borderZMinMaxOffset.x, borderZMinMaxOffset.y);
-                var y = tilePrefab.transform.localScale.y / 1.5f;
+                var y = tilePrefabTransform.localScale.y / 1.5f;
 
                 var pos = new Vector3(x, y, z) + transform.position;
                 var rot = Quaternion.Euler(
@@ -213,10 +200,13 @@ namespace Main
                     UnityEngine.Random.Range(0, 360)
                 );
 
-                GameObject tile = Instantiate(tilePrefab.gameObject, pos, rot);
+                var tilePrefab = tilePrefabs[
+                    int.Parse(tilePrefabTransform.gameObject.name)
+                ];
+                GameObject tile = Instantiate(tilePrefab, pos, rot);
                 tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
                 tile.GetComponent<Tile>().SetupRpc(
-                    pos, rot.eulerAngles, tilePrefab.ToString(), false
+                    pos, rot.eulerAngles, tilePrefab.name, false
                 );
                 tiles.Add(tile);
             }
@@ -273,8 +263,7 @@ namespace Main
             }
 
             WonRpc(tile.transform.position - transform.position);
-            yield return new WaitForSeconds(2 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
-            SkipBoard();
+            yield return new WaitForSeconds(4 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
 
             StopGameRpc();
         }
@@ -297,7 +286,7 @@ namespace Main
                 Quaternion.identity
             );
 
-            yield return new WaitForSeconds(2 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
+            yield return new WaitForSeconds(4 * confettiPrefab.GetComponentInChildren<ParticleSystem>().main.duration);
 
             if (answerConfetti != null) Destroy(answerConfetti);
             Destroy(confetti);

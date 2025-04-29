@@ -11,6 +11,8 @@ TagManager:
   - Anchor
   - Projectile
   - InputPortal
+  - StudyObject
+  - Ceiling
   layers:
   - Default
   - TransparentFX
