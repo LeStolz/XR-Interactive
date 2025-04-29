@@ -68,7 +68,7 @@ namespace Main
 			var positions = new List<Vector3>();
 
 			initialVelocity = Vector3.Distance(start, end) / 2;
-			for (float ratio = 0; ratio <= 1; ratio += 1f / lineRenderer.positionCount - 1)
+			for (float ratio = 0; ratio <= 1; ratio += 1f / (lineRenderer.positionCount - 1))
 			{
 				positions.Add(Lerp(ratio, start, forward, end));
 			}
