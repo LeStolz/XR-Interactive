@@ -143,9 +143,10 @@ namespace Main
 
 				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
-					hitMarkers[depth].ToggleVisiblity(
-						!(depth > 0 && BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
-					);
+					if (BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
+					{
+						hitMarkers[depth].ToggleVisiblity(depth <= 0);
+					}
 					HideAllFromDepth(depth - 1);
 					return;
 				}
