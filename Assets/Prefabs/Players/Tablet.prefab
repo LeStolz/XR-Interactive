@@ -491,6 +491,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   cam: {fileID: 8872923227583615550}
   UI: {fileID: 8030012879012204136}
+  toggleButton: {fileID: 1051019310057307050}
 --- !u!1 &8030012879012204136
 GameObject:
   m_ObjectHideFlags: 0

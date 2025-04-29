@@ -86,7 +86,6 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 - Fix thingy.
 - Dashedline for indirect.
-- Zed.
 - Pointing target for all 3 (4)
 - Fishing rod pointing.
 - VR, VR view for ZED.

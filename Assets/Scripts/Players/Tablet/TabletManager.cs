@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Main
 {
@@ -8,6 +9,8 @@ namespace Main
         GameObject cam;
         [SerializeField]
         GameObject UI;
+        [SerializeField]
+        Toggle toggleButton;
 
         public override void OnNetworkSpawn()
         {
@@ -19,6 +22,16 @@ namespace Main
                 NetworkGameManager.Instance.TableUI.SetActive(false);
                 cam.SetActive(true);
                 UI.SetActive(true);
+
+                BoardGameManager.Instance.OnGameStatusChanged += OnGameStatusChanged;
+            }
+        }
+
+        void OnGameStatusChanged(BoardGameManager.GameStatus status)
+        {
+            if (status == BoardGameManager.GameStatus.Started)
+            {
+                toggleButton.isOn = true;
             }
         }
 

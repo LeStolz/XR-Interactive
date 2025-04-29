@@ -17,7 +17,6 @@ namespace Main
 		[SerializeField]
 		Material solidMaterial;
 		float initialVelocity;
-		int curveIterations = 0;
 		float currentRotation = 0;
 		bool isVisible = true;
 
@@ -38,6 +37,7 @@ namespace Main
 			else
 			{
 				child.SetActive(true);
+				lineRenderer.enabled = true;
 			}
 
 			currentRotation = (currentRotation + ROTATE_SPEED * Time.deltaTime) % 360;
