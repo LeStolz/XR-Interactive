@@ -19,6 +19,7 @@ namespace Main
 		float initialVelocity;
 		int curveIterations = 0;
 		float currentRotation = 0;
+		bool isVisible = true;
 
 		void Start()
 		{
@@ -28,9 +29,10 @@ namespace Main
 
 		void Update()
 		{
-			if (transform.position.y <= NOT_SHOWING_DEPTH)
+			if (transform.position.y <= NOT_SHOWING_DEPTH || !isVisible)
 			{
 				child.SetActive(false);
+				lineRenderer.enabled = false;
 				return;
 			}
 			else
@@ -50,13 +52,12 @@ namespace Main
 		public void Hide()
 		{
 			transform.position = Vector3.up * NOT_SHOWING_DEPTH;
-			lineRenderer.positionCount = 0;
+			lineRenderer.enabled = false;
 		}
 
 		public void Show(int bounceTimes, int numBounce, Vector3 start, Vector3 forward, Vector3 end)
 		{
-			curveIterations = bounceTimes > 0 ? 1 : MAX_CURVE_ITERATIONS;
-			lineRenderer.positionCount = curveIterations + 1;
+			lineRenderer.positionCount = (bounceTimes > 0 ? 1 : MAX_CURVE_ITERATIONS) + 1;
 
 			var newMaterial = bounceTimes > 0 && numBounce > 0 ? dashMaterial : solidMaterial;
 			if (lineRenderer.material != newMaterial)
@@ -67,13 +68,18 @@ namespace Main
 			var positions = new List<Vector3>();
 
 			initialVelocity = Vector3.Distance(start, end) / 2;
-			for (float ratio = 0; ratio <= 1; ratio += 1f / curveIterations)
+			for (float ratio = 0; ratio <= 1; ratio += 1f / lineRenderer.positionCount - 1)
 			{
 				positions.Add(Lerp(ratio, start, forward, end));
 			}
 			positions.Add(end);
 
 			lineRenderer.SetPositions(positions.ToArray());
+		}
+
+		public void ToggleVisiblity(bool isVisible)
+		{
+			this.isVisible = isVisible;
 		}
 
 		Vector3 Lerp(float ratio, Vector3 start, Vector3 forward, Vector3 end)

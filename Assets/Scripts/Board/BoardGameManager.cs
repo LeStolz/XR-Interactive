@@ -161,6 +161,7 @@ namespace Main
                     Quaternion.Euler(tilePrefabTransform.eulerAngles)
                 );
                 tile.GetComponent<NetworkObject>().Spawn(true);
+                tile.GetComponent<NetworkObject>().TrySetParent(transform);
                 tile.GetComponent<Tile>().SetupRpc(
                     AnswerBoardOrigin.transform.position + tilePrefabTransform.position,
                     tilePrefabTransform.eulerAngles, tilePrefab.name, true
@@ -205,6 +206,7 @@ namespace Main
                 ];
                 GameObject tile = Instantiate(tilePrefab, pos, rot);
                 tile.GetComponent<NetworkObject>().SpawnWithOwnership(hmdPlayerId, true);
+                tile.GetComponent<NetworkObject>().TrySetParent(transform);
                 tile.GetComponent<Tile>().SetupRpc(
                     pos, rot.eulerAngles, tilePrefab.name, false
                 );

@@ -127,11 +127,9 @@ namespace Main
 			{
 				serverTrackerManager.UpdateRayHitTagRpc(id, hit.transform.gameObject.tag);
 
-				if (BoardGameManager.Instance.RayCastMode != RayCastMode.None)
-				{
-					hitMarkers[depth].transform.position = hit.point;
-					hitMarkers[depth].transform.forward = hit.normal;
-				}
+				hitMarkers[depth].ToggleVisiblity(BoardGameManager.Instance.RayCastMode != RayCastMode.None);
+				hitMarkers[depth].transform.position = hit.point;
+				hitMarkers[depth].transform.forward = hit.normal;
 
 				if (enableFishingRodPointing && hit.transform.gameObject.CompareTag("Ceiling"))
 				{
@@ -145,14 +143,10 @@ namespace Main
 
 				if (!hit.transform.gameObject.CompareTag("InputPortal"))
 				{
-					if (depth > 0 && BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
-					{
-						HideAllFromDepth(depth);
-					}
-					else
-					{
-						HideAllFromDepth(depth - 1);
-					}
+					hitMarkers[depth].ToggleVisiblity(
+						!(depth > 0 && BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
+					);
+					HideAllFromDepth(depth - 1);
 					return;
 				}
 

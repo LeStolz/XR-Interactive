@@ -105,9 +105,9 @@ Shader "ZED/ZED Forward Lighting URP"
 		{
 			float zed_z = tex2D(_DepthXYZTex, input.uv.zw).x;
 
-			float MAX_ROOM = 14.0;
-			float MIN_MUL = 0.4;
-			float MAX_MUL = 0.8;
+			float MAX_ROOM = 16.0;
+			float MIN_MUL = 0.45;
+			float MAX_MUL = 0.85;
 			zed_z = zed_z * clamp((MAX_MUL - MIN_MUL) / MAX_ROOM * (MAX_ROOM - zed_z) + MIN_MUL, MIN_MUL, MAX_MUL);
 
 			//Filter out depth values beyond the max value.
