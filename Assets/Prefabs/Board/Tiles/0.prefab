@@ -394,6 +394,7 @@ MonoBehaviour:
   marginX: 0.5
   marginY: 0.6
   mainCamera: {fileID: 0}
+  fingerTouchChecker: {fileID: 0}
 --- !u!1 &6748837260580536604
 GameObject:
   m_ObjectHideFlags: 0
