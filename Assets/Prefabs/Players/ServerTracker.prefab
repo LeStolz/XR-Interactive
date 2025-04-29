@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  OFFSET: {x: 1.79, y: 1, z: -1.355}
+  OFFSET: {x: 1.79, y: -0.1, z: -1.355}
   <Trackers>k__BackingField:
   - {fileID: 4390638607340976808}
   camera: {fileID: 1017168899782425847}
