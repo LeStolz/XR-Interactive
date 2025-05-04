@@ -9,7 +9,7 @@ public class GrabDetector : MonoBehaviour
 {
 	[SerializeField] private float marginX = 0.5f;
 	[SerializeField] private float marginY = 0.6f;
-	[SerializeField] private float touchThreshold = 0.015f;
+	[SerializeField] private float touchThreshold = 0.005f;
 	public Camera mainCamera;
 	private Transform grabbedObject;
 	private XRGrabInteractable grabInteractable;
@@ -35,7 +35,7 @@ public class GrabDetector : MonoBehaviour
 			handSubsystem = subsystems[0];
 		}
 	}
-	
+
 	void OnDestroy()
 	{
 		if (grabInteractable != null)
@@ -47,11 +47,16 @@ public class GrabDetector : MonoBehaviour
 
 	void OnGrabbed(SelectEnterEventArgs args)
 	{
-        if (IsTouching(handSubsystem.leftHand) && IsTouching(handSubsystem.rightHand))
-        {
-            return;
-        }
-	
+		var interactorTransform = args.interactorObject.transform;
+		bool isLeftHand = interactorTransform.name.ToLower().Contains("left");
+
+		XRHand hand = isLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
+
+		if (!IsTouching(hand))
+		{
+			return;
+		}
+
 		if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
 		{
 			return;
@@ -98,22 +103,22 @@ public class GrabDetector : MonoBehaviour
 
 		grabbedObject = null;
 	}
-	
+
 	public bool IsTouching(XRHand hand)
-    {
-        XRHandJoint thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
-        XRHandJoint indexTip = hand.GetJoint(XRHandJointID.IndexTip);
+	{
+		XRHandJoint thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
+		XRHandJoint indexTip = hand.GetJoint(XRHandJointID.IndexTip);
 
-        if (thumbTip == null || indexTip == null)
-        {
-            return false;
-        }
+		if (thumbTip == null || indexTip == null)
+		{
+			return false;
+		}
 
-        Vector3 thumbPosition = thumbTip.TryGetPose(out var thumbPose) ? thumbPose.position : Vector3.zero;
-        Vector3 indexPosition = indexTip.TryGetPose(out var indexPose) ? indexPose.position : Vector3.zero;
+		Vector3 thumbPosition = thumbTip.TryGetPose(out var thumbPose) ? thumbPose.position : Vector3.zero;
+		Vector3 indexPosition = indexTip.TryGetPose(out var indexPose) ? indexPose.position : Vector3.zero;
 
-        float distance = Vector3.Distance(thumbPosition, indexPosition);
+		float distance = Vector3.Distance(thumbPosition, indexPosition);
 
-        return distance < touchThreshold;
-    }
+		return distance < touchThreshold;
+	}
 }
