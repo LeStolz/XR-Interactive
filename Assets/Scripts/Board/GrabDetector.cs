@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Main;
 using UnityEngine;
+using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
@@ -7,10 +9,11 @@ public class GrabDetector : MonoBehaviour
 {
 	[SerializeField] private float marginX = 0.5f;
 	[SerializeField] private float marginY = 0.6f;
+	[SerializeField] private float touchThreshold = 0.005f;
 	public Camera mainCamera;
 	private Transform grabbedObject;
 	private XRGrabInteractable grabInteractable;
-
+	private XRHandSubsystem handSubsystem;
 	void Awake()
 	{
 		mainCamera = Camera.main;
@@ -20,6 +23,16 @@ public class GrabDetector : MonoBehaviour
 		{
 			grabInteractable.selectEntered.AddListener(OnGrabbed);
 			grabInteractable.selectExited.AddListener(OnReleased);
+		}
+	}
+
+	void Start()
+	{
+		var subsystems = new List<XRHandSubsystem>();
+		SubsystemManager.GetSubsystems(subsystems);
+		if (subsystems.Count > 0)
+		{
+			handSubsystem = subsystems[0];
 		}
 	}
 
@@ -34,6 +47,16 @@ public class GrabDetector : MonoBehaviour
 
 	void OnGrabbed(SelectEnterEventArgs args)
 	{
+		var interactorTransform = args.interactorObject.transform;
+		bool isLeftHand = interactorTransform.name.ToLower().Contains("left");
+
+		XRHand hand = isLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
+
+		if (!IsTouching(hand))
+		{
+			return;
+		}
+
 		if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
 		{
 			return;
@@ -81,4 +104,21 @@ public class GrabDetector : MonoBehaviour
 		grabbedObject = null;
 	}
 
+	public bool IsTouching(XRHand hand)
+	{
+		XRHandJoint thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
+		XRHandJoint indexTip = hand.GetJoint(XRHandJointID.IndexTip);
+
+		if (thumbTip == null || indexTip == null)
+		{
+			return false;
+		}
+
+		Vector3 thumbPosition = thumbTip.TryGetPose(out var thumbPose) ? thumbPose.position : Vector3.zero;
+		Vector3 indexPosition = indexTip.TryGetPose(out var indexPose) ? indexPose.position : Vector3.zero;
+
+		float distance = Vector3.Distance(thumbPosition, indexPosition);
+
+		return distance < touchThreshold;
+	}
 }
