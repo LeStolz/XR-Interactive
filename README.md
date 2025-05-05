@@ -42,6 +42,8 @@ After ZED is (re)calibrated, the large display is calibrated right after. First,
 
 As virtual Vive trackers' transforms are relative to the virtual Vive headset's, to calibrate trackers means to calibrate the headset. We do this by placing one of the trackers X meters to the left and Y meters in front of the marker with X and Y predetermined such that the tracker is still within the detection zone of the base stations. The orientation of the tracker should match that of the marker as well. Then, the operator can click the "Calibrate" button to calibrate the trackers and headset positions.
 
+The tracker's virtual position is offsetted 0.1 meters torwards the ground to match where the real hand is.
+
 Their virtual transforms are then synced with other devices.
 
 _Note:_ As long as the base stations and the Vive headset do not move, the virtual Vive headset's transform remains the same. Thus, we can just save the calibration information from the previous session for use in the current session if the conditions are met.
@@ -82,10 +84,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- Fix thingy.
 - Dashedline for indirect.
-- Tablet.
-- Pointing target for all 3 (4)
 - Fishing rod pointing.
 - VR, VR view for ZED.
 - 2 ZED.

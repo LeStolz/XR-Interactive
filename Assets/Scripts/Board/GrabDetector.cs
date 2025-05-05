@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using Main;
 using UnityEngine;
+using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
@@ -7,10 +9,12 @@ public class GrabDetector : MonoBehaviour
 {
 	[SerializeField] private float marginX = 0.5f;
 	[SerializeField] private float marginY = 0.6f;
+	[SerializeField] private float touchThreshold = 0.005f;
 	public Camera mainCamera;
 	private Transform grabbedObject;
+	private List<Transform> grabbingHands = new List<Transform>();
 	private XRGrabInteractable grabInteractable;
-
+	private XRHandSubsystem handSubsystem;
 	void Awake()
 	{
 		mainCamera = Camera.main;
@@ -20,6 +24,16 @@ public class GrabDetector : MonoBehaviour
 		{
 			grabInteractable.selectEntered.AddListener(OnGrabbed);
 			grabInteractable.selectExited.AddListener(OnReleased);
+		}
+	}
+
+	void Start()
+	{
+		var subsystems = new List<XRHandSubsystem>();
+		SubsystemManager.GetSubsystems(subsystems);
+		if (subsystems.Count > 0)
+		{
+			handSubsystem = subsystems[0];
 		}
 	}
 
@@ -34,12 +48,25 @@ public class GrabDetector : MonoBehaviour
 
 	void OnGrabbed(SelectEnterEventArgs args)
 	{
-		if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
+		var interactorTransform = args.interactorObject.transform;
+		bool isLeftHand = interactorTransform.name.ToLower().Contains("left");
+
+		XRHand hand = isLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
+
+		if (!IsTouching(hand) || args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
 		{
 			return;
 		}
 
-		grabbedObject = transform;
+		if (!grabbingHands.Contains(interactorTransform))
+		{
+			grabbingHands.Add(interactorTransform);
+		}
+
+		if (grabbedObject == null)
+		{
+			grabbedObject = transform;
+		}
 	}
 
 	void OnReleased(SelectExitEventArgs args)
@@ -49,7 +76,13 @@ public class GrabDetector : MonoBehaviour
 			return;
 		}
 
-		grabbedObject = null;
+		var interactorTransform = args.interactorObject.transform;
+		grabbingHands.Remove(interactorTransform);
+
+		if (grabbingHands.Count == 0)
+		{
+			grabbedObject = null;
+		}
 	}
 
 	void Update()
@@ -79,6 +112,20 @@ public class GrabDetector : MonoBehaviour
 		}
 
 		grabbedObject = null;
+	}
+
+	public bool IsTouching(XRHand hand)
+	{
+		XRHandJoint thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
+		XRHandJoint indexTip = hand.GetJoint(XRHandJointID.IndexTip);
+
+		if (!thumbTip.TryGetPose(out var thumbPose) || !indexTip.TryGetPose(out var indexPose))
+		{
+			return false;
+		}
+
+		float distance = Vector3.Distance(thumbPose.position, indexPose.position);
+		return distance < touchThreshold;
 	}
 
 }

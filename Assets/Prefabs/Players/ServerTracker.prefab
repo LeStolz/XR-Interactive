@@ -109,7 +109,7 @@ Transform:
   m_GameObject: {fileID: 4553792172343494461}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e57b179c084deb47b8e50c2baf50378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableFishingRodPointing: 0
   arrow: {fileID: 4553792172343494461}
   id: 0
   serverTrackerManager: {fileID: 3230529017000498113}
@@ -288,7 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  OFFSET: {x: 1.79, y: 0, z: -1.355}
+  OFFSET: {x: 1.785, y: 0.05, z: -1.355}
   <Trackers>k__BackingField:
   - {fileID: 4390638607340976808}
   camera: {fileID: 1017168899782425847}

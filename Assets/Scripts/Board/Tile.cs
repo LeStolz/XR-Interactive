@@ -10,4 +10,9 @@ public class Tile : NetworkBehaviour
         gameObject.GetComponent<Rigidbody>().constraints = freeze ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
         gameObject.name = tileID;
     }
+
+    public void ToggleVisibility(bool visible)
+    {
+        gameObject.GetComponentInChildren<MeshRenderer>().enabled = visible;
+    }
 }
