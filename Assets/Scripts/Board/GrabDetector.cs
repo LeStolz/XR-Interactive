@@ -12,6 +12,7 @@ public class GrabDetector : MonoBehaviour
 	[SerializeField] private float touchThreshold = 0.005f;
 	public Camera mainCamera;
 	private Transform grabbedObject;
+	private List<Transform> grabbingHands = new List<Transform>();
 	private XRGrabInteractable grabInteractable;
 	private XRHandSubsystem handSubsystem;
 	void Awake()
@@ -52,17 +53,20 @@ public class GrabDetector : MonoBehaviour
 
 		XRHand hand = isLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
 
-		if (!IsTouching(hand))
+		if (!IsTouching(hand) || args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
 		{
 			return;
 		}
 
-		if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
+		if (!grabbingHands.Contains(interactorTransform))
 		{
-			return;
+			grabbingHands.Add(interactorTransform);
 		}
 
-		grabbedObject = transform;
+		if (grabbedObject == null)
+		{
+			grabbedObject = transform;
+		}
 	}
 
 	void OnReleased(SelectExitEventArgs args)
@@ -72,7 +76,13 @@ public class GrabDetector : MonoBehaviour
 			return;
 		}
 
-		grabbedObject = null;
+		var interactorTransform = args.interactorObject.transform;
+		grabbingHands.Remove(interactorTransform);
+
+		if (grabbingHands.Count == 0)
+		{
+			grabbedObject = null;
+		}
 	}
 
 	void Update()
@@ -109,16 +119,13 @@ public class GrabDetector : MonoBehaviour
 		XRHandJoint thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
 		XRHandJoint indexTip = hand.GetJoint(XRHandJointID.IndexTip);
 
-		if (thumbTip == null || indexTip == null)
+		if (!thumbTip.TryGetPose(out var thumbPose) || !indexTip.TryGetPose(out var indexPose))
 		{
 			return false;
 		}
 
-		Vector3 thumbPosition = thumbTip.TryGetPose(out var thumbPose) ? thumbPose.position : Vector3.zero;
-		Vector3 indexPosition = indexTip.TryGetPose(out var indexPose) ? indexPose.position : Vector3.zero;
-
-		float distance = Vector3.Distance(thumbPosition, indexPosition);
-
+		float distance = Vector3.Distance(thumbPose.position, indexPose.position);
 		return distance < touchThreshold;
 	}
+
 }
