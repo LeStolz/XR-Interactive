@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: XR-Interactive-0505-03
+  productName: XR-Interactive-0605-01
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.12156863, g: 0.12156863, b: 0.1254902, a: 1}
@@ -140,12 +140,11 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.2
+  bundleVersion: 1.3
   preloadedAssets:
   - {fileID: 0}
-  - {fileID: 7060572072856162523, guid: e4092494f37fcd74c9e900c0aa72f3ef, type: 2}
-  - {fileID: 4506254433043326122, guid: 95390e03a10f8774d98cb17f6e3a51dd, type: 2}
-  - {fileID: 11400000, guid: bf7e823c1be0db345b05de1c9c9beb5e, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: d29c7b12cfe085843842f6f912cf1983, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1

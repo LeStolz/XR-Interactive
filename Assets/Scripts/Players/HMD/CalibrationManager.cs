@@ -7,11 +7,11 @@ using Main;
 public class CalibrationManager : MonoBehaviour
 {
     Vector3 HOLOLENS_GROUND_OFFSET = new(0, -0.013f, 0f);
-    Vector3 QUEST_GROUND_OFFSET = new(0.1f, 0.1f, 0.1f);
+    Vector3 QUEST_GROUND_OFFSET = new(-0.04f, -0.23f, 0.47f);
     [SerializeField]
     float HOLOLENS_CAMERA_OFFSET = 0.01f;
     [SerializeField]
-    float OCCULUS_CAMERA_OFFSET = 0.01f;
+    float OCCULUS_CAMERA_OFFSET = 0f;
 
     readonly Calibrator calibrator = new(3, new float[] { 0.1f, 0.1f, 0.1f });
     public static CalibrationManager Instance = null;
