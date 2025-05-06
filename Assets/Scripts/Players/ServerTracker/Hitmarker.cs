@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Main
 {
-	class HitMarker : NetworkBehaviour
+	class HitMarker : MonoBehaviour
 	{
 		const int MAX_CURVE_ITERATIONS = 40;
 		const float ROTATE_SPEED = 30f;
@@ -19,7 +19,7 @@ namespace Main
 		Material solidMaterial;
 		float initialVelocity;
 		float currentRotation = 0;
-		bool isVisible = true;
+		public bool isVisible = true;
 
 		void Start()
 		{
@@ -76,23 +76,6 @@ namespace Main
 			positions.Add(end);
 
 			lineRenderer.SetPositions(positions.ToArray());
-		}
-
-		public void ToggleVisiblity(bool isVisible)
-		{
-			if (isVisible == this.isVisible)
-			{
-				return;
-			}
-
-			this.isVisible = isVisible;
-			ToggleVisibilityRpc(isVisible);
-		}
-
-		[Rpc(SendTo.Everyone)]
-		void ToggleVisibilityRpc(bool isVisible)
-		{
-			this.isVisible = isVisible;
 		}
 
 		Vector3 Lerp(float ratio, Vector3 start, Vector3 forward, Vector3 end)
