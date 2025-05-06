@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Main
 {
-	class HitMarker : MonoBehaviour
+	class HitMarker : NetworkBehaviour
 	{
 		const int MAX_CURVE_ITERATIONS = 40;
 		const float ROTATE_SPEED = 30f;
@@ -78,6 +79,18 @@ namespace Main
 		}
 
 		public void ToggleVisiblity(bool isVisible)
+		{
+			if (isVisible == this.isVisible)
+			{
+				return;
+			}
+
+			this.isVisible = isVisible;
+			ToggleVisibilityRpc(isVisible);
+		}
+
+		[Rpc(SendTo.Everyone)]
+		void ToggleVisibilityRpc(bool isVisible)
 		{
 			this.isVisible = isVisible;
 		}
