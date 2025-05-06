@@ -3504,6 +3504,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table UI
       objectReference: {fileID: 0}
+    - target: {fileID: 2571330426397612778, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: m_Name
+      value: Indirect
+      objectReference: {fileID: 0}
     - target: {fileID: 2609673242520073469, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3561,14 +3566,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5392210087020232585, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5392210087020232585, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 654642913}
+    - target: {fileID: 5392210087020232585, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetRayCastModeNone
+      objectReference: {fileID: 0}
+    - target: {fileID: 5760745723945601805, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5760745723945601805, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 654642913}
+    - target: {fileID: 5760745723945601805, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetRayCastModeIndirect
+      objectReference: {fileID: 0}
     - target: {fileID: 6124723184473180029, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3576,9 +3601,19 @@ PrefabInstance:
       objectReference: {fileID: 654642913}
     - target: {fileID: 6504137279431420548, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6504137279431420548, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 654642913}
+    - target: {fileID: 6504137279431420548, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetRayCastModeHybrid
+      objectReference: {fileID: 0}
     - target: {fileID: 6682532224717232065, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3608,6 +3643,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050240742063975058, guid: 3c7e97c2ac5aede4c834e98354f624e2,
+        type: 3}
+      propertyPath: m_Name
+      value: Hybrid
       objectReference: {fileID: 0}
     - target: {fileID: 7076668271965820682, guid: 3c7e97c2ac5aede4c834e98354f624e2,
         type: 3}
