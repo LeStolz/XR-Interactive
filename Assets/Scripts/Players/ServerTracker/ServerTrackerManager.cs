@@ -110,5 +110,22 @@ namespace Main
         {
             Trackers[trackerId].rayHitTag = tag;
         }
+
+        public void ToggleTrackerHitmarkerVisibility(int trackerId, int hitmarkerId, bool isVisible)
+        {
+            if (Trackers[trackerId].HitMarkers[hitmarkerId].isVisible == isVisible)
+            {
+                return;
+            }
+
+            Trackers[trackerId].HitMarkers[hitmarkerId].isVisible = isVisible;
+            ToggleTrackerHitmarkerVisibilityRpc(trackerId, hitmarkerId, isVisible);
+        }
+
+        [Rpc(SendTo.Everyone)]
+        public void ToggleTrackerHitmarkerVisibilityRpc(int trackerId, int hitmarkerId, bool isVisible)
+        {
+            Trackers[trackerId].HitMarkers[hitmarkerId].isVisible = isVisible;
+        }
     }
 }

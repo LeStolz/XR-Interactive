@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Main
@@ -18,7 +19,7 @@ namespace Main
 		Material solidMaterial;
 		float initialVelocity;
 		float currentRotation = 0;
-		bool isVisible = true;
+		public bool isVisible = true;
 
 		void Start()
 		{
@@ -75,11 +76,6 @@ namespace Main
 			positions.Add(end);
 
 			lineRenderer.SetPositions(positions.ToArray());
-		}
-
-		public void ToggleVisiblity(bool isVisible)
-		{
-			this.isVisible = isVisible;
 		}
 
 		Vector3 Lerp(float ratio, Vector3 start, Vector3 forward, Vector3 end)

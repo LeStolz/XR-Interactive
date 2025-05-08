@@ -14,7 +14,7 @@ namespace Main
 		int id;
 		[SerializeField]
 		ServerTrackerManager serverTrackerManager;
-		HitMarker[] hitMarkers;
+		public HitMarker[] HitMarkers;
 		Camera outputPortal;
 
 		public enum RayCastMode
@@ -48,7 +48,7 @@ namespace Main
 
 			RayCastAndTeleport(
 				new Ray(arrow.transform.position, arrow.transform.forward),
-				hitMarkers.Length - 1
+				HitMarkers.Length - 1
 			);
 		}
 
@@ -75,18 +75,18 @@ namespace Main
 				return;
 			}
 
-			var numBounce = hitMarkers.Count(hm => hm.IsShowing()) - 1;
+			var numBounce = HitMarkers.Count(hm => hm.IsShowing()) - 1;
 
-			for (int i = 0; i < hitMarkers.Length; i++)
+			for (int i = 0; i < HitMarkers.Length; i++)
 			{
-				if (!hitMarkers[i].IsShowing())
+				if (!HitMarkers[i].IsShowing())
 				{
-					hitMarkers[i].Hide();
+					HitMarkers[i].Hide();
 					continue;
 				}
 
-				hitMarkers[i].Show(
-					i, numBounce, arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
+				HitMarkers[i].Show(
+					i, numBounce, arrow.transform.position, arrow.transform.forward, HitMarkers[i].transform.position
 				);
 			}
 
@@ -111,7 +111,7 @@ namespace Main
 		{
 			while (depth >= 0)
 			{
-				hitMarkers[depth].Hide();
+				HitMarkers[depth].Hide();
 				depth--;
 			}
 		}
@@ -127,9 +127,11 @@ namespace Main
 			{
 				serverTrackerManager.UpdateRayHitTagRpc(id, hit.transform.gameObject.tag);
 
-				hitMarkers[depth].ToggleVisiblity(BoardGameManager.Instance.RayCastMode != RayCastMode.None);
-				hitMarkers[depth].transform.position = hit.point;
-				hitMarkers[depth].transform.forward = hit.normal;
+				serverTrackerManager.ToggleTrackerHitmarkerVisibilityRpc(
+					id, depth, BoardGameManager.Instance.RayCastMode != RayCastMode.None
+				);
+				HitMarkers[depth].transform.position = hit.point;
+				HitMarkers[depth].transform.forward = hit.normal;
 
 				if (enableFishingRodPointing && hit.transform.gameObject.CompareTag("Ceiling"))
 				{
@@ -145,7 +147,7 @@ namespace Main
 				{
 					if (BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
 					{
-						hitMarkers[depth].ToggleVisiblity(depth <= 0);
+						serverTrackerManager.ToggleTrackerHitmarkerVisibilityRpc(id, depth, depth <= 0);
 					}
 					HideAllFromDepth(depth - 1);
 					return;
@@ -167,9 +169,9 @@ namespace Main
 		bool UpdateHitmarkers()
 		{
 			if (
-				hitMarkers != null &&
-				hitMarkers.Length != 0 &&
-				hitMarkers.All(hm => hm != null)
+				HitMarkers != null &&
+				HitMarkers.Length != 0 &&
+				HitMarkers.All(hm => hm != null)
 			)
 			{
 				return true;
@@ -182,7 +184,7 @@ namespace Main
 				return false;
 			}
 
-			hitMarkers = ZedModelManager.HitMarkers.Skip(2 * id).Take(2).ToArray();
+			HitMarkers = ZedModelManager.HitMarkers.Skip(2 * id).Take(2).ToArray();
 
 			return true;
 		}

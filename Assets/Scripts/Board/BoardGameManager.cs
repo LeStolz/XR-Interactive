@@ -46,8 +46,23 @@ namespace Main
 
         public Tracker.RayCastMode RayCastMode { get; private set; } = Tracker.RayCastMode.None;
 
+        public void SetRayCastModeNone(bool isOn)
+        {
+            if (isOn) SetRayCastModeRpc((int)Tracker.RayCastMode.None);
+        }
+
+        public void SetRayCastModeIndirect(bool isOn)
+        {
+            if (isOn) SetRayCastModeRpc((int)Tracker.RayCastMode.Indirect);
+        }
+
+        public void SetRayCastModeHybrid(bool isOn)
+        {
+            if (isOn) SetRayCastModeRpc((int)Tracker.RayCastMode.Hybrid);
+        }
+
         [Rpc(SendTo.Everyone)]
-        public void SetRayCastModeRpc(int rayCastModeID)
+        void SetRayCastModeRpc(int rayCastModeID)
         {
             RayCastMode = (Tracker.RayCastMode)rayCastModeID;
         }
