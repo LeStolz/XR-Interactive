@@ -26,6 +26,7 @@ namespace Main
 
 		public enum RaySpace
 		{
+			None,
 			PhysicalSpace,
 			ObjectInPhysicalSpace,
 			ScreenSpace,
@@ -90,8 +91,43 @@ namespace Main
 				);
 			}
 
-			RaySpace raySpace = RaySpace.PhysicalSpace;
-			if (numBounce == 0)
+			ManageRaySpace(numBounce);
+		}
+
+		ZEDModelManager zedModelManager;
+		bool ZEDCanSeeTracker()
+		{
+			if (zedModelManager == null)
+			{
+				zedModelManager = NetworkGameManager.Instance.FindPlayerByRole<ZEDModelManager>(Role.ZED);
+			}
+
+			if (zedModelManager == null)
+			{
+				return false;
+			}
+
+			var zedCamera = zedModelManager.GetComponentInChildren<Camera>();
+
+			if (zedCamera == null)
+			{
+				return false;
+			}
+
+			var point = zedCamera.WorldToViewportPoint(arrow.transform.position);
+
+			return point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1 && point.z >= 0;
+		}
+
+		void ManageRaySpace(int numBounce)
+		{
+			RaySpace raySpace = RaySpace.None;
+
+			if (!ZEDCanSeeTracker())
+			{
+
+			}
+			else if (numBounce == 0)
 			{
 				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInPhysicalSpace : RaySpace.PhysicalSpace;
 			}
