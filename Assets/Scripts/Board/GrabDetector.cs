@@ -10,17 +10,15 @@ public class GrabDetector : MonoBehaviour
 	[SerializeField] private float marginX = 0.5f;
 	[SerializeField] private float marginY = 0.6f;
 	[SerializeField] private float touchThreshold = 0.005f;
-	public Camera mainCamera;
 	private Transform grabbedObject;
-	private List<Transform> grabbingHands = new List<Transform>();
+	private readonly List<Transform> grabbingHands = new();
 	private XRGrabInteractable grabInteractable;
 	private XRHandSubsystem handSubsystem;
 	void Awake()
 	{
-		mainCamera = Camera.main;
 		grabInteractable = GetComponent<XRGrabInteractable>();
 
-		if (grabInteractable != null && mainCamera != null)
+		if (grabInteractable != null && Camera.main != null)
 		{
 			grabInteractable.selectEntered.AddListener(OnGrabbed);
 			grabInteractable.selectExited.AddListener(OnReleased);
@@ -85,25 +83,30 @@ public class GrabDetector : MonoBehaviour
 		}
 	}
 
+
 	void Update()
-	{
-		if (grabbedObject == null)
-		{
-			return;
-		}
-		Vector3 viewportPoint = mainCamera.WorldToViewportPoint(grabbedObject.position);
+    {
+        if (IsOutOfView())
+        {
+            ForceReleaseGrabbedObject();
+        }
+    }
 
-		bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
-					   viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
-					   viewportPoint.z < 0;
+    private bool IsOutOfView()
+    {
+        if (grabbedObject == null)
+        {
+            return false;
+        }
 
-		if (isOutOfView)
-		{
-			ForceReleaseGrabbedObject();
-		}
-	}
+        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(grabbedObject.position);
+        bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
+                       viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
+                       viewportPoint.z < 0;
+        return isOutOfView;
+    }
 
-	void ForceReleaseGrabbedObject()
+    void ForceReleaseGrabbedObject()
 	{
 		var interactable = grabbedObject.GetComponent<XRGrabInteractable>();
 		if (interactable != null && interactable.isSelected)
