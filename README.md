@@ -87,7 +87,6 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 - Fix throwing.
 - None.
 - Calibration.
-- TrackPos.
 - Fishing rod pointing.
 - VR, VR view for ZED.
 - 2 ZED.
