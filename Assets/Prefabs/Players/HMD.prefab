@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  m_FidelityLevel: 0
+  m_FidelityLevel: 1
   m_MinUpdateDelta: 0.1
   m_HandCurler:
   - {fileID: 5924413893936946445}

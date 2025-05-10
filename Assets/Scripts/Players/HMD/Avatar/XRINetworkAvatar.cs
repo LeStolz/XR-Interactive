@@ -1,10 +1,17 @@
 using UnityEngine;
 using Unity.XR.CoreUtils;
+using UnityEngine.XR.Hands;
+using System.Collections.Generic;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 namespace Main
 {
     public class XRINetworkAvatar : NetworkPlayer
     {
+        [SerializeField] private float marginX = 0.5f * 1.5f;
+        [SerializeField] private float marginY = 0.6f * 1.5f;
+
         [Header("Avatar Transform References"), Tooltip("Assign to local avatar transform.")]
         public Transform head;
         public Transform leftHand;
@@ -16,15 +23,89 @@ namespace Main
         protected XROrigin m_XROrigin;
         protected Vector3 m_PrevHeadPos;
 
+        XRHandSubsystem handSubsystem;
+
+        void Start()
+        {
+            var subsystems = new List<XRHandSubsystem>();
+            SubsystemManager.GetSubsystems(subsystems);
+            if (subsystems.Count > 0)
+            {
+                handSubsystem = subsystems[0];
+            }
+        }
+
         ///<inheritdoc/>
         protected virtual void LateUpdate()
         {
-            if (!IsOwner) return;
+            // if (!IsOwner) return;
 
-            // Set transforms to be replicated with ClientNetworkTransforms
+            ToggleHand(leftHand, m_LeftHandOrigin);
+            ToggleHand(rightHand, m_RightHandOrigin);
+
             leftHand.SetPositionAndRotation(m_LeftHandOrigin.position, m_LeftHandOrigin.rotation);
             rightHand.SetPositionAndRotation(m_RightHandOrigin.position, m_RightHandOrigin.rotation);
             head.SetPositionAndRotation(m_HeadOrigin.position, m_HeadOrigin.rotation);
+        }
+
+        void HideHand(bool isLeftHand)
+        {
+            if (isLeftHand)
+                m_XROrigin.GetComponent<XRInputModalityManager>().leftHand.
+                    GetComponentInChildren<NearFarInteractor>().enabled = false;
+            else
+                m_XROrigin.GetComponent<XRInputModalityManager>().rightHand.
+                    GetComponentInChildren<NearFarInteractor>().enabled = false;
+        }
+
+        void ShowHand(bool isLeftHand)
+        {
+            if (isLeftHand)
+                m_XROrigin.GetComponent<XRInputModalityManager>().leftHand.
+                    GetComponentInChildren<NearFarInteractor>().enabled = true;
+            else
+                m_XROrigin.GetComponent<XRInputModalityManager>().rightHand.
+                    GetComponentInChildren<NearFarInteractor>().enabled = true;
+        }
+
+        private void ToggleHand(Transform networkedHand, Transform originHand)
+        {
+            SetupLocalPlayer();
+
+            bool isLeftHand = originHand.gameObject.name.ToLower().Contains("left");
+
+            Debug.Log(
+                $"{isLeftHand && !handSubsystem.leftHand.isTracked} {!isLeftHand && !handSubsystem.rightHand.isTracked}"
+            );
+
+
+            if (
+                handSubsystem != null &&
+                (
+                    isLeftHand && !handSubsystem.leftHand.isTracked ||
+                    !isLeftHand && !handSubsystem.rightHand.isTracked
+                ) &&
+                networkedHand.position == originHand.position
+            )
+            {
+                HideHand(isLeftHand);
+                return;
+            }
+
+            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(originHand.position);
+            bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
+                       viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
+                       viewportPoint.z < 0;
+
+            Debug.Log($"Viewport Point: {viewportPoint}, Is Out of View: {isOutOfView}");
+
+            if (isOutOfView)
+            {
+                HideHand(isLeftHand);
+                return;
+            }
+
+            ShowHand(isLeftHand);
         }
 
         public override void OnNetworkSpawn()
