@@ -51,7 +51,7 @@ public class GrabDetector : MonoBehaviour
 
 		XRHand hand = isLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
 
-		if (!IsTouching(hand) || args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
+		if (!IsSufficientlyPinching(hand) || args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
 		{
 			return;
 		}
@@ -83,30 +83,29 @@ public class GrabDetector : MonoBehaviour
 		}
 	}
 
-
 	void Update()
-    {
-        if (IsOutOfView())
-        {
-            ForceReleaseGrabbedObject();
-        }
-    }
+	{
+		if (IsOutOfView())
+		{
+			ForceReleaseGrabbedObject();
+		}
+	}
 
-    private bool IsOutOfView()
-    {
-        if (grabbedObject == null)
-        {
-            return false;
-        }
+	private bool IsOutOfView()
+	{
+		if (grabbedObject == null)
+		{
+			return false;
+		}
 
-        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(grabbedObject.position);
-        bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
-                       viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
-                       viewportPoint.z < 0;
-        return isOutOfView;
-    }
+		Vector3 viewportPoint = Camera.main.WorldToViewportPoint(grabbedObject.position);
+		bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
+					   viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
+					   viewportPoint.z < 0;
+		return isOutOfView;
+	}
 
-    void ForceReleaseGrabbedObject()
+	void ForceReleaseGrabbedObject()
 	{
 		var interactable = grabbedObject.GetComponent<XRGrabInteractable>();
 		if (interactable != null && interactable.isSelected)
@@ -117,18 +116,17 @@ public class GrabDetector : MonoBehaviour
 		grabbedObject = null;
 	}
 
-	public bool IsTouching(XRHand hand)
+	bool IsSufficientlyPinching(XRHand hand)
 	{
 		XRHandJoint thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
 		XRHandJoint indexTip = hand.GetJoint(XRHandJointID.IndexTip);
 
 		if (!thumbTip.TryGetPose(out var thumbPose) || !indexTip.TryGetPose(out var indexPose))
 		{
-			return false;
+			return true;
 		}
 
 		float distance = Vector3.Distance(thumbPose.position, indexPose.position);
 		return distance < touchThreshold;
 	}
-
 }

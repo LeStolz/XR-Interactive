@@ -3,7 +3,6 @@ using Unity.XR.CoreUtils;
 using UnityEngine.XR.Hands;
 using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
-using UnityEngine.XR.Interaction.Toolkit.Inputs;
 
 namespace Main
 {
@@ -20,7 +19,7 @@ namespace Main
         [Header("Networked Hands"), SerializeField, Tooltip("Hand Objects to be disabled for the local player.")]
         protected GameObject[] m_handsObjects;
         protected Transform m_LeftHandOrigin, m_RightHandOrigin, m_HeadOrigin;
-        protected XROrigin m_XROrigin;
+        [SerializeField] protected XROrigin m_XROrigin;
         protected Vector3 m_PrevHeadPos;
 
         XRHandSubsystem handSubsystem;
@@ -38,7 +37,7 @@ namespace Main
         ///<inheritdoc/>
         protected virtual void LateUpdate()
         {
-            // if (!IsOwner) return;
+            if (!IsOwner) return;
 
             ToggleHand(leftHand, m_LeftHandOrigin);
             ToggleHand(rightHand, m_RightHandOrigin);
@@ -48,36 +47,9 @@ namespace Main
             head.SetPositionAndRotation(m_HeadOrigin.position, m_HeadOrigin.rotation);
         }
 
-        void HideHand(bool isLeftHand)
-        {
-            if (isLeftHand)
-                m_XROrigin.GetComponent<XRInputModalityManager>().leftHand.
-                    GetComponentInChildren<NearFarInteractor>().enabled = false;
-            else
-                m_XROrigin.GetComponent<XRInputModalityManager>().rightHand.
-                    GetComponentInChildren<NearFarInteractor>().enabled = false;
-        }
-
-        void ShowHand(bool isLeftHand)
-        {
-            if (isLeftHand)
-                m_XROrigin.GetComponent<XRInputModalityManager>().leftHand.
-                    GetComponentInChildren<NearFarInteractor>().enabled = true;
-            else
-                m_XROrigin.GetComponent<XRInputModalityManager>().rightHand.
-                    GetComponentInChildren<NearFarInteractor>().enabled = true;
-        }
-
         private void ToggleHand(Transform networkedHand, Transform originHand)
         {
-            SetupLocalPlayer();
-
-            bool isLeftHand = originHand.gameObject.name.ToLower().Contains("left");
-
-            Debug.Log(
-                $"{isLeftHand && !handSubsystem.leftHand.isTracked} {!isLeftHand && !handSubsystem.rightHand.isTracked}"
-            );
-
+            bool isLeftHand = networkedHand.gameObject.name.ToLower().Contains("left");
 
             if (
                 handSubsystem != null &&
@@ -88,7 +60,7 @@ namespace Main
                 networkedHand.position == originHand.position
             )
             {
-                HideHand(isLeftHand);
+                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;
                 return;
             }
 
@@ -97,21 +69,18 @@ namespace Main
                        viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
                        viewportPoint.z < 0;
 
-            Debug.Log($"Viewport Point: {viewportPoint}, Is Out of View: {isOutOfView}");
-
-            if (isOutOfView)
-            {
-                HideHand(isLeftHand);
-                return;
-            }
-
-            ShowHand(isLeftHand);
+            originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = !isOutOfView;
         }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
 
+            SetupPlayer();
+        }
+
+        private void SetupPlayer()
+        {
             if (IsOwner)
             {
                 NetworkGameManager.Instance.TableUI.SetActive(false);
@@ -140,23 +109,12 @@ namespace Main
             }
         }
 
-        /// <summary>
-        /// Called from <see cref="XRHandPoseReplicator"/> when swapping between hand tracking and controllers.
-        /// </summary>
-        /// <param name="left">Transform for Left Hand.</param>
-        /// <param name="right">Transform for Right Hand.</param>
         public void SetHandOrigins(Transform left, Transform right)
         {
             m_LeftHandOrigin = left;
             m_RightHandOrigin = right;
         }
 
-        /// <summary>
-        /// Hides and disables Renderers and GameObjects on the Local Player.
-        /// Also sets the initial values for <see cref="m_PlayerColor"/> and <see cref="m_PlayerName"/>.
-        /// Finally we subscribe to any updates for Color and Name.
-        /// </summary>
-        /// <remarks>Only called on the Local Player.</remarks>
         protected override void SetupLocalPlayer()
         {
             base.SetupLocalPlayer();
