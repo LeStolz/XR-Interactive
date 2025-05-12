@@ -142,7 +142,10 @@ namespace Main
                 OnRaySpaceChanged?.Invoke(raySpace);
             }
 
-            zedModelManager?.UpdateRaySpaceRpc((int)currentRaySpace, id);
+            if (zedModelManager != null)
+            {
+                zedModelManager.UpdateRaySpaceRpc((int)currentRaySpace, id);
+            }
         }
 
         void HideAllFromDepth(int depth)
