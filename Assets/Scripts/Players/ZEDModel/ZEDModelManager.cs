@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
+using TMPro;
 
 namespace Main
 {
@@ -29,6 +31,9 @@ namespace Main
         ServerTrackerManager serverTrackerManager;
         [field: SerializeField]
         public HitMarker[] HitMarkers { get; private set; }
+
+        [SerializeField]
+        TMP_Text debugText;
 
         void Start()
         {
@@ -102,6 +107,12 @@ namespace Main
 
             if (!frame.activeSelf)
                 frame.SetActive(true);
+        }
+
+        [Rpc(SendTo.Owner)]
+        public void UpdateRaySpaceRpc(int raySpaceId, int id)
+        {
+            debugText.text = $"RaySpace: {(Tracker.RayCastMode)raySpaceId}";
         }
 
         void OnMarkersDetected(Dictionary<int, List<sl.Pose>> detectedposes)
