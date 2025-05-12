@@ -107,7 +107,7 @@ namespace Main
                 return false;
             }
 
-            var zedCamera = zedModelManager.GetComponentInChildren<Camera>();
+            var zedCamera = zedModelManager.GetComponentInChildren<Camera>(true);
 
             if (zedCamera == null)
             {
