@@ -142,7 +142,7 @@ namespace Main
                 OnRaySpaceChanged?.Invoke(raySpace);
             }
 
-            if (zedModelManager != null)
+            if (serverTrackerManager.IsOwner && zedModelManager != null)
             {
                 zedModelManager.UpdateRaySpaceRpc((int)currentRaySpace, id);
             }

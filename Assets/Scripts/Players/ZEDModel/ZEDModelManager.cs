@@ -112,7 +112,7 @@ namespace Main
         [Rpc(SendTo.Owner)]
         public void UpdateRaySpaceRpc(int raySpaceId, int id)
         {
-            debugText.text = $"RaySpace: {(Tracker.RayCastMode)raySpaceId}";
+            debugText.text = $"{(Tracker.RayCastMode)raySpaceId}";
         }
 
         void OnMarkersDetected(Dictionary<int, List<sl.Pose>> detectedposes)
