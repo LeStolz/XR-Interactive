@@ -116,6 +116,8 @@ namespace Main
 
 			var point = zedCamera.WorldToViewportPoint(arrow.transform.position);
 
+
+
 			return point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1 && point.z >= 0;
 		}
 
