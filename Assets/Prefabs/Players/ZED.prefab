@@ -420,6 +420,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  vrCamera: {fileID: 8851800432441769937}
+  zedCamera: {fileID: 1339853681118605315}
   markers:
   - {fileID: 7019160230572938505}
   - {fileID: 1961192933686539362}
@@ -1009,9 +1011,8 @@ MonoBehaviour:
   - {fileID: 8053742614054498156}
   - {fileID: 7790811099120680775}
   - {fileID: 8325605581026384357}
+  - {fileID: 1339853681118605315}
   camerasContainer: {fileID: 2655468012844763550}
-  vrCamera: {fileID: 8851800432441769937}
-  zedCamera: {fileID: 1339853681118605315}
   inputPortal: {fileID: 1789519295153248951}
   marker: {fileID: 8325605581026384357}
   leftEye: {fileID: 1338635965805324125}
