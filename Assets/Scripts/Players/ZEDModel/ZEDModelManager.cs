@@ -13,9 +13,7 @@ namespace Main
         [SerializeField]
         GameObject[] objectsToEnableOnSpawn;
         [SerializeField]
-        GameObject ZEDModel;
-        [SerializeField]
-        GameObject cameraEyes;
+        GameObject camerasContainer;
         [SerializeField]
         Portal inputPortal;
         [SerializeField]
@@ -139,24 +137,22 @@ namespace Main
                             )
                         );
 
-                        var parent = cameraEyes.transform.parent;
+                        var parent = camerasContainer.transform.parent;
 
-                        cameraEyes.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
+                        camerasContainer.transform.SetPositionAndRotation(leftEye.transform.position, leftEye.transform.rotation);
 
-                        cameraEyes.transform.SetParent(marker.transform);
+                        camerasContainer.transform.SetParent(marker.transform);
                         marker.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(new(-90, 0, 0)));
-                        cameraEyes.transform.SetParent(parent);
+                        camerasContainer.transform.SetParent(parent);
 
-                        cameraEyes.transform.position = new(
-                            cameraEyes.transform.position.x,
-                            cameraEyes.transform.position.y + HEIGHT_OFFSET,
-                            cameraEyes.transform.position.z
+                        camerasContainer.transform.position = new(
+                            camerasContainer.transform.position.x,
+                            camerasContainer.transform.position.y + HEIGHT_OFFSET,
+                            camerasContainer.transform.position.z
                         );
-                        leftEye.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
+                        leftEye.SetPositionAndRotation(camerasContainer.transform.position, camerasContainer.transform.rotation);
 
                         inputPortal.Calibrate();
-
-                        ZEDModel.transform.SetPositionAndRotation(cameraEyes.transform.position, cameraEyes.transform.rotation);
                     }
                 );
             }
