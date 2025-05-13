@@ -89,7 +89,7 @@ namespace Main
 			}
 		}
 
-		Tracker.RaySpace currentRaySpace = Tracker.RaySpace.PhysicalSpace;
+		Tracker.RaySpace currentRaySpace = Tracker.RaySpace.None;
 		void HandleRaySpaceChanged(Tracker.RaySpace raySpace)
 		{
 			Debug.Log($"{currentRaySpace}:{timeSinceStart}");
@@ -120,7 +120,7 @@ namespace Main
 					tracker.OnRaySpaceChanged -= HandleRaySpaceChanged;
 				}
 			}
-			HandleRaySpaceChanged(Tracker.RaySpace.PhysicalSpace);
+			HandleRaySpaceChanged(Tracker.RaySpace.None);
 
 			var tablet = NetworkGameManager.Instance.FindPlayerByRole<TabletManager>(Role.Tablet);
 			var tabletID = tablet == null ? "NULL" : tablet.PlayerName;
@@ -148,7 +148,7 @@ namespace Main
 			{
 				raySpaceDataPoints = new List<RaySpaceDataPoint>()
 			};
-			currentRaySpace = Tracker.RaySpace.PhysicalSpace;
+			currentRaySpace = Tracker.RaySpace.None;
 		}
 
 		void HandleGameStatusChanged(BoardGameManager.GameStatus gameStatus)

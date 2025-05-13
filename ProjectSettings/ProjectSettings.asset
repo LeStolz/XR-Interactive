@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: XR-Interactive-0605-01
+  productName: XR-Interactive-1305-01
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.12156863, g: 0.12156863, b: 0.1254902, a: 1}
@@ -140,9 +140,8 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.3
+  bundleVersion: 1.0
   preloadedAssets:
-  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 11400000, guid: d29c7b12cfe085843842f6f912cf1983, type: 2}
   metroInputSource: 0
@@ -703,14 +702,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: XR-Interactive-0505-03
+  metroPackageName: XR-Interactive-0905-14
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany
   metroCertificateIssuer: DefaultCompany
   metroCertificateNotAfter: 803506b597a5dc01
-  metroApplicationDescription: XR-Interactive-0505-03
+  metroApplicationDescription: XR-Interactive-0905-14
   wsaImages: {}
   metroTileShortName: XR-Interactive
   metroTileShowName: 0

@@ -4,187 +4,230 @@ using UnityEngine;
 
 namespace Main
 {
-	class Tracker : MonoBehaviour
-	{
-		[SerializeField]
-		bool enableFishingRodPointing = false;
-		[SerializeField]
-		GameObject arrow;
-		[SerializeField]
-		int id;
-		[SerializeField]
-		ServerTrackerManager serverTrackerManager;
-		HitMarker[] hitMarkers;
-		Camera outputPortal;
+    class Tracker : MonoBehaviour
+    {
+        [SerializeField]
+        bool enableFishingRodPointing = false;
+        [SerializeField]
+        GameObject arrow;
+        [SerializeField]
+        int id;
+        [SerializeField]
+        ServerTrackerManager serverTrackerManager;
+        public HitMarker[] HitMarkers;
+        Camera outputPortal;
+        ZEDModelManager zedModelManager;
 
-		public enum RayCastMode
-		{
-			None,
-			Indirect,
-			Hybrid
-		}
+        public enum RayCastMode
+        {
+            None,
+            Indirect,
+            Hybrid
+        }
 
-		public enum RaySpace
-		{
-			PhysicalSpace,
-			ObjectInPhysicalSpace,
-			ScreenSpace,
-			ObjectInScreenSpace
-		}
+        public enum RaySpace
+        {
+            None,
+            PhysicalSpace,
+            ObjectInPhysicalSpace,
+            ScreenSpace,
+            ObjectInScreenSpace
+        }
 
-		RaySpace currentRaySpace = RaySpace.PhysicalSpace;
-		public string rayHitTag = "";
-		public Action<RaySpace> OnRaySpaceChanged;
+        RaySpace currentRaySpace = RaySpace.None;
+        public string rayHitTag = "";
+        public Action<RaySpace> OnRaySpaceChanged;
 
-		public void StartRayCastAndTeleport(Camera outputPortal)
-		{
-			if (!UpdateHitmarkers())
-			{
-				return;
-			}
+        public void StartRayCastAndTeleport(Camera outputPortal)
+        {
+            if (!UpdateHitmarkers())
+            {
+                return;
+            }
 
-			rayHitTag = "";
-			this.outputPortal = outputPortal;
+            rayHitTag = "";
+            this.outputPortal = outputPortal;
 
-			RayCastAndTeleport(
-				new Ray(arrow.transform.position, arrow.transform.forward),
-				hitMarkers.Length - 1
-			);
-		}
+            RayCastAndTeleport(
+                new Ray(arrow.transform.position, arrow.transform.forward),
+                HitMarkers.Length - 1
+            );
+        }
 
-		void Start()
-		{
-			BoardGameManager.Instance.OnGameStatusChanged += OnGameStatusChanged;
-		}
+        void Start()
+        {
+            BoardGameManager.Instance.OnGameStatusChanged += OnGameStatusChanged;
+        }
 
-		void OnDestroy()
-		{
-			BoardGameManager.Instance.OnGameStatusChanged -= OnGameStatusChanged;
-		}
+        void OnDestroy()
+        {
+            BoardGameManager.Instance.OnGameStatusChanged -= OnGameStatusChanged;
+        }
 
-		void OnGameStatusChanged(BoardGameManager.GameStatus gameStatus)
-		{
-			currentRaySpace = RaySpace.PhysicalSpace;
-			OnRaySpaceChanged?.Invoke(currentRaySpace);
-		}
+        void OnGameStatusChanged(BoardGameManager.GameStatus gameStatus)
+        {
+            currentRaySpace = RaySpace.None;
+            OnRaySpaceChanged?.Invoke(currentRaySpace);
+        }
 
-		void Update()
-		{
-			if (!UpdateHitmarkers())
-			{
-				return;
-			}
+        void Update()
+        {
+            if (!UpdateHitmarkers())
+            {
+                return;
+            }
 
-			var numBounce = hitMarkers.Count(hm => hm.IsShowing()) - 1;
+            var numBounce = HitMarkers.Count(hm => hm.IsShowing()) - 1;
 
-			for (int i = 0; i < hitMarkers.Length; i++)
-			{
-				if (!hitMarkers[i].IsShowing())
-				{
-					hitMarkers[i].Hide();
-					continue;
-				}
+            for (int i = 0; i < HitMarkers.Length; i++)
+            {
+                if (!HitMarkers[i].IsShowing())
+                {
+                    HitMarkers[i].Hide();
+                    continue;
+                }
 
-				hitMarkers[i].Show(
-					i, numBounce, arrow.transform.position, arrow.transform.forward, hitMarkers[i].transform.position
-				);
-			}
+                HitMarkers[i].Show(
+                    i, numBounce, arrow.transform.position, arrow.transform.forward, HitMarkers[i].transform.position
+                );
+            }
 
-			RaySpace raySpace = RaySpace.PhysicalSpace;
-			if (numBounce == 0)
-			{
-				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInPhysicalSpace : RaySpace.PhysicalSpace;
-			}
-			else if (numBounce == 1)
-			{
-				raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInScreenSpace : RaySpace.ScreenSpace;
-			}
+            ManageRaySpace(numBounce);
+        }
 
-			if (currentRaySpace != raySpace)
-			{
-				currentRaySpace = raySpace;
-				OnRaySpaceChanged?.Invoke(raySpace);
-			}
-		}
+        bool ZEDCanSeeTracker()
+        {
+            if (zedModelManager == null)
+            {
+                zedModelManager = NetworkGameManager.Instance.FindPlayerByRole<ZEDModelManager>(Role.ZED);
+            }
 
-		void HideAllFromDepth(int depth)
-		{
-			while (depth >= 0)
-			{
-				hitMarkers[depth].Hide();
-				depth--;
-			}
-		}
+            if (zedModelManager == null)
+            {
+                return false;
+            }
 
-		void RayCastAndTeleport(Ray ray, int depth)
-		{
-			if (depth < 0)
-			{
-				return;
-			}
+            var zedCamera = zedModelManager.GetComponentInChildren<Camera>(true);
 
-			if (Physics.Raycast(ray, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
-			{
-				serverTrackerManager.UpdateRayHitTagRpc(id, hit.transform.gameObject.tag);
+            if (zedCamera == null)
+            {
+                return false;
+            }
 
-				hitMarkers[depth].ToggleVisiblity(BoardGameManager.Instance.RayCastMode != RayCastMode.None);
-				hitMarkers[depth].transform.position = hit.point;
-				hitMarkers[depth].transform.forward = hit.normal;
+            var point = zedCamera.WorldToViewportPoint(arrow.transform.position);
 
-				if (enableFishingRodPointing && hit.transform.gameObject.CompareTag("Ceiling"))
-				{
-					RayCastAndTeleport(
-						new(hit.point, hit.normal),
-						depth - 1
-					);
+            return point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1 && point.z >= 0;
+        }
 
-					return;
-				}
+        void ManageRaySpace(int numBounce)
+        {
+            RaySpace raySpace = RaySpace.None;
 
-				if (!hit.transform.gameObject.CompareTag("InputPortal"))
-				{
-					if (BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
-					{
-						hitMarkers[depth].ToggleVisiblity(depth <= 0);
-					}
-					HideAllFromDepth(depth - 1);
-					return;
-				}
+            if (!ZEDCanSeeTracker())
+            {
 
-				var inputPortal = hit.transform.gameObject.GetComponent<Portal>();
+            }
+            else if (numBounce == 0)
+            {
+                raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInPhysicalSpace : RaySpace.PhysicalSpace;
+            }
+            else if (numBounce == 1)
+            {
+                raySpace = rayHitTag == "StudyObject" ? RaySpace.ObjectInScreenSpace : RaySpace.ScreenSpace;
+            }
 
-				RayCastAndTeleport(
-					outputPortal.ScreenPointToRay(inputPortal.PortalSpaceToScreenSpace(hit.point, outputPortal)),
-					depth - 1
-				);
-			}
-			else
-			{
-				HideAllFromDepth(depth);
-			}
-		}
+            if (currentRaySpace != raySpace)
+            {
+                currentRaySpace = raySpace;
+                OnRaySpaceChanged?.Invoke(raySpace);
+            }
 
-		bool UpdateHitmarkers()
-		{
-			if (
-				hitMarkers != null &&
-				hitMarkers.Length != 0 &&
-				hitMarkers.All(hm => hm != null)
-			)
-			{
-				return true;
-			}
+            if (serverTrackerManager.IsOwner && zedModelManager != null)
+            {
+                zedModelManager.UpdateRaySpaceRpc((int)currentRaySpace, id);
+            }
+        }
 
-			var ZedModelManager = NetworkGameManager.Instance.FindPlayerByRole<ZEDModelManager>(Role.ZED);
+        void HideAllFromDepth(int depth)
+        {
+            while (depth >= 0)
+            {
+                HitMarkers[depth].Hide();
+                depth--;
+            }
+        }
 
-			if (ZedModelManager == null)
-			{
-				return false;
-			}
+        void RayCastAndTeleport(Ray ray, int depth)
+        {
+            if (depth < 0)
+            {
+                return;
+            }
 
-			hitMarkers = ZedModelManager.HitMarkers.Skip(2 * id).Take(2).ToArray();
+            if (Physics.Raycast(ray, out RaycastHit hit, 10, LayerMask.GetMask("Default")))
+            {
+                serverTrackerManager.UpdateRayHitTagRpc(id, hit.transform.gameObject.tag);
 
-			return true;
-		}
-	}
+                serverTrackerManager.ToggleTrackerHitmarkerVisibilityRpc(
+                    id, depth, BoardGameManager.Instance.RayCastMode != RayCastMode.None
+                );
+                HitMarkers[depth].transform.position = hit.point;
+                HitMarkers[depth].transform.forward = hit.normal;
+
+                if (enableFishingRodPointing && hit.transform.gameObject.CompareTag("Ceiling"))
+                {
+                    RayCastAndTeleport(
+                        new(hit.point, hit.normal),
+                        depth - 1
+                    );
+
+                    return;
+                }
+
+                if (!hit.transform.gameObject.CompareTag("InputPortal"))
+                {
+                    if (BoardGameManager.Instance.RayCastMode == RayCastMode.Indirect)
+                    {
+                        serverTrackerManager.ToggleTrackerHitmarkerVisibilityRpc(id, depth, depth <= 0);
+                    }
+                    HideAllFromDepth(depth - 1);
+                    return;
+                }
+
+                var inputPortal = hit.transform.gameObject.GetComponent<Portal>();
+
+                RayCastAndTeleport(
+                    outputPortal.ScreenPointToRay(inputPortal.PortalSpaceToScreenSpace(hit.point, outputPortal)),
+                    depth - 1
+                );
+            }
+            else
+            {
+                HideAllFromDepth(depth);
+            }
+        }
+
+        bool UpdateHitmarkers()
+        {
+            if (
+                HitMarkers != null &&
+                HitMarkers.Length != 0 &&
+                HitMarkers.All(hm => hm != null)
+            )
+            {
+                return true;
+            }
+
+            var ZedModelManager = NetworkGameManager.Instance.FindPlayerByRole<ZEDModelManager>(Role.ZED);
+
+            if (ZedModelManager == null)
+            {
+                return false;
+            }
+
+            HitMarkers = ZedModelManager.HitMarkers.Skip(2 * id).Take(2).ToArray();
+
+            return true;
+        }
+    }
 }
