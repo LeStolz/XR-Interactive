@@ -86,13 +86,14 @@ public class Portal : NetworkBehaviour
                     {
                         vrCamera.SetActive(true);
                         zedCamera.SetActive(false);
+                        NetworkGameManager.Instance.MRInteractionSetup.SetActive(true);
                     }
                     else
                     {
                         vrCamera.SetActive(false);
                         zedCamera.SetActive(true);
+                        NetworkGameManager.Instance.MRInteractionSetup.SetActive(false);
                     }
-
                 }
             );
         }
