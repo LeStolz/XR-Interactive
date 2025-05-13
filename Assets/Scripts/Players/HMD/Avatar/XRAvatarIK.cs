@@ -62,6 +62,8 @@ namespace Main
             m_DestinationY = m_HeadTransform.transform.eulerAngles.y;
 
             NetworkGameManager.Instance.World.passThroughState.Subscribe(OnPassthroughStateChanged);
+
+            OnPassthroughStateChanged(NetworkGameManager.Instance.World.passThroughState.Value);
         }
 
         void OnDestroy()
@@ -71,8 +73,8 @@ namespace Main
 
         void OnPassthroughStateChanged(AppearanceManger.PassthroughState state)
         {
-            leftHandVisual.gameObject.SetActive(state == AppearanceManger.PassthroughState.VR);
-            rightHandVisual.gameObject.SetActive(state == AppearanceManger.PassthroughState.VR);
+            leftHandVisual.enabled = state == AppearanceManger.PassthroughState.VR;
+            rightHandVisual.enabled = state == AppearanceManger.PassthroughState.VR;
             m_HeadVisualsRoot.gameObject.SetActive(state == AppearanceManger.PassthroughState.VR);
         }
 
