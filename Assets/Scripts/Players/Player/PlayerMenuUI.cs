@@ -49,9 +49,7 @@ namespace Main
         [SerializeField]
         GameObject[] onlineServerTrackerUIs;
         [SerializeField]
-        GameObject[] onlineZEDUIs;
-        [SerializeField]
-        GameObject[] onlineTabletUIs;
+        GameObject[] offlineZEDUIs;
 
         [SerializeField] GameObject calibrationPrefab;
 
@@ -140,10 +138,9 @@ namespace Main
                             trackerUI.SetTrackers();
                         break;
                     case Role.ZED:
-                        Toggle(onlineZEDUIs, true);
+                        Toggle(offlineZEDUIs, false);
                         break;
                     case Role.Tablet:
-                        Toggle(onlineTabletUIs, true);
                         break;
                 }
             }
@@ -159,10 +156,12 @@ namespace Main
                         {
                             var recalibration = Instantiate(calibrationPrefab, Vector3.zero, Quaternion.identity);
 
-                            if (offlineHMDUIs[0].TryGetComponent(out Toggle toggle)) {
+                            if (offlineHMDUIs[0].TryGetComponent(out Toggle toggle))
+                            {
                                 toggle.onValueChanged.AddListener((_) =>
                                     recalibration.GetComponentInChildren<CalibrationManager>().Recalibrate()
-                                ); }
+                                );
+                            }
 
                             calibrationPrefab = null;
                         }
@@ -171,10 +170,9 @@ namespace Main
                         Toggle(onlineServerTrackerUIs, false);
                         break;
                     case Role.ZED:
-                        Toggle(onlineZEDUIs, false);
+                        Toggle(offlineZEDUIs, true);
                         break;
                     case Role.Tablet:
-                        Toggle(onlineTabletUIs, false);
                         break;
                 }
             }

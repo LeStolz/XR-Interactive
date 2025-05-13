@@ -11,6 +11,8 @@ namespace Main
         /// Transform for the Network Player Head.
         /// </summary>
         [SerializeField, Tooltip("Transform for the Network Player Head.")] Transform m_HeadTransform;
+        [SerializeField] SkinnedMeshRenderer leftHandVisual;
+        [SerializeField] SkinnedMeshRenderer rightHandVisual;
 
         /// <summary>
         /// Torso Parent Transform.
@@ -58,6 +60,20 @@ namespace Main
         {
             m_Transform = GetComponent<Transform>();
             m_DestinationY = m_HeadTransform.transform.eulerAngles.y;
+
+            NetworkGameManager.Instance.World.passThroughState.Subscribe(OnPassthroughStateChanged);
+        }
+
+        void OnDestroy()
+        {
+            NetworkGameManager.Instance.World.passThroughState.Unsubscribe(OnPassthroughStateChanged);
+        }
+
+        void OnPassthroughStateChanged(AppearanceManger.PassthroughState state)
+        {
+            leftHandVisual.gameObject.SetActive(state == AppearanceManger.PassthroughState.VR);
+            rightHandVisual.gameObject.SetActive(state == AppearanceManger.PassthroughState.VR);
+            m_HeadVisualsRoot.gameObject.SetActive(state == AppearanceManger.PassthroughState.VR);
         }
 
         /// <inheritdoc/>

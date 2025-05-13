@@ -10,6 +10,10 @@ public class Portal : NetworkBehaviour
     readonly float portalPlaneOffset = 0f;
 
     [SerializeField]
+    GameObject vrCamera;
+    [SerializeField]
+    GameObject zedCamera;
+    [SerializeField]
     GameObject[] markers;
     [SerializeField]
     GameObject ZEDCanvas;
@@ -77,6 +81,18 @@ public class Portal : NetworkBehaviour
 
                     UpdatePortalRpc(portalCorners[0], portalCorners[1], portalCorners[2]);
                     ZEDCanvas.SetActive(false);
+
+                    if (NetworkGameManager.Instance.World.passthroughState == AppearanceManger.PassthroughState.VR)
+                    {
+                        vrCamera.SetActive(true);
+                        zedCamera.SetActive(false);
+                    }
+                    else
+                    {
+                        vrCamera.SetActive(false);
+                        zedCamera.SetActive(true);
+                    }
+
                 }
             );
         }

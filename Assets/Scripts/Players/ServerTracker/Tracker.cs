@@ -27,14 +27,15 @@ namespace Main
 
         public enum RaySpace
         {
-            None,
+            TabletDueToTrackerNotVisible,
+            TabletDueToRayHitCeilingOrLeftWall,
             PhysicalSpace,
             ObjectInPhysicalSpace,
             ScreenSpace,
             ObjectInScreenSpace
         }
 
-        RaySpace currentRaySpace = RaySpace.None;
+        RaySpace currentRaySpace = RaySpace.TabletDueToTrackerNotVisible;
         public string rayHitTag = "";
         public Action<RaySpace> OnRaySpaceChanged;
 
@@ -66,7 +67,7 @@ namespace Main
 
         void OnGameStatusChanged(BoardGameManager.GameStatus gameStatus)
         {
-            currentRaySpace = RaySpace.None;
+            currentRaySpace = RaySpace.TabletDueToTrackerNotVisible;
             OnRaySpaceChanged?.Invoke(currentRaySpace);
         }
 
@@ -121,11 +122,15 @@ namespace Main
 
         void ManageRaySpace(int numBounce)
         {
-            RaySpace raySpace = RaySpace.None;
+            RaySpace raySpace = RaySpace.TabletDueToTrackerNotVisible;
 
             if (!ZEDCanSeeTracker())
             {
-
+                raySpace = RaySpace.TabletDueToTrackerNotVisible;
+            }
+            else if (numBounce == 0 && rayHitTag == "ExclusionZone")
+            {
+                raySpace = RaySpace.TabletDueToRayHitCeilingOrLeftWall;
             }
             else if (numBounce == 0)
             {
@@ -140,11 +145,11 @@ namespace Main
             {
                 currentRaySpace = raySpace;
                 OnRaySpaceChanged?.Invoke(raySpace);
-            }
 
-            if (serverTrackerManager.IsOwner && zedModelManager != null)
-            {
-                zedModelManager.UpdateRaySpaceRpc((int)currentRaySpace, id);
+                if (serverTrackerManager.IsOwner && zedModelManager != null)
+                {
+                    // zedModelManager.UpdateRaySpaceRpc(id, (int)raySpace);
+                }
             }
         }
 

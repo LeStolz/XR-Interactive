@@ -84,8 +84,7 @@ Thus, by calculating the 2D coordinates of the crosshair on the virtual display 
 
 ## TODO
 
-- None 3 5 4.
-- Calibration.
+- Test 3
 - Fishing rod pointing.
 - VR, VR view for ZED.
 - 2 ZED.

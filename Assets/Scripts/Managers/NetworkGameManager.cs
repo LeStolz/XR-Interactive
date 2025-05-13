@@ -54,6 +54,9 @@ namespace Main
 
         [field: SerializeField]
         public GameObject MRInteractionSetup { get; private set; }
+        [field: SerializeField]
+        public AppearanceManger World { get; private set; }
+
         [SerializeField]
         Canvas ScreenSpaceCanvas;
         [field: SerializeField]

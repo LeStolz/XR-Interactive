@@ -54,6 +54,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HeadTransform: {fileID: 4979603276553521776}
+  leftHandVisual: {fileID: 1024991780416469258}
+  rightHandVisual: {fileID: 5026546526200288986}
   m_TorsoParentTransform: {fileID: 3386289269032039414}
   m_HeadVisualsRoot: {fileID: 1505290802079803326}
   m_Neck: {fileID: 6368153753825312535}
@@ -98,12 +100,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  marginX: 0.75
+  marginY: 0.90000004
   head: {fileID: 4979603276553521776}
   leftHand: {fileID: 2589638438276718014}
   rightHand: {fileID: 3839371786620680297}
   m_handsObjects:
   - {fileID: 2036205327274084763}
   - {fileID: 9004037379279928569}
+  m_XROrigin: {fileID: 0}
 --- !u!114 &3650585052750324594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,6 +994,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6829105144586757369, guid: fd7060ff12d07ca49b9a59dcd37883f5,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6829105144586757369, guid: fd7060ff12d07ca49b9a59dcd37883f5,
+        type: 3}
       propertyPath: m_Materials.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -1109,6 +1119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1758055255738982050, guid: cc80be4bc1a936a4fad64ab6fc6acd8c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1758055255738982050, guid: cc80be4bc1a936a4fad64ab6fc6acd8c,
         type: 3}
