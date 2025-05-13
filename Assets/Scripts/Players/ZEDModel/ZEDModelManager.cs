@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Netcode;
 using TMPro;
+using Unity.Netcode;
 
 namespace Main
 {
@@ -110,7 +110,7 @@ namespace Main
         }
 
         [Rpc(SendTo.Owner)]
-        public void UpdateRaySpaceRpc(int raySpaceId, int id)
+        public void UpdateRaySpaceRpc(int id, int raySpaceId)
         {
             debugText.text = $"{(Tracker.RaySpace)raySpaceId}";
         }
