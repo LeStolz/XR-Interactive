@@ -148,7 +148,7 @@ namespace Main
 
                 if (serverTrackerManager.IsOwner && zedModelManager != null)
                 {
-                    zedModelManager.UpdateRaySpaceRpc(id, (int)raySpace);
+                    // zedModelManager.UpdateRaySpaceRpc(id, (int)raySpace);
                 }
             }
         }
