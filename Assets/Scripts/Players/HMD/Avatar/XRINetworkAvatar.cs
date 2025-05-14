@@ -68,7 +68,7 @@ namespace Main
                 )
             )
             {
-                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;
+                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = true;
                 return;
             }
 
