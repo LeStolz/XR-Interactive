@@ -120,7 +120,7 @@ Material:
     - _Float_1: 0.71
     - _Fragments: 0.71
     - _FresnelPower: 0.16
-    - _Mode: 1
+    - _Mode: 0
     - _Noise: 0
     - _NoiseScale: 4994.46
     - _NoiseStrength: 0.5
