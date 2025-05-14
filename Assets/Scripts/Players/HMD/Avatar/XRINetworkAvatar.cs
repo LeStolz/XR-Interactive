@@ -65,15 +65,14 @@ namespace Main
                 (
                     isLeftHand && !handSubsystem.leftHand.isTracked ||
                     !isLeftHand && !handSubsystem.rightHand.isTracked
-                ) &&
-                networkedHand.position == originHand.position
+                )
             )
             {
                 originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;
                 return;
             }
 
-            // originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = !IsOutOfView(originHand, marginX, marginY);
+            originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = true;
         }
 
         public override void OnNetworkSpawn()
