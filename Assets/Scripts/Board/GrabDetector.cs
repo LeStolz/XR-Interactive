@@ -7,13 +7,14 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class GrabDetector : MonoBehaviour
 {
-    [SerializeField] private float marginX = 0.5f;
-    [SerializeField] private float marginY = 0.6f;
-    [SerializeField] private float touchThreshold = 0.005f;
+    [SerializeField] private readonly float marginX = 0.5f;
+    [SerializeField] private readonly float marginY = 0.6f;
+    [SerializeField] private readonly float touchThreshold = 0.005f;
     private Transform grabbedObject;
     private readonly List<Transform> grabbingHands = new();
     private XRGrabInteractable grabInteractable;
     private XRHandSubsystem handSubsystem;
+
     void Awake()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
@@ -51,8 +52,7 @@ public class GrabDetector : MonoBehaviour
 
         XRHand hand = isLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
 
-        // if (!IsSufficientlyPinching(hand) || args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
-        if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
+        if (!IsSufficientlyPinching(hand) || args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
         {
             return;
         }
@@ -86,24 +86,15 @@ public class GrabDetector : MonoBehaviour
 
     void Update()
     {
-        if (IsOutOfView())
+        if (grabbedObject == null)
+        {
+            return;
+        }
+
+        if (XRINetworkAvatar.IsOutOfView(grabbedObject, marginX, marginY))
         {
             ForceReleaseGrabbedObject();
         }
-    }
-
-    private bool IsOutOfView()
-    {
-        if (grabbedObject == null)
-        {
-            return false;
-        }
-
-        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(grabbedObject.position);
-        bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
-                       viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
-                       viewportPoint.z < 0;
-        return isOutOfView;
     }
 
     void ForceReleaseGrabbedObject()
