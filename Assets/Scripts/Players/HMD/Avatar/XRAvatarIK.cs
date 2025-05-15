@@ -62,7 +62,6 @@ namespace Main
             m_DestinationY = m_HeadTransform.transform.eulerAngles.y;
 
             NetworkGameManager.Instance.World.passThroughState.Subscribe(OnPassthroughStateChanged);
-
             OnPassthroughStateChanged(NetworkGameManager.Instance.World.passThroughState.Value);
         }
 
@@ -87,7 +86,6 @@ namespace Main
             m_Neck.rotation = m_HeadTransform.rotation;
 
             // Update Body.
-
             m_Transform.position = m_HeadTransform.position;
             m_TorsoParentTransform.position = m_HeadTransform.position + (Vector3.down * m_HeadHeightOffset);
             m_TorsoParentTransform.rotation = Quaternion.Slerp(m_TorsoParentTransform.rotation, Quaternion.Euler(new Vector3(0, m_DestinationY, 0)), Time.deltaTime * m_RotateSpeed);

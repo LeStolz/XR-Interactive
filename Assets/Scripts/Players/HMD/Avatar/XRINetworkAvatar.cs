@@ -58,15 +58,17 @@ namespace Main
 
         private void ToggleHand(Transform networkedHand, Transform originHand)
         {
-            bool isLeftHand = networkedHand.gameObject.name.ToLower().Contains("left");
+            if (handSubsystem == null)
+            {
+                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;
+                return;
+            }
 
-            if (
-                handSubsystem != null &&
-                (
-                    isLeftHand && !handSubsystem.leftHand.isTracked ||
-                    !isLeftHand && !handSubsystem.rightHand.isTracked
-                )
-            )
+            var hand = networkedHand.gameObject.name.ToLower().Contains("left")
+                    ? handSubsystem.leftHand
+                    : handSubsystem.rightHand;
+
+            if (!hand.isTracked)
             {
                 originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = true;
                 return;
@@ -79,11 +81,6 @@ namespace Main
         {
             base.OnNetworkSpawn();
 
-            SetupPlayer();
-        }
-
-        private void SetupPlayer()
-        {
             if (IsOwner)
             {
                 NetworkGameManager.Instance.TableUI.SetActive(false);

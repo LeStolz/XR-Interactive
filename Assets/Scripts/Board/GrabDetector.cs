@@ -9,7 +9,7 @@ public class GrabDetector : MonoBehaviour
 {
     [SerializeField] private readonly float marginX = 0.5f;
     [SerializeField] private readonly float marginY = 0.6f;
-    [SerializeField] private readonly float touchThreshold = 0.005f;
+    [SerializeField] private readonly float pinchThreshold = 0.005f;
     private Transform grabbedObject;
     private readonly List<Transform> grabbingHands = new();
     private XRGrabInteractable grabInteractable;
@@ -115,10 +115,10 @@ public class GrabDetector : MonoBehaviour
 
         if (!thumbTip.TryGetPose(out var thumbPose) || !indexTip.TryGetPose(out var indexPose))
         {
-            return true;
+            return false;
         }
 
         float distance = Vector3.Distance(thumbPose.position, indexPose.position);
-        return distance < touchThreshold;
+        return distance < pinchThreshold;
     }
 }
