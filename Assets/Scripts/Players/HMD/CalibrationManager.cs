@@ -216,5 +216,5 @@ public class CalibrationManager : MonoBehaviour
         XRCamera.transform.localPosition = Vector3.zero;
         VirtualTrackingCamera.SetActive(true);
     }
-
 }
+

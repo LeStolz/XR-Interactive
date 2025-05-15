@@ -8,8 +8,8 @@ namespace Main
 {
     public class XRINetworkAvatar : NetworkPlayer
     {
-        [SerializeField] private float marginX = 0.5f * 1.5f;
-        [SerializeField] private float marginY = 0.6f * 1.5f;
+        [SerializeField] private float marginX = 0.5f * 2.5f;
+        [SerializeField] private float marginY = 0.6f * 2.5f;
 
         [Header("Avatar Transform References"), Tooltip("Assign to local avatar transform.")]
         public Transform head;
@@ -47,6 +47,15 @@ namespace Main
             head.SetPositionAndRotation(m_HeadOrigin.position, m_HeadOrigin.rotation);
         }
 
+        public static bool IsOutOfView(Transform target, float marginX, float marginY)
+        {
+            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(target.position);
+            bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
+                           viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
+                           viewportPoint.z < 0;
+            return isOutOfView;
+        }
+
         private void ToggleHand(Transform networkedHand, Transform originHand)
         {
             bool isLeftHand = networkedHand.gameObject.name.ToLower().Contains("left");
@@ -56,20 +65,14 @@ namespace Main
                 (
                     isLeftHand && !handSubsystem.leftHand.isTracked ||
                     !isLeftHand && !handSubsystem.rightHand.isTracked
-                ) &&
-                networkedHand.position == originHand.position
+                )
             )
             {
-                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;
+                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = true;
                 return;
             }
 
-            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(originHand.position);
-            bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
-                       viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
-                       viewportPoint.z < 0;
-
-            originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = !isOutOfView;
+            originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = true;
         }
 
         public override void OnNetworkSpawn()

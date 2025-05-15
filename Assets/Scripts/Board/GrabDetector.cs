@@ -7,126 +7,118 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class GrabDetector : MonoBehaviour
 {
-	[SerializeField] private float marginX = 0.5f;
-	[SerializeField] private float marginY = 0.6f;
-	[SerializeField] private float touchThreshold = 0.005f;
-	private Transform grabbedObject;
-	private readonly List<Transform> grabbingHands = new();
-	private XRGrabInteractable grabInteractable;
-	private XRHandSubsystem handSubsystem;
-	void Awake()
-	{
-		grabInteractable = GetComponent<XRGrabInteractable>();
+    [SerializeField] private readonly float marginX = 0.5f;
+    [SerializeField] private readonly float marginY = 0.6f;
+    [SerializeField] private readonly float touchThreshold = 0.005f;
+    private Transform grabbedObject;
+    private readonly List<Transform> grabbingHands = new();
+    private XRGrabInteractable grabInteractable;
+    private XRHandSubsystem handSubsystem;
 
-		if (grabInteractable != null && Camera.main != null)
-		{
-			grabInteractable.selectEntered.AddListener(OnGrabbed);
-			grabInteractable.selectExited.AddListener(OnReleased);
-		}
-	}
+    void Awake()
+    {
+        grabInteractable = GetComponent<XRGrabInteractable>();
 
-	void Start()
-	{
-		var subsystems = new List<XRHandSubsystem>();
-		SubsystemManager.GetSubsystems(subsystems);
-		if (subsystems.Count > 0)
-		{
-			handSubsystem = subsystems[0];
-		}
-	}
+        if (grabInteractable != null && Camera.main != null)
+        {
+            grabInteractable.selectEntered.AddListener(OnGrabbed);
+            grabInteractable.selectExited.AddListener(OnReleased);
+        }
+    }
 
-	void OnDestroy()
-	{
-		if (grabInteractable != null)
-		{
-			grabInteractable.selectEntered.RemoveListener(OnGrabbed);
-			grabInteractable.selectExited.RemoveListener(OnReleased);
-		}
-	}
+    void Start()
+    {
+        var subsystems = new List<XRHandSubsystem>();
+        SubsystemManager.GetSubsystems(subsystems);
+        if (subsystems.Count > 0)
+        {
+            handSubsystem = subsystems[0];
+        }
+    }
 
-	void OnGrabbed(SelectEnterEventArgs args)
-	{
-		var interactorTransform = args.interactorObject.transform;
-		bool isLeftHand = interactorTransform.name.ToLower().Contains("left");
+    void OnDestroy()
+    {
+        if (grabInteractable != null)
+        {
+            grabInteractable.selectEntered.RemoveListener(OnGrabbed);
+            grabInteractable.selectExited.RemoveListener(OnReleased);
+        }
+    }
 
-		XRHand hand = isLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
+    void OnGrabbed(SelectEnterEventArgs args)
+    {
+        var interactorTransform = args.interactorObject.transform;
+        bool isLeftHand = interactorTransform.name.ToLower().Contains("left");
 
-		if (!IsSufficientlyPinching(hand) || args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
-		{
-			return;
-		}
+        XRHand hand = isLeftHand ? handSubsystem.leftHand : handSubsystem.rightHand;
 
-		if (!grabbingHands.Contains(interactorTransform))
-		{
-			grabbingHands.Add(interactorTransform);
-		}
+        if (!IsSufficientlyPinching(hand) || args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
+        {
+            return;
+        }
 
-		if (grabbedObject == null)
-		{
-			grabbedObject = transform;
-		}
-	}
+        if (!grabbingHands.Contains(interactorTransform))
+        {
+            grabbingHands.Add(interactorTransform);
+        }
 
-	void OnReleased(SelectExitEventArgs args)
-	{
-		if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
-		{
-			return;
-		}
+        if (grabbedObject == null)
+        {
+            grabbedObject = transform;
+        }
+    }
 
-		var interactorTransform = args.interactorObject.transform;
-		grabbingHands.Remove(interactorTransform);
+    void OnReleased(SelectExitEventArgs args)
+    {
+        if (args.interactorObject.transform.gameObject.GetComponent<Socket>() != null)
+        {
+            return;
+        }
 
-		if (grabbingHands.Count == 0)
-		{
-			grabbedObject = null;
-		}
-	}
+        var interactorTransform = args.interactorObject.transform;
+        grabbingHands.Remove(interactorTransform);
 
-	void Update()
-	{
-		if (IsOutOfView())
-		{
-			ForceReleaseGrabbedObject();
-		}
-	}
+        if (grabbingHands.Count == 0)
+        {
+            grabbedObject = null;
+        }
+    }
 
-	private bool IsOutOfView()
-	{
-		if (grabbedObject == null)
-		{
-			return false;
-		}
+    void Update()
+    {
+        if (grabbedObject == null)
+        {
+            return;
+        }
 
-		Vector3 viewportPoint = Camera.main.WorldToViewportPoint(grabbedObject.position);
-		bool isOutOfView = viewportPoint.x < -marginX || viewportPoint.x > 1 + marginX ||
-					   viewportPoint.y < -marginY || viewportPoint.y > 1 + marginY ||
-					   viewportPoint.z < 0;
-		return isOutOfView;
-	}
+        if (XRINetworkAvatar.IsOutOfView(grabbedObject, marginX, marginY))
+        {
+            ForceReleaseGrabbedObject();
+        }
+    }
 
-	void ForceReleaseGrabbedObject()
-	{
-		var interactable = grabbedObject.GetComponent<XRGrabInteractable>();
-		if (interactable != null && interactable.isSelected)
-		{
-			interactable.interactionManager.CancelInteractableSelection(interactable as IXRSelectInteractable);
-		}
+    void ForceReleaseGrabbedObject()
+    {
+        var interactable = grabbedObject.GetComponent<XRGrabInteractable>();
+        if (interactable != null && interactable.isSelected)
+        {
+            interactable.interactionManager.CancelInteractableSelection(interactable as IXRSelectInteractable);
+        }
 
-		grabbedObject = null;
-	}
+        grabbedObject = null;
+    }
 
-	bool IsSufficientlyPinching(XRHand hand)
-	{
-		XRHandJoint thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
-		XRHandJoint indexTip = hand.GetJoint(XRHandJointID.IndexTip);
+    bool IsSufficientlyPinching(XRHand hand)
+    {
+        XRHandJoint thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
+        XRHandJoint indexTip = hand.GetJoint(XRHandJointID.IndexTip);
 
-		if (!thumbTip.TryGetPose(out var thumbPose) || !indexTip.TryGetPose(out var indexPose))
-		{
-			return true;
-		}
+        if (!thumbTip.TryGetPose(out var thumbPose) || !indexTip.TryGetPose(out var indexPose))
+        {
+            return true;
+        }
 
-		float distance = Vector3.Distance(thumbPose.position, indexPose.position);
-		return distance < touchThreshold;
-	}
+        float distance = Vector3.Distance(thumbPose.position, indexPose.position);
+        return distance < touchThreshold;
+    }
 }
