@@ -7,9 +7,13 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class GrabDetector : MonoBehaviour
 {
+    [SerializeField] private readonly float moveThreshold = 0.2f;
     [SerializeField] private readonly float marginX = 0.5f;
     [SerializeField] private readonly float marginY = 0.6f;
     [SerializeField] private readonly float pinchThreshold = 0.005f;
+
+    private Vector3 prevPos;
+
     private Transform grabbedObject;
     private readonly List<Transform> grabbingHands = new();
     private XRGrabInteractable grabInteractable;
@@ -34,6 +38,8 @@ public class GrabDetector : MonoBehaviour
         {
             handSubsystem = subsystems[0];
         }
+
+        prevPos = transform.position;
     }
 
     void OnDestroy()
@@ -91,10 +97,17 @@ public class GrabDetector : MonoBehaviour
             return;
         }
 
-        if (XRINetworkAvatar.IsOutOfView(grabbedObject, marginX, marginY))
+        if ((prevPos - transform.position).magnitude > moveThreshold)
+        {
+            ForceReleaseGrabbedObject();
+            transform.position = prevPos;
+        }
+        else if (XRINetworkAvatar.IsOutOfView(grabbedObject, marginX, marginY))
         {
             ForceReleaseGrabbedObject();
         }
+
+        prevPos = transform.position;
     }
 
     void ForceReleaseGrabbedObject()

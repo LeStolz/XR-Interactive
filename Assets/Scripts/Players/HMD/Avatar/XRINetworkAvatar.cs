@@ -8,8 +8,8 @@ namespace Main
 {
     public class XRINetworkAvatar : NetworkPlayer
     {
-        [SerializeField] private float marginX = 0.5f * 2.5f;
-        [SerializeField] private float marginY = 0.6f * 2.5f;
+        [SerializeField] private readonly float marginX = 0.5f * 2.5f;
+        [SerializeField] private readonly float marginY = 0.6f * 2.5f;
 
         [Header("Avatar Transform References"), Tooltip("Assign to local avatar transform.")]
         public Transform head;
