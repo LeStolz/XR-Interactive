@@ -70,7 +70,7 @@ namespace Main
 
             if (!hand.isTracked)
             {
-                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = true;
+                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;
                 return;
             }
 
