@@ -8,11 +8,11 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class Tile : NetworkBehaviour
 {
-    [SerializeField] private readonly bool pinchingIsSufficientWhenPoseNotDetected = false;
-    [SerializeField] private readonly float marginX = 0.5f;
-    [SerializeField] private readonly float marginY = 0.6f;
-    [SerializeField] private readonly float pinchThreshold = 1.005f;
-    [SerializeField] private readonly float moveThreshold = 1.2f;
+    private readonly bool pinchingIsSufficientWhenPoseNotDetected = false;
+    private readonly float marginX = 0.5f;
+    private readonly float marginY = 0.6f;
+    private readonly float pinchThreshold = 1.01f;
+    private readonly float moveThreshold = 5.2f;
 
     private Vector3 prevPos;
     private Transform grabbedObject;
