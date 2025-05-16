@@ -28,7 +28,7 @@ namespace Main
         public enum RaySpace
         {
             TabletDueToTrackerNotVisible,
-            TabletDueToRayHitCeilingOrLeftWall,
+            TabletDueToRayHitCeilingOrLeftOrBehindWall,
             PhysicalSpace,
             ObjectInPhysicalSpace,
             ScreenSpace,
@@ -130,7 +130,7 @@ namespace Main
             }
             else if (numBounce == 0 && rayHitTag == "ExclusionZone")
             {
-                raySpace = RaySpace.TabletDueToRayHitCeilingOrLeftWall;
+                raySpace = RaySpace.TabletDueToRayHitCeilingOrLeftOrBehindWall;
             }
             else if (numBounce == 0)
             {
