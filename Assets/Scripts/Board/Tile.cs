@@ -8,11 +8,11 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class Tile : NetworkBehaviour
 {
-    private readonly bool pinchingIsSufficientWhenPoseNotDetected = false;
+    private readonly bool pinchingIsSufficientWhenPoseNotDetected = true;
     private readonly float marginX = 0.5f;
     private readonly float marginY = 0.6f;
-    private readonly float pinchThreshold = 1.01f;
-    private readonly float moveThreshold = 5.2f;
+    private readonly float pinchThreshold = 0.01f;
+    private readonly float moveThreshold = 0.3f;
 
     private Vector3 prevPos;
     private Transform grabbedObject;
