@@ -15,6 +15,7 @@ public class Tile : NetworkBehaviour
     private readonly float moveThreshold = 0.3f;
 
     private Vector3 prevPos;
+    private Vector3 prevRot;
     private Transform grabbedObject;
     private readonly List<Transform> grabbingHands = new();
     private XRGrabInteractable grabInteractable;
@@ -42,6 +43,7 @@ public class Tile : NetworkBehaviour
         }
 
         prevPos = transform.position;
+        prevRot = transform.rotation.eulerAngles;
     }
 
     public override void OnDestroy()
@@ -105,6 +107,7 @@ public class Tile : NetworkBehaviour
         {
             if (grabbedObject != null) ForceReleaseGrabbedObject();
             transform.position = prevPos;
+            transform.rotation = Quaternion.Euler(prevRot);
         }
 
         if (grabbedObject != null && XRINetworkAvatar.IsOutOfView(grabbedObject, marginX, marginY))
@@ -113,6 +116,7 @@ public class Tile : NetworkBehaviour
         }
 
         prevPos = transform.position;
+        prevRot = transform.rotation.eulerAngles;
     }
 
     void ForceReleaseGrabbedObject()
@@ -145,6 +149,7 @@ public class Tile : NetworkBehaviour
     {
         transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
         prevPos = pos;
+        prevRot = rot;
         gameObject.GetComponent<Rigidbody>().constraints = freeze ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.None;
         gameObject.name = tileID;
     }
