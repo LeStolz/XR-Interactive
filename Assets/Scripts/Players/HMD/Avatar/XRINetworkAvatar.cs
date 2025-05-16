@@ -58,6 +58,9 @@ namespace Main
 
         private void ToggleHand(Transform networkedHand, Transform originHand)
         {
+            originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = true;
+            return;
+
             if (handSubsystem == null)
             {
                 originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;

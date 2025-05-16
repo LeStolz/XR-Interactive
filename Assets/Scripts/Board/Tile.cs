@@ -95,17 +95,19 @@ public class Tile : NetworkBehaviour
 
     void Update()
     {
-        if (!IsOwner || grabbedObject == null)
+        if (!IsOwner)
         {
             return;
         }
 
         if ((prevPos - transform.position).magnitude > moveThreshold)
         {
-            ForceReleaseGrabbedObject();
+            if (grabbedObject != null) ForceReleaseGrabbedObject();
             transform.position = prevPos;
+            Debug.Log("Old POS");
         }
-        else if (XRINetworkAvatar.IsOutOfView(grabbedObject, marginX, marginY))
+
+        if (grabbedObject != null && XRINetworkAvatar.IsOutOfView(grabbedObject, marginX, marginY))
         {
             ForceReleaseGrabbedObject();
         }
