@@ -8,10 +8,11 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class Tile : NetworkBehaviour
 {
+    [SerializeField] private readonly bool pinchingIsSufficientWhenPoseNotDetected = false;
     [SerializeField] private readonly float marginX = 0.5f;
     [SerializeField] private readonly float marginY = 0.6f;
     [SerializeField] private readonly float pinchThreshold = 1.005f;
-    [SerializeField] private readonly float moveThreshold = 0.2f;
+    [SerializeField] private readonly float moveThreshold = 1.2f;
 
     private Vector3 prevPos;
     private Transform grabbedObject;
@@ -132,7 +133,7 @@ public class Tile : NetworkBehaviour
 
         if (!thumbTip.TryGetPose(out var thumbPose) || !indexTip.TryGetPose(out var indexPose))
         {
-            return true;
+            return pinchingIsSufficientWhenPoseNotDetected;
         }
 
         float distance = Vector3.Distance(thumbPose.position, indexPose.position);
