@@ -10,7 +10,7 @@ public class Tile : NetworkBehaviour
 {
     [SerializeField] private readonly float marginX = 0.5f;
     [SerializeField] private readonly float marginY = 0.6f;
-    [SerializeField] private readonly float pinchThreshold = 0.005f;
+    [SerializeField] private readonly float pinchThreshold = 1.005f;
     [SerializeField] private readonly float moveThreshold = 0.2f;
 
     private Vector3 prevPos;
@@ -93,7 +93,7 @@ public class Tile : NetworkBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (!IsOwner)
         {
@@ -104,7 +104,6 @@ public class Tile : NetworkBehaviour
         {
             if (grabbedObject != null) ForceReleaseGrabbedObject();
             transform.position = prevPos;
-            Debug.Log("Old POS");
         }
 
         if (grabbedObject != null && XRINetworkAvatar.IsOutOfView(grabbedObject, marginX, marginY))
