@@ -14,10 +14,10 @@ namespace Main
     [Serializable]
     struct RaySpaceDataPoint
     {
-        public long endTimeStamp;
+        public double endTimeStamp;
         public string raySpace;
 
-        public RaySpaceDataPoint(long endTimeStamp, Tracker.RaySpace raySpace)
+        public RaySpaceDataPoint(double endTimeStamp, Tracker.RaySpace raySpace)
         {
             this.endTimeStamp = endTimeStamp;
             this.raySpace = raySpace.ToString();
@@ -27,7 +27,7 @@ namespace Main
     class StudyDataManager : MonoBehaviour
     {
         static StudyDataManager instance;
-        long timeSinceStart = 0;
+        DateTime startTime;
         UserStudyData userStudyData = new()
         {
             raySpaceDataPoints = new List<RaySpaceDataPoint>()
@@ -52,6 +52,7 @@ namespace Main
         void Start()
         {
             BoardGameManager.Instance.OnGameStatusChanged += HandleGameStatusChanged;
+
         }
 
         void OnDestroy()
@@ -65,8 +66,7 @@ namespace Main
 
             if (gameIsOngoing)
             {
-                Debug.Log(timeSinceStart);
-                timeSinceStart += (long)(Time.deltaTime * 1000);
+                Debug.Log((DateTime.UtcNow - startTime).TotalSeconds);
             }
         }
 
@@ -81,7 +81,7 @@ namespace Main
             if (!isZED) return;
 
             gameIsOngoing = true;
-            timeSinceStart = 0;
+            startTime = DateTime.UtcNow;
             currentCondition = $"{BoardGameManager.Instance.RayCastMode}_{DateTime.Now.ToString("MMdd_HHmm")}";
 
             var serverTracker = NetworkGameManager.Instance.FindPlayerByRole<ServerTrackerManager>(Role.ServerTracker);
@@ -97,15 +97,17 @@ namespace Main
         Tracker.RaySpace currentRaySpace = Tracker.RaySpace.TabletDueToTrackerNotVisible;
         void HandleRaySpaceChanged(Tracker.RaySpace raySpace)
         {
-            Debug.Log($"{currentRaySpace}:{timeSinceStart}");
+            var currentTime = DateTime.UtcNow;
+            var totalSecsSinceStart = (currentTime - startTime).TotalSeconds;
+            Debug.Log($"{currentRaySpace}:{totalSecsSinceStart}");
 
-            if (timeSinceStart == 0)
+            if (totalSecsSinceStart == 0)
             {
                 return;
             }
 
             userStudyData.raySpaceDataPoints.Add(new(
-                endTimeStamp: timeSinceStart,
+                endTimeStamp: totalSecsSinceStart,
                 raySpace: currentRaySpace
             ));
             currentRaySpace = raySpace;
