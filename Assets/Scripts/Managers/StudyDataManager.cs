@@ -32,9 +32,9 @@ namespace Main
         {
             raySpaceDataPoints = new List<RaySpaceDataPoint>()
         };
-        bool gameIsOngoing = false;
         string currentCondition;
         bool isZED = false;
+        Tracker.RaySpace currentRaySpace = Tracker.RaySpace.TabletDueToTrackerNotVisible;
 
         void Awake()
         {
@@ -60,16 +60,6 @@ namespace Main
             BoardGameManager.Instance.OnGameStatusChanged -= HandleGameStatusChanged;
         }
 
-        void Update()
-        {
-            if (!isZED) return;
-
-            if (gameIsOngoing)
-            {
-                Debug.Log((DateTime.UtcNow - startTime).TotalSeconds);
-            }
-        }
-
         void GameStarted()
         {
             var zed = NetworkGameManager.Instance.FindPlayerByRole<ZEDModelManager>(Role.ZED);
@@ -80,7 +70,6 @@ namespace Main
 
             if (!isZED) return;
 
-            gameIsOngoing = true;
             startTime = DateTime.UtcNow;
             currentCondition = $"{BoardGameManager.Instance.RayCastMode}_{DateTime.Now.ToString("MMdd_HHmm")}";
 
@@ -94,7 +83,6 @@ namespace Main
             }
         }
 
-        Tracker.RaySpace currentRaySpace = Tracker.RaySpace.TabletDueToTrackerNotVisible;
         void HandleRaySpaceChanged(Tracker.RaySpace raySpace)
         {
             var currentTime = DateTime.UtcNow;
@@ -116,8 +104,6 @@ namespace Main
         void GameEnded()
         {
             if (!isZED) return;
-
-            gameIsOngoing = false;
 
             var serverTracker = NetworkGameManager.Instance.FindPlayerByRole<ServerTrackerManager>(Role.ServerTracker);
             if (serverTracker != null)
