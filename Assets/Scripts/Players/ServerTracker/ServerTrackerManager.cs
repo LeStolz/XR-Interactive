@@ -105,7 +105,7 @@ namespace Main
             transform.SetPositionAndRotation(position, Quaternion.Euler(rotation));
         }
 
-        [Rpc(SendTo.Server)]
+        [Rpc(SendTo.Everyone)]
         public void UpdateRayHitTagRpc(int trackerId, string tag)
         {
             Trackers[trackerId].rayHitTag = tag;
