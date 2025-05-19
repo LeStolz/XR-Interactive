@@ -65,6 +65,7 @@ namespace Main
 
             if (gameIsOngoing)
             {
+                Debug.Log(timeSinceStart);
                 timeSinceStart += (long)(Time.deltaTime * 1000);
             }
         }
@@ -162,7 +163,7 @@ namespace Main
                 case BoardGameManager.GameStatus.Started:
                     GameStarted();
                     break;
-                case BoardGameManager.GameStatus.Stopped:
+                case BoardGameManager.GameStatus.Won:
                     GameEnded();
                     break;
                 default:
