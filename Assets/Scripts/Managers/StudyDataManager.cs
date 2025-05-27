@@ -1,169 +1,162 @@
 using System;
 using System.Collections.Generic;
 using SFB;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Main
 {
-	[Serializable]
-	struct UserStudyData
-	{
-		public List<RaySpaceDataPoint> raySpaceDataPoints;
-	}
+    [Serializable]
+    struct UserStudyData
+    {
+        public List<RaySpaceDataPoint> raySpaceDataPoints;
+    }
 
-	[Serializable]
-	struct RaySpaceDataPoint
-	{
-		public long endTimeStamp;
-		public string raySpace;
+    [Serializable]
+    struct RaySpaceDataPoint
+    {
+        public double endTimeStamp;
+        public string raySpace;
 
-		public RaySpaceDataPoint(long endTimeStamp, Tracker.RaySpace raySpace)
-		{
-			this.endTimeStamp = endTimeStamp;
-			this.raySpace = raySpace.ToString();
-		}
-	}
+        public RaySpaceDataPoint(double endTimeStamp, Tracker.RaySpace raySpace)
+        {
+            this.endTimeStamp = endTimeStamp;
+            this.raySpace = raySpace.ToString();
+        }
+    }
 
-	class StudyDataManager : NetworkBehaviour
-	{
-		static StudyDataManager instance;
-		long timeSinceStart = 0;
-		UserStudyData userStudyData = new UserStudyData
-		{
-			raySpaceDataPoints = new List<RaySpaceDataPoint>()
-		};
-		bool gameIsOngoing = false;
-		string currentCondition;
+    class StudyDataManager : MonoBehaviour
+    {
+        static StudyDataManager instance;
+        DateTime startTime;
+        UserStudyData userStudyData = new()
+        {
+            raySpaceDataPoints = new List<RaySpaceDataPoint>()
+        };
+        string currentCondition;
+        bool isZED = false;
+        Tracker.RaySpace currentRaySpace = Tracker.RaySpace.TabletDueToTrackerNotVisible;
 
-		void Awake()
-		{
-			if (instance == null)
-			{
-				instance = this;
-			}
-			else if (instance != this)
-			{
-				Destroy(gameObject);
-			}
-			DontDestroyOnLoad(gameObject);
-		}
+        void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else if (instance != this)
+            {
+                Destroy(gameObject);
+            }
+            DontDestroyOnLoad(gameObject);
+        }
 
-		void Start()
-		{
-			BoardGameManager.Instance.OnGameStatusChanged += HandleGameStatusChanged;
-		}
+        void Start()
+        {
+            BoardGameManager.Instance.OnGameStatusChanged += HandleGameStatusChanged;
 
-		public override void OnDestroy()
-		{
-			base.OnDestroy();
-			BoardGameManager.Instance.OnGameStatusChanged -= HandleGameStatusChanged;
-		}
+        }
 
-		void Update()
-		{
-			if (!IsHost) return;
+        void OnDestroy()
+        {
+            BoardGameManager.Instance.OnGameStatusChanged -= HandleGameStatusChanged;
+        }
 
-			if (gameIsOngoing)
-			{
-				timeSinceStart += (long)(Time.deltaTime * 1000);
-			}
-		}
+        void GameStarted()
+        {
+            var zed = NetworkGameManager.Instance.FindPlayerByRole<ZEDModelManager>(Role.ZED);
+            if (zed != null && zed.IsOwner)
+            {
+                isZED = true;
+            }
 
-		void GameStarted()
-		{
-			if (!IsHost) return;
+            if (!isZED) return;
 
-			gameIsOngoing = true;
+            startTime = DateTime.UtcNow;
+            currentCondition = $"{BoardGameManager.Instance.RayCastMode}_{DateTime.Now.ToString("MMdd_HHmm")}";
 
-			timeSinceStart = 0;
-			currentCondition = $"{BoardGameManager.Instance.RayCastMode}_{DateTime.Now.ToString("MMdd_HHmm")}";
+            var serverTracker = NetworkGameManager.Instance.FindPlayerByRole<ServerTrackerManager>(Role.ServerTracker);
+            if (serverTracker != null)
+            {
+                foreach (var tracker in serverTracker.Trackers)
+                {
+                    tracker.OnRaySpaceChanged += HandleRaySpaceChanged;
+                }
+            }
+        }
 
-			var serverTracker = NetworkGameManager.Instance.FindPlayerByRole<ServerTrackerManager>(Role.ServerTracker);
-			if (serverTracker != null)
-			{
-				foreach (var tracker in serverTracker.Trackers)
-				{
-					tracker.OnRaySpaceChanged += HandleRaySpaceChanged;
-				}
-			}
-		}
+        void HandleRaySpaceChanged(Tracker.RaySpace raySpace)
+        {
+            var currentTime = DateTime.UtcNow;
+            var totalSecsSinceStart = (currentTime - startTime).TotalSeconds;
+            Debug.Log($"{currentRaySpace}:{totalSecsSinceStart}");
 
-		Tracker.RaySpace currentRaySpace = Tracker.RaySpace.TabletDueToTrackerNotVisible;
-		void HandleRaySpaceChanged(Tracker.RaySpace raySpace)
-		{
-			Debug.Log($"{currentRaySpace}:{timeSinceStart}");
+            if (totalSecsSinceStart == 0)
+            {
+                return;
+            }
 
-			if (timeSinceStart == 0)
-			{
-				return;
-			}
+            userStudyData.raySpaceDataPoints.Add(new(
+                endTimeStamp: totalSecsSinceStart,
+                raySpace: currentRaySpace
+            ));
+            currentRaySpace = raySpace;
+        }
 
-			userStudyData.raySpaceDataPoints.Add(new(
-				endTimeStamp: timeSinceStart,
-				raySpace: currentRaySpace
-			));
-			currentRaySpace = raySpace;
-		}
+        void GameEnded()
+        {
+            if (!isZED) return;
 
-		void GameEnded()
-		{
-			if (!IsHost) return;
+            var serverTracker = NetworkGameManager.Instance.FindPlayerByRole<ServerTrackerManager>(Role.ServerTracker);
+            if (serverTracker != null)
+            {
+                foreach (var tracker in serverTracker.Trackers)
+                {
+                    tracker.OnRaySpaceChanged -= HandleRaySpaceChanged;
+                }
+            }
+            HandleRaySpaceChanged(Tracker.RaySpace.TabletDueToTrackerNotVisible);
 
-			gameIsOngoing = false;
+            var tablet = NetworkGameManager.Instance.FindPlayerByRole<TabletManager>(Role.Tablet);
+            var tabletID = tablet == null ? "NULL" : tablet.PlayerName;
+            var HMD = NetworkGameManager.Instance.FindPlayerByRole<XRINetworkAvatar>(Role.HMD);
+            var HMDID = HMD == null ? "NULL" : HMD.PlayerName;
 
-			var serverTracker = NetworkGameManager.Instance.FindPlayerByRole<ServerTrackerManager>(Role.ServerTracker);
-			if (serverTracker != null)
-			{
-				foreach (var tracker in serverTracker.Trackers)
-				{
-					tracker.OnRaySpaceChanged -= HandleRaySpaceChanged;
-				}
-			}
-			HandleRaySpaceChanged(Tracker.RaySpace.TabletDueToTrackerNotVisible);
+            var layoutID = BoardGameManager.Instance.CurrentBoardID;
+            var fileName = $"HMD{HMDID}_Tablet{tabletID}_Layout{layoutID}_{currentCondition}";
 
-			var tablet = NetworkGameManager.Instance.FindPlayerByRole<TabletManager>(Role.Tablet);
-			var tabletID = tablet == null ? "NULL" : tablet.PlayerName;
-			var HMD = NetworkGameManager.Instance.FindPlayerByRole<XRINetworkAvatar>(Role.HMD);
-			var HMDID = HMD == null ? "NULL" : HMD.PlayerName;
+            var filePath = StandaloneFileBrowser.SaveFilePanel(
+                "Save User Study Data",
+                null,
+                fileName,
+                "csv"
+            );
 
-			var layoutID = BoardGameManager.Instance.CurrentBoardID;
-			var fileName = $"HMD{HMDID}_Tablet{tabletID}_Layout{layoutID}_{currentCondition}";
+            var csv = "sep=,\nEndTimeStamp,RaySpace\n";
+            foreach (var dataPoint in userStudyData.raySpaceDataPoints)
+            {
+                csv += $"{dataPoint.endTimeStamp},{dataPoint.raySpace}\n";
+            }
+            System.IO.File.WriteAllText(filePath, csv);
 
-			var filePath = StandaloneFileBrowser.SaveFilePanel(
-				"Save User Study Data",
-				null,
-				fileName,
-				"csv"
-			);
+            userStudyData = new UserStudyData
+            {
+                raySpaceDataPoints = new List<RaySpaceDataPoint>()
+            };
+            currentRaySpace = Tracker.RaySpace.TabletDueToTrackerNotVisible;
+        }
 
-			var csv = "sep=,\nEndTimeStamp,RaySpace\n";
-			foreach (var dataPoint in userStudyData.raySpaceDataPoints)
-			{
-				csv += $"{dataPoint.endTimeStamp},{dataPoint.raySpace}\n";
-			}
-			System.IO.File.WriteAllText(filePath, csv);
-
-			userStudyData = new UserStudyData
-			{
-				raySpaceDataPoints = new List<RaySpaceDataPoint>()
-			};
-			currentRaySpace = Tracker.RaySpace.TabletDueToTrackerNotVisible;
-		}
-
-		void HandleGameStatusChanged(BoardGameManager.GameStatus gameStatus)
-		{
-			switch (gameStatus)
-			{
-				case BoardGameManager.GameStatus.Started:
-					GameStarted();
-					break;
-				case BoardGameManager.GameStatus.Stopped:
-					GameEnded();
-					break;
-				default:
-					break;
-			}
-		}
-	}
+        void HandleGameStatusChanged(BoardGameManager.GameStatus gameStatus)
+        {
+            switch (gameStatus)
+            {
+                case BoardGameManager.GameStatus.Started:
+                    GameStarted();
+                    break;
+                case BoardGameManager.GameStatus.Won:
+                    GameEnded();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }

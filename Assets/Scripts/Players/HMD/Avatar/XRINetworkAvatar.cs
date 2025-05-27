@@ -8,8 +8,8 @@ namespace Main
 {
     public class XRINetworkAvatar : NetworkPlayer
     {
-        [SerializeField] private float marginX = 0.5f * 2.5f;
-        [SerializeField] private float marginY = 0.6f * 2.5f;
+        [SerializeField] private readonly float marginX = 0.5f * 2.5f;
+        [SerializeField] private readonly float marginY = 0.6f * 2.5f;
 
         [Header("Avatar Transform References"), Tooltip("Assign to local avatar transform.")]
         public Transform head;
@@ -58,17 +58,19 @@ namespace Main
 
         private void ToggleHand(Transform networkedHand, Transform originHand)
         {
-            bool isLeftHand = networkedHand.gameObject.name.ToLower().Contains("left");
-
-            if (
-                handSubsystem != null &&
-                (
-                    isLeftHand && !handSubsystem.leftHand.isTracked ||
-                    !isLeftHand && !handSubsystem.rightHand.isTracked
-                )
-            )
+            if (handSubsystem == null)
             {
-                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = true;
+                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;
+                return;
+            }
+
+            var hand = networkedHand.gameObject.name.ToLower().Contains("left")
+                    ? handSubsystem.leftHand
+                    : handSubsystem.rightHand;
+
+            if (!hand.isTracked)
+            {
+                originHand.parent.parent.GetComponentInChildren<NearFarInteractor>().enabled = false;
                 return;
             }
 
@@ -79,11 +81,6 @@ namespace Main
         {
             base.OnNetworkSpawn();
 
-            SetupPlayer();
-        }
-
-        private void SetupPlayer()
-        {
             if (IsOwner)
             {
                 NetworkGameManager.Instance.TableUI.SetActive(false);
