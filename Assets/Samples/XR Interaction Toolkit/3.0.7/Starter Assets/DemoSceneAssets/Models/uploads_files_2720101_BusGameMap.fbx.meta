@@ -1,0 +1,392 @@
+fileFormatVersion: 2
+guid: 816c3285d21ea734a802ed7472a66c7b
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 8a635e6585d4ceacba00ec627996cdaa
+    second: {fileID: 2800000, guid: e5cc8129543cbc34d96e73fd1d719997, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Building_texture10
+    second: {fileID: 2800000, guid: 0d0ffe26a95fc66458cc59ab3d303999, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Building_texture6
+    second: {fileID: 2800000, guid: eb7abfb342244d04f8188e8ecd06bdd4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: BuildingsHighRise0551_1_download600
+    second: {fileID: 2800000, guid: 67a6d15da6b060f4ea4bc8cdf9c4a4c0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: BuildingsHighRise0558_download600
+    second: {fileID: 2800000, guid: 234b34e6acea7ce4085833c1c38570f9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Facade001_2K_Color
+    second: {fileID: 2800000, guid: 33ff804638a6b214ab98e61e570dbae6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Facade006_2K_Color
+    second: {fileID: 2800000, guid: 0aeecfe623b611b43a74e7e44ed15ab5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: HighRiseResidential0062_1_download600
+    second: {fileID: 2800000, guid: 2c028fb764e5218419c6ca30c14d4c90, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: HighRiseResidential0062_2_download600
+    second: {fileID: 2800000, guid: effffac81d07f204887ba07c31dd1bb4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_BuildingsHighRise0497_1_seamless_S
+    second: {fileID: 2800000, guid: 5b69493ecfedae945839a9fb41c1030c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_BuildingsHighRise0560_1_S
+    second: {fileID: 2800000, guid: e953056509e0fe44dabeb4db12bff351, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_BuildingsHighRise0564_1_S
+    second: {fileID: 2800000, guid: bcac3b11fe2a7c448906de129e7d0cf2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_BuildingsHighRise0607_1_S
+    second: {fileID: 2800000, guid: fcd3e633c31b2804eb53ecb5cd296a28, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_BuildingsHighRise0634_5_seamless_S
+    second: {fileID: 2800000, guid: bb537f0f730edd04d8caae75b50529e9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_ConcreteSidewalk_2x2_1K_albedo
+    second: {fileID: 2800000, guid: d1fe73531af621047bfec7a114b2f8d9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseGlass0031_1_seamless_S
+    second: {fileID: 2800000, guid: b3bf865ccedde5c47af4b86576b5cba2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseGlass0048_1_seamless_S
+    second: {fileID: 2800000, guid: 730f0905a1adf4e479e0eeaa9f422876, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseGlass0053_1_seamless_S
+    second: {fileID: 2800000, guid: 7faca1875ea231c4fa28d63fdb69ec2a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseGlass0056_1_seamless_S
+    second: {fileID: 2800000, guid: 697ae311261ea8e46b18e65e3c240d48, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseGlass0082_1_S
+    second: {fileID: 2800000, guid: 9541b331dacd8164eb328d5b5a777175, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseGlass0086_1_S
+    second: {fileID: 2800000, guid: 37acadf4f96ca794ab0ad2d303fd406e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseGlass0091_1_seamless_S
+    second: {fileID: 2800000, guid: 72e0917b004a1ad458d7d23c5fe20913, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseGlass0110_4_seamless_S
+    second: {fileID: 2800000, guid: a16819c3a63896541ab5196c36e46ef7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseResidential0098_1_seamless_S
+    second: {fileID: 2800000, guid: 8b832f73b87ffe5419a014cab19b8b71, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseResidential0101_1_seamless_S
+    second: {fileID: 2800000, guid: 04fba7299c601304582bee7f5d4833db, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_HighRiseResidential0197_2_seamless_S
+    second: {fileID: 2800000, guid: facc46d0719f5734493613e04d25b6db, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: TexturesCom_MetalPlatesBare0158_10_seamless_S
+    second: {fileID: 2800000, guid: 1bbb33662758d1e4eaaf13083c7c73e3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: aerial_grass_rock_diff_1k
+    second: {fileID: 2800000, guid: cf6f0f0c38b4b044d8e7950646972ded, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download
+    second: {fileID: 2800000, guid: a25fdbb11df2f17439b11179d3a60aa2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download (1)
+    second: {fileID: 2800000, guid: b3b1a28c97e1f244e9f5375bebad7a8d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download (11)
+    second: {fileID: 2800000, guid: 85baa60d29d4a9f4bb1fada86e4f7c8c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download (2)
+    second: {fileID: 2800000, guid: e632004e0a1acbe46858c3c6f3108448, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download (3)
+    second: {fileID: 2800000, guid: aff14afc756cb674f9235c5d7872a7c2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download (4)
+    second: {fileID: 2800000, guid: 5637244801b29f84b9c2bcbb74788241, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download (7)
+    second: {fileID: 2800000, guid: 78f912d59e18d2241a4bedbf908428d7, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download (8)
+    second: {fileID: 2800000, guid: baec2eb8e3ce2004889859cb2a26205d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: download (9)
+    second: {fileID: 2800000, guid: 23d8563cc8cb70745b04771407bb2daf, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: ea2874c813cd1d48138d045f6ca43c7b
+    second: {fileID: 2800000, guid: 5edd030b950211248a4a17d426d65246, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: f13bf40efcab60e4cdabd13d4c81856a
+    second: {fileID: 2800000, guid: 90686f42adf311d4192fc7326133cf8d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images
+    second: {fileID: 2800000, guid: e71d599dddff89743bfb9f71c8975dc4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (12)
+    second: {fileID: 2800000, guid: 204f01d732bd7d441a70156f5e6785db, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (13)
+    second: {fileID: 2800000, guid: eafc0fa81c04b7a4dbc6c01b94b6c56c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (15)
+    second: {fileID: 2800000, guid: 9d163e238d0252d4f9d637a8ad15a868, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (18)
+    second: {fileID: 2800000, guid: f6cca152a11637742a632ca3c4f6bcdd, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (19)
+    second: {fileID: 2800000, guid: ee3d107993a2de244a3d07fcaa74f01f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (20)
+    second: {fileID: 2800000, guid: 33308c2a74a0df244874af928a830b9e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (22)
+    second: {fileID: 2800000, guid: 91165a299160c444ebc4cdea48f642ae, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (23)
+    second: {fileID: 2800000, guid: 4c76324fbb07ad4448483861c717ce8b, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (24)
+    second: {fileID: 2800000, guid: 536583c8b0b8a014389cd8a0064a3c62, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (27)
+    second: {fileID: 2800000, guid: 8da42f1e78ab66a4987f06bdd54fc9bb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (5)
+    second: {fileID: 2800000, guid: 8ba8b57d2bdc3da4782fda985ff5d3a0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (6)
+    second: {fileID: 2800000, guid: cb85254fc1a023745b2e77e9970a552d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: images (7)
+    second: {fileID: 2800000, guid: 39b4c78b1b8b9c24da28091eb4d9c50e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: road
+    second: {fileID: 2800000, guid: ac0916719b0fa23428191fb3cab321b2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: roof3
+    second: {fileID: 2800000, guid: 172b77658fd5807419f0b8db237015f5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: unnamed
+    second: {fileID: 2800000, guid: 76426e5b9e55b4942a6af48f92200b52, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: unnamed (1)
+    second: {fileID: 2800000, guid: a5bf4632dcba89848b21a10edde6f8e8, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
