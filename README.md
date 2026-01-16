@@ -1,4 +1,4 @@
-# XR Public Spectator Interactive
+# XR-Interactive
 
 ## Introduction/Demo
 
